@@ -17,7 +17,6 @@ export function LanguageDropdown() {
 
   function switchLanguage(language : string) {
     i18n.changeLanguage(language)
-    console.log(i18n);
   }
 
   return(<Menu as="div" className="relative inline-block text-left">

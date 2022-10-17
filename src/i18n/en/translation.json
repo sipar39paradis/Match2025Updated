@@ -10,5 +10,10 @@
   },
   "Prices": {
     "title": "Prices"
+  },
+  "User": {
+    "Your Profil": "Your Profile",
+    "Settings": "Settings",
+    "Sign out": "Sign out"
   }
 }

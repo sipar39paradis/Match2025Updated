@@ -10,5 +10,10 @@
   },
   "Prices": {
     "title": "Tarifications"
+  },
+  "User": {
+    "Your Profil": "Votre Profile",
+    "Settings": "Paramètres",
+    "Sign out": "Se déconnecter"
   }
 }

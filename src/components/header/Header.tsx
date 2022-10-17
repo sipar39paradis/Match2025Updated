@@ -11,17 +11,6 @@ const user = {
   imageUrl:
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Prices', href: '/prices' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
-]
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -29,10 +18,22 @@ function classNames(...classes: string[]) {
 
 export function Header() {
   const { t, i18n } = useTranslation()
-  const [selectedTab, setSelectedTab] = useState(navigation[0].name);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
-  function switchTab(tabName : string) {
-    setSelectedTab(tabName);
+  const navigation = [
+    { name: t('Home.title'), url: '/' },
+    { name: t('Prices.title'), url: '/prices' },
+    { name: t('About.title'), url: '/about' },
+    { name: t('Contact.title'), url: '/contact' },
+  ]
+  const userNavigation = [
+    { name: t('User.Your Profil')},
+    { name: t('User.Settings')},
+    { name: t('User.Sign out')},
+  ]
+
+  function switchTab(tabIndex : number) {
+    setSelectedTabIndex(tabIndex);
   }
 
   function switchLanguage(language : string) {
@@ -57,17 +58,17 @@ export function Header() {
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
-                        {navigation.map((item) => (
+                        {navigation.map((item, index) => (
                           <Link 
-                            key={item.name} 
-                            to={item.href} 
+                            key={index} 
+                            to={item.url} 
                             className={classNames(
-                            item.name === selectedTab
+                            index === selectedTabIndex
                               ? 'bg-gray-900 text-white'
                               : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                             'px-3 py-2 rounded-md text-sm font-medium'
                             )}
-                            onClick={() => switchTab(item.name)}>
+                            onClick={() => switchTab(index)}>
                               {item.name}
                             </Link>
                         ))}
@@ -99,7 +100,6 @@ export function Header() {
                               <Menu.Item key={item.name}>
                                 {({ active } : {active: boolean}) => (
                                   <a
-                                    href={item.href}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700'
@@ -131,16 +131,16 @@ export function Header() {
 
               <Disclosure.Panel className="md:hidden">
                 <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-                  {navigation.map((item) => (
+                  {navigation.map((item, index) => (
                     <Disclosure.Button
                       key={item.name}
                       as="a"
-                      href={item.href}
+                      href={item.url}
                       className={classNames(
-                        item.name === selectedTab ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        index === selectedTabIndex ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                         'block px-3 py-2 rounded-md text-base font-medium'
                       )}
-                      aria-current={item.name === selectedTab ? 'page' : undefined}
+                      aria-current={index === selectedTabIndex ? 'page' : undefined}
                     >
                       {item.name}
                     </Disclosure.Button>
@@ -168,7 +168,6 @@ export function Header() {
                       <Disclosure.Button
                         key={item.name}
                         as="a"
-                        href={item.href}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
                         {item.name}
