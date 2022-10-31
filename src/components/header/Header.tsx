@@ -28,7 +28,6 @@ export function Header() {
   ]
 
   function switchTab(tabIndex: number) {
-    console.log(user)
     setSelectedTabIndex(tabIndex)
   }
 

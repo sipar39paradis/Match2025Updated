@@ -48,7 +48,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   }
 
   async function signInWithGoogle() {
-    console.log('sign in')
     const provider = new GoogleAuthProvider()
     signInWithPopup(auth, provider)
   }
