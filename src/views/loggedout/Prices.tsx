@@ -1,4 +1,4 @@
-import '../i18n/config';
+import '../../i18n/config';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
