@@ -10,7 +10,10 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: npm ci
+      - run: if [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
       - run: npm run build
       - uses: actions/checkout@v2
       - uses: FirebaseExtended/action-hosting-deploy@v0
