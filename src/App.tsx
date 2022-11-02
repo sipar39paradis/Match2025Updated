@@ -6,22 +6,19 @@ import { About } from './views/About'
 import { Home } from './views/Home'
 import { Contact } from './views/Contact'
 import { Prices } from './views/Prices'
-import { AppContextProvider } from './context/AppContext'
 
 function App() {
   return (
     <div className='App'>
-      <AppContextProvider>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/contact' element={<Contact />} />
-            <Route path='/prices' element={<Prices />} />
-          </Routes>
-        </Router>
-      </AppContextProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/prices' element={<Prices />} />
+        </Routes>
+      </Router>
     </div>
   )
 }

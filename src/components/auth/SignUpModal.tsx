@@ -1,0 +1,67 @@
+import React, { useContext } from 'react'
+import { AppContext, AppContextType } from '../../context/AppContext'
+import { AuthButton } from './AuthButton'
+import { ReactComponent as GoogleIcon } from '../../icons/GoogleIcon.svg'
+import { ReactComponent as EnvelopeIcon } from '../../icons/EnvelopeIcon.svg'
+import { Modal } from '../common/Modal'
+
+interface SignUpModalProps {
+  setShowSignUpModal: (show: boolean) => void
+  setShowSignInModal: (show: boolean) => void
+}
+
+export function SignUpModal(props: SignUpModalProps) {
+  const { signInWithGoogle, signUpWithEmailAndPassword } = useContext(
+    AppContext
+  ) as AppContextType
+  const { setShowSignUpModal, setShowSignInModal } = props
+
+  return (
+    <Modal closeModalCallBack={() => setShowSignUpModal(false)}>
+      {/*content*/}
+      <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none'>
+        {/*header*/}
+        <div className='flex items-center justify-center p-5 mb-5'>
+          <h3 className='text-xl font-semibold'>Welcome to Impot Match</h3>
+          <button
+            className='flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2'
+            onClick={() => setShowSignUpModal(false)}
+          >
+            ×
+          </button>
+        </div>
+        {/*body*/}
+        <div className='flex flex-col space-y-3.5 bg-white rounded px-8 pt-6 pb-8 mb-5'>
+          <AuthButton
+            Icon={GoogleIcon}
+            onClick={signInWithGoogle}
+            text='Continue with Google'
+          ></AuthButton>
+          <button
+            className=' hover:bg-gray-100 text-black font-semibold py-2 px-4 w-full border border-black text-sm relative'
+            type='button'
+            onClick={() =>
+              signUpWithEmailAndPassword('test@gmail.com', 'testtest')
+            }
+          >
+            <EnvelopeIcon className='absolute  h-7 bottom-1' />
+            Continue with email
+          </button>
+        </div>
+        {/*footer*/}
+        <div className='flex flex-row items-center justify-center mb-8'>
+          <div className='mr-2'>Already have an account ?</div>
+          <button
+            className='hover:bg-gray-100 text-black font-semibold px-2 py-1 border border-black text-sm relative'
+            onClick={() => {
+              setShowSignInModal(true)
+              setShowSignUpModal(false)
+            }}
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </Modal>
+  )
+}

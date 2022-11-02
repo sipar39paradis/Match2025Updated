@@ -12,13 +12,15 @@ import { LanguageDropdown } from './LanguageDropdown'
 import { ProfileDropdown } from './ProfileDropdown'
 import { classNames } from '../../utils/utils'
 import { AppContext, AppContextType } from '../../context/AppContext'
-import { LoginModal } from '../LoginModal'
+import { SignInModal } from '../auth/SignInModal'
+import { SignUpModal } from '../auth/SignUpModal'
 
 export function Header() {
   const { user } = useContext(AppContext) as AppContextType
   const { t } = useTranslation()
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
-  const [showLoginModal, setShowLoginModal] = React.useState(false)
+  const [showSignInModal, setShowSignInModal] = React.useState(false)
+  const [showSignUpModal, setShowSignUpModal] = React.useState(false)
 
   const navigation = [
     { name: t('Home.title'), url: '/' },
@@ -69,31 +71,45 @@ export function Header() {
                 </div>
                 <div className='hidden md:block'>
                   <div className='flex items-center'>
-                    {showLoginModal && (
-                      <LoginModal setShowLoginModal={setShowLoginModal} />
-                    )}
-                    <LanguageDropdown />
-                    {user && (
-                      <>
-                        <ChatBubbleLeftIcon className='stroke-gray-300 cursor-pointer h-5 px-2' />
+                    <>
+                      {showSignInModal && (
+                        <SignInModal
+                          setShowSignInModal={setShowSignInModal}
+                          setShowSignUpModal={setShowSignUpModal}
+                        />
+                      )}
+                      {showSignUpModal && (
+                        <SignUpModal
+                          setShowSignUpModal={setShowSignUpModal}
+                          setShowSignInModal={setShowSignInModal}
+                        />
+                      )}
+                      <LanguageDropdown />
+                      {user && (
+                        <>
+                          <ChatBubbleLeftIcon className='stroke-gray-300 cursor-pointer h-5 px-2' />
 
-                        <BellIcon className='stroke-gray-300 cursor-pointer h-5 px-2'></BellIcon>
-                        <ProfileDropdown user={user} />
-                      </>
-                    )}
-                    {!user && (
-                      <div>
-                        <button
-                          onClick={() => setShowLoginModal(true)}
-                          className='inline-flex w-full justify-center items-center rounded-full border border-transparent px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-gray-700 sm:ml-3 sm:w-auto sm:text-sm'
-                        >
-                          Log in
-                        </button>
-                        <button className='mt-3 inline-flex w-full justify-center items-center rounded-full border border-gray-300 bg-white px-2 py-2 text-lg font-semibold text-gray-700 shadow-sm hover:bg-gray-100 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
-                          Sign up
-                        </button>
-                      </div>
-                    )}
+                          <BellIcon className='stroke-gray-300 cursor-pointer h-5 px-2'></BellIcon>
+                          <ProfileDropdown user={user} />
+                        </>
+                      )}
+                      {!user && (
+                        <div>
+                          <button
+                            onClick={() => setShowSignInModal(true)}
+                            className='inline-flex w-full justify-center items-center rounded-full border border-transparent px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-gray-700 sm:ml-3 sm:w-auto sm:text-sm'
+                          >
+                            Log in
+                          </button>
+                          <button
+                            onClick={() => setShowSignUpModal(true)}
+                            className='mt-3 inline-flex w-full justify-center items-center rounded-full border border-gray-300 bg-white px-2 py-2 text-lg font-semibold text-gray-700 shadow-sm hover:bg-gray-100 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
+                          >
+                            Sign Up
+                          </button>
+                        </div>
+                      )}
+                    </>
                   </div>
                 </div>
                 <div className='-mr-2 flex md:hidden'>

@@ -1,12 +1,14 @@
 import React, { createContext, ReactNode } from 'react'
 import { initializeApp } from 'firebase/app'
 import {
+  createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { doc, setDoc, getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -23,14 +25,16 @@ const firebaseConfig = {
 
   measurementId: 'G-6JTV1BLMVR',
 }
-initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
 const auth = getAuth()
 
 export interface AppContextType {
   user: unknown
   signIn: (email: string, password: string) => void
-  signInWithGoogle: () => void
+  signInWithGoogle: () => Promise<boolean>
   signOut: () => void
+  signUpWithEmailAndPassword: (email: string, password: string) => void
 }
 
 export const AppContext = createContext<AppContextType | null>(null)
@@ -47,8 +51,27 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   }
 
   async function signInWithGoogle() {
+    let success = false
     const provider = new GoogleAuthProvider()
-    signInWithPopup(auth, provider)
+    await signInWithPopup(auth, provider).then(() => {
+      success = true
+    })
+    return success
+  }
+
+  function signUpWithEmailAndPassword(email: string, password: string) {
+    createUserWithEmailAndPassword(auth, email, password).then(
+      async (userCredential) => {
+        if (userCredential?.user.email) {
+          await setDoc(doc(db, 'users', userCredential.user.email), {
+            email: userCredential.user.email,
+            name: userCredential.user.displayName,
+            profileType: 'client',
+            phoneNumber: userCredential.user.phoneNumber,
+          })
+        }
+      }
+    )
   }
 
   function signOut() {
@@ -56,7 +79,15 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   }
 
   return (
-    <AppContext.Provider value={{ user, signIn, signInWithGoogle, signOut }}>
+    <AppContext.Provider
+      value={{
+        user,
+        signIn,
+        signInWithGoogle,
+        signOut,
+        signUpWithEmailAndPassword,
+      }}
+    >
       {children}
     </AppContext.Provider>
   )
