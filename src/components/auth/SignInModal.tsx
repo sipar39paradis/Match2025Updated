@@ -27,10 +27,9 @@ export function SignInModal(props: SignInModalProps) {
 
   return (
     <Modal closeModalCallBack={() => setShowSignInModal(false)}>
-      {/*content*/}
-      <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none'>
+      <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white'>
         {/*header*/}
-        <div className='flex items-center justify-center p-5 border-b border-solid border-slate-200 rounded-t'>
+        <div className='flex items-center justify-center p-5 rounded-t'>
           <h3 className='text-xl font-semibold'>Sign in to Impot Match</h3>
           <button
             className='flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2'

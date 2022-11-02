@@ -18,8 +18,7 @@ export function SignUpModal(props: SignUpModalProps) {
 
   return (
     <Modal closeModalCallBack={() => setShowSignUpModal(false)}>
-      {/*content*/}
-      <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none'>
+      <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white'>
         {/*header*/}
         <div className='flex items-center justify-center p-5 mb-5'>
           <h3 className='text-xl font-semibold'>Welcome to Impot Match</h3>

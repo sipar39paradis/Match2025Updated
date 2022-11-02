@@ -23,7 +23,7 @@ export function Modal({ children, closeModalCallBack }: ModalProps) {
   return (
     <>
       <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50'>
-        <div ref={modalRef} className='relative mx-auto min-w-96'>
+        <div ref={modalRef} className='relative mx-auto min-w-max '>
           {children}
         </div>
       </div>
