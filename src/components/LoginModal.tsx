@@ -8,7 +8,7 @@ interface LoginModalProps {
 
 export function LoginModal(props: LoginModalProps) {
   const { setShowLoginModal } = props
-  const { signIn, signInWithGoogle } = useContext(AppContext) as AppContextType
+  const { signInWithGoogle } = useContext(AppContext) as AppContextType
 
   return (
     <>

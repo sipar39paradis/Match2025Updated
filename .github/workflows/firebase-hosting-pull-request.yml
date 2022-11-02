@@ -8,11 +8,15 @@ jobs:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
-      - run: npm ci
-      - run: npm run build
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - run: git config --global url."https://${{ secrets.PAT }}@github.com/".insteadOf ssh://git@github.com/
+      - run: npm i
+      - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_IMPOT_MATCH }}'
           projectId: impot-match
+          args: deploy --only hosting
