@@ -12,7 +12,7 @@ jobs:
         with:
           persist-credentials: false
       - run: git config --global url."https://${{ secrets.PAT }}@github.com/".insteadOf ssh://git@github.com/
-      - run: npm i
+      - run: npm ci
       - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
