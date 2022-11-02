@@ -1,7 +1,6 @@
 import React, { createContext, ReactNode } from 'react'
-import firebase, { initializeApp } from 'firebase/app'
+import { initializeApp } from 'firebase/app'
 import {
-  createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
@@ -24,10 +23,11 @@ const firebaseConfig = {
 
   measurementId: 'G-6JTV1BLMVR',
 }
-const firestore = initializeApp(firebaseConfig)
+initializeApp(firebaseConfig)
 const auth = getAuth()
 
 export interface AppContextType {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any
   signIn: (email: string, password: string) => void
   signInWithGoogle: () => void
@@ -54,14 +54,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
   function signOut() {
     auth.signOut()
-  }
-
-  function signUp(email: string, password: string) {
-    createUserWithEmailAndPassword(auth, email, password)
-  }
-
-  function getUser() {
-    auth.currentUser
   }
 
   return (
