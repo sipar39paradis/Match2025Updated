@@ -1,5 +1,5 @@
 import React from 'react';
-import '../i18n/config';
+import '../../i18n/config';
 import { useTranslation } from 'react-i18next';
 
 export function Contact() {

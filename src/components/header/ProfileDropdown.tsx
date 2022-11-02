@@ -9,6 +9,7 @@ const userNavigation = [
   { name: 'Sign out', href: '#' },
 ]
 interface ProfileDropdownProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any
 }
 
