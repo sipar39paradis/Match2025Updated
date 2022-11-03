@@ -12,15 +12,15 @@ import { LanguageDropdown } from './LanguageDropdown'
 import { ProfileDropdown } from './ProfileDropdown'
 import { classNames } from '../../utils/utils'
 import { AppContext, AppContextType } from '../../context/AppContext'
-import { SignInModal } from '../auth/SignInModal'
-import { SignUpModal } from '../auth/SignUpModal'
+import { AuthModal, AuthModalEnum } from '../auth/AuthModal'
 
 export function Header() {
   const { user } = useContext(AppContext) as AppContextType
   const { t } = useTranslation()
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
-  const [showSignInModal, setShowSignInModal] = React.useState(false)
-  const [showSignUpModal, setShowSignUpModal] = React.useState(false)
+  const [showModal, setShowModal] = React.useState(false)
+  const [modalToDisplay, setModalToDisplay] =
+    React.useState<AuthModalEnum | null>(null)
 
   const navigation = [
     { name: t('Home.title'), url: '/' },
@@ -31,6 +31,11 @@ export function Header() {
 
   function switchTab(tabIndex: number) {
     setSelectedTabIndex(tabIndex)
+  }
+
+  function displayModal(modal: AuthModalEnum) {
+    setModalToDisplay(modal)
+    setShowModal(true)
   }
 
   return (
@@ -71,19 +76,26 @@ export function Header() {
                 </div>
                 <div className='hidden md:block'>
                   <div className='flex items-center'>
+                    {showModal && modalToDisplay && (
+                      <AuthModal
+                        authModalToDisplay={modalToDisplay}
+                        closeModal={setShowModal}
+                        switchModal={setModalToDisplay}
+                      ></AuthModal>
+                    )}
                     <>
-                      {showSignInModal && (
+                      {/* {showSignInModal && (
                         <SignInModal
                           setShowSignInModal={setShowSignInModal}
                           setShowSignUpModal={setShowSignUpModal}
                         />
-                      )}
-                      {showSignUpModal && (
+                      )} */}
+                      {/* {showSignUpModal && (
                         <SignUpModal
                           setShowSignUpModal={setShowSignUpModal}
                           setShowSignInModal={setShowSignInModal}
                         />
-                      )}
+                      )} */}
                       <LanguageDropdown />
                       {user && (
                         <>
@@ -96,13 +108,13 @@ export function Header() {
                       {!user && (
                         <div>
                           <button
-                            onClick={() => setShowSignInModal(true)}
+                            onClick={() => displayModal(AuthModalEnum.SignIn)}
                             className='inline-flex w-full justify-center items-center rounded-full border border-transparent px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-gray-700 sm:ml-3 sm:w-auto sm:text-sm'
                           >
-                            Log in
+                            Sign in
                           </button>
                           <button
-                            onClick={() => setShowSignUpModal(true)}
+                            onClick={() => displayModal(AuthModalEnum.SignUp)}
                             className='mt-3 inline-flex w-full justify-center items-center rounded-full border border-gray-300 bg-white px-2 py-2 text-lg font-semibold text-gray-700 shadow-sm hover:bg-gray-100 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
                           >
                             Sign Up

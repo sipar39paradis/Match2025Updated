@@ -4,10 +4,11 @@ import { ReactComponent as GoogleIcon } from '../../icons/GoogleIcon.svg'
 import { AuthButton } from './AuthButton'
 import { useForm } from 'react-hook-form'
 import { Modal } from '../common/Modal'
+import { AuthModalEnum } from './AuthModal'
 
 interface SignInModalProps {
-  setShowSignUpModal: (show: boolean) => void
-  setShowSignInModal: (show: boolean) => void
+  closeModal: (show: boolean) => void
+  switchModal: (modal: AuthModalEnum) => void
 }
 
 type signInData = {
@@ -16,7 +17,7 @@ type signInData = {
 }
 
 export function SignInModal(props: SignInModalProps) {
-  const { setShowSignUpModal, setShowSignInModal } = props
+  const { closeModal, switchModal } = props
   const { signInWithGoogle, signIn } = useContext(AppContext) as AppContextType
   const {
     register,
@@ -26,14 +27,14 @@ export function SignInModal(props: SignInModalProps) {
   const onSubmit = (data: signInData) => signIn(data.email, data.password)
 
   return (
-    <Modal closeModalCallBack={() => setShowSignInModal(false)}>
+    <Modal closeModalCallBack={() => closeModal(false)}>
       <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white'>
         {/*header*/}
         <div className='flex items-center justify-center p-5 rounded-t'>
           <h3 className='text-xl font-semibold'>Sign in to Impot Match</h3>
           <button
             className='flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2'
-            onClick={() => setShowSignInModal(false)}
+            onClick={() => closeModal(false)}
           >
             ×
           </button>
@@ -45,7 +46,7 @@ export function SignInModal(props: SignInModalProps) {
         >
           <div className='flex flex-col items-baseline mb-4'>
             <label
-              className='block text-gray-700 text-sm font-bold mb-2'
+              className='block text-gray-700 text-sm font-bold mb-2 ml-1'
               htmlFor='email'
             >
               Email
@@ -62,7 +63,7 @@ export function SignInModal(props: SignInModalProps) {
           </div>
           <div className='flex flex-col items-baseline mb-6'>
             <label
-              className='block text-gray-700 text-sm font-bold mb-2'
+              className='block text-gray-700 text-sm font-bold mb-2 ml-1'
               htmlFor='password'
             >
               Password
@@ -86,6 +87,7 @@ export function SignInModal(props: SignInModalProps) {
             <a
               className='inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800'
               href='#'
+              onClick={() => switchModal(AuthModalEnum.ResetPassword)}
             >
               Forgot Password?
             </a>
@@ -97,7 +99,7 @@ export function SignInModal(props: SignInModalProps) {
             Icon={GoogleIcon}
             onClick={async () => {
               const closeOnSuccess = !signInWithGoogle()
-              setShowSignInModal(closeOnSuccess)
+              closeModal(closeOnSuccess)
             }}
             text='Continue with Google'
           ></AuthButton>
@@ -105,10 +107,9 @@ export function SignInModal(props: SignInModalProps) {
         <div className='flex flex-row items-center justify-center mb-8'>
           <div className='mr-2'>Dont have an account ?</div>
           <button
-            className='hover:bg-gray-100 text-black font-semibold px-2 py-1 border border-black text-sm relative'
+            className='hover:bg-gray-100 text-black font-semibold px-2 py-1 ml-2 border border-black text-sm relative'
             onClick={() => {
-              setShowSignInModal(false)
-              setShowSignUpModal(true)
+              switchModal(AuthModalEnum.SignUp)
             }}
           >
             Sign up

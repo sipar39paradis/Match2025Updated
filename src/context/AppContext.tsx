@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth'
@@ -35,6 +36,7 @@ export interface AppContextType {
   signInWithGoogle: () => Promise<boolean>
   signOut: () => void
   signUpWithEmailAndPassword: (email: string, password: string) => void
+  resetPassword: (email: string) => void
 }
 
 export const AppContext = createContext<AppContextType | null>(null)
@@ -78,6 +80,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     auth.signOut()
   }
 
+  async function resetPassword(email: string) {
+    auth.useDeviceLanguage()
+    await sendPasswordResetEmail(auth, email)
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -86,6 +93,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         signInWithGoogle,
         signOut,
         signUpWithEmailAndPassword,
+        resetPassword,
       }}
     >
       {children}
