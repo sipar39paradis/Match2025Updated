@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState } from 'react'
+import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import {
   createUserWithEmailAndPassword,
@@ -10,6 +10,7 @@ import {
 } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -31,7 +32,8 @@ const db = getFirestore(app)
 const auth = getAuth()
 
 export interface AppContextType {
-  user: unknown
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user: any
   signIn: (email: string, password: string) => void
   signInWithGoogle: () => Promise<string>
   signOut: () => void
@@ -54,6 +56,15 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userProfile, setUserProfile] = useState(null)
   const [user] = useAuthState(auth)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (userProfile) {
+      navigate('/profile')
+    } else {
+      navigate('/')
+    }
+  }, [userProfile])
 
   function signIn(email: string, password: string) {
     signInWithEmailAndPassword(auth, email, password)
