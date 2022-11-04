@@ -84,7 +84,7 @@ export function Profile() {
             </Card>
           </div>
 
-          <div className='flex flex w-8/12 px-20'>
+          <div className='flex w-8/12 px-20'>
             <div className='flex flex-col justify-start text-left w-full'>
               <h2 className='mb-1 text-2xl font-semibold text-gray-900 dark:text-white'>
                 {user.displayName}

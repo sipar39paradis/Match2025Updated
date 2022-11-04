@@ -6,16 +6,16 @@ import { About } from './views/loggedout/About'
 import { Home } from './views/loggedout/Home'
 import { Contact } from './views/loggedout/Contact'
 import { Prices } from './views/loggedout/Prices'
-import { AppContextProvider } from './context/AppContext'
 import { Profile } from './views/loggedin/Profile'
 import { Requests } from './views/loggedin/Requests'
 import { Messages } from './views/loggedin/Messages'
+import { AppContextProvider } from './context/AppContext'
 
 function App() {
   return (
     <div className='App'>
-      <AppContextProvider>
-        <Router>
+      <Router>
+        <AppContextProvider>
           <Header />
           <Routes>
             <Route path='/' element={<Home />} />
@@ -26,8 +26,8 @@ function App() {
             <Route path='/requests' element={<Requests />} />
             <Route path='/messages' element={<Messages />} />
           </Routes>
-        </Router>
-      </AppContextProvider>
+        </AppContextProvider>
+      </Router>
     </div>
   )
 }

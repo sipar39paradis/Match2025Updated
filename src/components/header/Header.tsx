@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Disclosure } from '@headlessui/react'
 import {
   Bars3Icon,
@@ -6,19 +6,22 @@ import {
   ChatBubbleLeftIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { LanguageDropdown } from './LanguageDropdown'
 import { ProfileDropdown } from './ProfileDropdown'
 import { classNames } from '../../utils/utils'
 import { AppContext, AppContextType } from '../../context/AppContext'
-import { LoginModal } from '../LoginModal'
+import { AuthModal, AuthModalEnum } from '../auth/AuthModal'
 
 export function Header() {
   const { user } = useContext(AppContext) as AppContextType
   const { t } = useTranslation()
+
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
-  const [showLoginModal, setShowLoginModal] = React.useState(false)
+  const [showModal, setShowModal] = React.useState(false)
+  const [modalToDisplay, setModalToDisplay] =
+    React.useState<AuthModalEnum | null>(null)
 
   interface navItem {
     name: string
@@ -35,15 +38,20 @@ export function Header() {
   const navigationLoggedIn = [
     { name: t('Profile.title'), url: '/profile' },
     { name: t('Requests.title'), url: '/requests' },
-    { name: t('Messages.title'), url: '/messages' }
+    { name: t('Messages.title'), url: '/messages' },
   ]
 
   const getNavigation = (user: AppContextType): Array<navItem> => {
-    return user? navigationLoggedIn: navigationLoggedOut
+    return user ? navigationLoggedIn : navigationLoggedOut
   }
 
   function switchTab(tabIndex: number) {
     setSelectedTabIndex(tabIndex)
+  }
+
+  function displayModal(modal: AuthModalEnum) {
+    setModalToDisplay(modal)
+    setShowModal(true)
   }
 
   return (
@@ -84,31 +92,40 @@ export function Header() {
                 </div>
                 <div className='hidden md:block'>
                   <div className='flex items-center'>
-                    {showLoginModal && (
-                      <LoginModal setShowLoginModal={setShowLoginModal} />
+                    {showModal && modalToDisplay && (
+                      <AuthModal
+                        authModalToDisplay={modalToDisplay}
+                        closeModal={setShowModal}
+                        switchModal={setModalToDisplay}
+                      ></AuthModal>
                     )}
-                    <LanguageDropdown />
-                    {user && (
-                      <>
-                        <ChatBubbleLeftIcon className='stroke-gray-300 cursor-pointer h-5 px-2' />
+                    <>
+                      <LanguageDropdown />
+                      {user && (
+                        <>
+                          <ChatBubbleLeftIcon className='stroke-gray-300 cursor-pointer h-5 px-2' />
 
-                        <BellIcon className='stroke-gray-300 cursor-pointer h-5 px-2'></BellIcon>
-                        <ProfileDropdown user={user} />
-                      </>
-                    )}
-                    {!user && (
-                      <div>
-                        <button
-                          onClick={() => setShowLoginModal(true)}
-                          className='inline-flex w-full justify-center items-center rounded-full border border-transparent px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-gray-700 sm:ml-3 sm:w-auto sm:text-sm'
-                        >
-                          Log in
-                        </button>
-                        <button className='mt-3 inline-flex w-full justify-center items-center rounded-full border border-gray-300 bg-white px-2 py-2 text-lg font-semibold text-gray-700 shadow-sm hover:bg-gray-100 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
-                          Sign up
-                        </button>
-                      </div>
-                    )}
+                          <BellIcon className='stroke-gray-300 cursor-pointer h-5 px-2'></BellIcon>
+                          <ProfileDropdown user={user} />
+                        </>
+                      )}
+                      {!user && (
+                        <div>
+                          <button
+                            onClick={() => displayModal(AuthModalEnum.SignIn)}
+                            className='inline-flex w-full justify-center items-center rounded-full border border-transparent px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-gray-700 sm:ml-3 sm:w-auto sm:text-sm'
+                          >
+                            Sign in
+                          </button>
+                          <button
+                            onClick={() => displayModal(AuthModalEnum.SignUp)}
+                            className='mt-3 inline-flex w-full justify-center items-center rounded-full border border-gray-300 bg-white px-2 py-2 text-lg font-semibold text-gray-700 shadow-sm hover:bg-gray-100 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
+                          >
+                            Sign Up
+                          </button>
+                        </div>
+                      )}
+                    </>
                   </div>
                 </div>
                 <div className='-mr-2 flex md:hidden'>
