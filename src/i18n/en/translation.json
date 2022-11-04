@@ -11,6 +11,15 @@
   "Prices": {
     "title": "Prices"
   },
+  "Profile": {
+    "title": "Profile"
+  },
+  "Requests": {
+    "title": "Requests"
+  },
+  "Messages": {
+    "title": "Messages"
+  },
   "User": {
     "Your Profil": "Your Profile",
     "Settings": "Settings",

@@ -22,12 +22,27 @@ export function Header() {
   const [modalToDisplay, setModalToDisplay] =
     React.useState<AuthModalEnum | null>(null)
 
-  const navigation = [
+  interface navItem {
+    name: string
+    url: string
+  }
+
+  const navigationLoggedOut = [
     { name: t('Home.title'), url: '/' },
     { name: t('Prices.title'), url: '/prices' },
     { name: t('About.title'), url: '/about' },
     { name: t('Contact.title'), url: '/contact' },
   ]
+
+  const navigationLoggedIn = [
+    { name: t('Profile.title'), url: '/profile' },
+    { name: t('Requests.title'), url: '/requests' },
+    { name: t('Messages.title'), url: '/messages' }
+  ]
+
+  const getNavigation = (user: AppContextType): Array<navItem> => {
+    return user? navigationLoggedIn: navigationLoggedOut
+  }
 
   function switchTab(tabIndex: number) {
     setSelectedTabIndex(tabIndex)
@@ -56,7 +71,7 @@ export function Header() {
                   <span className='ml-3 text-white'>Impot Match</span>
                   <div className='hidden md:block'>
                     <div className='ml-10 flex items-baseline space-x-4'>
-                      {navigation.map((item, index) => (
+                      {getNavigation(user).map((item, index) => (
                         <Link
                           key={index}
                           to={item.url}

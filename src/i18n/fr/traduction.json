@@ -11,6 +11,15 @@
   "Prices": {
     "title": "Tarifications"
   },
+  "Profile": {
+    "title": "Profil"
+  },
+  "Requests": {
+    "title": "Demances"
+  },
+  "Messages": {
+    "title": "Messages"
+  },
   "User": {
     "Your Profil": "Voir Profile",
     "Settings": "Paramètres",
