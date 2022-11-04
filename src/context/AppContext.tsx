@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode } from 'react'
+import React, { createContext, ReactNode, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import {
   createUserWithEmailAndPassword,
@@ -9,7 +9,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { doc, setDoc, getFirestore } from 'firebase/firestore'
+import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -33,9 +33,14 @@ const auth = getAuth()
 export interface AppContextType {
   user: unknown
   signIn: (email: string, password: string) => void
-  signInWithGoogle: () => Promise<boolean>
+  signInWithGoogle: () => Promise<string>
   signOut: () => void
-  signUpWithEmailAndPassword: (email: string, password: string) => void
+  signUpWithEmailAndPassword: (
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ) => Promise<string>
   resetPassword: (email: string) => void
 }
 
@@ -46,6 +51,8 @@ interface AppContextProviderProps {
 }
 
 export function AppContextProvider({ children }: AppContextProviderProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [userProfile, setUserProfile] = useState(null)
   const [user] = useAuthState(auth)
 
   function signIn(email: string, password: string) {
@@ -53,30 +60,52 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   }
 
   async function signInWithGoogle() {
-    let success = false
+    let errorMessage = ''
     const provider = new GoogleAuthProvider()
-    await signInWithPopup(auth, provider).then(() => {
-      success = true
-    })
-    return success
+    await signInWithPopup(auth, provider)
+      .then((userCredential) => {
+        const profile = getDoc(doc(db, 'profiles', userCredential.user.email))
+        setUserProfile(profile)
+      })
+      .catch((error) => {
+        errorMessage = error.message
+      })
+    return errorMessage
   }
 
-  function signUpWithEmailAndPassword(email: string, password: string) {
-    createUserWithEmailAndPassword(auth, email, password).then(
-      async (userCredential) => {
+  async function signUpWithEmailAndPassword(
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ) {
+    let errorMessage = ''
+
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
         if (userCredential?.user.email) {
-          await setDoc(doc(db, 'users', userCredential.user.email), {
+          const newProfile = {
             email: userCredential.user.email,
-            name: userCredential.user.displayName,
-            profileType: 'client',
+            firstName: firstName,
+            lastName: lastName,
+            type: 'client',
             phoneNumber: userCredential.user.phoneNumber,
-          })
+          }
+          await setDoc(
+            doc(db, 'profiles', userCredential.user.email),
+            newProfile
+          )
+          setUserProfile(newProfile)
         }
-      }
-    )
+      })
+      .catch((error) => {
+        errorMessage = error.message
+      })
+    return errorMessage
   }
 
   function signOut() {
+    setUserProfile(null)
     auth.signOut()
   }
 

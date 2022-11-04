@@ -84,18 +84,6 @@ export function Header() {
                       ></AuthModal>
                     )}
                     <>
-                      {/* {showSignInModal && (
-                        <SignInModal
-                          setShowSignInModal={setShowSignInModal}
-                          setShowSignUpModal={setShowSignUpModal}
-                        />
-                      )} */}
-                      {/* {showSignUpModal && (
-                        <SignUpModal
-                          setShowSignUpModal={setShowSignUpModal}
-                          setShowSignInModal={setShowSignInModal}
-                        />
-                      )} */}
                       <LanguageDropdown />
                       {user && (
                         <>

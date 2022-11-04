@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppContext, AppContextType } from '../../context/AppContext'
 import { AuthModalEnum } from './AuthModal'
 import { useForm } from 'react-hook-form'
@@ -21,13 +21,23 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
     AppContext
   ) as AppContextType
 
+  const [authError, setAuthError] = useState('')
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<signUpWithEmailData>()
-  const onSubmit = (data: signUpWithEmailData) =>
-    signUpWithEmailAndPassword(data.email, data.password)
+  const onSubmit = async (data: signUpWithEmailData) => {
+    const res = await signUpWithEmailAndPassword(
+      data.email,
+      data.password,
+      data.firstName,
+      data.lastName
+    )
+    console.log(res)
+    res ? setAuthError(res) : closeModal(false)
+  }
 
   return (
     <div className='border-0 rounded-lg shadow-lg relative flex flex-col bg-white'>
@@ -99,10 +109,13 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700'
               type='text'
               placeholder='Email'
-              {...register('email', { required: true })}
+              {...register('email', { required: true, minLength: 6 })}
             />
             {errors.email && (
               <span className='text-red-500 ml-1'>Email is required</span>
+            )}
+            {authError && (
+              <span className='text-red-500 ml-1'>{authError}</span>
             )}
           </div>
           <div className='flex flex-col items-baseline mb-6'>

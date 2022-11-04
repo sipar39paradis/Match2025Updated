@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppContext, AppContextType } from '../../context/AppContext'
 import { AuthButton } from './AuthButton'
 import { ReactComponent as GoogleIcon } from '../../icons/GoogleIcon.svg'
@@ -13,6 +13,7 @@ interface SignUpModalProps {
 export function SignUpModal(props: SignUpModalProps) {
   const { signInWithGoogle } = useContext(AppContext) as AppContextType
   const { closeModal, switchModal } = props
+  const [authError, setAuthError] = useState('')
 
   return (
     <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white'>
@@ -30,9 +31,15 @@ export function SignUpModal(props: SignUpModalProps) {
       <div className='flex flex-col space-y-3.5 bg-white rounded px-8 pt-6 pb-8 mb-5'>
         <AuthButton
           Icon={GoogleIcon}
-          onClick={signInWithGoogle}
+          onClick={async () => {
+            const res = await signInWithGoogle()
+            res ? setAuthError(res) : closeModal(false)
+          }}
           text='Continue with Google'
         ></AuthButton>
+        {authError && (
+          <span className='text-red-500 ml-1'>Something went wrong</span>
+        )}
         <button
           className=' hover:bg-gray-100 text-black font-semibold py-2 px-4 w-full border border-black text-sm relative'
           type='button'

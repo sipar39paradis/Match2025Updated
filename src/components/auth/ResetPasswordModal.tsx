@@ -15,7 +15,7 @@ type resetPasswordData = {
 export function ResetPasswordModal(props: SignInModalProps) {
   const { closeModal, switchModal } = props
   const { resetPassword } = useContext(AppContext) as AppContextType
-  const [emailSent, setEmailSent] = useState(false)
+  const [emailSent, setEmailSent] = useState('')
 
   const {
     register,
@@ -24,23 +24,22 @@ export function ResetPasswordModal(props: SignInModalProps) {
   } = useForm<resetPasswordData>()
   const onSubmit = async (data: resetPasswordData) => {
     resetPassword(data.email)
-    setEmailSent(true)
+    setEmailSent(data.email)
   }
 
-  if (!emailSent) {
-    return (
-      <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white'>
-        {' '}
-        {/*header*/}
-        <div className='flex items-center justify-center p-5 rounded-t'>
-          <h3 className='text-xl font-semibold'>Reset password</h3>
-          <button
-            className='flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2'
-            onClick={() => closeModal(false)}
-          >
-            ×
-          </button>
-        </div>
+  return (
+    <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white'>
+      {/*header*/}
+      <div className='flex items-center justify-center p-5 rounded-t'>
+        <h3 className='text-xl font-semibold'>Reset password</h3>
+        <button
+          className='flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2'
+          onClick={() => closeModal(false)}
+        >
+          ×
+        </button>
+      </div>
+      {!emailSent && (
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='bg-white rounded px-8 pt-6 pb-8'
@@ -78,22 +77,15 @@ export function ResetPasswordModal(props: SignInModalProps) {
             </button>
           </div>
         </form>
-      </div>
-    )
-  } else {
-    return (
-      <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white'>
-        {/*header*/}
-        <div className='flex items-center justify-center p-5 rounded-t'>
-          <h3 className='text-xl font-semibold'>Password sent</h3>
-          <button
-            className='flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2'
-            onClick={() => closeModal(false)}
-          >
-            ×
-          </button>
+      )}
+      {emailSent && (
+        <div className='flex align-baseline p-6'>
+          <span className='font-semibold text-start'>
+            Weve sent you an email at {emailSent} with instructions to reset
+            your password. It may take a minute or two to arrive.
+          </span>
         </div>
-      </div>
-    )
-  }
+      )}
+    </div>
+  )
 }

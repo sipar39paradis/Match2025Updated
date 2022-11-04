@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppContext, AppContextType } from '../../context/AppContext'
 import { ReactComponent as GoogleIcon } from '../../icons/GoogleIcon.svg'
 import { AuthButton } from './AuthButton'
@@ -25,6 +25,7 @@ export function SignInModal(props: SignInModalProps) {
     formState: { errors },
   } = useForm<signInData>()
   const onSubmit = (data: signInData) => signIn(data.email, data.password)
+  const [authError, setAuthError] = useState('')
 
   return (
     <Modal closeModalCallBack={() => closeModal(false)}>
@@ -98,11 +99,14 @@ export function SignInModal(props: SignInModalProps) {
           <AuthButton
             Icon={GoogleIcon}
             onClick={async () => {
-              const closeOnSuccess = !signInWithGoogle()
-              closeModal(closeOnSuccess)
+              const res = await signInWithGoogle()
+              res ? setAuthError(res) : closeModal(false)
             }}
             text='Continue with Google'
           ></AuthButton>
+          {authError && (
+            <span className='text-red-500 ml-1'>Something went wrong</span>
+          )}
         </div>
         <div className='flex flex-row items-center justify-center mb-8'>
           <div className='mr-2'>Dont have an account ?</div>
