@@ -20,6 +20,9 @@
   "Messages": {
     "title": "Messages"
   },
+  "Files":{
+    "title": "Files"
+  },
   "User": {
     "Your Profil": "Your Profile",
     "Settings": "Settings",

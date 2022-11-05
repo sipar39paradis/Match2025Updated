@@ -18,7 +18,7 @@ export function Header() {
   const { user } = useContext(AppContext) as AppContextType
   const { t } = useTranslation()
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
-  const [showLoginModal, setShowLoginModal] = React.useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   interface navItem {
     name: string
@@ -35,7 +35,8 @@ export function Header() {
   const navigationLoggedIn = [
     { name: t('Profile.title'), url: '/profile' },
     { name: t('Requests.title'), url: '/requests' },
-    { name: t('Messages.title'), url: '/messages' }
+    { name: t('Messages.title'), url: '/messages' },
+    { name: t('Files.title'), url: '/files' },
   ]
 
   const getNavigation = (user: AppContextType): Array<navItem> => {
