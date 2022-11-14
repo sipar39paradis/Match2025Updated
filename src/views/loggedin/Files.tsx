@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext'
 import { getStorage, uploadBytes, ref, listAll, StorageReference, getDownloadURL, } from 'firebase/storage'
 import {ReactComponent as BlankFile} from '../../icons/BlankFile.svg'
+import { fileURLToPath } from 'url';
 
 const FOLDER_NAME = 'customerdata/'
 
@@ -17,9 +18,34 @@ interface ReloadProps{
 }
 
 export function FileComponent(props: FileInfo){
-    return (<div className='center'>
-        <BlankFile className='transition ease-in-out delay-150 hover:-translate-y-1 fill-blue-500 lg:w-1/2 mt-2 mb-2'/>
-    </div>
+    return (
+        <div 
+        className="
+        truncate
+        group
+        basis-1/12 
+        justify-self-center 
+        p-2
+        mt-5
+        rounded 
+        space-x-5 
+        transition
+        ease-in-out
+        hover:scale-110
+        hover:outline 
+        outline-gray-500 
+        hover:bg-gray-200
+        duration 500
+        sm:text-0
+        sm:p-0
+        sm:basis-1/2
+        md:basis-1/12
+        lg:basis-1/12
+        xxs:basis-1/2
+        font-light">
+            <BlankFile className='fill-gray-500 mb-2 ml-2 group-hover:stroke-white pt-2'/>
+            <span className='lg:text-sm md:text-sm m-0'>{props.fullPath.split('/')[2]}</span>
+        </div>
     )
 
 }
@@ -50,7 +76,7 @@ export function FilesDisplay(props: ReloadProps){
     
     return (
     <>
-        <div className='grid grid-cols-5 gap-4 place-items-center'>
+        <div className='flex flex-row'>
             {files}
         </div>
     </>
@@ -72,7 +98,7 @@ export function UploadFilesComponent(){
             }
         ))
         
-        setFileDisplay(<FilesDisplay shouldReload={false} />)
+        setFileDisplay(<FilesDisplay shouldReload={true} />)
     }
 
     const handleFileDrop = (file) => { 
@@ -91,18 +117,20 @@ export function UploadFilesComponent(){
 
     return (
       <>
-      <div>
-        <div >
+      <div className="flex flex-wrap grid grid-cols-1">
+        <div className='rounded mb-20 bg-gray-100 outline outline-gray-200 outline-offset-2 grid grid-cols-1 place-content-center pb-10 m-20'>
             {fileDisplay}
         </div>
-        <input type="file" accept='.png .jpg .jpeg .pdf .docx .excel' multiple onChange={handleFileDrop}/> 
-        <div >
-            <button 
-            onClick={handleUploadFile}
-            className='inline-flex w-full justify-center items-center rounded-full border border-transparent px-4 py-2 text-lg font-semibold text-white shadow-sm bg-gray-700 hover:bg-gray-500 sm:ml-3 sm:w-auto sm:text-sm'
-            >
-                Upload files
-            </button>
+        <div className="rounded outline outline-offset-2 outline-gray-400/50 hover:outline-gray-400 pt-5 pb-5 w-1/2 ml-20">
+          <input type="file" accept='.png .jpg .jpeg .pdf .docx .excel .avif' multiple onChange={handleFileDrop}/> 
+          <div >
+              <button 
+              onClick={handleUploadFile}
+              className='inline-flex w-full justify-center items-center rounded-full border border-transparent px-4 py-2 text-lg font-semibold text-white shadow-sm bg-gray-700 hover:bg-gray-500 sm:ml-3 sm:w-auto sm:text-sm'
+              >
+                  Upload files
+              </button>
+          </div>
         </div>
       </div>
       </>
@@ -114,12 +142,10 @@ export function Files(){
 
     return (
         <main>
-        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
             {t('Files.title')}
             <UploadFilesComponent/>
           </h1>
-        </div>
       </main>
     )
 }

@@ -19,13 +19,9 @@ export function Header() {
   const { t } = useTranslation()
 
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
-<<<<<<< HEAD
-  const [showLoginModal, setShowLoginModal] = useState(false)
-=======
   const [showModal, setShowModal] = React.useState(false)
   const [modalToDisplay, setModalToDisplay] =
     React.useState<AuthModalEnum | null>(null)
->>>>>>> 4d4027563211bb7da8887a2c59882c76c46f550e
 
   interface navItem {
     name: string
@@ -43,10 +39,7 @@ export function Header() {
     { name: t('Profile.title'), url: '/profile' },
     { name: t('Requests.title'), url: '/requests' },
     { name: t('Messages.title'), url: '/messages' },
-<<<<<<< HEAD
     { name: t('Files.title'), url: '/files' },
-=======
->>>>>>> 4d4027563211bb7da8887a2c59882c76c46f550e
   ]
 
   const getNavigation = (user: AppContextType): Array<navItem> => {
