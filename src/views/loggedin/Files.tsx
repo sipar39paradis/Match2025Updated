@@ -2,13 +2,17 @@ import '../../i18n/config'
 import { useTranslation } from 'react-i18next';
 import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext'
-import { getStorage, uploadBytes, ref, listAll, getDownloadURL, } from 'firebase/storage'
+import { getStorage, uploadBytes, ref, getBlob, } from 'firebase/storage'
 import {ReactComponent as BlankFile} from '../../icons/BlankFile.svg'
+import { collection, doc, getFirestore, onSnapshot, query, setDoc, where } from 'firebase/firestore';
 
 const FOLDER_NAME = 'customerdata/'
+const firestore = getFirestore()
+const storage = getStorage()
 
 interface FileInfo{
-    url: string;
+    userId: string,
+    fileName: string,
     fullPath: string;
 }
 
@@ -16,12 +20,21 @@ interface ReloadProps{
     shouldReload: boolean;
 }
 
+
 export function FileComponent(props: FileInfo){
+
+    const downloadFile = async () => {
+        const fileRef = ref(storage, props.fullPath)
+        const blob = await getBlob(fileRef)
+        const blobUrl = URL.createObjectURL(blob)
+        window.open(blobUrl, props.fileName)
+    }
+
     return (
-        <div 
+        <button 
+        onClick={downloadFile}
         className="
         truncate
-        group
         basis-1/12 
         justify-self-center 
         p-2
@@ -41,35 +54,32 @@ export function FileComponent(props: FileInfo){
         md:basis-1/12
         lg:basis-1/12
         xxs:basis-1/2
-        font-light">
-            <BlankFile className='fill-gray-500 mb-2 ml-2 group-hover:stroke-white pt-2'/>
+        fill-gray-500 
+        hover:fill-gray-900 
+        hover:outline-gray-900
+        font-light
+        "
+        >
+            <BlankFile className='mb-2 ml-2 pt-2'/>
             <span className='lg:text-sm md:text-sm m-0'>{props.fullPath.split('/')[2]}</span>
-        </div>
+        </button>
     )
 
 }
 
 export function FilesDisplay(props: ReloadProps){
     const { user } = useContext(AppContext) as AppContextType
-    const storage = getStorage()
     const [files, setFiles] = useState([])
     const [filesDisplayed, setFilesDisplayed] = useState(props.shouldReload)
+    const userFiles = collection(firestore, 'userFiles')
+    const userFilesQueryByUserId =  query(userFiles, where('userId', '==', user.uid))
 
-    const displayFiles = () => {
-        const folderRef = ref(storage, FOLDER_NAME + user.uid)
-        listAll(folderRef).then((res) => {
-            res.items.forEach(
-                (itemRef) => {
-                    getDownloadURL(itemRef).then((res) =>{
-                            setFiles( fileDisplay => [...fileDisplay,  <FileComponent url={res} fullPath={itemRef.fullPath} key={res}/>])
-                    })
-                }
-            )
-        })
-    }
+    const uploaded = onSnapshot(userFilesQueryByUserId, (querySnapshot) => {
+        setFiles(querySnapshot.docs.map((file) => <FileComponent key={file.data().fileName} userId={file.data().userId} fullPath={file.data().filePath} fileName={file.data().fileName}/>))
+    })
+    
 
     if(!filesDisplayed){
-        displayFiles()
         setFilesDisplayed(true)
     }
     
@@ -86,14 +96,23 @@ export function UploadFilesComponent(){
     const [fileList, setFileList] = useState([])
     const [fileDisplay, setFileDisplay] = useState(<FilesDisplay shouldReload={false}/>)
     const { user } = useContext(AppContext) as AppContextType
-    const storage = getStorage()
-    
 
     const handleUploadFile = async() =>{
         fileList.forEach(file => 
-            uploadBytes(file.fileRef, file.file).then(() => 
+            uploadBytes(file.fileRef, file.file).then(async (snapshot) => 
             {
-                console.log('Uploading file')
+                const fileInfo = {
+                    fileName: snapshot.metadata.name,
+                    filePath: snapshot.metadata.fullPath,
+                    createdAt: snapshot.metadata.timeCreated,
+                    updatedAt: snapshot.metadata.updated,
+                    downloadable: true,
+                    isCustomerFile: true,
+                    userId: user.uid,
+                    accountantId:null
+                }
+                console.log(snapshot)
+                await setDoc(doc(firestore, 'userFiles', user.uid + fileInfo.fileName), fileInfo)
             }
         ))
         
