@@ -2,9 +2,8 @@ import '../../i18n/config'
 import { useTranslation } from 'react-i18next';
 import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext'
-import { getStorage, uploadBytes, ref, listAll, StorageReference, getDownloadURL, } from 'firebase/storage'
+import { getStorage, uploadBytes, ref, listAll, getDownloadURL, } from 'firebase/storage'
 import {ReactComponent as BlankFile} from '../../icons/BlankFile.svg'
-import { fileURLToPath } from 'url';
 
 const FOLDER_NAME = 'customerdata/'
 
@@ -92,7 +91,7 @@ export function UploadFilesComponent(){
 
     const handleUploadFile = async() =>{
         fileList.forEach(file => 
-            uploadBytes(file.fileRef, file.file).then((snapshot) => 
+            uploadBytes(file.fileRef, file.file).then(() => 
             {
                 console.log('Uploading file')
             }
