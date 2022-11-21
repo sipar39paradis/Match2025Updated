@@ -9,7 +9,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { doc, setDoc, getFirestore, getDoc, Firestore } from 'firebase/firestore'
+import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 
 const firebaseConfig = {
