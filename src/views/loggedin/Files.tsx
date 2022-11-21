@@ -74,7 +74,7 @@ export function FilesDisplay(props: ReloadProps){
     const userFiles = collection(firestore, 'userFiles')
     const userFilesQueryByUserId =  query(userFiles, where('userId', '==', user.uid))
 
-    const uploaded = onSnapshot(userFilesQueryByUserId, (querySnapshot) => {
+    onSnapshot(userFilesQueryByUserId, (querySnapshot) => {
         setFiles(querySnapshot.docs.map((file) => <FileComponent key={file.data().fileName} userId={file.data().userId} fullPath={file.data().filePath} fileName={file.data().fileName}/>))
     })
     
@@ -97,7 +97,7 @@ export function UploadFilesComponent(){
     const [fileDisplay, setFileDisplay] = useState(<FilesDisplay shouldReload={false}/>)
     const { user } = useContext(AppContext) as AppContextType
 
-    const handleUploadFile = async() =>{
+    const handleUploadFile = () =>{
         fileList.forEach(file => 
             uploadBytes(file.fileRef, file.file).then(async (snapshot) => 
             {
@@ -112,7 +112,7 @@ export function UploadFilesComponent(){
                     accountantId:null
                 }
                 console.log(snapshot)
-                await setDoc(doc(firestore, 'userFiles', user.uid + fileInfo.fileName), fileInfo)
+                setDoc(doc(firestore, 'userFiles', user.uid + fileInfo.fileName), fileInfo)
             }
         ))
         
