@@ -69,7 +69,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   function signIn(email: string, password: string) {
     signInWithEmailAndPassword(auth, email, password)
   }
-
+  
   async function signInWithGoogle() {
     let errorMessage = ''
     const provider = new GoogleAuthProvider()

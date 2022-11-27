@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Disclosure } from '@headlessui/react'
 import {
   Bars3Icon,
@@ -6,7 +6,7 @@ import {
   ChatBubbleLeftIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { LanguageDropdown } from './LanguageDropdown'
 import { ProfileDropdown } from './ProfileDropdown'
@@ -39,6 +39,7 @@ export function Header() {
     { name: t('Profile.title'), url: '/profile' },
     { name: t('Requests.title'), url: '/requests' },
     { name: t('Messages.title'), url: '/messages' },
+    { name: t('Files.title'), url: '/files' },
   ]
 
   const getNavigation = (user: AppContextType): Array<navItem> => {

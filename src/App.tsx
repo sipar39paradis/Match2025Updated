@@ -9,6 +9,7 @@ import { Prices } from './views/loggedout/Prices'
 import { Profile } from './views/loggedin/Profile'
 import { Requests } from './views/loggedin/Requests'
 import { Messages } from './views/loggedin/Messages'
+import { Files } from './views/loggedin/Files'
 import { AppContextProvider } from './context/AppContext'
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path='/profile' element={<Profile />} />
             <Route path='/requests' element={<Requests />} />
             <Route path='/messages' element={<Messages />} />
+            <Route path='/files' element={<Files />} />
           </Routes>
         </AppContextProvider>
       </Router>
