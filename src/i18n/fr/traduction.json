@@ -12,7 +12,14 @@
     "title": "Tarifications"
   },
   "Profile": {
-    "title": "Profil"
+    "title": "Profil",
+    "edit": "Éditer",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "accountant": "Comptable",
+    "about": "À propos",
+    "livesIn": "Vivre dans",
+    "speaks": "Parle"
   },
   "Requests": {
     "title": "Demances"
@@ -24,5 +31,10 @@
     "Your Profil": "Voir Profile",
     "Settings": "Paramètres",
     "Sign out": "Se déconnecter"
+  },
+  "Card": {
+    "casesCompleted": "cas terminés",
+    "yearsOfExperience": "années d'expérience",
+    "accountant": "Comptable"
   }
 }

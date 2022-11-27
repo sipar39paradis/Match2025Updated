@@ -12,7 +12,14 @@
     "title": "Prices"
   },
   "Profile": {
-    "title": "Profile"
+    "title": "Profile",
+    "edit": "Edit",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "accountant": "Accountant",
+    "about": "About",
+    "livesIn": "Lives in",
+    "speaks": "Speaks"
   },
   "Requests": {
     "title": "Requests"
@@ -24,5 +31,10 @@
     "Your Profil": "Your Profile",
     "Settings": "Settings",
     "Sign out": "Sign out"
+  },
+  "Card": {
+    "casesCompleted": "cases completed",
+    "yearsOfExperience": "years of experience",
+    "accountant": "Accountant"
   }
 }
