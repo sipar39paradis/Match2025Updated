@@ -1,19 +1,16 @@
 import {
-  Badge,
   Button,
-  Card,
-  Dropdown,
-  Rating,
   Select,
   Textarea,
   TextInput,
   Timeline,
   Tooltip,
 } from 'flowbite-react';
-import React, { ReactElement, ReactNode, useEffect, useRef } from 'react';
+import React, { ReactElement} from 'react';
 import { HiPlusSm } from 'react-icons/hi';
 import Check from './../../icons/Check.svg';
 import { AccountantProfile, Experience } from '../../interfaces/User';
+import { useTranslation } from 'react-i18next';
 
 interface ExperienceTimelineProps {
   profile?: AccountantProfile;
@@ -23,26 +20,27 @@ interface ExperienceTimelineProps {
   setProfile(profile: AccountantProfile);
 }
 
-export function ExperienceTimeline({
+export const ExperienceTimeline = ({
   profile,
   edit,
   inErr,
   setInErr,
   setProfile,
-}: ExperienceTimelineProps): ReactElement {
+}: ExperienceTimelineProps): ReactElement => {
+  const { t } = useTranslation();
   const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    t('Profile.months.january'),
+    t('Profile.months.february'),
+    t('Profile.months.march'),
+    t('Profile.months.april'),
+    t('Profile.months.may'),
+    t('Profile.months.june'),
+    t('Profile.months.july'),
+    t('Profile.months.august'),
+    t('Profile.months.september'),
+    t('Profile.months.october'),
+    t('Profile.months.november'),
+    t('Profile.months.december'),
   ];
 
   const addColor = (isErr: boolean) => {
@@ -69,11 +67,12 @@ export function ExperienceTimeline({
 
   return (
     <div className="flex flex-col">
-      <h5 className="text-xl dark:text-white mb-1">Work Experience</h5>
+      <h5 className="text-xl dark:text-white mb-1">{t('Profile.workExperience')}</h5>
       <Timeline className="mr-16">
         <>
           {profile
             ? profile.experiece.map((exp, i) => (
+
                 <Timeline.Item key={i} className="sm:min-w-0 md:min-w-36">
                   <Timeline.Point />
                   <Timeline.Content>
@@ -91,7 +90,7 @@ export function ExperienceTimeline({
                               id={`workStartMonth${i}`}
                               required={true}
                               sizing="sm"
-                              className="min-w-max"
+                              className="w-6/12"
                             >
                               <>
                                 {monthNames.map((month, i) => {
@@ -114,6 +113,7 @@ export function ExperienceTimeline({
                             </Select>
 
                             <>
+                            
                               <TextInput
                                 id={`workStartYear${i}`}
                                 type="text"
@@ -124,7 +124,7 @@ export function ExperienceTimeline({
                                   .toString()}
                                 sizing="sm"
                                 {...addColor(inErr[`workStartYear${i}`])}
-                                className="min-w-mi"
+                                className="w-6/12"
                                 onChange={(e) => {
                                   const year = Number(e.target.value);
                                   const thisyear = new Date().getUTCFullYear();
@@ -137,6 +137,7 @@ export function ExperienceTimeline({
                                     const newDate = new Date(exp.startDateObj);
                                     newDate.setFullYear(year);
                                     exp.startDateObj = newDate;
+                                    exp.startDate.seconds = newDate.getUTCSeconds()
                                     setProfile({ ...profile });
 
                                     inErr[`workStartYear${i}`] = false;
@@ -214,15 +215,16 @@ export function ExperienceTimeline({
                       )}
                     </Timeline.Time>
                     <Timeline.Title>
-                      <div className="flex flex-row items-center justify-between">
+                      <div className="flex flex-row items-center">
                         {!edit ? (
                           exp.jobTitle
                         ) : (
                           <>
-                            <div className="mb-2 block"></div>
+
                             <TextInput
                               id={`jobTitle${i}`}
                               type="text"
+                              className="w-full"
                               placeholder="Job Title"
                               required={true}
                               defaultValue={exp.jobTitle}
@@ -318,7 +320,9 @@ export function ExperienceTimeline({
                   </Timeline.Content>
                 </Timeline.Item>
               ))
-            : null}
+            :                          
+            null
+            }
         </>
       </Timeline>
       {edit ? (

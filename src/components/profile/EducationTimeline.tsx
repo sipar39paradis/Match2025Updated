@@ -18,6 +18,7 @@ import {
   Experience,
   Schooling,
 } from '../../interfaces/User';
+import { useTranslation } from 'react-i18next';
 
 interface EducationTimelineProps {
   profile?: AccountantProfile;
@@ -27,26 +28,27 @@ interface EducationTimelineProps {
   setProfile(profile: AccountantProfile);
 }
 
-export function EducationTimeline({
+export const EducationTimeline = ({
   profile,
   edit,
   inErr,
   setInErr,
   setProfile,
-}: EducationTimelineProps): ReactElement {
+}: EducationTimelineProps): ReactElement => {
+  const { t } = useTranslation();
   const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    t('Profile.months.january'),
+    t('Profile.months.february'),
+    t('Profile.months.march'),
+    t('Profile.months.april'),
+    t('Profile.months.may'),
+    t('Profile.months.june'),
+    t('Profile.months.july'),
+    t('Profile.months.august'),
+    t('Profile.months.september'),
+    t('Profile.months.october'),
+    t('Profile.months.november'),
+    t('Profile.months.december'),
   ];
 
   const addColor = (isErr: boolean) => {
@@ -71,7 +73,7 @@ export function EducationTimeline({
 
   return (
     <div className="flex flex-col">
-      <h5 className="text-xl dark:text-white mb-1">Education</h5>
+      <h5 className="text-xl dark:text-white mb-1">{t('Profile.education')}</h5>
       <Timeline className="mr-16">
         <>
           {profile
@@ -81,72 +83,75 @@ export function EducationTimeline({
                   <Timeline.Content>
                     <Timeline.Time>
                       {!edit ? (
-                        `Graduated ${
+                        `${t('Profile.graduated')} ${
                           monthNames[edu.graduationDateObj.getUTCMonth()]
                         } ${edu.graduationDateObj.getUTCFullYear()}`
                       ) : (
                         <>
                           Graduated
                           <div id="select" className="flex flex-row">
-                            <Select
-                              id={`eduMonth${i}`}
-                              required={true}
-                              sizing="sm"
-                              className="min-w-max"
-                            >
-                              <>
-                                {monthNames.map((month, i) => {
-                                  return (
-                                    <option
-                                      key={month}
-                                      selected={
-                                        edu.graduationDateObj.getUTCMonth() ===
-                                        i
-                                      }
-                                      onClick={() => {
-                                        edu.graduationDateObj.setMonth(i);
-                                        setProfile({ ...profile });
-                                      }}
-                                    >
-                                      {month}
-                                    </option>
-                                  );
-                                })}
-                              </>
-                            </Select>
-                          </div>
-                          <TextInput
-                            id={`eduYear${i}`}
-                            type="email"
-                            placeholder="Year Graduated"
-                            required={true}
-                            defaultValue={edu.graduationDateObj.getUTCFullYear()}
-                            sizing="sm"
-                            {...addColor(inErr[`eduYear${i}`])}
-                            className="min-w-min"
-                            onChange={(e) => {
-                              const year = Number(e.target.value);
-                              const thisyear = new Date().getUTCFullYear();
-                              if (
-                                !isNaN(year) &&
-                                year > 1950 &&
-                                year <= thisyear
-                              ) {
-                                edu.graduationDateObj.setFullYear(year);
-                                setProfile({ ...profile });
+                            <>
+                              <Select
+                                id={`eduMonth${i}`}
+                                required={true}
+                                sizing="sm"
+                                className="w-6/12"
+                              >
+                                <>
+                                  {monthNames.map((month, i) => {
+                                    return (
+                                      <option
+                                        key={month}
+                                        selected={
+                                          edu.graduationDateObj.getUTCMonth() ===
+                                          i
+                                        }
+                                        onClick={() => {
+                                          edu.graduationDateObj.setMonth(i);
+                                          setProfile({ ...profile });
+                                        }}
+                                      >
+                                        {month}
+                                      </option>
+                                    );
+                                  })}
+                                </>
+                              </Select>
 
-                                inErr[`eduYear${i}`] = false;
-                                setInErr({ ...inErr });
-                              } else {
-                                inErr[`eduYear${i}`] = true;
-                                setInErr({ ...inErr });
-                              }
-                            }}
-                          />
-                            {edu.graduationDateObj.getUTCFullYear() == 1970 &&
+                              <TextInput
+                                id={`eduYear${i}`}
+                                type="email"
+                                placeholder="Year Graduated"
+                                required={true}
+                                defaultValue={edu.graduationDateObj.getUTCFullYear()}
+                                sizing="sm"
+                                {...addColor(inErr[`eduYear${i}`])}
+                                className="w-6/12"
+                                onChange={(e) => {
+                                  const year = Number(e.target.value);
+                                  const thisyear = new Date().getUTCFullYear();
+                                  if (
+                                    !isNaN(year) &&
+                                    year > 1950 &&
+                                    year <= thisyear
+                                  ) {
+                                    edu.graduationDateObj.setFullYear(year);
+                                    setProfile({ ...profile });
+
+                                    inErr[`eduYear${i}`] = false;
+                                    setInErr({ ...inErr });
+                                  } else {
+                                    inErr[`eduYear${i}`] = true;
+                                    setInErr({ ...inErr });
+                                  }
+                                }}
+                              />
+                              {edu.graduationDateObj.getUTCFullYear() == 1970 &&
                               !(`eduYear${i}` in inErr)
                                 ? defaultValueInvalid(`eduYear${i}`)
                                 : null}
+                            </>
+                          </div>
                         </>
                       )}
                     </Timeline.Time>
@@ -162,6 +167,7 @@ export function EducationTimeline({
                               type="text"
                               placeholder="Degree"
                               required={true}
+                              className="w-full"
                               defaultValue={edu.degree}
                               {...addColor(inErr[`degree${i}`])}
                               sizing="sm"
@@ -221,7 +227,7 @@ export function EducationTimeline({
                           />
                           {edu.school === '' && !(`school${i}` in inErr)
                             ? defaultValueInvalid(`school${i}`)
-                          : null}
+                            : null}
                         </>
                       )}
                     </Timeline.Title>
@@ -268,4 +274,4 @@ export function EducationTimeline({
       ) : null}
     </div>
   );
-}
+};

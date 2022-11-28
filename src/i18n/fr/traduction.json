@@ -19,7 +19,24 @@
     "accountant": "Comptable",
     "about": "À propos",
     "livesIn": "Vivre dans",
-    "speaks": "Parle"
+    "speaks": "Parle",
+    "graduated": "Diplômé",
+    "education": "Éducation",
+    "workExperience": "L'expérience professionnelle",
+    "months": {
+      "january": "Janvier",
+      "february": "Février",
+      "march": "Mars",
+      "april": "Avril",
+      "may": "Mai",
+      "june": "Juin",
+      "july": "Juillet",
+      "august": "Août",
+      "september": "Septembre",
+      "october": "Octobre",
+      "november": "Novembre",
+      "december": "Décembre"
+    }
   },
   "Requests": {
     "title": "Demances"

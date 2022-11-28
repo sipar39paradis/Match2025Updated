@@ -1,6 +1,20 @@
 import { initializeApp } from 'firebase/app';
-import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
-import { AccountantProfile, Experience, Schooling } from '../interfaces/User';
+import {
+  doc,
+  collection,
+  getDoc,
+  getFirestore,
+  query,
+  setDoc,
+  where,
+  getDocs,
+} from 'firebase/firestore';
+import {
+  AccountantProfile,
+  AccountantProfileDoc,
+  Experience,
+  Schooling,
+} from '../interfaces/User';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -24,44 +38,66 @@ const db = getFirestore(app);
 export const getProfile = async (
   userEmail: string
 ): Promise<AccountantProfile> => {
+  //TODO set key to each doc as UID from user
+
   const returnedDoc = await getDoc(doc(db, 'accountantProfile', userEmail));
-  const profile = <AccountantProfile>returnedDoc.data();
-  profile.experiece.forEach((xp, i) => {
-    const date = new Date(0);
-    date.setUTCSeconds(xp.startDate.seconds);
-    profile.experiece[i].startDateObj = date;
-  });
-  profile.schooling.forEach((school, i) => {
-    const date = new Date(0);
-    date.setUTCSeconds(school.graduationDate.seconds);
-    profile.schooling[i].graduationDateObj = date;
-  });
+  const profile = docToProfile(<AccountantProfileDoc>returnedDoc.data());
+
+  // profile.experiece.forEach((xp, i) => {
+  //   const date = new Date(0);
+  //   date.setUTCSeconds(xp.startDate.seconds);
+  //   profile.experiece[i].startDateObj = date;
+  // });
+  // profile.schooling.forEach((school, i) => {
+  //   const date = new Date(0);
+  //   date.setUTCSeconds(school.graduationDate.seconds);
+  //   profile.schooling[i].graduationDateObj = date;
+  // });
   return profile;
-  // console.log(returnedDoc);
-  // return {
-  //   casesCompleted: returnedDoc.casesCompleted,
-  //   email: returnedDoc.email,
-  //   experiece: returnedDoc.experience.map(
-  //     (experiece) =>
-  //       <Experience>{
-  //         businessName: experiece.businessName,
-  //         duration: experiece.duration,
-  //         jobTitle: experiece.jobTitle,
-  //         startDate: experiece.startDate.seconds,
-  //         verified: experiece.verified,
-  //       }
-  //   ),
-  //   firstName: returnedDoc.firstName,
-  //   lastName: returnedDoc.lastName,
-  //   rating: returnedDoc.rating,
-  //   schooling: returnedDoc.schooling.map(
-  //     (schooling) =>
-  //       <Schooling>{
-  //         degree: schooling.degree,
-  //         graduationDate: schooling.graduationDate.seconds,
-  //         school: schooling.school,
-  //         verified: schooling.verified,
-  //       }
-  //   ),
-  // };
+};
+
+export const upsertProfile = async (
+  userEmail: string,
+  profile: AccountantProfile
+): Promise<void> => {
+  await setDoc(doc(db, 'accountantProfile', userEmail), profile);
+};
+
+const docToProfile = (profileDoc: AccountantProfileDoc): AccountantProfile => {
+  return {
+    blurb: profileDoc.blurb,
+    casesCompleted: profileDoc.casesCompleted,
+    email: profileDoc.email,
+    experiece: profileDoc.experiece.map((xp, i) => {
+      const date = new Date(0);
+      date.setUTCSeconds(xp.startDateObj.seconds);
+      return {
+        businessName: xp.businessName,
+        blurb: xp.blurb,
+        durationMonths: xp.durationMonths,
+        durationYears: xp.durationYears,
+        jobTitle: xp.jobTitle,
+        startDate: xp.startDate,
+        startDateObj: date,
+        verified: xp.verified,
+      };
+    }),
+    firstName: profileDoc.firstName,
+    lastName: profileDoc.lastName,
+    languages: profileDoc.languages,
+    location: profileDoc.location,
+    rating: profileDoc.rating,
+    schooling: profileDoc.schooling.map((school, i) => {
+      const date = new Date(0);
+      date.setUTCSeconds(school.graduationDateObj.seconds);
+      return {
+        blurb: school.blurb,
+        degree: school.degree,
+        graduationDate: school.graduationDate,
+        graduationDateObj: date,
+        school: school.school,
+        verified: school.verified,
+      };
+    }),
+  };
 };

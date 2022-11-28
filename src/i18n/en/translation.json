@@ -19,7 +19,24 @@
     "accountant": "Accountant",
     "about": "About",
     "livesIn": "Lives in",
-    "speaks": "Speaks"
+    "speaks": "Speaks",
+    "graduated": "Graduated",
+    "education": "Education",
+    "workExperience": "Work Experience",
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
   },
   "Requests": {
     "title": "Requests"
@@ -27,7 +44,7 @@
   "Messages": {
     "title": "Messages"
   },
-  "Files":{
+  "Files": {
     "title": "Files"
   },
   "User": {
