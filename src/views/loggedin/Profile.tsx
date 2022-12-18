@@ -8,7 +8,7 @@ export function Profile() {
 
   return (
     <main>
-      <div className='flex justify-center flex-col w-screen p-10 sm:px-30 lg:px-40'>
+      <div className='flex justify-center flex-col w-screen pt-28 p-10 sm:px-30 lg:px-40'>
         <div className='flex flex-row justify-center'>
           <div className='max-w-xs'>
             <Card>
