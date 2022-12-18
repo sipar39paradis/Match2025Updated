@@ -1,53 +1,32 @@
-import React, { useContext, useState } from 'react'
-import { Disclosure } from '@headlessui/react'
-import {
-  Bars3Icon,
-  BellIcon,
-  ChatBubbleLeftIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
+/* eslint-disable @typescript-eslint/no-var-requires */
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { LanguageDropdown } from './LanguageDropdown'
-import { ProfileDropdown } from './ProfileDropdown'
-import { classNames } from '../../utils/utils'
 import { AppContext, AppContextType } from '../../context/AppContext'
 import { AuthModal, AuthModalEnum } from '../auth/AuthModal'
+import '../../style/sticky.css'
+import { ProfileDropdown } from './ProfileDropdown'
 
 export function Header() {
   const { user } = useContext(AppContext) as AppContextType
-  const { t } = useTranslation()
 
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const [showModal, setShowModal] = React.useState(false)
   const [modalToDisplay, setModalToDisplay] =
     React.useState<AuthModalEnum | null>(null)
 
-  interface navItem {
-    name: string
-    url: string
-  }
+  useEffect(() => {
+    window.addEventListener('scroll', stickNavBar)
+    return () => window.removeEventListener('scroll', stickNavBar)
+  }, [])
 
-  const navigationLoggedOut = [
-    { name: t('Home.title'), url: '/' },
-    { name: t('Prices.title'), url: '/prices' },
-    { name: t('About.title'), url: '/about' },
-    { name: t('Contact.title'), url: '/contact' },
-  ]
+  function stickNavBar() {
+    const ud_header: HTMLElement = document.querySelector('.header')
+    const sticky = ud_header.offsetTop
 
-  const navigationLoggedIn = [
-    { name: t('Profile.title'), url: '/profile' },
-    { name: t('Requests.title'), url: '/requests' },
-    { name: t('Messages.title'), url: '/messages' },
-    { name: t('Files.title'), url: '/files' },
-  ]
-
-  const getNavigation = (user: AppContextType): Array<navItem> => {
-    return user ? navigationLoggedIn : navigationLoggedOut
-  }
-
-  function switchTab(tabIndex: number) {
-    setSelectedTabIndex(tabIndex)
+    if (window.pageYOffset > sticky) {
+      ud_header.classList.add('sticky')
+    } else {
+      ud_header.classList.remove('sticky')
+    }
   }
 
   function displayModal(modal: AuthModalEnum) {
@@ -56,95 +35,145 @@ export function Header() {
   }
 
   return (
-    <div className='min-h-full'>
-      <Disclosure as='nav' className='bg-gray-800'>
-        {({ open }: { open: boolean }) => (
-          <>
-            <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-              <div className='flex h-16 items-center justify-between'>
-                <div className='flex items-center'>
-                  <div className='flex-shrink-0'>
-                    <img
-                      className='h-8 w-8'
-                      src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
-                      alt='Your Company'
-                    />
-                  </div>
-                  <span className='ml-3 text-white'>Impot Match</span>
-                  <div className='hidden md:block'>
-                    <div className='ml-10 flex items-baseline space-x-4'>
-                      {getNavigation(user).map((item, index) => (
-                        <Link
-                          key={index}
-                          to={item.url}
-                          className={classNames(
-                            index === selectedTabIndex
-                              ? 'bg-gray-900 text-white'
-                              : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                            'px-3 py-2 rounded-md text-sm font-medium'
-                          )}
-                          onClick={() => switchTab(index)}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className='hidden md:block'>
-                  <div className='flex items-center'>
-                    {showModal && modalToDisplay && (
-                      <AuthModal
-                        authModalToDisplay={modalToDisplay}
-                        closeModal={setShowModal}
-                        switchModal={setModalToDisplay}
-                      ></AuthModal>
-                    )}
-                    <>
-                      <LanguageDropdown />
-                      {user && (
-                        <>
-                          <ChatBubbleLeftIcon className='stroke-gray-300 cursor-pointer h-5 px-2' />
-
-                          <BellIcon className='stroke-gray-300 cursor-pointer h-5 px-2'></BellIcon>
-                          <ProfileDropdown user={user} />
-                        </>
-                      )}
-                      {!user && (
-                        <div>
-                          <button
-                            onClick={() => displayModal(AuthModalEnum.SignIn)}
-                            className='inline-flex w-full justify-center items-center rounded-full border border-transparent px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-gray-700 sm:ml-3 sm:w-auto sm:text-sm'
-                          >
-                            Sign in
-                          </button>
-                          <button
-                            onClick={() => displayModal(AuthModalEnum.SignUp)}
-                            className='mt-3 inline-flex w-full justify-center items-center rounded-full border border-gray-300 bg-white px-2 py-2 text-lg font-semibold text-gray-700 shadow-sm hover:bg-gray-100 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
-                          >
-                            Sign Up
-                          </button>
-                        </div>
-                      )}
-                    </>
-                  </div>
-                </div>
-                <div className='-mr-2 flex md:hidden'>
-                  {/* Mobile menu button */}
-                  <Disclosure.Button className='inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
-                    <span className='sr-only'>Open main menu</span>
-                    {open ? (
-                      <XMarkIcon className='block h-6 w-6' aria-hidden='true' />
-                    ) : (
-                      <Bars3Icon className='block h-6 w-6' aria-hidden='true' />
-                    )}
-                  </Disclosure.Button>
-                </div>
-              </div>
+    <>
+      {showModal && modalToDisplay && (
+        <AuthModal
+          authModalToDisplay={modalToDisplay}
+          closeModal={setShowModal}
+          switchModal={setModalToDisplay}
+        ></AuthModal>
+      )}
+      <header className='header absolute top-0 left-0 w-full'>
+        <div className='flex w-full flex-wrap px-5 lg:flex-nowrap lg:items-center lg:px-5 xl:px-10 2xl:px-20'>
+          <div className='relative z-[99] max-w-[250px] lg:w-full xl:max-w-[350px]'>
+            <a href='index.html' className='inline-block'>
+              <img
+                src={require('../../images/logo/logo-dark.svg').default}
+                alt='logo'
+                className='hidden h-[50px] dark:block'
+              />
+              <img
+                src={require('../../images/logo/logo-light.svg').default}
+                alt='logo'
+                className='h-[50px] dark:hidden'
+              />
+            </a>
+          </div>
+          <div className='menu-wrapper fixed top-0 left-0 z-50 h-screen w-full justify-center p-5 dark:bg-dark lg:visible lg:static lg:flex lg:h-auto lg:justify-start lg:bg-transparent lg:p-0 lg:opacity-100 dark:lg:bg-transparent'>
+            <div className='w-full self-center'>
+              {!user && (
+                <nav>
+                  <ul className='navbar flex flex-col items-center justify-center space-y-5 text-center lg:flex-row lg:justify-start lg:space-x-10 lg:space-y-0'>
+                    <li>
+                      <a
+                        href='#home'
+                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      >
+                        Home
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href='#features'
+                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      >
+                        Features
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href='#about'
+                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      >
+                        About
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href='#team'
+                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      >
+                        Team
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href='#pricing'
+                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      >
+                        Pricing
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href='#support'
+                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      >
+                        Support
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              )}
+              {user && (
+                <nav>
+                  <ul className='navbar flex flex-col items-center justify-center space-y-5 text-center lg:flex-row lg:justify-start lg:space-x-10 lg:space-y-0'>
+                    <li>
+                      <Link
+                        to='/profile'
+                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to='/requests'
+                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      >
+                        Requests
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to='/messages'
+                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      >
+                        Messages
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to='/files'
+                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      >
+                        Files
+                      </Link>
+                    </li>
+                  </ul>
+                </nav>
+              )}
             </div>
-          </>
-        )}
-      </Disclosure>
-    </div>
+            {user && <ProfileDropdown user={user} />}
+            {!user && (
+              <div className='absolute bottom-0 left-0 flex w-full items-center justify-between space-x-5 self-end p-5 lg:static lg:w-auto lg:self-center lg:p-0'>
+                <button
+                  onClick={() => displayModal(AuthModalEnum.SignIn)}
+                  className='w-full whitespace-nowrap rounded bg-primary py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto'
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => displayModal(AuthModalEnum.SignUp)}
+                  className='w-full whitespace-nowrap rounded bg-[#222C40] py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto'
+                >
+                  Sign Up
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+    </>
   )
 }
