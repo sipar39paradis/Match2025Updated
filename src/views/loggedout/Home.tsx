@@ -88,13 +88,13 @@ export function Home() {
             >
               <div className='absolute top-0 right-0 lg:w-11/12'>
                 <img
-                  src={require('../images/hero/image-2.jpg')}
+                  src={require('../../images/hero/image-2.jpg')}
                   alt='hero-image'
                 />
               </div>
               <div className='absolute left-0 bottom-0 z-10'>
                 <img
-                  src={require('../images/hero/image-1.jpg')}
+                  src={require('../../images/hero/image-1.jpg')}
                   alt='hero-image'
                 />
                 <div className='absolute -top-6 -right-6 -z-10 h-full w-full border border-primary border-opacity-10 bg-primary bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10'></div>

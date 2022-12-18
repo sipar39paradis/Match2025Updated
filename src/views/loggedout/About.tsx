@@ -105,13 +105,13 @@ export function About() {
                   <div className='relative z-30 mb-14 h-[490px] max-w-[600px] lg:mb-0'>
                     <div className='absolute left-0 top-0'>
                       <img
-                        src={require('../images/about/image-1.jpg')}
+                        src={require('../../images/about/image-1.jpg')}
                         alt='about-image'
                       />
                     </div>
                     <div className='absolute right-0 top-1/2 z-10 -translate-y-1/2'>
                       <img
-                        src={require('../images/about/image-2.jpg')}
+                        src={require('../../images/about/image-2.jpg')}
                         alt='about-image'
                       />
                       <div className='absolute -left-5 -top-5 -z-10 h-full w-full border border-primary border-opacity-10 bg-primary bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10'></div>

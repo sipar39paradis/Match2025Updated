@@ -28,7 +28,7 @@ export function OurTeam() {
             >
               <div className='relative mb-8 overflow-hidden rounded'>
                 <img
-                  src={require('../images/team/image-1.jpg')}
+                  src={require('../../images/team/image-1.jpg')}
                   alt='team-image'
                   className='w-full'
                 />
@@ -108,7 +108,7 @@ export function OurTeam() {
             >
               <div className='relative mb-8 overflow-hidden rounded'>
                 <img
-                  src={require('../images/team/image-2.jpg')}
+                  src={require('../../images/team/image-2.jpg')}
                   alt='team-image'
                   className='w-full'
                 />
@@ -188,7 +188,7 @@ export function OurTeam() {
             >
               <div className='relative mb-8 overflow-hidden rounded'>
                 <img
-                  src={require('../images/team/image-3.jpg')}
+                  src={require('../../images/team/image-3.jpg')}
                   alt='team-image'
                   className='w-full'
                 />
