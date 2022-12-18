@@ -11,7 +11,7 @@ import { Support } from './Support'
 
 export function LandingPage() {
   return (
-    <body className='dark:bg-dark'>
+    <div className='dark:bg-dark'>
       <Home />
       <Features />
       <About />
@@ -20,6 +20,6 @@ export function LandingPage() {
       <Support />
       <Contact />
       <Footer />
-    </body>
+    </div>
   )
 }

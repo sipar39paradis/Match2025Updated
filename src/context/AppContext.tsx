@@ -59,17 +59,17 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (userProfile) {
+    if (user) {
       navigate('/profile')
     } else {
       navigate('/')
     }
-  }, [userProfile])
+  }, [user])
 
   function signIn(email: string, password: string) {
     signInWithEmailAndPassword(auth, email, password)
   }
-  
+
   async function signInWithGoogle() {
     let errorMessage = ''
     const provider = new GoogleAuthProvider()
@@ -118,6 +118,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   function signOut() {
     setUserProfile(null)
     auth.signOut()
+    navigate('/')
   }
 
   async function resetPassword(email: string) {

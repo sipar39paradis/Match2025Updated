@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { AppContext, AppContextType } from '../../context/AppContext'
 import { AuthModal, AuthModalEnum } from '../auth/AuthModal'
 import '../../style/sticky.css'
+import { ProfileDropdown } from './ProfileDropdown'
 
 export function Header() {
   const { user } = useContext(AppContext) as AppContextType
@@ -153,20 +154,23 @@ export function Header() {
                 </nav>
               )}
             </div>
-            <div className='absolute bottom-0 left-0 flex w-full items-center justify-between space-x-5 self-end p-5 lg:static lg:w-auto lg:self-center lg:p-0'>
-              <button
-                onClick={() => displayModal(AuthModalEnum.SignIn)}
-                className='w-full whitespace-nowrap rounded bg-primary py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto'
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => displayModal(AuthModalEnum.SignUp)}
-                className='w-full whitespace-nowrap rounded bg-[#222C40] py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto'
-              >
-                Sign Up
-              </button>
-            </div>
+            {user && <ProfileDropdown user={user} />}
+            {!user && (
+              <div className='absolute bottom-0 left-0 flex w-full items-center justify-between space-x-5 self-end p-5 lg:static lg:w-auto lg:self-center lg:p-0'>
+                <button
+                  onClick={() => displayModal(AuthModalEnum.SignIn)}
+                  className='w-full whitespace-nowrap rounded bg-primary py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto'
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => displayModal(AuthModalEnum.SignUp)}
+                  className='w-full whitespace-nowrap rounded bg-[#222C40] py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto'
+                >
+                  Sign Up
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </header>

@@ -43,7 +43,7 @@ export function Profile() {
               <div className='flex flex-col items-center pb-10'>
                 <img
                   className='mb-3 h-32 w-32 rounded-full shadow-lg'
-                  src={user.photoURL}
+                  src={user?.photoURL}
                   alt='Bonnie image'
                 />
                 <div className='mb-1'>
@@ -60,7 +60,7 @@ export function Profile() {
                 </div>
                 <hr className='mb-1 mx-auto w-48 h-1 bg-gray-200 rounded border-0 md:my-10'></hr>
                 <h5 className='mb-1 text-xl font-medium text-gray-900 dark:text-white'>
-                  {user.displayName}
+                  {user?.displayName}
                 </h5>
                 <span className='text-sm text-gray-500 dark:text-gray-400'>
                   Accountant
@@ -87,7 +87,7 @@ export function Profile() {
           <div className='flex w-8/12 px-20'>
             <div className='flex flex-col justify-start text-left w-full'>
               <h2 className='mb-1 text-2xl font-semibold text-gray-900 dark:text-white'>
-                {user.displayName}
+                {user?.displayName}
               </h2>
               <span className='text-sm text-gray-500 dark:text-gray-400'>
                 Accountant

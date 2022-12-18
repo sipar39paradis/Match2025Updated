@@ -11,7 +11,7 @@ import { AppContextProvider } from './context/AppContext'
 
 function App() {
   return (
-    <div className='App'>
+    <div className='App pt-28'>
       <Router>
         <AppContextProvider>
           <Header />
