@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { AppContext, AppContextType } from '../../context/AppContext'
 import { AuthModal, AuthModalEnum } from '../auth/AuthModal'
+import '../../style/sticky.css'
 
 export function Header() {
   const { user } = useContext(AppContext) as AppContextType
@@ -9,6 +11,22 @@ export function Header() {
   const [showModal, setShowModal] = React.useState(false)
   const [modalToDisplay, setModalToDisplay] =
     React.useState<AuthModalEnum | null>(null)
+
+  useEffect(() => {
+    window.addEventListener('scroll', stickNavBar)
+    return () => window.removeEventListener('scroll', stickNavBar)
+  }, [])
+
+  function stickNavBar() {
+    const ud_header: HTMLElement = document.querySelector('.header')
+    const sticky = ud_header.offsetTop
+
+    if (window.pageYOffset > sticky) {
+      ud_header.classList.add('sticky')
+    } else {
+      ud_header.classList.remove('sticky')
+    }
+  }
 
   function displayModal(modal: AuthModalEnum) {
     setModalToDisplay(modal)
@@ -24,7 +42,7 @@ export function Header() {
           switchModal={setModalToDisplay}
         ></AuthModal>
       )}
-      <header className='header sticky top-0 left-0 w-full'>
+      <header className='header absolute top-0 left-0 w-full'>
         <div className='flex w-full flex-wrap px-5 lg:flex-nowrap lg:items-center lg:px-5 xl:px-10 2xl:px-20'>
           <div className='relative z-[99] max-w-[250px] lg:w-full xl:max-w-[350px]'>
             <a href='index.html' className='inline-block'>
@@ -100,36 +118,36 @@ export function Header() {
                 <nav>
                   <ul className='navbar flex flex-col items-center justify-center space-y-5 text-center lg:flex-row lg:justify-start lg:space-x-10 lg:space-y-0'>
                     <li>
-                      <a
-                        href='/profile'
+                      <Link
+                        to='/profile'
                         className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
                       >
                         Profile
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href='/requests'
+                      <Link
+                        to='/requests'
                         className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
                       >
                         Requests
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href='/messages'
+                      <Link
+                        to='/messages'
                         className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
                       >
                         Messages
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href='/files'
+                      <Link
+                        to='/files'
                         className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
                       >
                         Files
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </nav>
