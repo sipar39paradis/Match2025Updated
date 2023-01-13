@@ -59,100 +59,60 @@ export function Header() {
               />
             </a>
           </div>
-          <div className='menu-wrapper fixed top-0 left-0 z-50 h-screen w-full justify-center p-5 dark:bg-dark lg:visible lg:static lg:flex lg:h-auto lg:justify-start lg:bg-transparent lg:p-0 lg:opacity-100 dark:lg:bg-transparent'>
+          <div className='flex items-center menu-wrapper fixed top-0 left-0 z-50 h-screen w-full justify-center p-5 dark:bg-dark lg:visible lg:static lg:flex lg:h-auto lg:justify-start lg:bg-transparent lg:p-0 lg:opacity-100 dark:lg:bg-transparent'>
             <div className='w-full self-center'>
-              {!user && (
-                <nav>
-                  <ul className='navbar flex flex-col items-center justify-center space-y-5 text-center lg:flex-row lg:justify-start lg:space-x-10 lg:space-y-0'>
-                    <li>
-                      <a
-                        href='#home'
-                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
-                      >
-                        Home
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href='#features'
-                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
-                      >
-                        Features
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href='#about'
-                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
-                      >
-                        About
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href='#team'
-                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
-                      >
-                        Team
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href='#pricing'
-                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
-                      >
-                        Pricing
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href='#support'
-                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
-                      >
-                        Support
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              )}
-              {user && (
-                <nav>
-                  <ul className='navbar flex flex-col items-center justify-center space-y-5 text-center lg:flex-row lg:justify-start lg:space-x-10 lg:space-y-0'>
-                    <li>
-                      <Link
-                        to='/profile'
-                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
-                      >
-                        Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to='/requests'
-                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
-                      >
-                        Requests
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to='/messages'
-                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
-                      >
-                        Messages
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to='/files'
-                        className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
-                      >
-                        Files
-                      </Link>
-                    </li>
-                  </ul>
-                </nav>
-              )}
+              <nav>
+                <ul className='navbar flex flex-col items-center justify-center space-y-5 text-center lg:flex-row lg:justify-start lg:space-x-10 lg:space-y-0'>
+                  <li>
+                    <Link
+                      to='/'
+                      className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                    >
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <a
+                      href='#features'
+                      className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                    >
+                      Features
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href='#about'
+                      className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                    >
+                      About
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href='#team'
+                      className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                    >
+                      Team
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href='#pricing'
+                      className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                    >
+                      Pricing
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href='#support'
+                      className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                    >
+                      Support
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
             {user && <ProfileDropdown user={user} />}
             {!user && (

@@ -8,6 +8,7 @@ import { Requests } from './views/loggedin/Requests'
 import { Messages } from './views/loggedin/Messages'
 import { Files } from './views/loggedin/Files'
 import { AppContextProvider } from './context/AppContext'
+import { Platform } from './views/loggedin/Platform'
 
 function App() {
   return (
@@ -15,13 +16,16 @@ function App() {
       <Router>
         <AppContextProvider>
           <Header />
-          <Routes>
-            <Route path='/' element={<LandingPage />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/requests' element={<Requests />} />
-            <Route path='/messages' element={<Messages />} />
-            <Route path='/files' element={<Files />} />
-          </Routes>
+          <div>
+            <Routes>
+              <Route path='/' element={<LandingPage />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/requests' element={<Requests />} />
+              <Route path='/messages' element={<Messages />} />
+              <Route path='/files' element={<Files />} />
+              <Route path='/platform' element={<Platform />} />
+            </Routes>
+          </div>
         </AppContextProvider>
       </Router>
     </div>

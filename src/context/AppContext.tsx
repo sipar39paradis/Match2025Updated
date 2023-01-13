@@ -60,7 +60,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
   useEffect(() => {
     if (user) {
-      navigate('/profile')
+      navigate('/platform')
     } else {
       navigate('/')
     }
