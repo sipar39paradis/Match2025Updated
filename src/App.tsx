@@ -2,15 +2,13 @@ import React from 'react'
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Header } from './components/header/Header'
-import { About } from './views/loggedout/About'
-import { Home } from './views/loggedout/Home'
-import { Contact } from './views/loggedout/Contact'
-import { Prices } from './views/loggedout/Prices'
+import { LandingPage } from './views/loggedout/LandingPage'
 import { Profile } from './views/loggedin/Profile'
 import { Requests } from './views/loggedin/Requests'
 import { Messages } from './views/loggedin/Messages'
 import { Files } from './views/loggedin/Files'
 import { AppContextProvider } from './context/AppContext'
+import { Platform } from './views/loggedin/Platform'
 
 function App() {
   return (
@@ -18,17 +16,17 @@ function App() {
       <Router>
         <AppContextProvider>
           <Header />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/contact' element={<Contact />} />
-            <Route path='/prices' element={<Prices />} />
-            <Route path='/profile/:id' element={<Profile />} />
-            <Route path='/profile/' element={<Profile />} />
-            <Route path='/requests' element={<Requests />} />
-            <Route path='/messages' element={<Messages />} />
-            <Route path='/files' element={<Files />} />
-          </Routes>
+          <div>
+            <Routes>
+              <Route path='/' element={<LandingPage />} />
+              <Route path='/profile/:id' element={<Profile />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/requests' element={<Requests />} />
+              <Route path='/messages' element={<Messages />} />
+              <Route path='/files' element={<Files />} />
+              <Route path='/platform' element={<Platform />} />
+            </Routes>
+          </div>
         </AppContextProvider>
       </Router>
     </div>
