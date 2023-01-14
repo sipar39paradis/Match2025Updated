@@ -32,7 +32,7 @@ export function Footer() {
                   <a
                     href='javascript:void(0)'
                     aria-label='social-link'
-                    className='text-dark-text hover:text-primary dark:hover:text-white'
+                    className='text-dark-text hover:text-orange-500 dark:hover:text-white'
                   >
                     <svg
                       width='24'
@@ -46,7 +46,7 @@ export function Footer() {
                   <a
                     href='javascript:void(0)'
                     aria-label='social-link'
-                    className='text-dark-text hover:text-primary dark:hover:text-white'
+                    className='text-dark-text hover:text-orange-500 dark:hover:text-white'
                   >
                     <svg
                       width='24'
@@ -60,7 +60,7 @@ export function Footer() {
                   <a
                     href='javascript:void(0)'
                     aria-label='social-link'
-                    className='text-dark-text hover:text-primary dark:hover:text-white'
+                    className='text-dark-text hover:text-orange-500 dark:hover:text-white'
                   >
                     <svg
                       width='24'
@@ -74,7 +74,7 @@ export function Footer() {
                   <a
                     href='javascript:void(0)'
                     aria-label='social-link'
-                    className='text-dark-text hover:text-primary dark:hover:text-white'
+                    className='text-dark-text hover:text-orange-500 dark:hover:text-white'
                   >
                     <svg
                       width='24'
@@ -99,7 +99,7 @@ export function Footer() {
                   <li>
                     <a
                       href='javascript:void(0)'
-                      className='font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      className='font-heading text-base text-dark-text hover:text-orange-500 dark:hover:text-white'
                     >
                       Home
                     </a>
@@ -107,7 +107,7 @@ export function Footer() {
                   <li>
                     <a
                       href='javascript:void(0)'
-                      className='font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      className='font-heading text-base text-dark-text hover:text-orange-500 dark:hover:text-white'
                     >
                       Pricing
                     </a>
@@ -115,7 +115,7 @@ export function Footer() {
                   <li>
                     <a
                       href='javascript:void(0)'
-                      className='font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      className='font-heading text-base text-dark-text hover:text-orange-500 dark:hover:text-white'
                     >
                       Product
                     </a>
@@ -123,10 +123,10 @@ export function Footer() {
                   <li>
                     <a
                       href='javascript:void(0)'
-                      className='font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      className='font-heading text-base text-dark-text hover:text-orange-500 dark:hover:text-white'
                     >
                       Careers
-                      <span className='ml-4 rounded bg-primary py-1 px-2 font-heading text-xs text-white'>
+                      <span className='ml-4 rounded bg-orange-500 py-1 px-2 font-heading text-xs text-white'>
                         Hiring
                       </span>
                     </a>
@@ -134,7 +134,7 @@ export function Footer() {
                   <li>
                     <a
                       href='javascript:void(0)'
-                      className='font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      className='font-heading text-base text-dark-text hover:text-orange-500 dark:hover:text-white'
                     >
                       Pricing
                     </a>
@@ -153,7 +153,7 @@ export function Footer() {
                   <li>
                     <a
                       href='javascript:void(0)'
-                      className='font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      className='font-heading text-base text-dark-text hover:text-orange-500 dark:hover:text-white'
                     >
                       Company
                     </a>
@@ -161,7 +161,7 @@ export function Footer() {
                   <li>
                     <a
                       href='javascript:void(0)'
-                      className='font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      className='font-heading text-base text-dark-text hover:text-orange-500 dark:hover:text-white'
                     >
                       Press media
                     </a>
@@ -169,7 +169,7 @@ export function Footer() {
                   <li>
                     <a
                       href='javascript:void(0)'
-                      className='font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      className='font-heading text-base text-dark-text hover:text-orange-500 dark:hover:text-white'
                     >
                       Our Blog
                     </a>
@@ -177,7 +177,7 @@ export function Footer() {
                   <li>
                     <a
                       href='javascript:void(0)'
-                      className='font-heading text-base text-dark-text hover:text-primary dark:hover:text-white'
+                      className='font-heading text-base text-dark-text hover:text-orange-500 dark:hover:text-white'
                     >
                       Contact Us
                     </a>
@@ -199,7 +199,7 @@ export function Footer() {
                     </p>
                     <a
                       href='tel:+(1) 123 456 7890'
-                      className='font-heading text-base text-dark hover:text-primary dark:text-white dark:hover:text-primary'
+                      className='font-heading text-base text-dark hover:text-orange-500 dark:text-white dark:hover:text-orange-500'
                     >
                       +(1) 123 456 7890
                     </a>
@@ -210,7 +210,7 @@ export function Footer() {
                     </p>
                     <a
                       href='mailto:support@domain.com'
-                      className='font-heading text-base text-dark hover:text-primary dark:text-white dark:hover:text-primary'
+                      className='font-heading text-base text-dark hover:text-orange-500 dark:text-white dark:hover:text-orange-500'
                     >
                       support@domain.com
                     </a>
@@ -233,7 +233,7 @@ export function Footer() {
                     name='email'
                     id='email'
                     placeholder='Email address'
-                    className='pladeholder-opacity-40 w-full rounded border py-3 pl-5 pr-12 text-base text-dark-text outline-none focus:border-primary dark:border-transparent dark:bg-[#2C3443]'
+                    className='pladeholder-opacity-40 w-full rounded border py-3 pl-5 pr-12 text-base text-dark-text outline-none  dark:border-transparent dark:bg-[#2C3443]'
                   />
                   <button className='absolute right-0 top-0 flex h-full w-12 items-center justify-center border-l text-dark-text dark:border-[#1F2633]'>
                     <svg
@@ -256,19 +256,19 @@ export function Footer() {
                 <div className='mb-5 flex items-center justify-center space-x-5 border-b pb-5 dark:border-[#2E333D] md:mb-0 md:justify-start md:border-0 md:pb-0'>
                   <a
                     href='javascript:void(0)'
-                    className='font-heading text-base text-dark-text hover:text-primary'
+                    className='font-heading text-base text-dark-text hover:text-orange-500'
                   >
                     English
                   </a>
                   <a
                     href='javascript:void(0)'
-                    className='font-heading text-base text-dark-text hover:text-primary'
+                    className='font-heading text-base text-dark-text hover:text-orange-500'
                   >
                     Privacy Policy
                   </a>
                   <a
                     href='javascript:void(0)'
-                    className='font-heading text-base text-dark-text hover:text-primary'
+                    className='font-heading text-base text-dark-text hover:text-orange-500'
                   >
                     Support
                   </a>
@@ -287,7 +287,7 @@ export function Footer() {
       </footer>
       <a
         href='javascript:void(0)'
-        className='hover:shadow-signUp back-to-top fixed bottom-8 right-8 left-auto z-[999] hidden h-10 w-10 items-center justify-center rounded-sm bg-primary text-white shadow-md transition'
+        className='hover:shadow-signUp back-to-top fixed bottom-8 right-8 left-auto z-[999] hidden h-10 w-10 items-center justify-center rounded-sm bg-orange-500 text-white shadow-md transition'
       >
         <span className='mt-[6px] h-3 w-3 rotate-45 border-t border-l border-white'></span>
       </a>

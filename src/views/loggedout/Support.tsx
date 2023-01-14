@@ -79,7 +79,7 @@ export function Support() {
                   <a
                     href='javascript:void(0)'
                     aria-label='social-link'
-                    className='text-dark-text hover:text-primary dark:hover:text-white'
+                    className='text-dark-text hover:text-orange-500 dark:hover:text-white'
                   >
                     <svg
                       width='24'
@@ -93,7 +93,7 @@ export function Support() {
                   <a
                     href='javascript:void(0)'
                     aria-label='social-link'
-                    className='text-dark-text hover:text-primary dark:hover:text-white'
+                    className='text-dark-text hover:text-orange-500 dark:hover:text-white'
                   >
                     <svg
                       width='24'
@@ -107,7 +107,7 @@ export function Support() {
                   <a
                     href='javascript:void(0)'
                     aria-label='social-link'
-                    className='text-dark-text hover:text-primary dark:hover:text-white'
+                    className='text-dark-text hover:text-orange-500 dark:hover:text-white'
                   >
                     <svg
                       width='24'
@@ -121,7 +121,7 @@ export function Support() {
                   <a
                     href='javascript:void(0)'
                     aria-label='social-link'
-                    className='text-dark-text hover:text-primary dark:hover:text-white'
+                    className='text-dark-text hover:text-orange-500 dark:hover:text-white'
                   >
                     <svg
                       width='24'
@@ -159,7 +159,7 @@ export function Support() {
                     name='name'
                     id='name'
                     placeholder='Full Name'
-                    className='w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white'
+                    className='w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none dark:border-[#2C3443] dark:text-white dark:focus:border-white'
                   />
                 </div>
               </div>
@@ -176,7 +176,7 @@ export function Support() {
                     name='email'
                     id='email'
                     placeholder='Email Address'
-                    className='w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white'
+                    className='w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none dark:border-[#2C3443] dark:text-white dark:focus:border-white'
                   />
                 </div>
               </div>
@@ -193,7 +193,7 @@ export function Support() {
                     name='phone'
                     id='phone'
                     placeholder='Phone Number'
-                    className='w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white'
+                    className='w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none dark:border-[#2C3443] dark:text-white dark:focus:border-white'
                   />
                 </div>
               </div>
@@ -210,7 +210,7 @@ export function Support() {
                     name='subject'
                     id='subject'
                     placeholder='Type Subject'
-                    className='w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white'
+                    className='w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none dark:border-[#2C3443] dark:text-white dark:focus:border-white'
                   />
                 </div>
               </div>
@@ -227,7 +227,7 @@ export function Support() {
                     name='message'
                     id='message'
                     placeholder='Type Message'
-                    className='w-full resize-none border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white'
+                    className='w-full resize-none border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none dark:border-[#2C3443] dark:text-white dark:focus:border-white'
                   ></textarea>
                 </div>
               </div>
@@ -236,7 +236,7 @@ export function Support() {
                 <div className='mb-12'>
                   <label
                     htmlFor='supportCheckbox'
-                    className='flex cursor-pointer select-none text-dark-text hover:text-primary'
+                    className='flex cursor-pointer select-none text-dark-text hover:text-orange-500'
                   >
                     <div className='relative'>
                       <input
@@ -268,7 +268,7 @@ export function Support() {
               </div>
 
               <div className='w-full px-4'>
-                <button className='flex w-full items-center justify-center rounded bg-primary py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90'>
+                <button className='flex w-full items-center justify-center rounded bg-orange-500 py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90'>
                   Send Message
                 </button>
               </div>

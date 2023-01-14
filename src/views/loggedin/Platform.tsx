@@ -55,7 +55,7 @@ export function Platform() {
             <span
               onClick={() => switchTab(PlatformTabEnum.PROFILE, profileTabRef)}
               ref={profileTabRef}
-              className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base hover:cursor-pointer text-dark-text hover:text-orange-400 dark:hover:text-white [&.active]:text-orange-400 active'
+              className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base hover:cursor-pointer text-dark-text hover:text-orange-500 dark:hover:text-white [&.active]:text-orange-500 active'
             >
               Profile
             </span>
@@ -64,7 +64,7 @@ export function Platform() {
             <span
               onClick={() => switchTab(PlatformTabEnum.REQUEST, requestTabRef)}
               ref={requestTabRef}
-              className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base hover:cursor-pointer text-dark-text hover:text-orange-400 dark:hover:text-white [&.active]:text-orange-400'
+              className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base hover:cursor-pointer text-dark-text hover:text-orange-500 dark:hover:text-white [&.active]:text-orange-500'
             >
               Requests
             </span>
@@ -73,7 +73,7 @@ export function Platform() {
             <span
               onClick={() => switchTab(PlatformTabEnum.MESSAGES, messageTabRef)}
               ref={messageTabRef}
-              className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base hover:cursor-pointer text-dark-text hover:text-orange-400 dark:hover:text-white [&.active]:text-orange-400'
+              className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base hover:cursor-pointer text-dark-text hover:text-orange-500 dark:hover:text-white [&.active]:text-orange-500'
             >
               Messages
             </span>
@@ -82,7 +82,7 @@ export function Platform() {
             <span
               onClick={() => switchTab(PlatformTabEnum.FILE, fileTabRef)}
               ref={fileTabRef}
-              className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base hover:cursor-pointer text-dark-text hover:text-orange-400 dark:hover:text-white [&.active]:text-orange-400'
+              className='menu-scroll inline-flex items-center justify-center text-center font-heading text-base hover:cursor-pointer text-dark-text hover:text-orange-500 dark:hover:text-white [&.active]:text-orange-500'
             >
               Files
             </span>

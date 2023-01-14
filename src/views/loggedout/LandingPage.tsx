@@ -5,7 +5,6 @@ import { Contact } from './Contact'
 import { Features } from './Features'
 import { Footer } from './Footer'
 import { Home } from './Home'
-import { OurTeam } from './OurTeam'
 import { Pricing } from './Pricing'
 import { Support } from './Support'
 
@@ -15,7 +14,6 @@ export function LandingPage() {
       <Home />
       <Features />
       <About />
-      <OurTeam />
       <Pricing />
       <Support />
       <Contact />
