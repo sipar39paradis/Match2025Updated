@@ -69,8 +69,8 @@ export function Pricing() {
                   y2='660.639'
                   gradientUnits='userSpaceOnUse'
                 >
-                  <stop stopColor='#ABBCFF' />
-                  <stop offset='0.859375' stopColor='#4A6CF7' />
+                  <stop stopColor='#FF9D7A' />
+                  <stop offset='0.859375' stopColor='#FF5A1F' />
                 </linearGradient>
               </defs>
             </svg>
@@ -167,7 +167,7 @@ export function Pricing() {
               </div>
               <a
                 href='javascript:void(0)'
-                className='inline-flex items-center rounded bg-dark-text py-[14px] px-8 font-heading text-base text-white hover:bg-primary'
+                className='inline-flex items-center rounded bg-dark-text py-[14px] px-8 font-heading text-base text-white hover:bg-orange-500'
               >
                 Join This Plan
                 <span className='pl-3'>
@@ -279,7 +279,7 @@ export function Pricing() {
               </div>
               <a
                 href='javascript:void(0)'
-                className='inline-flex items-center rounded bg-primary py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90'
+                className='inline-flex items-center rounded bg-orange-500 py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90'
               >
                 Join This Plan
                 <span className='pl-3'>

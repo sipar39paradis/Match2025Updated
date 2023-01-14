@@ -56,8 +56,8 @@ export function Contact() {
                   y2='628.947'
                   gradientUnits='userSpaceOnUse'
                 >
-                  <stop stopColor='#ABBCFF' />
-                  <stop offset='0.859375' stopColor='#4A6CF7' />
+                  <stop stopColor='#FF9D7A' />
+                  <stop offset='0.859375' stopColor='#FF5A1F' />
                 </linearGradient>
               </defs>
             </svg>
@@ -78,7 +78,7 @@ export function Contact() {
               <div className='text-center lg:text-right'>
                 <a
                   href='javascript:void(0)'
-                  className='inline-flex items-center rounded bg-primary py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90'
+                  className='inline-flex items-center rounded bg-orange-500 py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90'
                 >
                   Get Started Now
                 </a>
