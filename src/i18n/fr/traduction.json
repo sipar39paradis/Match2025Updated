@@ -55,6 +55,8 @@
   "Card": {
     "casesCompleted": "cas terminés",
     "yearsOfExperience": "années d'expérience",
-    "accountant": "Comptable"
+    "accountant": "Comptable",
+    "client": "Client",
+    "newUser": "Nouvel Utilisateur"
   }
 }

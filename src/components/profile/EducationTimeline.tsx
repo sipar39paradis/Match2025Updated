@@ -1,21 +1,17 @@
 import {
-  Badge,
   Button,
-  Card,
-  Dropdown,
-  Rating,
   Select,
   Textarea,
   TextInput,
   Timeline,
   Tooltip,
 } from 'flowbite-react';
-import React, { ReactElement, ReactNode, useEffect, useRef } from 'react';
+import React, { ReactElement } from 'react';
 import { HiPlusSm } from 'react-icons/hi';
 import Check from './../../icons/Check.svg';
 import {
   AccountantProfile,
-  Experience,
+  InErr,
   Schooling,
 } from '../../interfaces/User';
 import { useTranslation } from 'react-i18next';
@@ -23,8 +19,8 @@ import { useTranslation } from 'react-i18next';
 interface EducationTimelineProps {
   profile?: AccountantProfile;
   edit: boolean;
-  inErr: any;
-  setInErr(any);
+  inErr: InErr;
+  setInErr(InErr);
   setProfile(profile: AccountantProfile);
 }
 

@@ -9,14 +9,14 @@ import {
 import React, { ReactElement} from 'react';
 import { HiPlusSm } from 'react-icons/hi';
 import Check from './../../icons/Check.svg';
-import { AccountantProfile, Experience } from '../../interfaces/User';
+import { AccountantProfile, Experience, InErr } from '../../interfaces/User';
 import { useTranslation } from 'react-i18next';
 
 interface ExperienceTimelineProps {
   profile?: AccountantProfile;
   edit: boolean;
-  inErr: any;
-  setInErr(any);
+  inErr: InErr;
+  setInErr(InErr);
   setProfile(profile: AccountantProfile);
 }
 

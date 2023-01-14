@@ -1,14 +1,10 @@
 import '../../i18n/config'
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext, AppContextType } from '../../context/AppContext'
-import { Button, Card, Dropdown, Label, Rating, Select, Textarea, TextInput, Timeline, Tooltip } from 'flowbite-react'
-import { getProfile, upsertProfile } from '../../client/firebaseClient'
+import { Button } from 'flowbite-react'
+import { getAccountantProfile, upsertProfile } from '../../client/firebaseClient'
 import { CustomCard } from '../../components/common/CustomCard'
-import { AccountantProfile, Experience, Schooling } from '../../interfaces/User'
-import Check from './../../icons/Check.svg'
-import { HiPlusSm, HiMail } from 'react-icons/hi';
-import { DateRange, DateRangePicker } from 'react-date-range';
-import { addDays } from 'date-fns';
+import { AccountantProfile, ClientProfile } from '../../interfaces/User'
 
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -33,15 +29,19 @@ export function Profile() {
   ownProfile = (profile && profile.email === user.email)
 
   useEffect((() => {
-    getProfile(id ? id : user.email).then(res => {
+    console.log(id, 'id')
+    console.log(user, 'user')
+
+    getAccountantProfile(id ? id : user.uid).then(res => {
+      console.log(res, 'res')
       res.experiece.sort((a,b) => (a.startDateObj.getTime() - b.startDateObj.getTime()) * (-1))
       res.schooling.sort((a,b) => (a.graduationDateObj.getTime() - b.graduationDateObj.getTime()) * (-1))
       initializeProfile(res)
     })
   }), [])
 
-  const updateProfile = async (email: string, profile: AccountantProfile) => {
-    await upsertProfile(email, profile)
+  const updateProfile = async (id: string, profile: AccountantProfile) => {
+    await upsertProfile(id, profile)
     initializeProfile(profile)
 
   }
@@ -82,7 +82,8 @@ export function Profile() {
                       disabled={Object.values(inErr).includes(true)}
                       onClick={() => {
                         setEdit(false)
-                        updateProfile(tempProfile.email, tempProfile)
+                        console.log(tempProfile.id, 'id')
+                        updateProfile(tempProfile.id, tempProfile)
                       }}
                     >
                       {t('Profile.confirm')}
@@ -116,22 +117,24 @@ export function Profile() {
 
               <div className='flex flex-row'>
                 {!loading?
-                  <>             
-                    <ExperienceTimeline
-                      profile={tempProfile}
-                      edit={edit}
-                      inErr={inErr}
-                      setInErr={setInErr}
-                      setProfile={setTempProfile}
-                    />
-                      <EducationTimeline
-                      profile={tempProfile}
-                      edit={edit}
-                      inErr={inErr}
-                      setInErr={setInErr}
-                      setProfile={setTempProfile}
-                    />
-                  </>
+                  profile.type === 'accountant'?? (
+                    <>             
+                      <ExperienceTimeline
+                        profile={tempProfile}
+                        edit={edit}
+                        inErr={inErr}
+                        setInErr={setInErr}
+                        setProfile={setTempProfile}
+                      />
+                        <EducationTimeline
+                        profile={tempProfile}
+                        edit={edit}
+                        inErr={inErr}
+                        setInErr={setInErr}
+                        setProfile={setTempProfile}
+                      />
+                    </>
+                  )
                   :
                   <>
                     <Skeleton

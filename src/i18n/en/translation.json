@@ -55,6 +55,8 @@
   "Card": {
     "casesCompleted": "cases completed",
     "yearsOfExperience": "years of experience",
-    "accountant": "Accountant"
+    "accountant": "Accountant",
+    "client": "Client",
+    "newUser": "New User"
   }
 }

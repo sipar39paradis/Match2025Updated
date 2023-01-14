@@ -1,12 +1,13 @@
-import { Badge, Card, Dropdown, Rating } from 'flowbite-react'
-import React, { ReactNode, useEffect, useRef } from 'react'
+import { Badge, Card, Rating } from 'flowbite-react'
+import React from 'react'
 import { AccountantProfile } from '../../interfaces/User'
 import '../../i18n/config';
 import { useTranslation } from 'react-i18next';
 import { Skeleton } from './Skeleton';
+import { User } from '@firebase/auth';
 
 interface CardProps {
-  user: any
+  user: User
   profile?: AccountantProfile
 }
 
@@ -14,6 +15,8 @@ export function CustomCard({ user, profile }: CardProps) {
   const { t } = useTranslation();
 
   const langToColor = {'English': 'info', 'Français': 'failure', 'Español':'success'}
+
+  console.log(profile, 'prof')
 
   return (
     <Card>
@@ -28,30 +31,42 @@ export function CustomCard({ user, profile }: CardProps) {
             />
             <div className='mb-1 flow-root'>
               <>
-                <Rating>
-                  <>
-                    {[...Array(5)].map ((x, i )=> {
-                      return i < Math.floor(profile.rating) ? <Rating.Star/> : <Rating.Star filled={false}/>
-                    })}
-                  </>
+              {profile.cases > 1 ? (
+                <>
+                  <Rating>
+                    <>
+                      {[...Array(5)].map((x, i) => {
+                        return i < Math.floor(profile.rating) ? <Rating.Star /> : <Rating.Star filled={false} />;
+                      })}
+                    </>
+                    <p className='ml-2 text-sm font-medium text-gray-500 dark:text-gray-400'>
+                      <span className='font-semibold text-black'>{profile.rating}</span>
+                    </p>
+                  </Rating>
                   <p className='ml-2 text-sm font-medium text-gray-500 dark:text-gray-400'>
-                    <span className='font-semibold text-black'>{profile.rating}</span>
+                    <span className='text-black font-semibold'>{profile.cases} </span>
+                    {t('Card.casesCompleted')}
                   </p>
-                </Rating>
-                <p className='ml-2 text-sm font-medium text-gray-500 dark:text-gray-400'>
-                <span className='text-black font-semibold'>{profile.casesCompleted} </span> 
-                  {t('Card.casesCompleted')}
+                </>): 
+                <p className='ml-2 text-sm dark:text-gray-400 text-green-500 font-bold'>
+                  {t('Card.newUser')}
                 </p>
-                <p className='ml-2 text-sm font-medium text-gray-500 dark:text-gray-400'>
-                  <span className='font-semibold text-black'>{Math.floor(profile.experiece.reduce((prev, current) => prev + current.durationYears + ((1 /12) * current.durationMonths) , 0))} </span> 
-                  {t('Card.yearsOfExperience')}
-                </p>
-                <p className='ml-2 text-sm font-medium text-gray-500 dark:text-gray-400'>
-                  {[profile.schooling.sort((a,b) => (a.graduationDateObj.getTime() - b.graduationDateObj.getTime()) * (-1))
-                    .at(0)].map(firstProfile => {
-                      return `${firstProfile.degree} from ${firstProfile.school}`
-                    })}
-                </p>
+              }
+                {(profile.type == 'accountant')??
+                  <>
+                    <p className='ml-2 text-sm font-medium text-gray-500 dark:text-gray-400'>
+                      <span className='font-semibold text-black'>{Math.floor(profile.experiece.reduce((prev, current) => prev + current.durationYears + ((1 /12) * current.durationMonths) , 0))} </span> 
+                      {t('Card.yearsOfExperience')}
+                    </p>
+                    <p className='ml-2 text-sm font-medium text-gray-500 dark:text-gray-400'>
+                      {[profile.schooling.sort((a,b) => (a.graduationDateObj.getTime() - b.graduationDateObj.getTime()) * (-1))
+                        .at(0)].map(firstProfile => {
+                          return `${firstProfile.degree} from ${firstProfile.school}`
+                        })}
+                        
+                    </p>
+                  </>
+                }
               </>
             </div>
             </>
@@ -70,7 +85,7 @@ export function CustomCard({ user, profile }: CardProps) {
               {user.displayName}
             </h5>
             <span className='text-sm text-gray-500 dark:text-gray-400'>
-              {t('Card.accountant')}
+              {profile.type == 'accountant'? t('Card.accountant'):  t('Card.client')}
             </span>
             <p className='ml-2 text-sm font-medium text-gray-500 dark:text-gray-400'>
               {(profile)?profile.location:null}
@@ -78,11 +93,13 @@ export function CustomCard({ user, profile }: CardProps) {
             <div className='flex flex-row pt-1 justify-center'>
               {profile?
               profile.languages.map(lang => 
-                <Badge 
-                  color={langToColor[lang]}
-                  key={lang}>
-                  {lang}
-                </Badge>
+                (lang !== '') ?
+                  <Badge 
+                    color={langToColor[lang]}
+                    key={lang}>
+                    {lang}
+                  </Badge>
+                 :null 
               ):null}
             </div>
           </div>

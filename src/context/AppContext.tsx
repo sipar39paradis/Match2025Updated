@@ -1,16 +1,19 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import {
+  Auth,
   createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  User,
 } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
+import { AccountantProfile, ClientProfile, UserInfo } from '../interfaces/User'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -29,7 +32,7 @@ const firebaseConfig = {
 }
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
-const auth = getAuth()
+const auth: Auth = getAuth()
 
 export interface AppContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,17 +57,17 @@ interface AppContextProviderProps {
 
 export function AppContextProvider({ children }: AppContextProviderProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [userProfile, setUserProfile] = useState(null)
+  const [userInfo, setUserInfo] = useState(null)
   const [user] = useAuthState(auth)
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (userProfile) {
+    if (userInfo) {
       navigate('/profile')
     } else {
       navigate('/')
     }
-  }, [userProfile])
+  }, [userInfo])
 
   function signIn(email: string, password: string) {
     signInWithEmailAndPassword(auth, email, password)
@@ -75,8 +78,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     const provider = new GoogleAuthProvider()
     await signInWithPopup(auth, provider)
       .then((userCredential) => {
-        const profile = getDoc(doc(db, 'profiles', userCredential.user.email))
-        setUserProfile(profile)
+        const userInfo = getDoc(doc(db, 'userInfo', userCredential.user.email))
+        setUserInfo(userInfo)
       })
       .catch((error) => {
         errorMessage = error.message
@@ -95,18 +98,54 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
-          const newProfile = {
+          // const newUser: UserInfo = {
+          //   id: userCredential.user.uid,
+          //   email: userCredential.user.email,
+          //   firstName: firstName,
+          //   lastName: lastName,
+          //   type: 'client'
+          // }
+          // const createUser = setDoc(
+          //   doc(db, 'userInfo', userCredential.user.uid),
+          //   newUser
+          // )
+
+          // const clientProfile: ClientProfile = {
+          //   blurb: '',
+          //   casesRequested: 0,
+
+          //   id: userCredential.user.uid,
+          //   email: userCredential.user.email,
+          //   firstName: firstName,
+          //   lastName: lastName,
+          //   languages:[],
+          //   location:'',
+          //   rating: 0,
+          //   avatar: userCredential.user.photoURL || ''
+          // }
+
+          const clientProfile: AccountantProfile = {
+            blurb: '',
+            cases: 0,
+            experiece: [],
+            schooling: [],
+            id: userCredential.user.uid,
             email: userCredential.user.email,
             firstName: firstName,
             lastName: lastName,
-            type: 'client',
-            phoneNumber: userCredential.user.phoneNumber,
+            languages:[],
+            location:'',
+            rating: 0,
+            avatar: userCredential.user.photoURL || '',
+            type: 'client'
           }
-          await setDoc(
-            doc(db, 'profiles', userCredential.user.email),
-            newProfile
+
+          const profile = await setDoc(
+            doc(db, 'accountantProfile', userCredential.user.uid),
+            clientProfile
           )
-          setUserProfile(newProfile)
+          console.log(profile, 'createdProfile')
+          setUserInfo(userCredential)
         }
       })
       .catch((error) => {
@@ -116,7 +155,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   }
 
   function signOut() {
-    setUserProfile(null)
+    setUserInfo(null)
     auth.signOut()
   }
 

@@ -1,19 +1,9 @@
 import { initializeApp } from 'firebase/app';
-import {
-  doc,
-  collection,
-  getDoc,
-  getFirestore,
-  query,
-  setDoc,
-  where,
-  getDocs,
-} from 'firebase/firestore';
+import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import {
   AccountantProfile,
   AccountantProfileDoc,
-  Experience,
-  Schooling,
+  ClientProfile,
 } from '../interfaces/User';
 
 const firebaseConfig = {
@@ -35,40 +25,55 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export const getProfile = async (
+export const getAccountantProfile = async (
   userEmail: string
 ): Promise<AccountantProfile> => {
   //TODO set key to each doc as UID from user
 
   const returnedDoc = await getDoc(doc(db, 'accountantProfile', userEmail));
-  const profile = docToProfile(<AccountantProfileDoc>returnedDoc.data());
+  const data = returnedDoc.data();
 
-  // profile.experiece.forEach((xp, i) => {
-  //   const date = new Date(0);
-  //   date.setUTCSeconds(xp.startDate.seconds);
-  //   profile.experiece[i].startDateObj = date;
-  // });
-  // profile.schooling.forEach((school, i) => {
-  //   const date = new Date(0);
-  //   date.setUTCSeconds(school.graduationDate.seconds);
-  //   profile.schooling[i].graduationDateObj = date;
-  // });
-  return profile;
+  console.log(data, 'data');
+  return data.type == 'accountant'
+    ? docToProfile(<AccountantProfileDoc>data.data())
+    : <AccountantProfile>data;
+
+  // const profile = docToProfile(<AccountantProfileDoc>returnedDoc.data());
+
+  // // profile.experiece.forEach((xp, i) => {
+  // //   const date = new Date(0);
+  // //   date.setUTCSeconds(xp.startDate.seconds);
+  // //   profile.experiece[i].startDateObj = date;
+  // // });
+  // // profile.schooling.forEach((school, i) => {
+  // //   const date = new Date(0);
+  // //   date.setUTCSeconds(school.graduationDate.seconds);
+  // //   profile.schooling[i].graduationDateObj = date;
+  // // });
+  // return profile;
+};
+
+export const getClientProfile = async (
+  userId: string
+): Promise<ClientProfile> => {
+  return <ClientProfile>(await getDoc(doc(db, 'clientProfile', userId))).data();
 };
 
 export const upsertProfile = async (
-  userEmail: string,
+  userId: string,
   profile: AccountantProfile
 ): Promise<void> => {
-  await setDoc(doc(db, 'accountantProfile', userEmail), profile);
+  profile.avatar = '123';
+  await setDoc(doc(db, 'accountantProfile', userId), profile);
 };
 
 const docToProfile = (profileDoc: AccountantProfileDoc): AccountantProfile => {
   return {
+    avatar: profileDoc.avatar,
     blurb: profileDoc.blurb,
-    casesCompleted: profileDoc.casesCompleted,
+    cases: profileDoc.cases,
     email: profileDoc.email,
-    experiece: profileDoc.experiece.map((xp, i) => {
+    experiece: profileDoc.experiece.map((xp) => {
       const date = new Date(0);
       date.setUTCSeconds(xp.startDateObj.seconds);
       return {
@@ -83,11 +88,12 @@ const docToProfile = (profileDoc: AccountantProfileDoc): AccountantProfile => {
       };
     }),
     firstName: profileDoc.firstName,
+    id: profileDoc.id,
     lastName: profileDoc.lastName,
     languages: profileDoc.languages,
     location: profileDoc.location,
     rating: profileDoc.rating,
-    schooling: profileDoc.schooling.map((school, i) => {
+    schooling: profileDoc.schooling.map((school) => {
       const date = new Date(0);
       date.setUTCSeconds(school.graduationDateObj.seconds);
       return {
@@ -99,5 +105,6 @@ const docToProfile = (profileDoc: AccountantProfileDoc): AccountantProfile => {
         verified: school.verified,
       };
     }),
+    type: profileDoc.type,
   };
 };

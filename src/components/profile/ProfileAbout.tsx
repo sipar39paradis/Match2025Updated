@@ -1,4 +1,4 @@
-import { Button, Select, Textarea } from 'flowbite-react';
+import { Button, Select, TextInput, Textarea } from 'flowbite-react';
 import React, { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HiPlusSm } from 'react-icons/hi';
@@ -44,9 +44,26 @@ export const ProfileAbout = ({
       <div className="font-medium text-m">
           {!loading?
           <>
+            {!edit ? 
             <h4>
-            {t('Profile.livesIn')} {profile?.location}
-            </h4>
+              {t('Profile.livesIn')} {profile?.location}
+            </h4>:
+            <TextInput
+            id={'Lives in'}
+            type="text"
+            className="w-full py-1"
+            placeholder="City, Country"
+            required={true}
+            defaultValue={profile.location}
+            value={profile.location}
+            sizing="sm"
+            onChange={(e) => {
+              const location = e.target.value;
+              profile.location = location;
+              setProfile({ ...profile });
+            }}
+          />
+            }
             {!edit ? (
               <h4>
                 {`${t('Profile.speaks')} `}
@@ -64,7 +81,7 @@ export const ProfileAbout = ({
                 {profile?.languages.map((lang) => {
                   alreadySetDropDown.push(lang);
                   return (
-                    <Select id="countries" required={true} key={lang} className="">
+                    <Select sizing={'sm'} id="countries" required={true} key={lang} className="pr-1">
                       <>
                         {suppportedLanguages.map((currentSupportedLang) => {
                           return currentSupportedLang === '-' ? (
@@ -145,6 +162,11 @@ export const ProfileAbout = ({
                 required={true}
                 rows={4}
                 defaultValue={profile?.blurb}
+                onChange={(e) => {
+                  const blurb = e.target.value;
+                  profile.blurb = blurb;
+                  setProfile({ ...profile });
+                }}
               />
             )
           ) : (
