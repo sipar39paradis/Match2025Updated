@@ -28,11 +28,11 @@ export const ProfileAbout = ({
     <>
       {!loading?
       <>
-        <h2 className='sticky mb-1 text-2xl font-semibold text-gray-900 dark:text-white'>
+        <h2 className='mb-1 text-2xl font-semibold text-gray-900 dark:text-white'>
           {(profile) ? (`${profile.firstName} ${profile.lastName}`): null}
         </h2>
         <span className='text-sm text-gray-500 dark:text-gray-400'>
-          {t('Profile.accountant')}
+          {profile.type === 'accountant'? t('Profile.accountant'):  t('Profile.client')}
         </span>
         <h3 className="font-semibold py-8 text-xl">{t('Profile.about')}</h3>
       </>

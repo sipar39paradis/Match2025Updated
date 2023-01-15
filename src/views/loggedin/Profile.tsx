@@ -14,6 +14,8 @@ import { useTranslation } from 'react-i18next'
 import { ProfileAbout } from '../../components/profile/ProfileAbout'
 import { Skeleton } from '../../components/common/Skeleton'
 import { useParams } from 'react-router'
+import useWindowDimensions from '../../hooks/useWindowDimensions'
+import { EditButton } from '../../components/common/EditButtons'
 
 export function Profile() {
   const { t } = useTranslation();
@@ -24,6 +26,7 @@ export function Profile() {
   const [edit, setEdit] = useState(false)
   const [loading, setLoading] = useState(true)
   const [inErr, setInErr] = useState({})
+  const {width,height} = useWindowDimensions()
 
   let ownProfile = false
   ownProfile = (profile && profile.email === user.email)
@@ -54,58 +57,37 @@ export function Profile() {
 
   return (
     <main>
-      <div className='flex justify-center flex-col w-screen p-10 sm:px-30 lg:px-40'>
-        <div className='flex flex-row justify-center'>
-          <div className='max-w-xs'>
-            <div className='sticky position-webstick top-10'>
+      <div className='flex justify-start flex-col w-screen p-10 sm:px-30 lg:px-40'>
+        <div className={width > 540?'flex flex-row justify-center':''}>
+          <div className={width > 540?'max-w-xs pr-64':''}>
+            <div className={width > 540?'sticky position-webstick top-28':'flex flex-row justify-center'}>
+              {width > 540 ?
               <CustomCard
                 user={user}
                 profile={tempProfile}
+              />:
+              <img
+              className='mb-3 h-32 w-32 rounded-full shadow-lg'
+              src={user.photoURL}
+            />
+              }
+              <EditButton
+                user={user}
+                profile={tempProfile}
+                edit={edit}
+                ownProfile={ownProfile}
+                inErr={inErr}
+                setEdit={setEdit}
+                setInErr={setInErr}
+                updateProfile={updateProfile}
+                setTempProfile={setTempProfile}
               />
-              {ownProfile?
-                !edit ?
-                (
-                  <Button
-                    outline={true}
-                    gradientDuoTone="purpleToPink"
-                    className='m-auto mt-2'
-                    onClick={() => {setEdit(true)}}
-                  >
-                  {t('Profile.edit')}
-                  </Button>
-                ):
-                (
-                  <div className='flex flex-row'>
-                    <Button
-                      gradientMonochrome="success"
-                      className='m-auto mt-2'
-                      disabled={Object.values(inErr).includes(true)}
-                      onClick={() => {
-                        setEdit(false)
-                        console.log(tempProfile.id, 'id')
-                        updateProfile(tempProfile.id, tempProfile)
-                      }}
-                    >
-                      {t('Profile.confirm')}
-                    </Button>
-                    <Button
-                      gradientMonochrome="failure"
-                      className='m-auto mt-2'
-                      onClick={() => {
-                        setEdit(false)
-                        setTempProfile(structuredClone(profile))
-                        setInErr({})
-                      }}
-                    >
-                      {t('Profile.cancel')}
-                    </Button>
-                  </div>
-                ):null}
+                
 
             </div>
           </div>
 
-          <div className='flex w-8/12 px-20'>
+          <div className='flex sm:w-full md:w-8/12 px-20'>
             <div className='flex flex-col justify-start text-left w-full'>
               <ProfileAbout
                 profile={tempProfile}

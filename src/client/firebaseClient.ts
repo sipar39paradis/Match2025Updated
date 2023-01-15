@@ -35,7 +35,7 @@ export const getAccountantProfile = async (
 
   console.log(data, 'data');
   return data.type == 'accountant'
-    ? docToProfile(<AccountantProfileDoc>data.data())
+    ? docToProfile(<AccountantProfileDoc>data)
     : <AccountantProfile>data;
 
   // const profile = docToProfile(<AccountantProfileDoc>returnedDoc.data());

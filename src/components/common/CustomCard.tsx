@@ -24,10 +24,13 @@ export function CustomCard({ user, profile }: CardProps) {
         <div className='flex items-center flex-col pb-2'>
           {profile?
           <>
+            {(profile.firstName && profile.lastName) ? (
+            `${profile.firstName} ${profile.lastName}`
+            ): null}
+
             <img
               className='mb-3 h-32 w-32 rounded-full shadow-lg'
               src={user.photoURL}
-              alt='Bonnie image'
             />
             <div className='mb-1 flow-root'>
               <>
