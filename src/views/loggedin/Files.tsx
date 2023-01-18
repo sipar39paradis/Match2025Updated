@@ -13,7 +13,6 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore'
-import { exportToExcel } from '../../components/ExcelExport'
 
 const FOLDER_NAME = 'customerdata/'
 const firestore = getFirestore()
