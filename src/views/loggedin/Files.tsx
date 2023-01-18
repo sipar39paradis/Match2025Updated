@@ -13,6 +13,7 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore'
+import { exportToExcel } from '../../components/ExcelExport'
 
 const FOLDER_NAME = 'customerdata/'
 const firestore = getFirestore()
@@ -169,7 +170,7 @@ export function UploadFilesComponent() {
           />
           <div>
             <button
-              onClick={handleUploadFile}
+            onClick={handleUploadFile}
               className='inline-flex w-full justify-center items-center rounded-full border border-transparent px-4 py-2 text-lg font-semibold text-white shadow-sm bg-gray-700 hover:bg-gray-500 sm:ml-3 sm:w-auto sm:text-sm'
             >
               Upload files
