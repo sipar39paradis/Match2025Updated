@@ -1,5 +1,5 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react'
-import { initializeApp } from 'firebase/app'
+import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import { initializeApp } from 'firebase/app';
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -9,11 +9,11 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   User,
-} from 'firebase/auth'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore'
-import { useNavigate } from 'react-router-dom'
-import { AccountantProfile, ClientProfile, UserInfo } from '../interfaces/User'
+} from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { AccountantProfile, ClientProfile, UserInfo } from '../interfaces/User';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -29,62 +29,56 @@ const firebaseConfig = {
   appId: '1:689989068082:web:a480fd7ebb3c0276cf632b',
 
   measurementId: 'G-6JTV1BLMVR',
-}
-const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
-const auth: Auth = getAuth()
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth: Auth = getAuth();
 
 export interface AppContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any
-  signIn: (email: string, password: string) => void
-  signInWithGoogle: () => Promise<string>
-  signOut: () => void
+  user: any;
+  signIn: (email: string, password: string) => void;
+  signInWithGoogle: () => Promise<string>;
+  signOut: () => void;
   signUpWithEmailAndPassword: (
     email: string,
     password: string,
     firstName: string,
     lastName: string
-  ) => Promise<string>
-  resetPassword: (email: string) => void
+  ) => Promise<string>;
+  resetPassword: (email: string) => void;
 }
 
-export const AppContext = createContext<AppContextType | null>(null)
+export const AppContext = createContext<AppContextType | null>(null);
 
 interface AppContextProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function AppContextProvider({ children }: AppContextProviderProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [userInfo, setUserInfo] = useState(null)
-  const [user] = useAuthState(auth)
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (userInfo) {
-      navigate('/platform')
-    } else {
-      navigate('/')
-    }
-  }, [userInfo])
+  const [userInfo, setUserInfo] = useState(null);
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
 
   function signIn(email: string, password: string) {
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, email, password).then(() =>
+      navigate('/platform')
+    );
   }
 
   async function signInWithGoogle() {
-    let errorMessage = ''
-    const provider = new GoogleAuthProvider()
+    let errorMessage = '';
+    const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider)
       .then((userCredential) => {
-        const userInfo = getDoc(doc(db, 'userInfo', userCredential.user.email))
-        setUserInfo(userInfo)
+        const userInfo = getDoc(doc(db, 'userInfo', userCredential.user.email));
+        setUserInfo(userInfo);
       })
       .catch((error) => {
-        errorMessage = error.message
-      })
-    return errorMessage
+        errorMessage = error.message;
+      });
+    return errorMessage;
   }
 
   async function signUpWithEmailAndPassword(
@@ -93,7 +87,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     firstName: string,
     lastName: string
   ) {
-    let errorMessage = ''
+    let errorMessage = '';
 
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
@@ -133,36 +127,36 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
             email: userCredential.user.email,
             firstName: firstName,
             lastName: lastName,
-            languages:[],
-            location:'',
+            languages: [],
+            location: '',
             rating: 0,
             avatar: userCredential.user.photoURL || '',
-            type: 'client'
-          }
+            type: 'client',
+          };
 
           const profile = await setDoc(
             doc(db, 'accountantProfile', userCredential.user.uid),
             clientProfile
-          )
-          console.log(profile, 'createdProfile')
-          setUserInfo(userCredential)
+          );
+          console.log(profile, 'createdProfile');
+          setUserInfo(userCredential);
         }
       })
       .catch((error) => {
-        errorMessage = error.message
-      })
-    return errorMessage
+        errorMessage = error.message;
+      });
+    return errorMessage;
   }
 
   function signOut() {
-    setUserInfo(null)
-    auth.signOut()
-    navigate('/')
+    setUserInfo(null);
+    auth.signOut();
+    navigate('/');
   }
 
   async function resetPassword(email: string) {
-    auth.useDeviceLanguage()
-    await sendPasswordResetEmail(auth, email)
+    auth.useDeviceLanguage();
+    await sendPasswordResetEmail(auth, email);
   }
 
   return (
@@ -178,5 +172,5 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     >
       {children}
     </AppContext.Provider>
-  )
+  );
 }
