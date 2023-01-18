@@ -12,7 +12,31 @@
     "title": "Tarifications"
   },
   "Profile": {
-    "title": "Profil"
+    "title": "Profil",
+    "edit": "Éditer",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "accountant": "Comptable",
+    "about": "À propos",
+    "livesIn": "Vivre dans",
+    "speaks": "Parle",
+    "graduated": "Diplômé",
+    "education": "Éducation",
+    "workExperience": "L'expérience professionnelle",
+    "months": {
+      "january": "Janvier",
+      "february": "Février",
+      "march": "Mars",
+      "april": "Avril",
+      "may": "Mai",
+      "june": "Juin",
+      "july": "Juillet",
+      "august": "Août",
+      "september": "Septembre",
+      "october": "Octobre",
+      "november": "Novembre",
+      "december": "Décembre"
+    }
   },
   "Requests": {
     "title": "Demances"
@@ -27,5 +51,12 @@
     "Your Profil": "Voir Profile",
     "Settings": "Paramètres",
     "Sign out": "Se déconnecter"
+  },
+  "Card": {
+    "casesCompleted": "cas terminés",
+    "yearsOfExperience": "années d'expérience",
+    "accountant": "Comptable",
+    "client": "Client",
+    "newUser": "Nouvel Utilisateur"
   }
 }

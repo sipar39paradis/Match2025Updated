@@ -12,7 +12,31 @@
     "title": "Prices"
   },
   "Profile": {
-    "title": "Profile"
+    "title": "Profile",
+    "edit": "Edit",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "accountant": "Accountant",
+    "about": "About",
+    "livesIn": "Lives in",
+    "speaks": "Speaks",
+    "graduated": "Graduated",
+    "education": "Education",
+    "workExperience": "Work Experience",
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
   },
   "Requests": {
     "title": "Requests"
@@ -20,12 +44,19 @@
   "Messages": {
     "title": "Messages"
   },
-  "Files":{
+  "Files": {
     "title": "Files"
   },
   "User": {
     "Your Profil": "Your Profile",
     "Settings": "Settings",
     "Sign out": "Sign out"
+  },
+  "Card": {
+    "casesCompleted": "cases completed",
+    "yearsOfExperience": "years of experience",
+    "accountant": "Accountant",
+    "client": "Client",
+    "newUser": "New User"
   }
 }

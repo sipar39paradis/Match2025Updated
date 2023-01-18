@@ -1,106 +1,151 @@
 import '../../i18n/config'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppContext, AppContextType } from '../../context/AppContext'
-import { Card, Dropdown, Rating } from 'flowbite-react'
+import { Button } from 'flowbite-react'
+import { getAccountantProfile, upsertProfile } from '../../client/firebaseClient'
+import { CustomCard } from '../../components/common/CustomCard'
+import { AccountantProfile, ClientProfile } from '../../interfaces/User'
+
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import { ExperienceTimeline } from '../../components/profile/ExperienceTimeline'
+import { EducationTimeline } from '../../components/profile/EducationTimeline'
+import { useTranslation } from 'react-i18next'
+import { ProfileAbout } from '../../components/profile/ProfileAbout'
+import { Skeleton } from '../../components/common/Skeleton'
+import { useParams } from 'react-router'
 
 export function Profile() {
+  const { t } = useTranslation();
+  const { id } = useParams();
   const { user } = useContext(AppContext) as AppContextType
+  const [profile, setProfile] = useState<AccountantProfile>(null)
+  const [tempProfile, setTempProfile] = useState<AccountantProfile>(null)
+  const [edit, setEdit] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [inErr, setInErr] = useState({})
+
+  let ownProfile = false
+  ownProfile = (profile && profile.email === user.email)
+
+  useEffect((() => {
+    console.log(id, 'id')
+    console.log(user, 'user')
+
+    getAccountantProfile(id ? id : user.uid).then(res => {
+      console.log(res, 'res')
+      res.experiece.sort((a,b) => (a.startDateObj.getTime() - b.startDateObj.getTime()) * (-1))
+      res.schooling.sort((a,b) => (a.graduationDateObj.getTime() - b.graduationDateObj.getTime()) * (-1))
+      initializeProfile(res)
+    })
+  }), [])
+
+  const updateProfile = async (id: string, profile: AccountantProfile) => {
+    await upsertProfile(id, profile)
+    initializeProfile(profile)
+
+  }
+
+  const initializeProfile = (profile: AccountantProfile) => {
+    setProfile(structuredClone(profile))
+    setTempProfile(structuredClone(profile))
+    setLoading(false)
+  }
 
   return (
     <main>
-      <div className='flex justify-center flex-col w-screen pt-28 p-10 sm:px-30 lg:px-40'>
+      <div className='flex justify-center flex-col w-screen p-10 sm:px-30 lg:px-40'>
         <div className='flex flex-row justify-center'>
           <div className='max-w-xs'>
-            <Card>
-              <div className='flex justify-end px-4 pt-4'>
-                <Dropdown inline={true} label=''>
-                  <Dropdown.Item>
-                    <a
-                      href='#'
-                      className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white'
-                    >
-                      Edit
-                    </a>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <a
-                      href='#'
-                      className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white'
-                    >
-                      Export Data
-                    </a>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <a
-                      href='#'
-                      className='block py-2 px-4 text-sm text-red-600 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white'
-                    >
-                      Delete
-                    </a>
-                  </Dropdown.Item>
-                </Dropdown>
-              </div>
-              <div className='flex flex-col items-center pb-10'>
-                <img
-                  className='mb-3 h-32 w-32 rounded-full shadow-lg'
-                  src={user?.photoURL}
-                  alt='Bonnie image'
-                />
-                <div className='mb-1'>
-                  <Rating>
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star filled={false} />
-                    <p className='ml-2 text-sm font-medium text-gray-500 dark:text-gray-400'>
-                      4.95 out of 5
-                    </p>
-                  </Rating>
-                </div>
-                <hr className='mb-1 mx-auto w-48 h-1 bg-gray-200 rounded border-0 md:my-10'></hr>
-                <h5 className='mb-1 text-xl font-medium text-gray-900 dark:text-white'>
-                  {user?.displayName}
-                </h5>
-                <span className='text-sm text-gray-500 dark:text-gray-400'>
-                  Accountant
-                </span>
-                <hr className='my-8 h-px bg-gray-200 border-0 md:my-10'></hr>
-                <div className='mt-4 flex space-x-3 lg:mt-6'>
-                  <a
-                    href='#'
-                    className='inline-flex items-center rounded-lg bg-blue-700 py-2 px-4 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+            <div className='sticky position-webstick top-10'>
+              <CustomCard
+                user={user}
+                profile={tempProfile}
+              />
+              {ownProfile?
+                !edit ?
+                (
+                  <Button
+                    outline={true}
+                    gradientDuoTone="purpleToPink"
+                    className='m-auto mt-2'
+                    onClick={() => {setEdit(true)}}
                   >
-                    Add friend
-                  </a>
-                  <a
-                    href='#'
-                    className='inline-flex items-center rounded-lg border border-gray-300 bg-white py-2 px-4 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
-                  >
-                    Message
-                  </a>
-                </div>
-              </div>
-            </Card>
+                  {t('Profile.edit')}
+                  </Button>
+                ):
+                (
+                  <div className='flex flex-row'>
+                    <Button
+                      gradientMonochrome="success"
+                      className='m-auto mt-2'
+                      disabled={Object.values(inErr).includes(true)}
+                      onClick={() => {
+                        setEdit(false)
+                        console.log(tempProfile.id, 'id')
+                        updateProfile(tempProfile.id, tempProfile)
+                      }}
+                    >
+                      {t('Profile.confirm')}
+                    </Button>
+                    <Button
+                      gradientMonochrome="failure"
+                      className='m-auto mt-2'
+                      onClick={() => {
+                        setEdit(false)
+                        setTempProfile(structuredClone(profile))
+                        setInErr({})
+                      }}
+                    >
+                      {t('Profile.cancel')}
+                    </Button>
+                  </div>
+                ):null}
+
+            </div>
           </div>
 
           <div className='flex w-8/12 px-20'>
             <div className='flex flex-col justify-start text-left w-full'>
-              <h2 className='mb-1 text-2xl font-semibold text-gray-900 dark:text-white'>
-                {user?.displayName}
-              </h2>
-              <span className='text-sm text-gray-500 dark:text-gray-400'>
-                Accountant
-              </span>
-
-              <h3 className='font-semibold py-8 text-xl'>About</h3>
-              <div className='font-medium text-m'>
-                <h4>Lives in Montreal, Canada</h4>
-                <h4>Speaks English, Español, Français</h4>
-              </div>
-
+              <ProfileAbout
+                profile={tempProfile}
+                edit={edit}
+                loading={loading}
+                setProfile={setTempProfile}
+              />
               <hr className='m-8 flex justify-self-center self-center mb-2 w-10/12 h-0.5 bg-gray-200 rounded border-0 md:my-10'></hr>
 
+              <div className='flex flex-row'>
+                {!loading?
+                  profile.type === 'accountant'?? (
+                    <>             
+                      <ExperienceTimeline
+                        profile={tempProfile}
+                        edit={edit}
+                        inErr={inErr}
+                        setInErr={setInErr}
+                        setProfile={setTempProfile}
+                      />
+                        <EducationTimeline
+                        profile={tempProfile}
+                        edit={edit}
+                        inErr={inErr}
+                        setInErr={setInErr}
+                        setProfile={setTempProfile}
+                      />
+                    </>
+                  )
+                  :
+                  <>
+                    <Skeleton
+                      rows={5}
+                    />
+                    <Skeleton
+                      rows={5}
+                    />
+                  </>
+                }
+              </div>
               <h3 className='font-semibold py-8 text-xl'>Clients</h3>
             </div>
           </div>
