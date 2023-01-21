@@ -67,7 +67,8 @@ export function Contact() {
             <div className='w-full px-4 lg:w-2/3'>
               <div className='mx-auto mb-10 max-w-[550px] text-center lg:ml-0 lg:mb-0 lg:text-left'>
                 <h2 className='mb-4 font-heading text-xl font-semibold leading-tight text-dark dark:text-white sm:text-[38px]'>
-                  Looking for a collaboration? Get Started Today!
+                  Intéresser à travailler avec nous? Contactez nous
+                  aujourd&apos;hui!
                 </h2>
                 <p className='text-base text-dark-text'>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -80,7 +81,7 @@ export function Contact() {
                   href='javascript:void(0)'
                   className='inline-flex items-center rounded bg-orange-500 py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90'
                 >
-                  Get Started Now
+                  Plus d&apos;information
                 </a>
               </div>
             </div>
