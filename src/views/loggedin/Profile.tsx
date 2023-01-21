@@ -4,7 +4,7 @@ import { AppContext, AppContextType } from '../../context/AppContext'
 import { Button } from 'flowbite-react'
 import { getAccountantProfile, upsertProfile } from '../../client/firebaseClient'
 import { CustomCard } from '../../components/common/CustomCard'
-import { AccountantProfile, ClientProfile } from '../../interfaces/User'
+import { AccountantProfile } from '../../interfaces/User'
 
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file

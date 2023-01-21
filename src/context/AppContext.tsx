@@ -8,12 +8,11 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
-  User,
 } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
-import { AccountantProfile, ClientProfile, UserInfo } from '../interfaces/User'
+import { AccountantProfile } from '../interfaces/User'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
