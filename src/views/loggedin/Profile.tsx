@@ -165,5 +165,9 @@ export function Profile() {
         </div>
       </div>
     </main>
+<<<<<<< HEAD
+  )
+=======
   );
+>>>>>>> 044a58704e7efd1b3e0859a4622bfaf9cdfa393f
 }
