@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxDeclarationStep';
+import { TaxProfile } from '../types/TaxProfile';
 
-export function TaxProfile() {
+export function TaxProfileForm() {
   const {
-    register,
     handleSubmit,
     formState: {},
-  } = useForm();
+    watch,
+    control,
+  } = useForm<TaxProfile>();
   const navigate = useNavigate();
+  const watchWorkedLastYear = watch('workedLastYear.workedLastYear');
+  const watchInvestmentIncome = watch('investmentIncome.investmentIncome');
 
-  function onSubmitButton(data) {
+  function onSubmitButton() {
     navigate(`/platform/tax-declaration?step=${TaxDeclarationStep.REVIEW}`);
   }
 
@@ -22,6 +26,262 @@ export function TaxProfile() {
         onSubmit={handleSubmit(onSubmitButton)}
         className="flex flex-col items-start mt-4 w-full"
       >
+        <p>Avez-vous travaillé en 2021?</p>
+        <Controller
+          control={control}
+          name="workedLastYear.workedLastYear"
+          render={({ field: { onChange, value } }) => (
+            <fieldset className="flex flex-row m-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  value="no"
+                  onChange={() => onChange(true)}
+                  checked={value === true}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="worked-last-year-option-1"
+                  className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Oui
+                </label>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  type="radio"
+                  value="yes"
+                  onChange={() => onChange(false)}
+                  checked={value === false}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="worked-last-year-option-2"
+                  className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Non
+                </label>
+              </div>
+            </fieldset>
+          )}
+        />
+        {watchWorkedLastYear !== undefined && (
+          <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+            {watchWorkedLastYear === true ? (
+              <p>
+                Il semble que vous n&apos;avez pas travaillé en 2022. Est-ce que
+                l&apos;une des situations suivantes vous concerne?
+              </p>
+            ) : (
+              <p>
+                Veuillez indiquer quel genre de travail vous faisiez (cochez
+                toutes les cases qui s&apos;appliquent)
+              </p>
+            )}
+          </div>
+        )}
+        <p>
+          Avez-vous reçu un revenu de pension ou de retraite ou des prestations
+          liées à la COVID-19, ou avez-vous retiré de l&apos;argent d&apos;un
+          REER ou d&apos;un FERR? Cela n&apos;inclut pas les cotisations à un
+          REER ni à un régime de retraite.
+        </p>
+        <Controller
+          control={control}
+          name="workedLastYear.workedLastYear"
+          render={({ field: { onChange, value } }) => (
+            <fieldset className="flex flex-row m-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  value="no"
+                  onChange={() => onChange(true)}
+                  checked={value === true}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="worked-last-year-option-1"
+                  className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Oui
+                </label>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  type="radio"
+                  value="yes"
+                  onChange={() => onChange(false)}
+                  checked={value === false}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="worked-last-year-option-2"
+                  className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Non
+                </label>
+              </div>
+            </fieldset>
+          )}
+        />
+        <p>
+          Avez-vous un revenu provenant de placements? Le revenu de placement
+          peut inclure les intérêts gagnés sur les placements, la vente
+          d&apos;actions ou d&apos;options d&apos;achat d&apos;actions, les
+          opérations en cryptomonnaie la vente de biens immobiliers et les frais
+          de placement connexes.
+        </p>
+        <Controller
+          control={control}
+          name="investmentIncome.investmentIncome"
+          render={({ field: { onChange, value } }) => (
+            <fieldset className="flex flex-row m-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  value="no"
+                  onChange={() => onChange(true)}
+                  checked={value === true}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="worked-last-year-option-1"
+                  className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Oui
+                </label>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  type="radio"
+                  value="yes"
+                  onChange={() => onChange(false)}
+                  checked={value === false}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="worked-last-year-option-2"
+                  className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Non
+                </label>
+              </div>
+            </fieldset>
+          )}
+        />
+        {watchInvestmentIncome !== undefined && (
+          <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+            {watchInvestmentIncome === true && (
+              <p>
+                Il semble que vous n&apos;avez pas travaillé en 2022. Est-ce que
+                l&apos;une des situations suivantes vous concerne?
+              </p>
+            )}
+          </div>
+        )}
+        <p>
+          Avez-vous un revenu de travailleur autonome, de location ou
+          d&apos;autres revenus?
+        </p>
+        <fieldset className="flex flex-row m-4">
+          <div className="flex items-center">
+            <input
+              type="radio"
+              value="no"
+              id="field-worked-last-year-yes"
+              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              htmlFor="worked-last-year-option-1"
+              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Oui
+            </label>
+          </div>
+          <div className="flex items-center m-4">
+            <input
+              type="radio"
+              value="yes"
+              id="field-worked-last-year-no"
+              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              htmlFor="worked-last-year-option-2"
+              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Non
+            </label>
+          </div>
+        </fieldset>
+        <p>
+          Possédiez-vous ou déteniez-vous des biens étrangers déterminés, dont
+          le coût total, à un moment donné durant l&apos;année 2021, s&apos;est
+          élevé à plus de 100 000 $ CA?
+        </p>
+        <fieldset className="flex flex-row m-4">
+          <div className="flex items-center">
+            <input
+              type="radio"
+              value="no"
+              id="field-worked-last-year-yes"
+              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              htmlFor="worked-last-year-option-1"
+              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Oui
+            </label>
+          </div>
+          <div className="flex items-center m-4">
+            <input
+              type="radio"
+              value="yes"
+              id="field-worked-last-year-no"
+              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              htmlFor="worked-last-year-option-2"
+              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Non
+            </label>
+          </div>
+        </fieldset>
+        <p>
+          Étiez-vous aux études en 2021 ou avez-vous reporté des dépenses liées
+          à vos études des années antérieures?
+        </p>
+        <fieldset className="flex flex-row m-4">
+          <div className="flex items-center">
+            <input
+              type="radio"
+              value="no"
+              id="field-worked-last-year-yes"
+              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              htmlFor="worked-last-year-option-1"
+              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Oui
+            </label>
+          </div>
+          <div className="flex items-center m-4">
+            <input
+              type="radio"
+              value="yes"
+              id="field-worked-last-year-no"
+              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              htmlFor="worked-last-year-option-2"
+              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Non
+            </label>
+          </div>
+        </fieldset>
         <p>
           Avez-vous des renseignements au sujet d&apos;un REER, d&apos;un RPAC,
           d&apos;un autre régime de pension, du régime d&apos;accession à la
@@ -233,7 +493,7 @@ export function TaxProfile() {
             </label>
           </div>
         </fieldset>
-        <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+        <div className="px-8 py-4 mb-4 w-full bg-gray-100 rounded-lg">
           <p>Cochez toutes les cases qui s&apos;appliquent.</p>
           <fieldset className="flex flex-col m-4">
             <div className="flex items-center mb-2">

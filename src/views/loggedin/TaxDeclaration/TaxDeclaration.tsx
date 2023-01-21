@@ -7,7 +7,7 @@ import { TaxDeclarationReview } from './TaxDeclarationReview';
 import { ContactDetailsForm } from './ProfileForms/ContactDetailsForm';
 import { TaxDeclarationStep } from './types/TaxDeclarationStep';
 import { DependentsForm } from './ProfileForms/DependentsForm';
-import { TaxProfile } from './TaxForms/TaxProfile';
+import { TaxProfileForm } from './TaxForms/TaxProfileForm';
 
 const TAX_DECLARATION_STEP = 'step';
 export function TaxDeclaration() {
@@ -26,7 +26,7 @@ export function TaxDeclaration() {
       case TaxDeclarationStep.DEPENDENTS:
         return <DependentsForm></DependentsForm>;
       case TaxDeclarationStep.TAX_PROFILE:
-        return <TaxProfile></TaxProfile>;
+        return <TaxProfileForm></TaxProfileForm>;
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:

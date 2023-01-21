@@ -4,31 +4,35 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
-
-type provinceData = {
-  province: string;
-};
+import { PersonalInformations } from '../types/PersonnalInformations';
 
 export function PersonnalInformationsForm() {
   const {
     register,
     handleSubmit,
     formState: {},
-  } = useForm<provinceData>();
+  } = useForm<PersonalInformations>();
   const navigate = useNavigate();
 
-  const [value, setValue] = useState({
+  const [birthDayValue, setBirthDayValue] = useState({
     startDate: null,
     endDate: null,
   });
 
-  const handleValueChange = (newValue) => {
-    console.log('newValue:', newValue);
-    setValue(newValue);
+  const [deathDateValue, setDeathDateValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  const handleDeathDateValueChange = (newValue) => {
+    setDeathDateValue(newValue);
   };
 
-  function onSubmitButton(data) {
-    console.log(data);
+  const handleBirthDayValueChange = (newValue) => {
+    setBirthDayValue(newValue);
+  };
+
+  function onSubmitButton() {
     navigate(
       `/platform/tax-declaration?step=${TaxDeclarationStep.CONTACT_DETAILS}`
     );
@@ -43,6 +47,7 @@ export function PersonnalInformationsForm() {
       >
         <div className="relative z-0 w-full my-4 group">
           <input
+            {...register('email')}
             type="email"
             name="floating_email"
             id="floating_email"
@@ -60,6 +65,7 @@ export function PersonnalInformationsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
+              {...register('firstName')}
               type="text"
               name="floating_first_name"
               id="floating_first_name"
@@ -75,6 +81,7 @@ export function PersonnalInformationsForm() {
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
+              {...register('lastName')}
               type="text"
               name="floating_last_name"
               id="floating_last_name"
@@ -92,6 +99,7 @@ export function PersonnalInformationsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
+              {...register('socialSecurityNumber')}
               type="tel"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
               name="floating_ssn"
@@ -107,11 +115,12 @@ export function PersonnalInformationsForm() {
             </label>
           </div>
           <Datepicker
+            {...register('birthDay')}
             containerClassName="h-fit"
             useRange={false}
             asSingle={true}
-            value={value}
-            onChange={handleValueChange}
+            value={birthDayValue}
+            onChange={handleBirthDayValueChange}
             placeholder={'Date de naissance (JJ/MM/AAAA)'}
           />
         </div>
@@ -122,11 +131,12 @@ export function PersonnalInformationsForm() {
           décès.
         </p>
         <Datepicker
+          {...register('deathDate')}
           containerClassName="h-fit w-96 my-8"
           useRange={false}
           asSingle={true}
-          value={value}
-          onChange={handleValueChange}
+          value={deathDateValue}
+          onChange={handleDeathDateValueChange}
           placeholder={'JJ/MM/AAAA'}
         />
         <p>

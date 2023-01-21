@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
+import { ContactDetails } from '../types/ContactDetails';
 import { TaxDeclarationStep } from '../types/TaxDeclarationStep';
 
 export function ContactDetailsForm() {
@@ -10,7 +11,7 @@ export function ContactDetailsForm() {
     register,
     handleSubmit,
     formState: {},
-  } = useForm();
+  } = useForm<ContactDetails>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,20 +21,39 @@ export function ContactDetailsForm() {
     });
   }, []);
 
-  function onSubmitButton(data) {
+  function onSubmitButton() {
     navigate(
       `/platform/tax-declaration?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
     );
   }
 
-  const [value, setValue] = useState({
+  const [movedFromOtherProvince, setMovedFromOtherProvince] = useState({
     startDate: null,
     endDate: null,
   });
 
-  const handleValueChange = (newValue) => {
-    setValue(newValue);
+  const handlelostResidencyDateChange = (newValue) => {
+    setLostResidencyDateChange(newValue);
   };
+
+  const [lostResidencyDateChange, setLostResidencyDateChange] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  const handleMovedFromOtherProvinceChange = (newValue) => {
+    setMovedFromOtherProvince(newValue);
+  };
+
+  const [entryCanadaDate, setEntryCanadaDate] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  const handleEntryCanadaDateChange = (newValue) => {
+    setEntryCanadaDate(newValue);
+  };
+
   return (
     <section className="flex flex-col align-baseline items-start w-full">
       <h1>Coordonnées</h1>
@@ -47,6 +67,7 @@ export function ContactDetailsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
+              {...register('address')}
               type="text"
               name="floating_address"
               id="floating_address"
@@ -62,6 +83,7 @@ export function ContactDetailsForm() {
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
+              {...register('appartment')}
               type="text"
               name="floating_appartment"
               id="floating_appartment"
@@ -69,7 +91,7 @@ export function ContactDetailsForm() {
               placeholder=" "
             />
             <label
-              htmlFor="floating_address"
+              htmlFor="floating_appartment"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               No d&apos;appartement
@@ -79,6 +101,7 @@ export function ContactDetailsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
+              {...register('street')}
               type="text"
               name="floating_street"
               id="floating_street"
@@ -94,6 +117,7 @@ export function ContactDetailsForm() {
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
+              {...register('city')}
               type="text"
               name="floating_city"
               id="floating_city"
@@ -111,6 +135,7 @@ export function ContactDetailsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
+              {...register('postal')}
               type="postal"
               name="floating_postal"
               id="floating_postal"
@@ -126,6 +151,7 @@ export function ContactDetailsForm() {
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
+              {...register('careOf')}
               type="text"
               name="floating_careOf"
               id="floating_careOf"
@@ -142,14 +168,15 @@ export function ContactDetailsForm() {
         </div>
         <p>
           Si vous avez déménagé d&apos;une autre province ou d&apos;un autre
-          territoire en 2021, entrez la date de votre déménagement
+          territoire en 2022, entrez la date de votre déménagement
         </p>
         <Datepicker
+          {...register('movedFromOtherProvince')}
           containerClassName="h-fit w-96 my-8"
           useRange={false}
           asSingle={true}
-          value={value}
-          onChange={handleValueChange}
+          value={movedFromOtherProvince}
+          onChange={handleMovedFromOtherProvinceChange}
           placeholder={'JJ/MM/AAAA'}
         />
         <p>
@@ -158,13 +185,14 @@ export function ContactDetailsForm() {
         <fieldset className="flex flex-row m-4">
           <div className="flex items-center">
             <input
+              {...register('sameAddress')}
               type="radio"
               value="no"
-              id="field-dead-person-yes"
+              id="field-same-address-yes"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="same-address-option-1"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Oui
@@ -172,13 +200,14 @@ export function ContactDetailsForm() {
           </div>
           <div className="flex items-center m-4">
             <input
+              {...register('sameAddress')}
               type="radio"
               value="yes"
-              id="field-dead-person-no"
+              id="field-same-address-yes"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="same-address-option-1"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Non
@@ -191,7 +220,11 @@ export function ContactDetailsForm() {
         </p>
 
         <div id="select" className="my-4 w-80">
-          <Select id="provinces" required={true}>
+          <Select
+            {...register('differentProvince')}
+            id="provinces"
+            required={true}
+          >
             <option>Je réside dans la même province</option>
             <option>Alberta</option>
             <option>Colombie-Britanique</option>
@@ -212,14 +245,16 @@ export function ContactDetailsForm() {
         <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
         <div className="relative z-0 w-full my-4 group">
           <input
-            type="email"
-            name="floating_email"
-            id="floating_email"
+            {...register('phoneNumber')}
+            type="tel"
+            name="tel"
+            id="tel"
             className="block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
             placeholder=" "
+            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
           />
           <label
-            htmlFor="floating_email"
+            htmlFor="tel"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
             Numéro de téléphone à domicile
@@ -229,14 +264,16 @@ export function ContactDetailsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4">
           <div className="relative z-0 w-full mb-6 group">
             <input
+              {...register('workPhoneNumber')}
               type="postal"
-              name="floating_postal"
-              id="floating_postal"
+              name="floating-work-phone-number"
+              id="floating-work-phone-number"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
+              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
             />
             <label
-              htmlFor="floating_postal"
+              htmlFor="floating-work-phone-number"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Numéro de téléphone au travail
@@ -244,14 +281,15 @@ export function ContactDetailsForm() {
           </div>
           <div className="relative z-0 mb-6 group">
             <input
-              type="careOf"
-              name="floating_careOf"
-              id="floating_careOf"
+              {...register('extensionNumber')}
+              type="number"
+              name="floating-extension-number"
+              id="floating-extension-number"
               className="block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
             />
             <label
-              htmlFor="floating_careOf"
+              htmlFor="floating-extension-number"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Poste
@@ -261,19 +299,20 @@ export function ContactDetailsForm() {
         <h2 className="mb-0">Autres renseignements personnels </h2>
         <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
         <p>
-          Avez-vous fait faillite en 2021 ou 2022, ou êtes-vous en faillite
+          Avez-vous fait faillite en 2022 ou 2022, ou êtes-vous en faillite
           selon les dossiers de l&apos;Agence du revenu du Canada (ARC)?
         </p>
         <fieldset className="flex flex-row m-4">
           <div className="flex items-center">
             <input
+              {...register('bankruptcy')}
               type="radio"
               value="no"
-              id="field-dead-person-yes"
+              id="field-bankruptcy-yes"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="bankruptcy-option-1"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Oui
@@ -281,13 +320,14 @@ export function ContactDetailsForm() {
           </div>
           <div className="flex items-center m-4">
             <input
+              {...register('bankruptcy')}
               type="radio"
               value="yes"
-              id="field-dead-person-no"
+              id="field-bankruptcy-no"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="bankruptcy-option-2"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Non
@@ -298,13 +338,14 @@ export function ContactDetailsForm() {
         <fieldset className="flex flex-row m-4">
           <div className="flex items-center">
             <input
+              {...register('disabled')}
               type="radio"
               value="no"
-              id="field-dead-person-yes"
+              id="field-disabled-yes"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="disabled-option-1"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Oui
@@ -312,13 +353,14 @@ export function ContactDetailsForm() {
           </div>
           <div className="flex items-center m-4">
             <input
+              {...register('disabled')}
               type="radio"
               value="yes"
-              id="field-dead-person-no"
+              id="field-disabled-no"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="disabled-option-2"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Non
@@ -332,13 +374,14 @@ export function ContactDetailsForm() {
         <fieldset className="flex flex-row m-4">
           <div className="flex items-center">
             <input
+              {...register('firstTimeARC')}
               type="radio"
               value="no"
-              id="field-dead-person-yes"
+              id="field-first-time-arc-yes"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="first-time-arc-option-1"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Oui
@@ -346,13 +389,14 @@ export function ContactDetailsForm() {
           </div>
           <div className="flex items-center m-4">
             <input
+              {...register('firstTimeARC')}
               type="radio"
               value="yes"
-              id="field-dead-person-no"
+              id="field-first-time-arc-no"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="first-time-arc-option-2"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Non
@@ -418,13 +462,14 @@ export function ContactDetailsForm() {
         <fieldset className="flex flex-row m-4">
           <div className="flex items-center">
             <input
+              {...register('jailLast30Days')}
               type="radio"
               value="no"
-              id="field-dead-person-yes"
+              id="field-jail-last-30-days-yes"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="jail-last-30-days-option-1"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Oui
@@ -432,13 +477,14 @@ export function ContactDetailsForm() {
           </div>
           <div className="flex items-center m-4">
             <input
+              {...register('jailLast30Days')}
               type="radio"
               value="yes"
-              id="field-dead-person-no"
+              id="field-jail-last-30-days-no"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="jail-last-30-days-option-2"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Non
@@ -446,18 +492,19 @@ export function ContactDetailsForm() {
           </div>
         </fieldset>
         <p>
-          En 2021, avez-vous été détenu dans une prison pendant au moins 6 mois?
+          En 2022, avez-vous été détenu dans une prison pendant au moins 6 mois?
         </p>
         <fieldset className="flex flex-row m-4">
           <div className="flex items-center">
             <input
+              {...register('jailLast6months')}
               type="radio"
               value="no"
-              id="field-dead-person-yes"
+              id="field-jail-last-6-months-yes"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="jail-last-6-months-option-1"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Oui
@@ -465,13 +512,14 @@ export function ContactDetailsForm() {
           </div>
           <div className="flex items-center m-4">
             <input
+              {...register('jailLast6months')}
               type="radio"
               value="yes"
-              id="field-dead-person-no"
+              id="field-jail-last-6-months-no"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="jail-last-6-months-option-2"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Non
@@ -480,17 +528,18 @@ export function ContactDetailsForm() {
         </fieldset>
         <h2 className="mb-0">Résidences </h2>
         <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
-        <p>Est-ce que votre statut de résident canadien a changé en 2021?</p>
+        <p>Est-ce que votre statut de résident canadien a changé en 2022?</p>
         <fieldset className="flex flex-row m-4">
           <div className="flex items-center">
             <input
+              {...register('canadianRedisentStatusChange')}
               type="radio"
               value="no"
-              id="field-dead-person-yes"
+              id="field-canadian-resident-status-change-yes"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="canadian-resident-status-change-option-1"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Oui
@@ -498,26 +547,27 @@ export function ContactDetailsForm() {
           </div>
           <div className="flex items-center m-4">
             <input
+              {...register('canadianRedisentStatusChange')}
               type="radio"
               value="yes"
-              id="field-dead-person-no"
+              id="field-canadian-resident-status-change-no"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="country-option-4"
+              htmlFor="canadian-resident-status-change-option-2"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Non
             </label>
           </div>
         </fieldset>
-        <p>Entrez la date de votre entrée au Canada en 2021</p>
+        <p>Entrez la date de votre entrée au Canada en 2022</p>
         <Datepicker
           containerClassName="h-fit w-96 my-8"
           useRange={false}
           asSingle={true}
-          value={value}
-          onChange={handleValueChange}
+          value={entryCanadaDate}
+          onChange={handleEntryCanadaDateChange}
           placeholder={'JJ/MM/AAAA'}
         />
         <p>
@@ -527,6 +577,7 @@ export function ContactDetailsForm() {
         </p>
         <div className="relative z-0 my-4 group w-full">
           <input
+            {...register('canadianIncomes')}
             type="number"
             name="floating_canadian_incomes"
             id="floating__canadian_incomes"
@@ -547,7 +598,8 @@ export function ContactDetailsForm() {
         </p>
         <div className="relative z-0 my-4 group w-full">
           <input
-            type="text"
+            {...register('foreignIncomes')}
+            type="number"
             name="floating_foreign_incomes"
             id="floating_foreign_incomes"
             className="block w-96 py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
@@ -562,19 +614,24 @@ export function ContactDetailsForm() {
         </div>
         <p>
           Entrez la date à laquelle vous avez cessé d&apos;être résident du
-          Canada en 2021
+          Canada en 2022
         </p>
         <Datepicker
+          {...register('lostResidencyDate')}
           containerClassName="h-fit w-96 my-8"
           useRange={false}
           asSingle={true}
-          value={value}
-          onChange={handleValueChange}
+          value={lostResidencyDateChange}
+          onChange={handlelostResidencyDateChange}
           placeholder={'JJ/MM/AAAA'}
         />
         <p>Raison de votre arrivé ou de votre départ</p>
         <div id="select" className="my-4 w-80">
-          <Select id="canada" placeholder="Veuillez sélectionner">
+          <Select
+            {...register('residentStatus')}
+            id="canada"
+            placeholder="Veuillez sélectionner"
+          >
             <option>Nouveau résident du Canada</option>
             <option>Séjour temporaire du Canada</option>
             <option>Travailleur agricole étranger</option>
@@ -590,7 +647,8 @@ export function ContactDetailsForm() {
         </p>
         <div className="relative z-0 my-4 group w-full">
           <input
-            type="text"
+            {...register('nonResidentRevenues')}
+            type="number"
             name="floating_non_resident_incomes"
             id="floating_non_resident_incomes"
             className="block w-96 py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"

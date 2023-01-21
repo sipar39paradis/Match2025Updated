@@ -5,7 +5,6 @@ import { TaxDeclarationStep } from '../types/TaxDeclarationStep';
 
 export function DependentsForm() {
   const {
-    register,
     handleSubmit,
     formState: {},
   } = useForm();

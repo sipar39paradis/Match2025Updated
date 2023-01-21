@@ -7,7 +7,6 @@ import { TaxDeclarationStep } from '../types/TaxDeclarationStep';
 
 export function CivilStatusChangeForm() {
   const {
-    register,
     handleSubmit,
     formState: {},
   } = useForm();
@@ -20,8 +19,7 @@ export function CivilStatusChangeForm() {
     });
   }, []);
 
-  function onSubmitButton(data) {
-    console.log(data);
+  function onSubmitButton() {
     navigate(`/platform/tax-declaration?step=${TaxDeclarationStep.DEPENDENTS}`);
   }
 
@@ -31,15 +29,14 @@ export function CivilStatusChangeForm() {
   });
 
   const handleValueChange = (newValue) => {
-    console.log('newValue:', newValue);
     setValue(newValue);
   };
 
   return (
     <section className="flex flex-col align-baseline items-start w-full">
-      <h1>Changements d&apos;état civil depuis le 31 décembre 2021</h1>
+      <h1>Changements d&apos;état civil depuis le 31 décembre 2022</h1>
       <p className="my-4">
-        Depuis le 31 décembre 2021, vous êtes-vous marié, avez-vous commencé à
+        Depuis le 31 décembre 2022, vous êtes-vous marié, avez-vous commencé à
         vivre en union de fait, vous êtes-vous divorcé ou séparé de votre époux
         ou conjoint de fait, ou êtes-vous devenu(e) veuf(ve)?
       </p>
@@ -83,7 +80,7 @@ export function CivilStatusChangeForm() {
           </div>
         </fieldset>
         <h1>Changements d&apos;état civil </h1>
-        <p>Quel était votre état civil au 31 décembre 2021?</p>
+        <p>Quel était votre état civil au 31 décembre 2022?</p>
         <div id="select" className="my-4 w-96">
           <Select id="civil-status" required={true}>
             <option value="" disabled selected>
@@ -97,7 +94,7 @@ export function CivilStatusChangeForm() {
             <option>Célibataire</option>
           </Select>
         </div>
-        <p>Date de changement de votre état civil en 2021</p>
+        <p>Date de changement de votre état civil en 2022</p>
         <Datepicker
           containerClassName="h-fit w-96 my-8"
           useRange={false}
@@ -107,7 +104,7 @@ export function CivilStatusChangeForm() {
           placeholder={'JJ/MM/AAAA'}
         />
         <h2 className="mb-0">
-          Renseignement sur le changement de votre état civil en 2021{' '}
+          Renseignement sur le changement de votre état civil en 2022{' '}
         </h2>
         <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
         <p>Date de changement de votre état civil à célibataire </p>
@@ -121,7 +118,7 @@ export function CivilStatusChangeForm() {
         />
         <p>
           Entrez le montant des prestations d&apos;assistance sociale que vous
-          avez reçues du 1er janvier 2021 jusqu&apos;à la date de changement de
+          avez reçues du 1er janvier 2022 jusqu&apos;à la date de changement de
           votre état civil sans inclure cette date
         </p>
 
