@@ -8,6 +8,9 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  
+  // Facebook auth below
+  FacebookAuthProvider, 
 } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore';
@@ -38,6 +41,7 @@ export interface AppContextType {
   user: any;
   signIn: (email: string, password: string) => void;
   signInWithGoogle: () => Promise<string>;
+  signInWithFacebook: () => Promise<string>;
   signOut: () => void;
   signUpWithEmailAndPassword: (
     email: string,
@@ -77,6 +81,21 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       .catch((error) => {
         errorMessage = error.message;
       });
+    return errorMessage;
+  }
+
+  async function signInWithFacebook() {
+    let errorMessage = '';
+    const provider = new FacebookAuthProvider();
+    await signInWithPopup(auth, provider).then((userCredential) => {
+      console.log(userCredential)
+      const userInfo = getDoc(doc(db, 'userInfo', userCredential.user.email));
+      setUserInfo(userInfo);
+    }).catch((error) =>{
+      console.log(error)
+      errorMessage = error.message;
+    })
+
     return errorMessage;
   }
 
@@ -164,6 +183,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         user,
         signIn,
         signInWithGoogle,
+        signInWithFacebook,
         signOut,
         signUpWithEmailAndPassword,
         resetPassword,
