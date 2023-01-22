@@ -1,3 +1,4 @@
+import { Checkbox, Label } from 'flowbite-react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +15,9 @@ export function TaxProfileForm() {
   const navigate = useNavigate();
   const watchWorkedLastYear = watch('workedLastYear.workedLastYear');
   const watchInvestmentIncome = watch('investmentIncome.investmentIncome');
+  const watchSelfEmploymentRentalOtherIncome = watch(
+    'selfEmploymentRentalOtherIncome.selfEmploymentRentalOtherIncome'
+  );
 
   function onSubmitButton() {
     navigate(`/platform/tax-declaration?step=${TaxDeclarationStep.REVIEW}`);
@@ -68,15 +72,337 @@ export function TaxProfileForm() {
         {watchWorkedLastYear !== undefined && (
           <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
             {watchWorkedLastYear === true ? (
-              <p>
-                Il semble que vous n&apos;avez pas travaillé en 2022. Est-ce que
-                l&apos;une des situations suivantes vous concerne?
-              </p>
+              <>
+                <p>
+                  Veuillez indiquer quel genre de travail vous faisiez (cochez
+                  toutes les cases qui s&apos;appliquent)
+                </p>
+                <div className="flex items-center gap-2 py-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember">
+                    J&apos;étais un employé (comprend le travail à la
+                    commission)
+                  </Label>
+                </div>
+                <hr className="py-2"></hr>
+                <div className="px-8">
+                  <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T4 / Relevé 1 - Revenus d&apos;emploi
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente,
+                      prestations liées à la COVID-19 reçues ou remboursées et
+                      autres revenus
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T4A-RCA - État des montants distribués d&apos;une
+                      convention de retraite
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T4PS / Relevé 25 - Régime de participation des employés
+                      aux bénéfices
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T10 - Facteur d&apos;équivalence rectifié (FER)
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      Étranger - Revenu provenant de sources étrangères
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      Relevé 17 - Rémunération provenant d&apos;un emploi à
+                      l&apos;extérieur du Canada
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      Relevé 22 - Revenu d&apos;emploi lié à un régime
+                      d&apos;assurance interentreprises
+                    </Label>
+                  </div>
+                  <hr className="py-2"></hr>
+                  <p>
+                    Est-ce que l&apos;une des situations suivantes vous
+                    concerne?
+                  </p>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      J&apos;étais un membre du clergé
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      Déclarez-vous un paiement forfaitaire rétroactif
+                      admissible sur le formulaire T1198?
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      J&apos;ai reçu un revenu d&apos;un régime
+                      d&apos;assurance-salaire
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      Je veux verser des cotisations facultatives au RPC ou au
+                      RRQ
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      J&apos;ai des actions dans ma compagnie et j&apos;ai des
+                      avantages tirés d&apos;une option d&apos;achat
+                      d&apos;actions ou j&apos;ai payé de l&apos;impôt sur les
+                      excédents à un régime de participation des employés aux
+                      bénéfices ou je dois faire un choix pour reporter les
+                      avantages tirés d&apos;une option d&apos;achat
+                      d&apos;actions.
+                    </Label>
+                  </div>
+                  <hr className="py-2"></hr>
+                  <p>Avez-vous des dépenses liées à votre emploi?</p>
+                  <Controller
+                    control={control}
+                    name="retirementIncome.retirementIncome"
+                    render={({ field: { onChange, value } }) => (
+                      <fieldset className="flex flex-row mx-4">
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            value="no"
+                            onChange={() => onChange(true)}
+                            checked={value === true}
+                            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor="worked-last-year-option-1"
+                            className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            Oui
+                          </label>
+                        </div>
+                        <div className="flex items-center m-4">
+                          <input
+                            type="radio"
+                            value="yes"
+                            onChange={() => onChange(false)}
+                            checked={value === false}
+                            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor="worked-last-year-option-2"
+                            className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            Non
+                          </label>
+                        </div>
+                      </fieldset>
+                    )}
+                  />
+                  <hr className="py-2"></hr>
+                  <div className="mx-8">
+                    <p>
+                      Les dépenses d&apos;emploi peuvent être classées dans une
+                      ou plus d&apos;une des catégories suivantes. Cochez toutes
+                      les cases qui s&apos;appliquent.
+                    </p>
+                    <div className="flex items-center gap-2 py-2">
+                      <Checkbox id="remember" />
+                      <Label htmlFor="remember">
+                        J&apos;ai des dépenses d&apos;emploi, y compris pour du
+                        travail à domicile en raison de la COVID-19.
+                      </Label>
+                    </div>
+                    <div className="flex items-center gap-2 py-2">
+                      <Checkbox id="remember" />
+                      <Label htmlFor="remember">
+                        J&apos;ai reçu le remboursement de la TPS/TVH (GST370)
+                      </Label>
+                    </div>
+                    <div className="flex items-center gap-2 py-2">
+                      <Checkbox id="remember" />
+                      <Label htmlFor="remember">
+                        J&apos;avais des frais de repas et de logement en tant
+                        qu&apos;employé de transport
+                      </Label>
+                    </div>
+                    <div className="flex items-center gap-2 py-2">
+                      <Checkbox id="remember" />
+                      <Label htmlFor="remember">
+                        J&apos;ai payé des cotisations syndicales ou
+                        professionnelles qui ne sont pas indiquées sur mon
+                        feuillet T4
+                      </Label>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 py-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember">
+                    J&apos;ai reçu des prestations d&apos;assurance-emploi ou de
+                    congé parental, ou j&apos;ai reçu/remboursé des prestations
+                    liées à la COVID-19
+                  </Label>
+                </div>
+                <hr className="py-2"></hr>
+                <div className="px-8">
+                  <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T4E / Relevé 6 - Prestations d&apos;assurance-emploi et
+                      prestations ou remboursements liés à la COVID-19
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente et
+                      autres revenus, incluant la PCU et le remboursement de
+                      prestations liées à la COVID-19
+                    </Label>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 py-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember">
+                    J&apos;ai reçu des indemnités pour accidents du travail ou
+                    de l&apos;aide sociale
+                  </Label>
+                </div>
+                <hr className="py-2"></hr>
+                <div className="px-8">
+                  <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T5007 / Relevé 5 - Prestations d&apos;assistance sociale
+                      ou de la CAT, supplément pour personnes âgées
+                    </Label>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 py-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember">
+                    J&apos;ai reçu des pourboires ou fait du travail occasionnel
+                    et je ne recevrai pas de feuillet T4
+                  </Label>
+                </div>
+                <div className="flex items-center gap-2 py-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember">
+                    J&apos;ai participé à un programme de formation au travail
+                  </Label>
+                </div>
+                <div className="px-8">
+                  <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T4E / Relevé 6 - Prestations d&apos;assurance-emploi
+                    </Label>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 py-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember">
+                    J&apos;ai reçu une rétribution d&apos;une ressource de type
+                    familial ou d&apos;une ressource intermédiaire (relevé 29)
+                  </Label>
+                </div>
+              </>
             ) : (
-              <p>
-                Veuillez indiquer quel genre de travail vous faisiez (cochez
-                toutes les cases qui s&apos;appliquent)
-              </p>
+              <>
+                <p>
+                  Veuillez indiquer quel genre de travail vous faisiez (cochez
+                  toutes les cases qui s&apos;appliquent)
+                </p>
+                <div className="flex items-center gap-2 py-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember">
+                    J&apos;ai reçu des indemnités pour accidents du travail ou
+                    de l&apos;aide sociale
+                  </Label>
+                </div>
+                <hr className="py-2"></hr>
+                <div className="px-8">
+                  <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T5007 / Relevé 5 - Prestations d&apos;assistance sociale
+                      ou de la CAT, supplément pour personnes âgées
+                    </Label>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 py-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember">
+                    J&apos;ai reçu des prestations d&apos;assurance-emploi ou
+                    d&apos;un congé parental, la PCU ou d&apos;autres montants
+                  </Label>
+                </div>
+                <hr className="py-2"></hr>
+                <div className="px-8">
+                  <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T4E / Relevé 6 - Prestations d&apos;assurance-emploi
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente et
+                      autres revenus, incluant la PCU
+                    </Label>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 py-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember">
+                    J&apos;ai participé à un programme de formation au travail
+                  </Label>
+                </div>
+                <hr className="py-2"></hr>
+                <div className="px-8">
+                  <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+                  <div className="flex items-center gap-2 py-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember">
+                      T4E / Relevé 6 - Prestations d&apos;assurance-emploi
+                    </Label>
+                  </div>
+                </div>
+              </>
             )}
           </div>
         )}
@@ -88,7 +414,7 @@ export function TaxProfileForm() {
         </p>
         <Controller
           control={control}
-          name="workedLastYear.workedLastYear"
+          name="retirementIncome.retirementIncome"
           render={({ field: { onChange, value } }) => (
             <fieldset className="flex flex-row m-4">
               <div className="flex items-center">
@@ -124,6 +450,117 @@ export function TaxProfileForm() {
             </fieldset>
           )}
         />
+        <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
+          <p>Cochez toutes les cases qui s&apos;appliquent. </p>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              T4A (OAS) - Sécurité de la vieillesse
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              T4A(P) / Relevé 2 - Prestations du Régime de pensions du Canada ou
+              du Régime de rentes du Québec
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              T5007 / Relevé 5 - Prestations d&apos;assistance sociale ou de la
+              CAT, supplément pour personnes âgées
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente, prestations
+              liées à la COVID-19 reçues ou remboursées et autres revenus
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              T4A-RCA - État des montants distribués d&apos;une convention de
+              retraite
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              T4RSP / Relevé 2 - Revenus d&apos;un régime enregistré
+              d&apos;épargne-retraite
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              T4RIF / Relevé 2 - Fonds enregistré de revenu de retraite
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              Étranger - Revenu provenant de sources étrangères
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">Relevé 19 - Versements anticipés</Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              Je dois rajuster mon crédit pour revenu de pension parce que
+              j&apos;avais un revenu de pension étranger ou un excédent
+              provenant d&apos;un Fonds enregistré de revenu de retraite (FERR)
+              ou d&apos;un régime de pension agréé collectif (RPAC)
+            </Label>
+          </div>
+          <p className="mt-4">
+            Voulez-vous fractionner votre revenu de pension admissible avec
+            votre époux ou conjoint de fait (s&apos;il y a lieu)?
+          </p>
+          <Controller
+            control={control}
+            name="investmentIncome.investmentIncome"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row mx-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    value="no"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    htmlFor="worked-last-year-option-1"
+                    className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    Oui
+                  </label>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    value="yes"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    htmlFor="worked-last-year-option-2"
+                    className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    Non
+                  </label>
+                </div>
+              </fieldset>
+            )}
+          />
+        </div>
         <p>
           Avez-vous un revenu provenant de placements? Le revenu de placement
           peut inclure les intérêts gagnés sur les placements, la vente
@@ -169,50 +606,631 @@ export function TaxProfileForm() {
             </fieldset>
           )}
         />
-        {watchInvestmentIncome !== undefined && (
+
+        {watchInvestmentIncome === true && (
           <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-            {watchInvestmentIncome === true && (
-              <p>
-                Il semble que vous n&apos;avez pas travaillé en 2022. Est-ce que
-                l&apos;une des situations suivantes vous concerne?
-              </p>
-            )}
+            <p>
+              Avez-vous eu un revenu provenant de placements qui est déclaré sur
+              un feuillet (par exemple, un T5, T3, T5008, T5013)?
+            </p>
+            <Controller
+              control={control}
+              name="investmentIncome.investmentIncome"
+              render={({ field: { onChange, value } }) => (
+                <fieldset className="flex flex-row mx-4">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      value="no"
+                      onChange={() => onChange(true)}
+                      checked={value === true}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="worked-last-year-option-1"
+                      className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Oui
+                    </label>
+                  </div>
+                  <div className="flex items-center m-4">
+                    <input
+                      type="radio"
+                      value="yes"
+                      onChange={() => onChange(false)}
+                      checked={value === false}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="worked-last-year-option-2"
+                      className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Non
+                    </label>
+                  </div>
+                </fieldset>
+              )}
+            />
+            <hr className="py-2"></hr>
+            <div className="px-8 pb-2">
+              <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T5 / Relevé 3 - Revenus de placements
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T3 / Relevé 16 - État des revenus de fiducie (répartitions et
+                  attributions)
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T5008 / Relevé 18 - Opérations sur titres
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T5013 / Relevé 15 - Revenus d&apos;une société de personnes
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T101 / Relevé 11 - Frais d&apos;exploration et d&apos;actions
+                  accréditives
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  Relevé 7 - Placements dans un régime d&apos;investissement
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  Relevé 10 - Crédit d&apos;impôt relatif à un fonds de
+                  travailleurs
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  Relevé 26 - Capital régional et coopératif Desjardins
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  Étranger - Revenu provenant de sources étrangères
+                </Label>
+              </div>
+            </div>
+            <p>
+              Avez-vous eu un revenu en intérêts, de dividendes ou d&apos;une
+              société de personnes qui n&apos;est PAS déclaré sur un feuillet?
+            </p>
+            <Controller
+              control={control}
+              name="investmentIncome.investmentIncome"
+              render={({ field: { onChange, value } }) => (
+                <fieldset className="flex flex-row mx-4">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      value="no"
+                      onChange={() => onChange(true)}
+                      checked={value === true}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="worked-last-year-option-1"
+                      className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Oui
+                    </label>
+                  </div>
+                  <div className="flex items-center m-4">
+                    <input
+                      type="radio"
+                      value="yes"
+                      onChange={() => onChange(false)}
+                      checked={value === false}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="worked-last-year-option-2"
+                      className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Non
+                    </label>
+                  </div>
+                </fieldset>
+              )}
+            />
+            <hr className="py-2"></hr>
+            <div className="px-8 pb-2">
+              <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;avais un revenu en intérêts n&apos;apparaissant pas sur
+                  un feuillet
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;avais un revenu de dividendes n&apos;apparaissant pas
+                  sur un feuillet
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;avais un revenu ou une perte provenant d&apos;une
+                  société de personnes et j&apos;étais soit un commanditaire ou
+                  je ne participais pas de manière active dans la société de
+                  personnes. Je ne recevrai pas de T5013.
+                </Label>
+              </div>
+            </div>
+            <p>
+              Avez-vous acheté des actions, des obligations, des fonds communs,
+              de l&apos;immobilier ou d&apos;autres biens cette année?
+            </p>
+            <Controller
+              control={control}
+              name="investmentIncome.investmentIncome"
+              render={({ field: { onChange, value } }) => (
+                <fieldset className="flex flex-row mx-4">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      value="no"
+                      onChange={() => onChange(true)}
+                      checked={value === true}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="worked-last-year-option-1"
+                      className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Oui
+                    </label>
+                  </div>
+                  <div className="flex items-center m-4">
+                    <input
+                      type="radio"
+                      value="yes"
+                      onChange={() => onChange(false)}
+                      checked={value === false}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="worked-last-year-option-2"
+                      className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Non
+                    </label>
+                  </div>
+                </fieldset>
+              )}
+            />
+            <p>
+              Avez-vous vendu des actions, des obligations, des fonds communs,
+              de l&apos;immobilier ou d&apos;autres biens cette année?
+            </p>
+            <Controller
+              control={control}
+              name="investmentIncome.investmentIncome"
+              render={({ field: { onChange, value } }) => (
+                <fieldset className="flex flex-row mx-4">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      value="no"
+                      onChange={() => onChange(true)}
+                      checked={value === true}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="worked-last-year-option-1"
+                      className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Oui
+                    </label>
+                  </div>
+                  <div className="flex items-center m-4">
+                    <input
+                      type="radio"
+                      value="yes"
+                      onChange={() => onChange(false)}
+                      checked={value === false}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="worked-last-year-option-2"
+                      className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Non
+                    </label>
+                  </div>
+                </fieldset>
+              )}
+            />
+            <hr className="py-2"></hr>
+            <div className="px-8 pb-2">
+              <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai vendu des actions du capital d&apos;un fonds commun,
+                  y compris des actions cotées à la bourse
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai vendu un bien, un terrain ou des bâtiments de
+                  location En savoir plus
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai vendu des obligations, des débentures, des billets à
+                  ordre, des bons du Trésor En savoir plus
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai vendu une automobile, un véhicule récréatif, un
+                  véhicule tout-terrain, un bateau, un chalet ou de
+                  l&apos;ameublement (biens à usage personnel)
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai vendu des bijoux, des oeuvres d&apos;art ou des
+                  objets de collection comme des timbres, des pièces de monnaie,
+                  des livres précieux, des manuscrits rares (biens meubles
+                  déterminés)
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai vendu ma part d&apos;une société privée sous
+                  contrôle canadien (actions admissibles de petite entreprise)
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai vendu ma part d&apos;une entreprise agricole ou de
+                  pêche au Canada (bien agricole admissible ou bien de pêche
+                  admissible)
+                </Label>
+              </div>
+            </div>
+
+            <p>
+              Avez-vous acheté ou vendu de la cryptomonnaie, des jetons
+              numériques ou d&apos;autres monnaies virtuelles?
+            </p>
+            <Controller
+              control={control}
+              name="investmentIncome.investmentIncome"
+              render={({ field: { onChange, value } }) => (
+                <fieldset className="flex flex-row mx-4">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      value="no"
+                      onChange={() => onChange(true)}
+                      checked={value === true}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="worked-last-year-option-1"
+                      className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Oui
+                    </label>
+                  </div>
+                  <div className="flex items-center m-4">
+                    <input
+                      type="radio"
+                      value="yes"
+                      onChange={() => onChange(false)}
+                      checked={value === false}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="worked-last-year-option-2"
+                      className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Non
+                    </label>
+                  </div>
+                </fieldset>
+              )}
+            />
+            <hr className="py-2"></hr>
+            <div className="px-8 pb-2">
+              <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai acheté des monnaies virtuelles
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai vendu des monnaies virtuelles
+                </Label>
+              </div>
+            </div>
           </div>
         )}
         <p>
           Avez-vous un revenu de travailleur autonome, de location ou
           d&apos;autres revenus?
         </p>
-        <fieldset className="flex flex-row m-4">
-          <div className="flex items-center">
-            <input
-              type="radio"
-              value="no"
-              id="field-worked-last-year-yes"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="worked-last-year-option-1"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Oui
-            </label>
+        <Controller
+          control={control}
+          name="selfEmploymentRentalOtherIncome.selfEmploymentRentalOtherIncome"
+          render={({ field: { onChange, value } }) => (
+            <fieldset className="flex flex-row mx-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  value="no"
+                  onChange={() => onChange(true)}
+                  checked={value === true}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Oui
+                </label>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  type="radio"
+                  value="yes"
+                  onChange={() => onChange(false)}
+                  checked={value === false}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Non
+                </label>
+              </div>
+            </fieldset>
+          )}
+        />
+
+        {watchSelfEmploymentRentalOtherIncome === true && (
+          <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;étais un travailleur autonome
+              </Label>
+            </div>
+            <hr className="py-2"></hr>
+            <div className="px-8 pb-2">
+              <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">Profession libérale</Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">Commission</Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">Agriculture</Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">Pêche</Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">Autre</Label>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai un bien locatif qui génère des revenus ou des dépenses
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai retiré de l&apos;argent d&apos;un REER ou d&apos;un
+                FERR
+              </Label>
+            </div>
+            <hr className="py-2"></hr>
+            <div className="px-8 pb-2">
+              <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai participé au régime d&apos;accession à la propriété
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai participé au régime d&apos;encouragement à
+                  l&apos;éducation permanente
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai reçu un T4RSP / Relevé 2
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai reçu un T4RIF / Relevé 2
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai retiré de l&apos;argent d&apos;un FERR de conjoint
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai retiré des cotisations au REER ou au FERR non
+                  déclarées pour lesquelles je pourrais avoir droit à une
+                  déduction (formulaire T746)
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  J&apos;ai retiré de l&apos;argent d&apos;un REER de conjoint
+                </Label>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">J&apos;ai un revenu scolaire</Label>
+            </div>
+            <hr className="py-2"></hr>
+            <div className="px-8 pb-2">
+              <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente et autres
+                  revenus (y compris bourses d&apos;études et d&apos;entretien)
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T4E / Relevé 6 - Prestations d&apos;assurance-emploi
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T4RSP / Relevé 2 - Revenus d&apos;un régime enregistré
+                  d&apos;épargne-retraite
+                </Label>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai reçu de l&apos;aide sociale
+              </Label>
+            </div>
+            <hr className="py-2"></hr>
+            <div className="px-8 pb-2">
+              <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T5007 / Relevé 5 - Prestations d&apos;assistance sociale ou de
+                  la CAT, supplément pour personnes âgées
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  Relevé 19 - Versements anticipés
+                </Label>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai reçu des prestations d&apos;invalidité ou des
+                prestations de décès
+              </Label>
+            </div>
+            <hr className="py-2"></hr>
+            <div className="px-8 pb-2">
+              <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T4A(P) / Relevé 2 - Prestations du Régime de pensions du
+                  Canada ou du Régime de rentes du Québec
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente et autres
+                  revenus
+                </Label>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai reçu des versements de pension alimentaire au profit
+                de l&apos;époux ou conjoint ou de pension alimentaire pour
+                enfants
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai reçu des versements anticipés de la prestation fiscale
+                pour le revenu de travail
+              </Label>
+            </div>
+            <hr className="py-2"></hr>
+            <div className="px-8 pb-2">
+              <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  RC210 - Versements anticipés de la prestation fiscale pour le
+                  revenu de travail
+                </Label>
+              </div>
+              <div className="flex items-center gap-2 py-2">
+                <Checkbox id="remember" />
+                <Label htmlFor="remember">
+                  Relevé 19 - Versements anticipés
+                </Label>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai reçu d&apos;autres revenus qui ne sont pas inclus
+                ailleurs
+              </Label>
+            </div>
           </div>
-          <div className="flex items-center m-4">
-            <input
-              type="radio"
-              value="yes"
-              id="field-worked-last-year-no"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="worked-last-year-option-2"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Non
-            </label>
-          </div>
-        </fieldset>
+        )}
         <p>
           Possédiez-vous ou déteniez-vous des biens étrangers déterminés, dont
           le coût total, à un moment donné durant l&apos;année 2021, s&apos;est
@@ -282,6 +1300,61 @@ export function TaxProfileForm() {
             </label>
           </div>
         </fieldset>
+        <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
+          <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              J&apos;avais des frais de scolarité figurant sur un feuillet
+              T2202, un relevé 8 ou un feuillet TL11
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              J&apos;avais d&apos;autres frais de scolarité
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              J&apos;ai acheté des manuels et des fournitures
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              J&apos;avais des frais de scolarité dans une année précédente
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              J&apos;ai reçu une bourse d&apos;études, une subvention ou une
+              bourse d&apos;entretien
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              J&apos;ai ou j&apos;avais un prêt étudiant
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              J&apos;ai retiré de l&apos;argent d&apos;un REER
+            </Label>
+          </div>
+
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              J&apos;avais des revenus provenant d&apos;un REEE
+            </Label>
+          </div>
+        </div>
+
         <p>
           Avez-vous des renseignements au sujet d&apos;un REER, d&apos;un RPAC,
           d&apos;un autre régime de pension, du régime d&apos;accession à la
@@ -324,7 +1397,7 @@ export function TaxProfileForm() {
             REER, un RPAC, un régime de pension agréé ou le régime de pension
             déterminé ?
           </p>
-          <fieldset className="flex flex-row m-4">
+          <fieldset className="flex flex-row mx-4">
             <div className="flex items-center">
               <input
                 type="radio"
@@ -354,12 +1427,77 @@ export function TaxProfileForm() {
               </label>
             </div>
           </fieldset>
+          <hr className="py-2"></hr>
+          <div className="px-8 pb-2">
+            <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai versé des cotisations au REER entre mars 2021 et
+                février 2022
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai des cotisations versées à un REER ou des cotisations
+                au régime de pension déterminé que j&apos;ai déclarées, mais qui
+                sont inutilisées.
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai versé des cotisations au REER avant mars 2021 et je ne
+                les ai pas indiquées dans une déclaration de revenus
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                Je veux reporter mes REER. (Des hésitations? Ne vous inquiétez
+                pas. Ce que vous choisissez ici n&apos;est pas définitif.
+                S&apos;il n&apos;est pas nécessaire que vous déduisiez tout le
+                montant versé à vos REER, TurboImpôt vous en avertira plus
+                tard.) En savoir plus
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai versé ou mon employeur a versé des cotisations au RPAC
+                en mon nom, entre janvier 2021 et mars 2022
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai versé des cotisations à un régime de pension agréé
+                (RPA) pour des services courants ou passés
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai versé des revenus dans une fiducie au profit
+                d&apos;athlètes amateurs (FPAA)
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai versé des cotisations au Régime de pension de la
+                Saskatchewan (SPP)
+              </Label>
+            </div>
+          </div>
+
           <p>
             Avez-vous participé au régime d&apos;encouragement à
             l&apos;éducation permanente (REEP) ou au régime d&apos;accession à
             la propriété (RAP) dans le passé ?
           </p>
-          <fieldset className="flex flex-row m-4">
+          <fieldset className="flex flex-row mx-4">
             <div className="flex items-center">
               <input
                 type="radio"
@@ -389,11 +1527,108 @@ export function TaxProfileForm() {
               </label>
             </div>
           </fieldset>
+          <hr className="py-2"></hr>
+          <div className="px-8 pb-2">
+            <p>Devez-vous verser un remboursement au REEP ou au RAP?</p>
+            <fieldset className="flex flex-row mx-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  value="no"
+                  id="field-dead-person-yes"
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="country-option-4"
+                  className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Oui
+                </label>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  type="radio"
+                  value="yes"
+                  id="field-dead-person-no"
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="country-option-4"
+                  className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Non
+                </label>
+              </div>
+            </fieldset>
+            <hr className="py-2"></hr>
+            <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai versé un remboursement au RAP
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai versé un remboursement au REEP
+              </Label>
+            </div>
+            <p className="mt-2">
+              Avez-vous retiré de l&apos;argent d&apos;un REER ou d&apos;un
+              FERR?
+            </p>
+            <fieldset className="flex flex-row mx-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  value="no"
+                  id="field-dead-person-yes"
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="country-option-4"
+                  className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Oui
+                </label>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  type="radio"
+                  value="yes"
+                  id="field-dead-person-no"
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="country-option-4"
+                  className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Non
+                </label>
+              </div>
+            </fieldset>
+            <hr className="py-2"></hr>
+            <p>Cochez toutes les cases qui s&apos;appliquent.</p>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai reçu un T4RSP / Relevé 2
+              </Label>
+            </div>
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai reçu un T4RIF / Relevé 2
+              </Label>
+            </div>
+          </div>
           <p>
             Avez-vous fait des placements dans une société à capital de risque
             de travailleurs (SCRT)?
           </p>
-          <fieldset className="flex flex-row m-4">
+
+          <fieldset className="flex flex-row mx-4">
             <div className="flex items-center">
               <input
                 type="radio"
@@ -423,12 +1658,21 @@ export function TaxProfileForm() {
               </label>
             </div>
           </fieldset>
+          <hr className="py-2"></hr>
+          <div className="px-8">
+            <div className="flex items-center gap-2 py-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember">
+                J&apos;ai reçu un T4RIF / Relevé 2
+              </Label>
+            </div>
+          </div>
           <p>
             Avez-vous versé des cotisations à un régime de retraite des É.-U. ou
             d&apos;un pays étranger offert par un employeur ou à un régime de
             retraite des É.-U. par un frontalier du Canada?
           </p>
-          <fieldset className="flex flex-row m-4">
+          <fieldset className="flex flex-row mx-4">
             <div className="flex items-center">
               <input
                 type="radio"
@@ -495,50 +1739,18 @@ export function TaxProfileForm() {
         </fieldset>
         <div className="px-8 py-4 mb-4 w-full bg-gray-100 rounded-lg">
           <p>Cochez toutes les cases qui s&apos;appliquent.</p>
-          <fieldset className="flex flex-col m-4">
-            <div className="flex items-center mb-2">
-              <input
-                type="radio"
-                value="no"
-                id="field-dead-person-yes"
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                htmlFor="country-option-4"
-                className="block ml-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                J&apos;ai fait des dons de bienfaisance
-              </label>
-            </div>
-            <div className="flex items-center mb-2">
-              <input
-                type="radio"
-                value="yes"
-                id="field-dead-person-no"
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                htmlFor="country-option-4"
-                className="block ml-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                J&apos;ai fait des contributions politiques
-              </label>
-            </div>
-            <div className="flex items-center mb-2">
-              <input
-                type="radio"
-                value="yes"
-                id="field-dead-person-no"
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                htmlFor="country-option-4"
-                className="block ml-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                Aucun de ces choix
-              </label>
-            </div>
-          </fieldset>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              J&apos;ai fait des dons de bienfaisance
+            </Label>
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Checkbox id="remember" />
+            <Label htmlFor="remember">
+              J&apos;ai fait des contributions politiques
+            </Label>
+          </div>
         </div>
         <p>
           Avez-vous engagé des frais de déménagement? Dans l&apos;incertitude,
@@ -579,7 +1791,7 @@ export function TaxProfileForm() {
             Avez-vous engagé des frais de déménagement cette année pour vos
             études ou votre travail ?
           </p>
-          <fieldset className="flex flex-row m-4">
+          <fieldset className="flex flex-row mx-4">
             <div className="flex items-center">
               <input
                 type="radio"
@@ -613,7 +1825,7 @@ export function TaxProfileForm() {
             Avez-vous engagé des frais de déménagement que vous n&apos;avez pas
             demandés et que vous reportez d&apos;une année précédente?
           </p>
-          <fieldset className="flex flex-row m-4">
+          <fieldset className="flex flex-row mx-4">
             <div className="flex items-center">
               <input
                 type="radio"
@@ -714,7 +1926,7 @@ export function TaxProfileForm() {
             </label>
           </div>
         </fieldset>
-        <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+        <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p>Avez-vous acheté ou vendu un domicile en 2022? </p>
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
