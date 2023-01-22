@@ -9,6 +9,8 @@ interface LoginModalProps {
 export function LoginModal(props: LoginModalProps) {
   const { setShowLoginModal } = props
   const { signInWithGoogle } = useContext(AppContext) as AppContextType
+  const { signInWithFacebook } = useContext(AppContext) as AppContextType
+
 
   return (
     <>
@@ -82,6 +84,16 @@ export function LoginModal(props: LoginModalProps) {
               >
                 <GoogleIcon className='absolute  h-7 bottom-1' />
                 Continue with Google
+              </button>
+              <button
+                className=' hover:bg-gray-100 text-black font-semibold py-2 px-4 w-full rounded border border-black text-sm relative'
+                type='button'
+                onClick={async () => {
+                  signInWithFacebook()
+                  setShowLoginModal(false)
+                }}
+              >
+                Continue with Facebook
               </button>
             </div>
           </div>

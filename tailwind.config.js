@@ -8,6 +8,7 @@ module.exports = {
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
     'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
+    "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
   ],
   theme: {
     fontFamily: {
@@ -44,6 +45,21 @@ module.exports = {
       // => @media (min-width: 1400px) { ... }
     },
     extend: {
+      keyframes: {
+        'fade-in-down': {
+          '0%': {
+              opacity: '0',
+              transform: 'translateY(-100px)'
+          },
+          '100%': {
+              opacity: '1',
+              transform: 'translateY(0)'
+          },
+        }
+      },
+      animation: {
+        'fade-in-down': 'fade-in-down 2.5s ease-out'
+    },
       screens: {
         xs: '500px',
       },

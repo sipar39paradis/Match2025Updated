@@ -1,10 +1,13 @@
-import '../../i18n/config'
-import React, { useContext, useEffect, useState } from 'react'
-import { AppContext, AppContextType } from '../../context/AppContext'
-import { Button } from 'flowbite-react'
-import { getAccountantProfile, upsertProfile } from '../../client/firebaseClient'
-import { CustomCard } from '../../components/common/CustomCard'
-import { AccountantProfile, ClientProfile } from '../../interfaces/User'
+import '../../i18n/config';
+import React, { useContext, useEffect, useState } from 'react';
+import { AppContext, AppContextType } from '../../context/AppContext';
+import { Button } from 'flowbite-react';
+import {
+  getAccountantProfile,
+  upsertProfile,
+} from '../../client/firebaseClient';
+import { CustomCard } from '../../components/common/CustomCard';
+import { AccountantProfile } from '../../interfaces/User';
 
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -28,32 +31,36 @@ export function Profile() {
   const [inErr, setInErr] = useState({})
   const {width,height} = useWindowDimensions()
 
-  let ownProfile = false
-  ownProfile = (profile && profile.email === user.email)
+  let ownProfile = false;
+  ownProfile = profile && profile.email === user.email;
 
-  useEffect((() => {
-    console.log(id, 'id')
-    console.log(user, 'user')
+  useEffect(() => {
+    console.log(id, 'id');
+    console.log(user, 'user');
 
-    getAccountantProfile(id ? id : user.uid).then(res => {
-      console.log(res, 'res')
-      res.experiece.sort((a,b) => (a.startDateObj.getTime() - b.startDateObj.getTime()) * (-1))
-      res.schooling.sort((a,b) => (a.graduationDateObj.getTime() - b.graduationDateObj.getTime()) * (-1))
-      initializeProfile(res)
-    })
-  }), [])
+    getAccountantProfile(id ? id : user.uid).then((res) => {
+      console.log(res, 'res');
+      res.experiece.sort(
+        (a, b) => (a.startDateObj.getTime() - b.startDateObj.getTime()) * -1
+      );
+      res.schooling.sort(
+        (a, b) =>
+          (a.graduationDateObj.getTime() - b.graduationDateObj.getTime()) * -1
+      );
+      initializeProfile(res);
+    });
+  }, []);
 
   const updateProfile = async (id: string, profile: AccountantProfile) => {
-    await upsertProfile(id, profile)
-    initializeProfile(profile)
-
-  }
+    await upsertProfile(id, profile);
+    initializeProfile(profile);
+  };
 
   const initializeProfile = (profile: AccountantProfile) => {
-    setProfile(structuredClone(profile))
-    setTempProfile(structuredClone(profile))
-    setLoading(false)
-  }
+    setProfile(structuredClone(profile));
+    setTempProfile(structuredClone(profile));
+    setLoading(false);
+  };
 
   return (
     <main>
@@ -95,7 +102,7 @@ export function Profile() {
                 loading={loading}
                 setProfile={setTempProfile}
               />
-              <hr className='m-8 flex justify-self-center self-center mb-2 w-10/12 h-0.5 bg-gray-200 rounded border-0 md:my-10'></hr>
+              <hr className="m-8 flex justify-self-center self-center mb-2 w-10/12 h-0.5 bg-gray-200 rounded border-0 md:my-10"></hr>
 
               <div className='flex flex-row'>
                 {!loading?
@@ -108,7 +115,7 @@ export function Profile() {
                         setInErr={setInErr}
                         setProfile={setTempProfile}
                       />
-                        <EducationTimeline
+                      <EducationTimeline
                         profile={tempProfile}
                         edit={edit}
                         inErr={inErr}
@@ -119,16 +126,12 @@ export function Profile() {
                   ):null
                   :
                   <>
-                    <Skeleton
-                      rows={5}
-                    />
-                    <Skeleton
-                      rows={5}
-                    />
+                    <Skeleton rows={5} />
+                    <Skeleton rows={5} />
                   </>
                 }
               </div>
-              <h3 className='font-semibold py-8 text-xl'>Clients</h3>
+              <h3 className="font-semibold py-8 text-xl">Clients</h3>
             </div>
           </div>
         </div>
