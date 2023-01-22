@@ -5,6 +5,7 @@ import { AuthButton } from './AuthButton'
 import { useForm } from 'react-hook-form'
 import { Modal } from '../common/Modal'
 import { AuthModalEnum } from './AuthModal'
+import { useSignInWithFacebook } from 'react-firebase-hooks/auth'
 
 interface SignInModalProps {
   closeModal: (show: boolean) => void
@@ -18,7 +19,7 @@ type signInData = {
 
 export function SignInModal(props: SignInModalProps) {
   const { closeModal, switchModal } = props
-  const { signInWithGoogle, signIn } = useContext(AppContext) as AppContextType
+  const { signInWithGoogle, signInWithFacebook, signIn } = useContext(AppContext) as AppContextType
   const {
     register,
     handleSubmit,
@@ -95,7 +96,7 @@ export function SignInModal(props: SignInModalProps) {
           </div>
         </form>
         <span className='mb-4'>or</span>
-        <div className='p-4 px-8 mb-3'>
+        <div className='mb-3'>
           <AuthButton
             Icon={GoogleIcon}
             onClick={async () => {
@@ -103,6 +104,14 @@ export function SignInModal(props: SignInModalProps) {
               res ? setAuthError(res) : closeModal(false)
             }}
             text='Continue with Google'
+          ></AuthButton>
+          <AuthButton
+            Icon={GoogleIcon}
+            onClick={async () => {
+              const res = await signInWithFacebook()
+              res ? setAuthError(res) : closeModal(false)
+            }}
+            text='Continue with Facebook'
           ></AuthButton>
           {authError && (
             <span className='text-red-500 ml-1'>Something went wrong</span>
