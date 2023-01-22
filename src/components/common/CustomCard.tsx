@@ -19,7 +19,7 @@ export function CustomCard({ user, profile }: CardProps) {
   console.log(profile, 'prof')
 
   return (
-    <Card>
+    <Card className="text-center">
       <div className='flex flex-col items-center justify-evenly divide-y-2 divide-gray-200'>
         <div className='flex items-center flex-col pb-2'>
           {profile?
