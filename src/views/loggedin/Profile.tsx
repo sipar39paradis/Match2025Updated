@@ -165,5 +165,5 @@ export function Profile() {
         </div>
       </div>
     </main>
-  );
+  )
 }
