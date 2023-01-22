@@ -1,3 +1,4 @@
+
 import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
 import { ReactComponent as GoogleIcon } from '../../icons/GoogleIcon.svg';
@@ -18,7 +19,8 @@ type signInData = {
 
 export function SignInModal(props: SignInModalProps) {
   const { closeModal, switchModal } = props;
-  const { signInWithGoogle, signIn } = useContext(AppContext) as AppContextType;
+  const { signInWithGoogle, signInWithFacebook, signIn } = useContext(AppContext) as AppContextType;
+
   const {
     register,
     handleSubmit,
@@ -110,6 +112,14 @@ export function SignInModal(props: SignInModalProps) {
               res ? setAuthError(res) : closeModal(false);
             }}
             text="Continuez avec Google"
+          ></AuthButton>
+          <AuthButton
+            Icon={GoogleIcon}
+            onClick={async () => {
+              const res = await signInWithFacebook()
+              res ? setAuthError(res) : closeModal(false)
+            }}
+            text='Continue with Facebook'
           ></AuthButton>
           {authError && (
             <span className="text-red-500 ml-1">Something went wrong</span>
