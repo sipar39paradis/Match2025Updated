@@ -99,7 +99,7 @@ export function Profile() {
 
               <div className='flex flex-row'>
                 {!loading?
-                  profile.type === 'accountant'?? (
+                  profile.type === 'accountant'? (
                     <>             
                       <ExperienceTimeline
                         profile={tempProfile}
@@ -116,7 +116,7 @@ export function Profile() {
                         setProfile={setTempProfile}
                       />
                     </>
-                  )
+                  ):null
                   :
                   <>
                     <Skeleton

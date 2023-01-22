@@ -21,19 +21,19 @@ export interface ClientProfile {
 }
 
 export interface AccountantProfile {
-  blurb: string
-  cases: number
+  blurb?: string
+  cases?: number
   email: string
-  experiece: Array<Experience>
+  experiece?: Array<Experience>
   firstName: string
   id: string
   lastName: string
-  languages: Array<string>
-  location: string
-  rating: number
-  schooling: Array<Schooling>
+  languages?: Array<string>
+  location?: string
+  rating?: number
+  schooling?: Array<Schooling>
   avatar: string
-  type: 'accountant' | 'client'
+  type?: 'accountant' | 'client'
 }
 
 export interface Experience {
@@ -58,18 +58,18 @@ export interface Schooling {
 
 export interface AccountantProfileDoc {
   avatar: string
-  blurb: string
-  cases: number
+  blurb?: string
+  cases?: number
   email: string
-  experiece: Array<ExperienceDoc>
+  experiece?: Array<ExperienceDoc>
   firstName: string
   id: string
   lastName: string
-  languages: Array<string>
-  location: string
-  rating: number
-  schooling: Array<SchoolingDoc>
-  type: 'accountant' | 'client'
+  languages?: Array<string>
+  location?: string
+  rating?: number
+  schooling?: Array<SchoolingDoc>
+  type?: 'accountant' | 'client'
 }
 
 export interface ExperienceDoc {

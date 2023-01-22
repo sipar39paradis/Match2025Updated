@@ -66,7 +66,7 @@ export const ExperienceTimeline = ({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-4/12">
       <h5 className="text-xl dark:text-white mb-1">{t('Profile.workExperience')}</h5>
       <Timeline className="mr-16">
         <>
@@ -292,12 +292,13 @@ export const ExperienceTimeline = ({
                         </>
                       )}
                     </Timeline.Title>
-                    <Timeline.Body>
+                    <Timeline.Body
+                    className="break-all">
                       {!edit ? (
                         exp.blurb
                       ) : (
                         <>
-                          <div className="mb-2 block"></div>
+                          <div className="mb-2 block">
                           <Textarea
                             id="comment"
                             placeholder="Description"
@@ -311,6 +312,7 @@ export const ExperienceTimeline = ({
                               setProfile({ ...profile });
                             }}
                           />
+                          </div>
                         </>
                       )}
                     </Timeline.Body>

@@ -9,11 +9,13 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   User,
+  UserCredential,
 } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { AccountantProfile, ClientProfile, UserInfo } from '../interfaces/User'
+import { upsertProfile } from '../client/firebaseClient'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -77,9 +79,10 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     let errorMessage = ''
     const provider = new GoogleAuthProvider()
     await signInWithPopup(auth, provider)
-      .then((userCredential) => {
-        const userInfo = getDoc(doc(db, 'userInfo', userCredential.user.email))
-        setUserInfo(userInfo)
+      .then(async (userCredential) => {
+        const names = userCredential.user.displayName.split(' ')
+        await createProfile(userCredential, names[0], names[1])
+        setUserInfo(userCredential)
       })
       .catch((error) => {
         errorMessage = error.message
@@ -98,53 +101,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
-          // const newUser: UserInfo = {
-          //   id: userCredential.user.uid,
-          //   email: userCredential.user.email,
-          //   firstName: firstName,
-          //   lastName: lastName,
-          //   type: 'client'
-          // }
-          // const createUser = setDoc(
-          //   doc(db, 'userInfo', userCredential.user.uid),
-          //   newUser
-          // )
 
-          // const clientProfile: ClientProfile = {
-          //   blurb: '',
-          //   casesRequested: 0,
+          createProfile(userCredential, firstName, lastName)
 
-          //   id: userCredential.user.uid,
-          //   email: userCredential.user.email,
-          //   firstName: firstName,
-          //   lastName: lastName,
-          //   languages:[],
-          //   location:'',
-          //   rating: 0,
-          //   avatar: userCredential.user.photoURL || ''
-          // }
-
-          const clientProfile: AccountantProfile = {
-            blurb: '',
-            cases: 0,
-            experiece: [],
-            schooling: [],
-            id: userCredential.user.uid,
-            email: userCredential.user.email,
-            firstName: firstName,
-            lastName: lastName,
-            languages:[],
-            location:'',
-            rating: 0,
-            avatar: userCredential.user.photoURL || '',
-            type: 'client'
-          }
-
-          const profile = await setDoc(
-            doc(db, 'accountantProfile', userCredential.user.uid),
-            clientProfile
-          )
-          console.log(profile, 'createdProfile')
           setUserInfo(userCredential)
         }
       })
@@ -163,6 +122,18 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   async function resetPassword(email: string) {
     auth.useDeviceLanguage()
     await sendPasswordResetEmail(auth, email)
+  }
+
+  const createProfile = async  (userCredential: UserCredential, firstName: string, lastName: string) => {
+    const profile: AccountantProfile = {
+      id: userCredential.user.uid,
+      email: userCredential.user.email,
+      firstName: firstName, 
+      lastName: lastName,
+      avatar: userCredential.user.photoURL || '',
+    }
+
+    await upsertProfile(userCredential.user.uid, profile, true)
   }
 
   return (

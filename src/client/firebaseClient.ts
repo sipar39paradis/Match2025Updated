@@ -34,23 +34,11 @@ export const getAccountantProfile = async (
   const data = returnedDoc.data();
 
   console.log(data, 'data');
-  return data.type == 'accountant'
-    ? docToProfile(<AccountantProfileDoc>data)
-    : <AccountantProfile>data;
-
-  // const profile = docToProfile(<AccountantProfileDoc>returnedDoc.data());
-
-  // // profile.experiece.forEach((xp, i) => {
-  // //   const date = new Date(0);
-  // //   date.setUTCSeconds(xp.startDate.seconds);
-  // //   profile.experiece[i].startDateObj = date;
-  // // });
-  // // profile.schooling.forEach((school, i) => {
-  // //   const date = new Date(0);
-  // //   date.setUTCSeconds(school.graduationDate.seconds);
-  // //   profile.schooling[i].graduationDateObj = date;
-  // // });
-  // return profile;
+  return addDefaultValues(
+    data.type == 'accountant'
+      ? docToProfile(<AccountantProfileDoc>data)
+      : <AccountantProfile>data
+  );
 };
 
 export const getClientProfile = async (
@@ -61,10 +49,11 @@ export const getClientProfile = async (
 
 export const upsertProfile = async (
   userId: string,
-  profile: AccountantProfile
+  profile: AccountantProfile,
+  merge = false
 ): Promise<void> => {
   profile.avatar = '123';
-  await setDoc(doc(db, 'accountantProfile', userId), profile);
+  await setDoc(doc(db, 'accountantProfile', userId), profile, { merge: merge });
 };
 
 const docToProfile = (profileDoc: AccountantProfileDoc): AccountantProfile => {
@@ -75,7 +64,7 @@ const docToProfile = (profileDoc: AccountantProfileDoc): AccountantProfile => {
     email: profileDoc.email,
     experiece: profileDoc.experiece.map((xp) => {
       const date = new Date(0);
-      date.setUTCSeconds(xp.startDateObj.seconds);
+      date.setUTCSeconds(xp.startDate.seconds);
       return {
         businessName: xp.businessName,
         blurb: xp.blurb,
@@ -107,4 +96,30 @@ const docToProfile = (profileDoc: AccountantProfileDoc): AccountantProfile => {
     }),
     type: profileDoc.type,
   };
+};
+
+const addDefaultValues = (profile: AccountantProfile): AccountantProfile => {
+  const defaultValues = {
+    avatar: '',
+    blurb: '',
+    Cases: 0,
+    email: '',
+    experiece: [],
+    firstName: '',
+    id: '',
+    languages: [],
+    lastName: '',
+    location: '',
+    rating: 0,
+    schooling: [],
+    type: 'client',
+  };
+
+  for (const key in defaultValues) {
+    if (profile[key] == undefined) {
+      profile[key] = defaultValues[key];
+    }
+  }
+
+  return profile;
 };
