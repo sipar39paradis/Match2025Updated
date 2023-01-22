@@ -100,9 +100,6 @@ code {
     @apply opacity-100;
   }
 
-  .submenu-item a.active {
-    @apply text-primary dark:text-white;
-  }
   .submenu-item a.active span svg {
     @apply rotate-180;
   }
