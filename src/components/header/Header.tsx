@@ -76,7 +76,7 @@ export function Header() {
                       to="/#features"
                       className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500y dark:hover:text-white"
                     >
-                      Fonctionnalités
+                      Comment ça marche
                     </Link>
                   </li>
                   <li>

@@ -115,19 +115,7 @@ export function SignInModal(props: SignInModalProps) {
             <span className="text-red-500 ml-1">Something went wrong</span>
           )}
         </div>
-        <div className="px-8 mb-3">
-          <AuthButton
-            Icon={GoogleIcon}
-            onClick={async () => {
-              const res = await signInWithGoogle();
-              res ? setAuthError(res) : closeModal(false);
-            }}
-            text="Continuez avec Google"
-          ></AuthButton>
-          {authError && (
-            <span className="text-red-500 ml-1">Something went wrong</span>
-          )}
-        </div>
+
         <div className="flex flex-row items-center justify-center mb-8">
           <div className="mr-2">Vous n&apos;avez pas de compte?</div>
           <button
