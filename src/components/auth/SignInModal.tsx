@@ -1,7 +1,7 @@
-
 import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
 import { ReactComponent as GoogleIcon } from '../../icons/GoogleIcon.svg';
+import { ReactComponent as FacebookIcon } from '../../icons/FacebookIcon.svg';
 import { AuthButton } from './AuthButton';
 import { useForm } from 'react-hook-form';
 import { Modal } from '../common/Modal';
@@ -19,14 +19,19 @@ type signInData = {
 
 export function SignInModal(props: SignInModalProps) {
   const { closeModal, switchModal } = props;
-  const { signInWithGoogle, signInWithFacebook, signIn } = useContext(AppContext) as AppContextType;
+  const { signInWithGoogle, signInWithFacebook, signIn } = useContext(
+    AppContext
+  ) as AppContextType;
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<signInData>();
-  const onSubmit = (data: signInData) => signIn(data.email, data.password);
+  const onSubmit = async (data: signInData) => {
+    const res = await signIn(data.email, data.password);
+    res ? setAuthError(res) : closeModal(false);
+  };
   const [authError, setAuthError] = useState('');
 
   return (
@@ -114,16 +119,13 @@ export function SignInModal(props: SignInModalProps) {
             text="Continuez avec Google"
           ></AuthButton>
           <AuthButton
-            Icon={GoogleIcon}
+            Icon={FacebookIcon}
             onClick={async () => {
-              const res = await signInWithFacebook()
-              res ? setAuthError(res) : closeModal(false)
+              const res = await signInWithFacebook();
+              res ? setAuthError(res) : closeModal(false);
             }}
-            text='Continue with Facebook'
+            text="Continue with Facebook"
           ></AuthButton>
-          {authError && (
-            <span className="text-red-500 ml-1">Something went wrong</span>
-          )}
         </div>
 
         <div className="flex flex-row items-center justify-center mb-8">
@@ -137,6 +139,11 @@ export function SignInModal(props: SignInModalProps) {
             S&apos;inscrire
           </button>
         </div>
+        {authError && (
+          <span className="text-red-500 ml-1 text-center mb-2">
+            Courriel ou mot de passe invalide
+          </span>
+        )}
       </div>
     </Modal>
   );
