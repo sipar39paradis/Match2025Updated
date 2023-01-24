@@ -15,6 +15,7 @@ export interface ClientProfile {
   lastName: string
   languages: Array<string>
   location: string
+  referralCode: string
   rating: number
   avatar: string
   type: 'accountant' | 'client'
@@ -26,6 +27,7 @@ export interface AccountantProfile {
   email: string
   experiece?: Array<Experience>
   firstName: string
+  referralCode: string
   id: string
   lastName: string
   languages?: Array<string>
@@ -65,6 +67,7 @@ export interface AccountantProfileDoc {
   firstName: string
   id: string
   lastName: string
+  referralCode: string
   languages?: Array<string>
   location?: string
   rating?: number

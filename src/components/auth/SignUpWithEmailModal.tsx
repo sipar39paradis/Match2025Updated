@@ -13,6 +13,7 @@ type signUpWithEmailData = {
   lastName: string
   email: string
   password: string
+  referralCode: string
 }
 
 export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
@@ -20,7 +21,7 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
   const { signUpWithEmailAndPassword } = useContext(
     AppContext
   ) as AppContextType
-
+  
   const [authError, setAuthError] = useState('')
 
   const {
@@ -33,7 +34,8 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
       data.email,
       data.password,
       data.firstName,
-      data.lastName
+      data.lastName,
+      data.referralCode
     )
     console.log(res)
     res ? setAuthError(res) : closeModal(false)
@@ -130,6 +132,23 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               type='password'
               placeholder='******************'
               {...register('password', { required: true })}
+            />
+            {errors.password && (
+              <span className='text-red-500 ml-1'>Password is required</span>
+            )}
+          </div>
+          <div className='flex flex-col items-baseline mb-6'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2 ml-1'
+              htmlFor='password'
+            >
+             Referral Code 
+            </label>
+            <input
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight'
+              type='text'
+              placeholder='ABCD1234'
+              {...register('referralCode', { required: false })}
             />
             {errors.password && (
               <span className='text-red-500 ml-1'>Password is required</span>
