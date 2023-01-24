@@ -17,7 +17,7 @@ export function Home() {
                   La solution comptable en ligne
                 </span>
                 <h1 className="mb-5 font-heading text-2xl font-semibold dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]">
-                  Digital Solutions for Your
+                  Impot Match
                   <span
                     className="txt-type underline"
                     data-wait="3000"
@@ -25,16 +25,16 @@ export function Home() {
                   ></span>
                 </h1>
                 <p className="mb-12 text-base text-dark-text">
-                  Handcrafted Tailwind CSS template for your next - Startup,
-                  Business, Agency or SaaS Website. Comes with refreshing design
-                  and everything you need to kickstart your next web project.
+                  Impôts match vous permet de trouver donner la préparation de
+                  vos déclarations de revenus à un professionnel d’impôts
+                  compétent. Le tout dans le confort de votre domicile.
                 </p>
                 <div className="flex flex-wrap items-center justify-center lg:justify-start">
                   <a
                     href="#features"
                     className="inline-flex items-center rounded bg-orange-500 py-[10px] px-6 font-heading text-base text-white hover:bg-opacity-90 md:py-[14px] md:px-8"
                   >
-                    Get Started
+                    Comment ça marche
                     <span className="pl-3">
                       <svg
                         width="16"
@@ -64,7 +64,7 @@ export function Home() {
                         <path d="M19.376 12.416L8.777 19.482C8.70171 19.5321 8.61423 19.5608 8.52389 19.5652C8.43355 19.5695 8.34373 19.5492 8.264 19.5065C8.18427 19.4639 8.1176 19.4003 8.07111 19.3228C8.02462 19.2452 8.00005 19.1564 8 19.066V4.934C8.00005 4.84356 8.02462 4.75482 8.07111 4.67724C8.1176 4.59966 8.18427 4.53615 8.264 4.49346C8.34373 4.45077 8.43355 4.43051 8.52389 4.43483C8.61423 4.43915 8.70171 4.46789 8.777 4.518L19.376 11.584C19.4445 11.6297 19.5006 11.6915 19.5395 11.7641C19.5783 11.8367 19.5986 11.9177 19.5986 12C19.5986 12.0823 19.5783 12.1633 19.5395 12.2359C19.5006 12.3085 19.4445 12.3703 19.376 12.416Z" />
                       </svg>
                     </span>
-                    How it Work
+                    En savoir plus
                   </a>
                 </div>
               </div>

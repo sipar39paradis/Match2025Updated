@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
 import { About } from './About';
+import { Contact } from './Contact';
 import { Features } from './Features';
 import { Home } from './Home';
 import { Support } from './Support';
@@ -11,6 +12,7 @@ export function LandingPage() {
       <Home />
       <Features />
       <About />
+      <Contact />
       <Support />
     </div>
   );

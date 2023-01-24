@@ -72,24 +72,9 @@ export function About() {
               </svg>
             </div>
             <div className="tabButtons flex w-full items-center justify-around">
-              <button
-                className="w-full border-b px-2 pt-8 pb-6 font-heading text-base font-medium hover:border-orange-500 hover:text-orange-500 dark:border-[#4B4E56] dark:text-white dark:hover:border-orange-500 lg:pt-9 lg:pb-7"
-                // onClick={showPanel(0)}
-              >
+              <h1 className="w-full text-2xl text-center border-b px-2 pt-8 pb-6 font-heading hover:border-orange-500 hover:text-orange-500 dark:border-[#4B4E56] dark:text-white dark:hover:border-orange-500 lg:pt-9 lg:pb-7">
                 Qui sommes-nous ?
-              </button>
-              <button
-                className="w-full border-b px-2 pt-8 pb-6 font-heading text-base font-medium hover:border-orange-500 hover:text-orange-500 dark:border-[#4B4E56] dark:text-white dark:hover:border-orange-500 lg:pt-9 lg:pb-7"
-                // onClick="showPanel(1)"
-              >
-                Notre Mission
-              </button>
-              <button
-                className="w-full border-b px-2 pt-8 pb-6 font-heading text-base font-medium hover:border-orange-500 hover:text-orange-500 dark:border-[#4B4E56] dark:text-white dark:hover:border-orange-500 lg:pt-9 lg:pb-7"
-                // onClick="showPanel(2)"
-              >
-                Notre Vision
-              </button>
+              </h1>
             </div>
             <div className="w-full">
               <div className="tabPanel">
@@ -152,20 +137,16 @@ export function About() {
                         Québec
                       </h2>
                       <p className="mb-6 text-base text-dark-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Fusce condimentum sapien ac leo cursus dignissim. In ac
-                        lectus vel orci accumsan ultricies at in libero
-                        accumsan.
+                        Impôts Match est la première plateforme 100% en ligne
+                        pour la préparation des déclarations d’impôts qui offre
+                        un service rapide et de qualité via nos préparateurs
+                        compétents et dévoués.
                       </p>
                       <p className="mb-6 text-base text-dark-text">
-                        Phasellus ex massa, facilisis ac vestibulum eget,
-                        ultrices quis nulla. Integer vitae magna lacus. Sed
-                        venenatis auctor dolor.
-                      </p>
-                      <p className="text-base text-dark-text">
-                        Phasellus ex massa, facilisis ac vestibulum eget,
-                        ultrices quis nulla. Integer vitae magna lacus. Sed
-                        venenatis auctor dolor.
+                        Vous serez accompagné par la plateforme à travers le
+                        processus concis qui nous permettra de recueillir vos
+                        informations. Le tout dans un environnement confidentiel
+                        et sécuritaire.
                       </p>
                     </div>
                   </div>

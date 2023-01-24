@@ -140,7 +140,7 @@ export function SignInModal(props: SignInModalProps) {
           </button>
         </div>
         {authError && (
-          <span className="text-red-500 ml-1 text-center mb-2">
+          <span className="text-red-500 text-center mb-2">
             Courriel ou mot de passe invalide
           </span>
         )}

@@ -21,11 +21,6 @@ export function Features() {
             <h2 className="mb-5 font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]">
               Découvrez comment utiliser notre produit
             </h2>
-            <p className="text-base text-dark-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-              convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
-              ante in maximus.
-            </p>
           </div>
         </Fade>
         <Fade top cascade>
@@ -40,8 +35,8 @@ export function Features() {
                     Créer votre compte
                   </h3>
                   <p className="text-base text-dark-text">
-                    Créer vous un compte en cliquant sur s&apos;inscrire en haut
-                    à droite de la page
+                    Aller via l’option s’inscrire pour créer votre compte
+                    d’impôts
                   </p>
                 </div>
               </div>
@@ -74,8 +69,8 @@ export function Features() {
                     Obtenez votre prix
                   </h3>
                   <p className="text-base text-dark-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                    convallis tortor.
+                    Vous obtiendrez votre prix 100% adapté; vous paierez
+                    exactement en fonction des spécificités de votre dossier
                   </p>
                 </div>
               </div>
@@ -95,8 +90,8 @@ export function Features() {
                     À notre tour de jouer!
                   </h3>
                   <p className="text-base text-dark-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                    convallis tortor.
+                    Nous vous contacterons lorsque le traitement de votre
+                    dossier sera terminé
                   </p>
                 </div>
               </div>
@@ -112,8 +107,8 @@ export function Features() {
                     Prise en charge du dossier
                   </h3>
                   <p className="text-base text-dark-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                    convallis tortor.
+                    Vos documents seront acheminés à un membre de notre équipe
+                    d’experts
                   </p>
                 </div>
               </div>
@@ -129,8 +124,9 @@ export function Features() {
                     Déposer les documents
                   </h3>
                   <p className="text-base text-dark-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                    convallis tortor.
+                    En fonction de votre dossier, vous pourrez déposer les
+                    documents nécessaires afin qu’on puisse préparer votre
+                    dossier
                   </p>
                 </div>
               </div>
