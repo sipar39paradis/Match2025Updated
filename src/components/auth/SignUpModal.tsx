@@ -11,7 +11,7 @@ interface SignUpModalProps {
 }
 
 export function SignUpModal(props: SignUpModalProps) {
-  const { signInWithGoogle } = useContext(AppContext) as AppContextType;
+  const { signInWithGoogle, signInWithFacebook } = useContext(AppContext) as AppContextType;
   const { closeModal, switchModal } = props;
   const [authError, setAuthError] = useState('');
 
@@ -36,6 +36,14 @@ export function SignUpModal(props: SignUpModalProps) {
             res ? setAuthError(res) : closeModal(false);
           }}
           text="Continuez avec Google"
+        ></AuthButton>
+        <AuthButton
+          Icon={GoogleIcon}
+          onClick={async () => {
+            const res = await signInWithFacebook();
+            res ? setAuthError(res) : closeModal(false);
+          }}
+          text="Continuez avec Facebook"
         ></AuthButton>
         {authError && (
           <span className="text-red-500 ml-1">Something went wrong</span>
