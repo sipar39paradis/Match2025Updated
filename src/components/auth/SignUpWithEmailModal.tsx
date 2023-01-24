@@ -150,9 +150,6 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               placeholder='ABCD1234'
               {...register('referralCode', { required: false })}
             />
-            {errors.password && (
-              <span className='text-red-500 ml-1'>Password is required</span>
-            )}
           </div>
           <input
             type='submit'
