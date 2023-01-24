@@ -95,6 +95,7 @@ const docToProfile = (profileDoc: AccountantProfileDoc): AccountantProfile => {
       };
     }),
     type: profileDoc.type,
+    referralCode: profileDoc.referralCode
   };
 };
 
@@ -112,6 +113,7 @@ const addDefaultValues = (profile: AccountantProfile): AccountantProfile => {
     location: '',
     rating: 0,
     schooling: [],
+    referralCode: '', 
     type: 'client',
   };
 

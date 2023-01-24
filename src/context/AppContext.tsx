@@ -8,7 +8,6 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
-  User,
   UserCredential,
   FacebookAuthProvider,
 } from 'firebase/auth';
@@ -49,7 +48,8 @@ export interface AppContextType {
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    referralCode: string
   ) => Promise<string>;
   resetPassword: (email: string) => void;
 }
@@ -81,9 +81,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider)
       .then(async (userCredential) => {
-        const names = userCredential.user.displayName.split(' ');
-        await createProfile(userCredential, names[0], names[1]);
-        setUserInfo(userCredential);
+        const names = userCredential.user.displayName.split(' ')
+        await createProfile(userCredential, names[0], names[1], names[2])
+        setUserInfo(userCredential)
       })
       .catch((error) => {
         errorMessage = error.message;
@@ -112,15 +112,16 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    referalCode: string
   ) {
     let errorMessage = '';
 
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
-          createProfile(userCredential, firstName, lastName);
-          setUserInfo(userCredential);
+          createProfile(userCredential, firstName, lastName, referalCode)
+          setUserInfo(userCredential)
         }
       })
       .catch((error) => {
@@ -140,16 +141,13 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await sendPasswordResetEmail(auth, email);
   }
 
-  const createProfile = async (
-    userCredential: UserCredential,
-    firstName: string,
-    lastName: string
-  ) => {
+  const createProfile = async  (userCredential: UserCredential, firstName: string, lastName: string, referralCode: string) => {
     const profile: AccountantProfile = {
       id: userCredential.user.uid,
       email: userCredential.user.email,
       firstName: firstName,
       lastName: lastName,
+      referralCode: referralCode,
       avatar: userCredential.user.photoURL || '',
     };
 
