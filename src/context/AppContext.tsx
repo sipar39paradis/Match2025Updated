@@ -10,6 +10,7 @@ import {
   signInWithPopup,
   UserCredential,
   FacebookAuthProvider,
+  User,
 } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, getFirestore, getDoc } from 'firebase/firestore';
@@ -81,9 +82,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider)
       .then(async (userCredential) => {
-        const names = userCredential.user.displayName.split(' ')
-        await createProfile(userCredential, names[0], names[1], names[2])
-        setUserInfo(userCredential)
+        const names = userCredential.user.displayName.split(' ');
+        await createProfile(userCredential, names[0], names[1], names[2]);
+        setUserInfo(userCredential);
       })
       .catch((error) => {
         errorMessage = error.message;
@@ -120,8 +121,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
-          createProfile(userCredential, firstName, lastName, referalCode)
-          setUserInfo(userCredential)
+          createProfile(userCredential, firstName, lastName, referalCode);
+          setUserInfo(userCredential);
         }
       })
       .catch((error) => {
@@ -141,7 +142,12 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await sendPasswordResetEmail(auth, email);
   }
 
-  const createProfile = async  (userCredential: UserCredential, firstName: string, lastName: string, referralCode: string) => {
+  const createProfile = async (
+    userCredential: UserCredential,
+    firstName: string,
+    lastName: string,
+    referralCode: string
+  ) => {
     const profile: AccountantProfile = {
       id: userCredential.user.uid,
       email: userCredential.user.email,

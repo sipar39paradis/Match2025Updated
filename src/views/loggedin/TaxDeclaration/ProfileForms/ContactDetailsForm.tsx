@@ -101,22 +101,6 @@ export function ContactDetailsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...register('street')}
-              type="text"
-              name="floating_street"
-              id="floating_street"
-              className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
-              placeholder=" "
-            />
-            <label
-              htmlFor="floating_street"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Case postale, route rurale
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-6 group">
-            <input
               {...register('city')}
               type="text"
               name="floating_city"
@@ -131,8 +115,6 @@ export function ContactDetailsForm() {
               Ville
             </label>
           </div>
-        </div>
-        <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
               {...register('postal')}
@@ -147,22 +129,6 @@ export function ContactDetailsForm() {
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Code postal
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-6 group">
-            <input
-              {...register('careOf')}
-              type="text"
-              name="floating_careOf"
-              id="floating_careOf"
-              className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
-              placeholder=" "
-            />
-            <label
-              htmlFor="floating_careOf"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Aux soins de
             </label>
           </div>
         </div>
@@ -180,7 +146,8 @@ export function ContactDetailsForm() {
           placeholder={'JJ/MM/AAAA'}
         />
         <p>
-          Votre adresse domocilaire est-elle identique à votre adresse postale ?
+          Votre adresse domiciliaire est-elle identique à votre adresse postale
+          ?
         </p>
         <fieldset className="flex flex-row m-4">
           <div className="flex items-center">
@@ -299,7 +266,7 @@ export function ContactDetailsForm() {
         <h2 className="mb-0">Autres renseignements personnels </h2>
         <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
         <p>
-          Avez-vous fait faillite en 2022 ou 2022, ou êtes-vous en faillite
+          Avez-vous fait faillite en 2021 ou 2022, ou êtes-vous en faillite
           selon les dossiers de l&apos;Agence du revenu du Canada (ARC)?
         </p>
         <fieldset className="flex flex-row m-4">
@@ -403,58 +370,7 @@ export function ContactDetailsForm() {
             </label>
           </div>
         </fieldset>
-        <p>
-          Note : Veuillez vérifier votre prénom, deuxième prénom et nom de
-          famille afin de vous assurer qu&apos;ils correspondent aux données que
-          l&apos;ARC a en dossier. En savoir plus{' '}
-        </p>
-        <div className="flex flex-row justify-between w-4/6 my-4">
-          <div className="relative z-0  my-4 group">
-            <input
-              type="text"
-              name="floating_first_name"
-              id="floating_first_name"
-              className="block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
-              placeholder=" "
-            />
-            <label
-              htmlFor="floating_first_name"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Prénom
-            </label>
-          </div>
-          <div className="relative z-0 my-4 group">
-            <input
-              type="text"
-              name="floating_second_first_name"
-              id="floatingsecond_first_name"
-              className="block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
-              placeholder=" "
-            />
-            <label
-              htmlFor="floating_second_first_name"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Deuxième prénom
-            </label>
-          </div>
-          <div className="relative z-0 my-4 group">
-            <input
-              type="text"
-              name="floating_last_name"
-              id="floating_last_name"
-              className="block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
-              placeholder=" "
-            />
-            <label
-              htmlFor="floating_last_name"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Nom de famille
-            </label>
-          </div>
-        </div>
+
         <p>
           Avez-vous été détenu dans une prison ou dans un établissement
           semblable pendant 90 jours ou plus durant l&apos;année?

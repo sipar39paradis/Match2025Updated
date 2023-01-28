@@ -6,7 +6,6 @@ export interface ContactDetails {
   street: string
   city: string
   postal: string
-  careOf:string
   movedFromOtherProvince: DateRangeType
   sameAddress: boolean
   differentProvince?: ProvinceEnum
