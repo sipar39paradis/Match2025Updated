@@ -100,7 +100,7 @@ export function Header() {
                       to="/#support"
                       className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white"
                     >
-                      Soutien
+                      Nous joindre
                     </Link>
                   </li>
                 </ul>
