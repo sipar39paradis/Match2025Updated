@@ -7,7 +7,7 @@ export function About() {
       id="about"
       className="pt-14 sm:pt-20 lg:pt-[130px] animate__animated animate__bounceInLeft"
     >
-      <Fade top cascade>
+      <Fade bottom cascade>
         <div className="px-4 xl:container m-auto">
           {/* <!-- Section Title --> */}
           <div className="relative mx-auto mb-12 pt-6 text-center lg:mb-20 lg:pt-16">

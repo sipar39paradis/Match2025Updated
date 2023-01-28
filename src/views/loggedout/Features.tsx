@@ -23,7 +23,7 @@ export function Features() {
             </h2>
           </div>
         </Fade>
-        <Fade top cascade>
+        <Fade bottom cascade>
           <div className="-mx-4 flex flex-wrap justify-center  items-center">
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto max-w-[380px] text-center md:">

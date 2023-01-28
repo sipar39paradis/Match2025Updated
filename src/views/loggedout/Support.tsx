@@ -16,7 +16,7 @@ export function Support() {
                       SUPPORT
                     </span>
                     <h2 className="mb-5 font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]">
-                      Besoin d&apos;aide? Dîtes bonjour!
+                      Besoin d&apos;aide? Envoyez nous un message!
                     </h2>
                     <p className="text-base text-dark-text">
                       Notre équipe de professionnelles ce fera un plaisir de

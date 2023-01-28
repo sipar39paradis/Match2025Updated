@@ -10,7 +10,7 @@ export function Home() {
       <div className="px-4 xl:container m-auto">
         <div className="-mx-4 flex flex-wrap items-center">
           <div className="w-full px-3 lg:w-1/2">
-            <Fade top cascade>
+            <Fade bottom cascade>
               <div className="mx-auto mb-12 max-w-[530px] text-center lg:ml-0 lg:mb-0 lg:text-left">
                 <span className="mb-8 inline-block rounded-full bg-orange-500 bg-opacity-5 py-[10px] px-5 font-heading text-base text-orange-500 dark:bg-white dark:bg-opacity-10 dark:text-white">
                   <span className="mr-2 inline-block h-2 w-2 rounded-full bg-orange-500"></span>
