@@ -38,7 +38,8 @@ const db = getFirestore(app);
 const auth: Auth = getAuth();
 
 export interface AppContextType {
-  user: User;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user: any;
   loading: boolean;
   errors: Error;
   signIn: (email: string, password: string) => Promise<string>;
