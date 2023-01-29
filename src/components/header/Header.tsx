@@ -6,6 +6,27 @@ import { AuthModal, AuthModalEnum } from '../auth/AuthModal';
 import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
 
+interface HeaderItemProps {
+  text: string
+  toLink: string
+}
+
+function HeaderItem(props: HeaderItemProps){
+  
+  return (
+                  <li>
+                    <Link
+                      to={props.toLink}
+                      className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white"
+                    >
+                    {props.text}
+                    </Link>
+                  </li>
+
+  )
+}
+
+
 export function Header() {
   const { user } = useContext(AppContext) as AppContextType;
 
@@ -63,46 +84,12 @@ export function Header() {
             <div className="w-full self-center">
               <nav>
                 <ul className="navbar flex flex-col items-center justify-center space-y-5 text-center lg:flex-row lg:justify-start lg:space-x-10 lg:space-y-0">
-                  <li>
-                    <Link
-                      to="/#home"
-                      className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white"
-                    >
-                      Accueil
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/#features"
-                      className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500y dark:hover:text-white"
-                    >
-                      Comment ça marche
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/#advantages"
-                      className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white"
-                    >
-                      Avantages
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/#about"
-                      className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white"
-                    >
-                      À propos de nous
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/#support"
-                      className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white"
-                    >
-                      Nous joindre
-                    </Link>
-                  </li>
+                  <HeaderItem text='Accueil' toLink='/#home'/>
+                  <HeaderItem text='Comment ça marche' toLink='/#features' />
+                  <HeaderItem text='Avantages' toLink='/#advantages'/>
+                  <HeaderItem text='À propos de nous' toLink='/#about'/>
+                  <HeaderItem text={'Nous joindre'} toLink='/#support' />
+                  <HeaderItem text={'Documents'} toLink='/files' />
                 </ul>
               </nav>
             </div>

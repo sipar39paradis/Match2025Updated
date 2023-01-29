@@ -10,6 +10,7 @@ import { Files } from './views/loggedin/Files';
 import { AppContextProvider } from './context/AppContext';
 import { Platform } from './views/loggedin/Platform';
 import { TaxDeclaration } from './views/loggedin/TaxDeclaration/TaxDeclaration';
+import ClientFilesView from './views/loggedin/ClientFielsView';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/requests" element={<Requests />} />
               <Route path="/messages" element={<Messages />} />
-              <Route path="/files" element={<Files />} />
+              <Route path="/files" element={<ClientFilesView />} />
               <Route path="/platform" element={<Platform />} />
               <Route
                 path="/platform/tax-declaration"
