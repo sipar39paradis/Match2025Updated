@@ -78,7 +78,7 @@ export function LoginModal(props: LoginModalProps) {
                 className=' hover:bg-gray-100 text-black font-semibold py-2 px-4 w-full rounded border border-black text-sm relative'
                 type='button'
                 onClick={async () => {
-                  signInWithGoogle()
+                  await signInWithGoogle()
                   setShowLoginModal(false)
                 }}
               >

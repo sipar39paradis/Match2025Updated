@@ -83,10 +83,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await signInWithPopup(auth, provider)
       .then(async (userCredential) => {
         const names = userCredential.user.displayName.split(' ');
-        await createProfile(userCredential, names[0], names[1], names[2]);
+        await createProfile(userCredential, names[0], names[1], '');
         setUserInfo(userCredential);
       })
       .catch((error) => {
+        console.log(error);
         errorMessage = error.message;
       });
     return errorMessage;
@@ -121,7 +122,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
-          createProfile(userCredential, firstName, lastName, referalCode);
+          await createProfile(userCredential, firstName, lastName, referalCode);
           setUserInfo(userCredential);
         }
       })
