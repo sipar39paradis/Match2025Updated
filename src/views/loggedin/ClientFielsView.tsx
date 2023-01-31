@@ -25,13 +25,19 @@ const storage = getStorage();
 
 interface FileListProps{
   files: any 
+  listName: string
 }
 
 function FileList(props: FileListProps){
   return (
-    <>
-    {(props.files == undefined) ? (<></>) : props.files[0].files.map((item: string) => <li key={item}>{item}</li>)}
-    </>
+    <div>
+    <label>{(props.listName) ? props.listName : ''}</label>
+    <ul className="list-disc">
+    {(props.files == undefined || 
+      props == undefined || 
+      props.files.length == 0) ? (<></>) : props.files[0].files.map((item: string) => <li key={item} className='transition-all duration-900 opacity-100'>{item}</li>)}
+    </ul>
+    </div>
   )
 } 
 
@@ -50,9 +56,9 @@ export default function ClientFilesView () {
   const userRequiredFiles = useCollectionData(requiredFilesQuery)
   const userExistingFiles = useCollectionData(existingFilesQuery)
   return (
-    <>
-    <FileList files={userRequiredFiles[0]} />
-    <FileList files={userExistingFiles[0]} />
-    </>
+    <div className="flex flex-wrap gap-20 justify-center items-center xs:display-0 h-screen">
+    <FileList files={userRequiredFiles[0]} listName='Required Files' />
+    <FileList files={userExistingFiles[0]} listName='Uploaded Files'/>
+    </div>
   )
 }
