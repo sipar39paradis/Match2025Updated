@@ -5,9 +5,11 @@ import { AppContext, AppContextType } from '../../context/AppContext';
 import { AuthModal, AuthModalEnum } from '../auth/AuthModal';
 import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
+import { useNavigate } from 'react-router-dom';
 
 export function Header() {
   const { user } = useContext(AppContext) as AppContextType;
+  const navigate = useNavigate();
 
   const [showModal, setShowModal] = React.useState(false);
   const [modalToDisplay, setModalToDisplay] =
@@ -55,7 +57,14 @@ export function Header() {
               <img
                 src={require('../../images/logo/impot-match-logo.svg').default}
                 alt="logo"
-                className="h-[96px] dark:hidden"
+                className="h-[96px] dark:hidden cursor-pointer"
+                onClick={() => {
+                  navigate('/');
+                  window.scroll({
+                    top: 0,
+                    left: 0,
+                  });
+                }}
               />
             </a>
           </div>
@@ -94,6 +103,14 @@ export function Header() {
                     >
                       À propos de nous
                     </Link>
+                  </li>
+                  <li>
+                    <a
+                      onClick={() => navigate('/preparator')}
+                      className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white cursor-pointer"
+                    >
+                      Préparateur
+                    </a>
                   </li>
                   <li>
                     <Link
