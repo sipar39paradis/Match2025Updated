@@ -9,14 +9,13 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   UserCredential,
-  FacebookAuthProvider,
-  User,
-} from 'firebase/auth';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, getFirestore, getDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
-import { AccountantProfile } from '../interfaces/User';
-import { upsertProfile } from '../client/firebaseClient';
+  FacebookAuthProvider
+} from 'firebase/auth'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
+import { UserProfile } from '../interfaces/User'
+import { upsertUserProfile } from '../client/firebaseClient'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -84,10 +83,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await signInWithPopup(auth, provider)
       .then(async (userCredential) => {
         const names = userCredential.user.displayName.split(' ');
-        await createProfile(userCredential, names[0], names[1], names[2]);
+        await createProfile(userCredential, names[0], names[1], '');
         setUserInfo(userCredential);
       })
       .catch((error) => {
+        console.log(error);
         errorMessage = error.message;
       });
     return errorMessage;
@@ -122,7 +122,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
-          createProfile(userCredential, firstName, lastName, referalCode);
+          await createProfile(userCredential, firstName, lastName, referalCode);
           setUserInfo(userCredential);
         }
       })
@@ -143,13 +143,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await sendPasswordResetEmail(auth, email);
   }
 
-  const createProfile = async (
-    userCredential: UserCredential,
-    firstName: string,
-    lastName: string,
-    referralCode: string
-  ) => {
-    const profile: AccountantProfile = {
+  const createProfile = async  (userCredential: UserCredential, firstName: string, lastName: string, referralCode: string) => {
+    const profile: UserProfile = {
       id: userCredential.user.uid,
       email: userCredential.user.email,
       firstName: firstName,
@@ -158,8 +153,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       avatar: userCredential.user.photoURL || '',
     };
 
-    await upsertProfile(userCredential.user.uid, profile, true);
-  };
+    await upsertUserProfile(userCredential.user.uid, profile, true)
+  }
 
   return (
     <AppContext.Provider

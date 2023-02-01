@@ -1,10 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
-import {
-  AccountantProfile,
-  AccountantProfileDoc,
-  ClientProfile,
-} from '../interfaces/User';
+import { UserProfile, UserProfileDoc } from '../interfaces/User';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -25,38 +21,34 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export const getAccountantProfile = async (
+const PROFILE_DB_NAME = 'UserProfile';
+
+export const getUserProfile = async (
   userEmail: string
-): Promise<AccountantProfile> => {
+): Promise<UserProfile> => {
   //TODO set key to each doc as UID from user
 
-  const returnedDoc = await getDoc(doc(db, 'accountantProfile', userEmail));
+  const returnedDoc = await getDoc(doc(db, PROFILE_DB_NAME, userEmail));
   const data = returnedDoc.data();
 
   console.log(data, 'data');
   return addDefaultValues(
     data.type == 'accountant'
-      ? docToProfile(<AccountantProfileDoc>data)
-      : <AccountantProfile>data
+      ? docToProfile(<UserProfileDoc>data)
+      : <UserProfile>data
   );
 };
 
-export const getClientProfile = async (
-  userId: string
-): Promise<ClientProfile> => {
-  return <ClientProfile>(await getDoc(doc(db, 'clientProfile', userId))).data();
-};
-
-export const upsertProfile = async (
+export const upsertUserProfile = async (
   userId: string,
-  profile: AccountantProfile,
+  profile: UserProfile,
   merge = false
 ): Promise<void> => {
   profile.avatar = '123';
-  await setDoc(doc(db, 'accountantProfile', userId), profile, { merge: merge });
+  await setDoc(doc(db, PROFILE_DB_NAME, userId), profile, { merge: merge });
 };
 
-const docToProfile = (profileDoc: AccountantProfileDoc): AccountantProfile => {
+const docToProfile = (profileDoc: UserProfileDoc): UserProfile => {
   return {
     avatar: profileDoc.avatar,
     blurb: profileDoc.blurb,
@@ -99,11 +91,11 @@ const docToProfile = (profileDoc: AccountantProfileDoc): AccountantProfile => {
   };
 };
 
-const addDefaultValues = (profile: AccountantProfile): AccountantProfile => {
+const addDefaultValues = (profile: UserProfile): UserProfile => {
   const defaultValues = {
     avatar: '',
     blurb: '',
-    Cases: 0,
+    cases: 0,
     email: '',
     experiece: [],
     firstName: '',

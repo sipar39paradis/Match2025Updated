@@ -3,11 +3,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
 import { Button } from 'flowbite-react';
 import {
-  getAccountantProfile,
-  upsertProfile,
+  getUserProfile,
+  upsertUserProfile,
 } from '../../client/firebaseClient';
 import { CustomCard } from '../../components/common/CustomCard';
-import { AccountantProfile } from '../../interfaces/User';
+import { UserProfile } from '../../interfaces/User';
 
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -24,8 +24,8 @@ export function Profile() {
   const { t } = useTranslation();
   const { id } = useParams();
   const { user } = useContext(AppContext) as AppContextType
-  const [profile, setProfile] = useState<AccountantProfile>(null)
-  const [tempProfile, setTempProfile] = useState<AccountantProfile>(null)
+  const [profile, setProfile] = useState<UserProfile>(null)
+  const [tempProfile, setTempProfile] = useState<UserProfile>(null)
   const [edit, setEdit] = useState(false)
   const [loading, setLoading] = useState(true)
   const [inErr, setInErr] = useState({})
@@ -38,7 +38,7 @@ export function Profile() {
     console.log(id, 'id');
     console.log(user, 'user');
 
-    getAccountantProfile(id ? id : user.uid).then((res) => {
+    getUserProfile(id ? id : user.uid).then((res) => {
       console.log(res, 'res');
       res.experiece.sort(
         (a, b) => (a.startDateObj.getTime() - b.startDateObj.getTime()) * -1
@@ -51,12 +51,12 @@ export function Profile() {
     });
   }, []);
 
-  const updateProfile = async (id: string, profile: AccountantProfile) => {
-    await upsertProfile(id, profile);
+  const updateProfile = async (id: string, profile: UserProfile) => {
+    await upsertUserProfile(id, profile);
     initializeProfile(profile);
   };
 
-  const initializeProfile = (profile: AccountantProfile) => {
+  const initializeProfile = (profile: UserProfile) => {
     setProfile(structuredClone(profile));
     setTempProfile(structuredClone(profile));
     setLoading(false);
