@@ -13,7 +13,6 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore'
-import ClientFilesView from './ClientFielsView'
 
 const FOLDER_NAME = 'customerdata/'
 const firestore = getFirestore()
@@ -28,6 +27,8 @@ interface FileInfo {
 interface ReloadProps {
   shouldReload: boolean
 }
+
+
 
 export function FileComponent(props: FileInfo) {
   const downloadFile = async () => {
@@ -157,8 +158,6 @@ export function UploadFilesComponent() {
 
   return (
     <>
-    <ClientFilesView/>
-      <div className='flex flex-wrap grid grid-cols-1'>
         <div className='rounded mb-20 bg-gray-100 outline outline-gray-200 outline-offset-2 grid grid-cols-1 place-content-center pb-10 m-20'>
           {fileDisplay}
         </div>
@@ -178,7 +177,6 @@ export function UploadFilesComponent() {
             </button>
           </div>
         </div>
-      </div>
     </>
   )
 }

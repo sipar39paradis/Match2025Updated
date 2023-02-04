@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import { FilesDoc } from '../interfaces/Files';
 import {
   AccountantProfile,
   AccountantProfileDoc,
@@ -40,6 +41,14 @@ export const getAccountantProfile = async (
       : <AccountantProfile>data
   );
 };
+
+export const writeRequiredFiles = async(requiredFiles: Array<string>, userId: string): Promise<void> => {
+  await setDoc(doc(db, 'UserRequiredFiles', userId), {files: requiredFiles, userId: userId});
+}
+
+export const writeExistingFiles = async(existingFiles: Array<string>, userId: string): Promise<void> => {
+  await setDoc(doc(db, 'UserExistingFiles', userId), {files: existingFiles, userId: userId});
+}
 
 export const getClientProfile = async (
   userId: string

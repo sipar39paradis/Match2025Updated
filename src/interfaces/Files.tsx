@@ -4,6 +4,11 @@ type Files = {
   files: Array<string>
 }
 
+export interface FilesDoc{
+  userId: string
+  filrs: Array<string>
+}
+
 export const FileListConverter: FirestoreDataConverter<Files> = {
   toFirestore(files: WithFieldValue<Files>): DocumentData {
     return { files: files.files};
