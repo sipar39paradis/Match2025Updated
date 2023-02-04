@@ -25,7 +25,6 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/requests" element={<Requests />} />
               <Route path="/messages" element={<Messages />} />
-              <Route path="/files" element={<Files />} />
               <Route path="/platform" element={<Platform />} />
               <Route
                 path="/platform/questionnaire"
