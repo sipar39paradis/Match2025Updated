@@ -28,7 +28,7 @@ function App() {
               <Route path="/files" element={<Files />} />
               <Route path="/platform" element={<Platform />} />
               <Route
-                path="/platform/tax-declaration"
+                path="/platform/questionnaire"
                 element={<TaxDeclaration />}
               />
               <Route path="/preparator" element={<Preparator />} />

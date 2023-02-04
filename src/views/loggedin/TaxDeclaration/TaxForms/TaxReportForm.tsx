@@ -31,7 +31,7 @@ export function TaxReportForm() {
   const formData = watch();
 
   function onSubmitButton() {
-    navigate(`/platform/tax-declaration?step=${TaxDeclarationStep.REVIEW}`);
+    navigate(`/platform/questionnaire?step=${TaxDeclarationStep.REVIEW}`);
   }
 
   return (
@@ -181,7 +181,7 @@ export function TaxReportForm() {
               value="Precedant"
               onClick={() =>
                 navigate(
-                  `/platform/tax-declaration?step=${TaxDeclarationStep.DEPENDENTS}`
+                  `/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}`
                 )
               }
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"

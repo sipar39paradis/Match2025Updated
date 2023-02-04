@@ -17,7 +17,7 @@ export function CivilStatusForm() {
 
   function onSubmitButton() {
     navigate(
-      `/platform/tax-declaration?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
+      `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
     );
   }
 

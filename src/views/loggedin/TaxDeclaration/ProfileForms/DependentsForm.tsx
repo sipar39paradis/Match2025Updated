@@ -12,9 +12,7 @@ export function DependentsForm() {
 
   function onSubmitButton(data) {
     console.log(data);
-    navigate(
-      `/platform/tax-declaration?step=${TaxDeclarationStep.TAX_PROFILE}`
-    );
+    navigate(`/platform/questionnaire?step=${TaxDeclarationStep.TAX_PROFILE}`);
   }
   return (
     <section className="flex flex-col align-baseline items-start w-full">
@@ -75,7 +73,7 @@ export function DependentsForm() {
             value="Precedant"
             onClick={() =>
               navigate(
-                `/platform/tax-declaration?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
+                `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
               )
             }
             className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"

@@ -23,7 +23,7 @@ export function ContactDetailsForm() {
 
   function onSubmitButton() {
     navigate(
-      `/platform/tax-declaration?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
+      `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
     );
   }
 
@@ -584,7 +584,7 @@ export function ContactDetailsForm() {
             value="Precedant"
             onClick={() =>
               navigate(
-                `/platform/tax-declaration?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
+                `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
               )
             }
             className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"

@@ -20,7 +20,7 @@ export function CivilStatusChangeForm() {
   }, []);
 
   function onSubmitButton() {
-    navigate(`/platform/tax-declaration?step=${TaxDeclarationStep.DEPENDENTS}`);
+    navigate(`/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}`);
   }
 
   const [value, setValue] = useState({
@@ -172,7 +172,7 @@ export function CivilStatusChangeForm() {
             value="Precedant"
             onClick={() =>
               navigate(
-                `/platform/tax-declaration?step=${TaxDeclarationStep.CONTACT_DETAILS}`
+                `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}`
               )
             }
             className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
