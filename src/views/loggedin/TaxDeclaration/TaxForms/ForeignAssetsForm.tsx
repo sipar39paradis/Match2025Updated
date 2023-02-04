@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxProfileFormProps } from '../types/TaxProfileFormProps';
+import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
 
 export function ForeignAssetsForm(props: TaxProfileFormProps) {
   const { control, formData } = props;
@@ -20,7 +20,7 @@ export function ForeignAssetsForm(props: TaxProfileFormProps) {
             <div className="flex items-center">
               <input
                 type="radio"
-                value="no"
+                value="yes"
                 onChange={() => onChange(true)}
                 checked={value === true}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -32,7 +32,7 @@ export function ForeignAssetsForm(props: TaxProfileFormProps) {
             <div className="flex items-center m-4">
               <input
                 type="radio"
-                value="yes"
+                value="no"
                 onChange={() => onChange(false)}
                 checked={value === false}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { CivilStatus } from '../types/CivilStatus';
-import { CivilStatusEnum } from '../types/CivilStatusEnum';
-import { TaxDeclarationStep } from '../types/TaxDeclarationStep';
+import { CivilStatus } from '../types/Profile/CivilStatus';
+import { CivilStatusEnum } from '../types/Profile/CivilStatusEnum';
+import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 
 export function CivilStatusForm() {
   const {

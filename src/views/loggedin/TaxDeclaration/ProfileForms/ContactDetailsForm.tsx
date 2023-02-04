@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
-import { ContactDetails } from '../types/ContactDetails';
-import { TaxDeclarationStep } from '../types/TaxDeclarationStep';
+import { ContactDetails } from '../types/Profile/ContactDetails';
+import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 
 export function ContactDetailsForm() {
   const {

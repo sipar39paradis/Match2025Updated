@@ -1,51 +1,62 @@
-export interface TaxProfile {
-  workedLastYear: WorkedLastYear
-  retirementIncome: RetirementIncome
-  investmentIncome: InvestmentIncome
-  selfEmploymentRentalOtherIncome?: SelfEmploymentRentalOtherIncome
+export interface TaxReport {
+  workIncomes: WorkIncomes
+  retirementIncomes: RetirementIncomes
+  investmentIncomes: InvestmentIncomes
+  selfEmploymentRentalOtherIncomes?: SelfEmploymentRentalOtherIncomes
   foreignAssets?: boolean
-  studentLastYear: StudentLastYear
+  studentExpenses: StudentExpenses
   taxDeductions: TaxDeductions
   donations: Donations
   movingExpenses: MovingExpenses
   medicalExpenses: boolean
-  boughtRealEstate: BoughtRealEstate
-  soldRealEstate: boolean
+  eligibleHomeBuyerTaxCredit: boolean
   homeAccessibilityTaxCredit: boolean
   losses: Losses
-  volunteerFirefighter: VolunteerFirefighter
+  firefighterOrSearchAndRescueVolunteer: number
   otherDeductions: OtherDeductions
+  instalmentPayments: number
 }
 
 export interface Losses {
-  losses: boolean
-}
-
-export interface VolunteerFirefighter {
-  volunteerFirefighter: boolean
+  deductibleBusinessInvestmentLoss?: boolean
+  workOrBusinessLosses?: boolean
+  fishingOrAgricultureLosses?: boolean
+  personnalPropertyLosees?: boolean
+  capitalAssetsLosses?: boolean
+  partnershipLosses?: boolean
+  deductLossesFromPreviousYearGains: boolean
 }
 
 export interface OtherDeductions {
-  otherDeductions: boolean
+  digitalNewServicesSubscription?: boolean
+  covid19BenefitsReimbursement?: boolean
+  boughtEligibleSchoolSupplies?: boolean
+  paidUnionOrProfessionalDues?: boolean
+  paidSpousalOrChildSupport?: boolean
+  unusedSpousalCredits?: boolean
+  paidForeignTaxes?: boolean
+  northernResidentsDeduction?: boolean
+  paidForestryOperationsTaxes?: boolean
+  carryingForwardalternativeMinimumTaxPayments?: boolean
+  alternativeMinimumTaxRevision?: boolean
+  otherDeductions?: boolean
 }
 
-export interface BoughtRealEstate {
-  boughtRealEstate: boolean
-}
 
 export interface MovingExpenses {
-  movingExpenses: boolean
+  movedForWorkOrSchool: boolean
+  reportedMovingExpenses?: boolean
 }
 
 export interface Donations {
-  donations: boolean
+  charitableDonations?: boolean
+  politicalContributions?: boolean
 }
 
-export interface WorkedLastYear {
+export interface WorkIncomes {
   workedLastYear?: boolean
+  employed?: boolean
   employmentIncome?: boolean
-  pensionRetirementAnnuityIncome?: boolean
-  statementOfDistribution?: boolean
   employmentProfitSharingPlan?: boolean
   pensionAdjustmentReversal?: boolean
   foreignIncomes?: boolean
@@ -53,8 +64,8 @@ export interface WorkedLastYear {
   multiEmployerInsurancePlanIncome?: boolean
   workerCompensationOrSocialAssistance?: boolean
   employmentInsuranceBenefits?: boolean
+  employmentInsuranceOrParentalBenefits?: boolean
   onTheJobTrainingProgram?: boolean
-  employed?: boolean
   clergyMember?: boolean
   formT1198RetroactivePayment?: boolean
   wageLossReplacementPlan?: boolean
@@ -64,13 +75,13 @@ export interface WorkedLastYear {
   taxRefund?: boolean
   mealsAndAccomodation?: boolean
   unionsOrProfessionalDues?: boolean
-  covidJobRelatedExpenses?: boolean
+  remoteWorkExpenses?: boolean
   tipsOrCasualWork?: boolean
   covidInsuranceBenefits?: boolean
-  welfareSeniorSupplement?: boolean
+  familyOrIntermediateResourceCompensation ?: boolean
 }
-interface RetirementIncome {
-  retirementIncome?: boolean
+interface RetirementIncomes {
+  retirementIncomes?: boolean
   oldAgeSecurity?: boolean
   retirementCompensationArrangement?: boolean
   welfareSeniorSupplement?: boolean
@@ -81,14 +92,13 @@ interface RetirementIncome {
   canadaPensionPlanOrQuebecPensionPlanBenefits?: boolean
   creditAdjustment?: boolean
   splitPensionIncome?: boolean
-
-
+  advancePayments?: boolean
+  statementOfDistribution?: boolean
 }
-interface SelfEmploymentRentalOtherIncome {
-  selfEmploymentRentalOtherIncome?: boolean
-  selfEmployed?: SelfEmployed
-  rentalPropertyRevenues?: boolean
-  RRSPorRRIFrevenues?: boolean
+
+interface SelfEmploymentRentalOtherIncomes {
+  selfEmployed?: SelfEmployedIncomes
+  rentalPropertyIncomes?: boolean
   homeOwnershipPlan?: boolean
   continuingEducationIncentivePlan?: boolean 
   schoolIncome?: boolean
@@ -96,27 +106,24 @@ interface SelfEmploymentRentalOtherIncome {
   welfareSeniorSupplement?: boolean
   disabilityOrDeathBenefits?: boolean
   spousalOrChildSupportPayments?: boolean
-  advancePayments?: boolean
+  advancePaymentsWorkingIncomeTaxBenefit?: boolean
   spousalRRSP?: boolean
   spousalRRIF ?: boolean
   RRSPorRRIFdeductions?: boolean
   canadaPensionPlanOrQuebecPensionPlanBenefits?: boolean
-  pensionRetirementAnnuityIncome?: boolean
-  employmentInsuranceBenefits?:boolean
   registeredRetirementSavingsPlanIncome?: boolean
   otherRevenues?: boolean
 }
 
-interface SelfEmployed {
-  selfEmployed?: boolean
+interface SelfEmployedIncomes {
+  selfEmployedIncomes?: boolean
   liberalProfession?: boolean
   commission?: boolean
   agriculture?: boolean
   fishing?: boolean
   other?: boolean}
 
-interface StudentLastYear {
-  studentLastYear: boolean
+interface StudentExpenses {
   tuitionFees?: boolean
   otherTuitionsFees?: boolean
   boughtFurnitures?: boolean
@@ -127,14 +134,12 @@ interface StudentLastYear {
   RRSPincomes?: boolean
 }
 
-interface InvestmentIncome {
- investmentIncome?: boolean
- declaredIncome?: boolean
+interface InvestmentIncomes {
+ declaredInvestmentIncome?: boolean
  trustIncome?: boolean
  securityTransactions?: boolean
  explorationAndShareExpenses?: boolean
- investmentPlan?: boolean
- labourSponsoredFundTaxCredits?: boolean
+ investmentPlanIncome?: boolean
  desjardins?: boolean
  nonDeclaredInterestDividendPartnershipIncome?: boolean
  interestSlip?: boolean
@@ -146,7 +151,7 @@ interface InvestmentIncome {
  soldRealEstate?: boolean
  repossessedMortgage?: boolean
  soldGoodForPersonalUse?: boolean
- specifiedPersonalProperty?: boolean
+ soldSpecificMovableProperty?: boolean
  soldEligibleSmallBusinessShares?: boolean
  soldFarmFishingProperty?: boolean
  soldBonds?: boolean
@@ -161,5 +166,18 @@ interface InvestmentIncome {
 }
 
 export interface TaxDeductions {
-  taxDeductions: boolean
+  RRSPcontributions?: boolean
+  reportedButUnusedRRSPorSPP?: boolean
+  unreportedRRSP?: boolean
+  deferRRSP?: boolean
+  employerPRPP?: boolean
+  contributionRPP?: boolean
+  amateurAthletesTrust?: boolean
+  contributionSPP?: boolean
+  refundLLP?: boolean
+  refundHOP?: boolean
+  T4RSP?: boolean
+  T4RIF?: boolean
+  labourSponsoredFundTaxCredits?: boolean
+  foreignPensionPlan?: boolean
 }

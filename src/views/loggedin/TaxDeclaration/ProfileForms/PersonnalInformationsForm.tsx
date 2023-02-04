@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { TaxDeclarationStep } from '../types/TaxDeclarationStep';
+import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
-import { PersonalInformations } from '../types/PersonnalInformations';
+import { PersonalInformations } from '../types/Profile/PersonnalInformations';
 
 export function PersonnalInformationsForm() {
   const {
@@ -18,15 +18,6 @@ export function PersonnalInformationsForm() {
     startDate: null,
     endDate: null,
   });
-
-  const [deathDateValue, setDeathDateValue] = useState({
-    startDate: null,
-    endDate: null,
-  });
-
-  const handleDeathDateValueChange = (newValue) => {
-    setDeathDateValue(newValue);
-  };
 
   const handleBirthDayValueChange = (newValue) => {
     setBirthDayValue(newValue);
@@ -130,21 +121,6 @@ export function PersonnalInformationsForm() {
             placeholder={'Date de naissance (JJ/MM/AAAA)'}
           />
         </div>
-
-        <p>
-          Si vous préparez cette déclaration pour une personne qui est décédée
-          durant ou après l&apos;année d&apos;imposition, entrez la date du
-          décès.
-        </p>
-        <Datepicker
-          {...register('deathDate')}
-          containerClassName="h-fit w-96 my-8"
-          useRange={false}
-          asSingle={true}
-          value={deathDateValue}
-          onChange={handleDeathDateValueChange}
-          placeholder={'JJ/MM/AAAA'}
-        />
         <p>
           Outre la présente, est-ce que d&apos;autres déclarations seront
           produites au nom du contribuable décédé pour 2021? (P. ex. une
@@ -157,13 +133,9 @@ export function PersonnalInformationsForm() {
             <input
               type="radio"
               value="no"
-              id="field-dead-person-yes"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label
-              htmlFor="country-option-4"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
+            <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
               Oui
             </label>
           </div>

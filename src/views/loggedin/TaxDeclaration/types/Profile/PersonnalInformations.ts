@@ -4,11 +4,9 @@ export interface PersonalInformations {
 title: TitleEnum
 firstName: string
 lastName: string
-initial?: string
 birthDay: DateRangeType
 socialSecurityNumber: string
 email: string
-deathDate?: DateRangeType 
 }
 
 export enum TitleEnum {

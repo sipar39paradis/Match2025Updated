@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { TaxDeclarationStep } from '../types/TaxDeclarationStep';
+import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 
 export function DependentsForm() {
   const {

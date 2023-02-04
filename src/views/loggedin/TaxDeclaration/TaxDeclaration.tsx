@@ -5,9 +5,9 @@ import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsF
 import { CivilStatusChangeForm } from './ProfileForms/CivilStatusChangeForm';
 import { TaxDeclarationReview } from './TaxDeclarationReview';
 import { ContactDetailsForm } from './ProfileForms/ContactDetailsForm';
-import { TaxDeclarationStep } from './types/TaxDeclarationStep';
+import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import { DependentsForm } from './ProfileForms/DependentsForm';
-import { TaxProfileForm } from './TaxForms/TaxProfileForm';
+import { TaxReportForm } from './TaxForms/TaxReportForm';
 
 const TAX_DECLARATION_STEP = 'step';
 export function TaxDeclaration() {
@@ -26,7 +26,7 @@ export function TaxDeclaration() {
       case TaxDeclarationStep.DEPENDENTS:
         return <DependentsForm></DependentsForm>;
       case TaxDeclarationStep.TAX_PROFILE:
-        return <TaxProfileForm></TaxProfileForm>;
+        return <TaxReportForm></TaxReportForm>;
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:
