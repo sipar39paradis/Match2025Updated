@@ -1,11 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { FilesDoc } from '../interfaces/Files';
-import {
-  AccountantProfile,
-  AccountantProfileDoc,
-  ClientProfile,
-} from '../interfaces/User';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
 
 const firebaseConfig = {
@@ -45,18 +40,30 @@ export const getUserProfile = async (
   );
 };
 
-export const writeRequiredFiles = async(requiredFiles: Array<string>, userId: string): Promise<void> => {
-  await setDoc(doc(db, 'UserRequiredFiles', userId), {files: requiredFiles, userId: userId});
-}
+export const writeRequiredFiles = async (
+  requiredFiles: Array<string>,
+  userId: string
+): Promise<void> => {
+  await setDoc(doc(db, 'UserRequiredFiles', userId), {
+    files: requiredFiles,
+    userId: userId,
+  });
+};
 
-export const writeExistingFiles = async(existingFiles: Array<string>, userId: string): Promise<void> => {
-  await setDoc(doc(db, 'UserExistingFiles', userId), {files: existingFiles, userId: userId});
-}
+export const writeExistingFiles = async (
+  existingFiles: Array<string>,
+  userId: string
+): Promise<void> => {
+  await setDoc(doc(db, 'UserExistingFiles', userId), {
+    files: existingFiles,
+    userId: userId,
+  });
+};
 
 export const getClientProfile = async (
   userId: string
-): Promise<ClientProfile> => {
-  return <ClientProfile>(await getDoc(doc(db, 'clientProfile', userId))).data();
+): Promise<UserProfile> => {
+  return <UserProfile>(await getDoc(doc(db, 'clientProfile', userId))).data();
 };
 
 export const upsertUserProfile = async (
@@ -107,7 +114,7 @@ const docToProfile = (profileDoc: UserProfileDoc): UserProfile => {
       };
     }),
     type: profileDoc.type,
-    referralCode: profileDoc.referralCode
+    referralCode: profileDoc.referralCode,
   };
 };
 
@@ -125,7 +132,7 @@ const addDefaultValues = (profile: UserProfile): UserProfile => {
     location: '',
     rating: 0,
     schooling: [],
-    referralCode: '', 
+    referralCode: '',
     type: 'client',
   };
 
