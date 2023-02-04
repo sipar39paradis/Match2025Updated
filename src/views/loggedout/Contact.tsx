@@ -1,7 +1,10 @@
 import React from 'react';
 import Fade from 'react-reveal';
+import { useNavigate } from 'react-router-dom';
 
 export function Contact() {
+  const navigate = useNavigate();
+
   return (
     <section id="cta" className="pt-14 sm:pt-20 lg:pt-[130px]">
       <Fade top cascade>
@@ -79,7 +82,10 @@ export function Contact() {
                 </div>
               </div>
               <div className="w-full px-4 lg:w-1/3">
-                <div className="text-center lg:text-right">
+                <div
+                  className="text-center lg:text-right"
+                  onClick={() => navigate('/preparator')}
+                >
                   <a
                     href="javascript:void(0)"
                     className="inline-flex items-center rounded bg-orange-500 py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"

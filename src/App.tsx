@@ -10,7 +10,7 @@ import { Files } from './views/loggedin/Files';
 import { AppContextProvider } from './context/AppContext';
 import { Platform } from './views/loggedin/Platform';
 import { TaxDeclaration } from './views/loggedin/TaxDeclaration/TaxDeclaration';
-import ClientFilesView from './views/loggedin/ClientFielsView';
+import { Preparator } from './views/loggedout/Preparator';
 
 function App() {
   return (
@@ -30,6 +30,7 @@ function App() {
                 path="/platform/tax-declaration"
                 element={<TaxDeclaration />}
               />
+              <Route path="/preparator" element={<Preparator />} />
             </Routes>
           </div>
         </AppContextProvider>

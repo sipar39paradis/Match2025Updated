@@ -2,14 +2,14 @@ import { Button, Select, TextInput, Textarea } from 'flowbite-react';
 import React, { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HiPlusSm } from 'react-icons/hi';
-import { AccountantProfile } from '../../interfaces/User';
+import { UserProfile } from '../../interfaces/User';
 import { Skeleton } from '../common/Skeleton';
 
 interface ProfileAboutProps {
-  profile?: AccountantProfile;
+  profile?: UserProfile;
   edit: boolean;
   loading: boolean
-  setProfile(profile: AccountantProfile);
+  setProfile(profile: UserProfile);
 }
 
 export const ProfileAbout = ({

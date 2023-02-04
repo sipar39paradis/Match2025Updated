@@ -10,18 +10,18 @@ import React, { ReactElement } from 'react';
 import { HiPlusSm } from 'react-icons/hi';
 import Check from './../../icons/Check.svg';
 import {
-  AccountantProfile,
+  UserProfile,
   InErr,
   Schooling,
 } from '../../interfaces/User';
 import { useTranslation } from 'react-i18next';
 
 interface EducationTimelineProps {
-  profile?: AccountantProfile;
+  profile?: UserProfile;
   edit: boolean;
   inErr: InErr;
   setInErr(InErr);
-  setProfile(profile: AccountantProfile);
+  setProfile(profile: UserProfile);
 }
 
 export const EducationTimeline = ({

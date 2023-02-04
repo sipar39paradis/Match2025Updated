@@ -1,27 +1,4 @@
-export interface UserInfo {
-  id: string
-  firstName: string
-  lastName: string
-  email: string
-  type: 'accountant' | 'client'
-}
-
-export interface ClientProfile {
-  blurb: string
-  cases: number
-  email: string
-  firstName: string
-  id: string
-  lastName: string
-  languages: Array<string>
-  location: string
-  referralCode: string
-  rating: number
-  avatar: string
-  type: 'accountant' | 'client'
-}
-
-export interface AccountantProfile {
+export interface UserProfile {
   blurb?: string
   cases?: number
   email: string
@@ -58,7 +35,7 @@ export interface Schooling {
   verified: boolean
 }
 
-export interface AccountantProfileDoc {
+export interface UserProfileDoc {
   avatar: string
   blurb?: string
   cases?: number

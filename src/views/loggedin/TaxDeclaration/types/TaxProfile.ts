@@ -1,13 +1,47 @@
 export interface TaxProfile {
-  workedLastYear?: WorkedLastYear
-  retirementIncome?: RetirementIncome
-  investmentIncome?: InvestmentIncome
+  workedLastYear: WorkedLastYear
+  retirementIncome: RetirementIncome
+  investmentIncome: InvestmentIncome
   selfEmploymentRentalOtherIncome?: SelfEmploymentRentalOtherIncome
   foreignAssets?: boolean
-  studentLastYear?: StudentLastYear
+  studentLastYear: StudentLastYear
+  taxDeductions: TaxDeductions
+  donations: Donations
+  movingExpenses: MovingExpenses
+  medicalExpenses: boolean
+  boughtRealEstate: BoughtRealEstate
+  soldRealEstate: boolean
+  homeAccessibilityTaxCredit: boolean
+  losses: Losses
+  volunteerFirefighter: VolunteerFirefighter
+  otherDeductions: OtherDeductions
 }
 
-export interface WorkedLastYear{
+export interface Losses {
+  losses: boolean
+}
+
+export interface VolunteerFirefighter {
+  volunteerFirefighter: boolean
+}
+
+export interface OtherDeductions {
+  otherDeductions: boolean
+}
+
+export interface BoughtRealEstate {
+  boughtRealEstate: boolean
+}
+
+export interface MovingExpenses {
+  movingExpenses: boolean
+}
+
+export interface Donations {
+  donations: boolean
+}
+
+export interface WorkedLastYear {
   workedLastYear?: boolean
   employmentIncome?: boolean
   pensionRetirementAnnuityIncome?: boolean
@@ -82,6 +116,7 @@ interface SelfEmployed {
   other?: boolean}
 
 interface StudentLastYear {
+  studentLastYear: boolean
   tuitionFees?: boolean
   otherTuitionsFees?: boolean
   boughtFurnitures?: boolean
@@ -123,4 +158,8 @@ interface InvestmentIncome {
  interestExpenses?: boolean
  deductionClaim?: boolean
  cumulativeInvestmentLoss?: boolean
+}
+
+export interface TaxDeductions {
+  taxDeductions: boolean
 }

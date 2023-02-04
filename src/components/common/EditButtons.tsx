@@ -1,6 +1,6 @@
 import { Badge, Button, Card, Rating } from 'flowbite-react'
 import React from 'react'
-import { AccountantProfile } from '../../interfaces/User'
+import { UserProfile } from '../../interfaces/User'
 import '../../i18n/config';
 import { useTranslation } from 'react-i18next';
 import { Skeleton } from './Skeleton';
@@ -8,7 +8,7 @@ import { User } from '@firebase/auth';
 
 interface EditButtonsProps {
   user: User
-  profile?: AccountantProfile
+  profile?: UserProfile
   edit: boolean
   ownProfile: boolean
   inErr: any
