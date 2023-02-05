@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Fade from 'react-reveal';
+import emailjs from '@emailjs/browser'
 
 export function Support() {
+
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs.sendForm('service_6bjauir', 'template_q6vh61j', form.current, 'umJYlsZZcSc4v8_4L').then(() => {
+      alert('Email sent.')
+    }).catch((err) => {
+      alert('There was an issue.')
+      console.log(err)
+    });
+  }
+
   return (
     <section id="support" className="pt-14 sm:pt-20 lg:pt-[130px]">
       <Fade top cascade>
@@ -134,7 +149,7 @@ export function Support() {
           </div>
 
           <div className="mx-auto max-w-[780px] pt-[130px]">
-            <form action="https://formbold.com/s/unique_form_id" method="POST">
+            <form ref={form} onSubmit={sendEmail}>
               <div className="-mx-4 flex flex-wrap">
                 <div className="w-full px-4 sm:w-1/2">
                   <div className="mb-12">
@@ -259,9 +274,7 @@ export function Support() {
                 </div>
 
                 <div className="w-full px-4">
-                  <button className="flex w-full items-center justify-center rounded bg-orange-500 py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90">
-                    Envoyez votre message
-                  </button>
+                  <input type='submit' value='Envoyez votre message' className="flex w-full items-center justify-center rounded bg-orange-500 py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"/>
                 </div>
               </div>
             </form>
