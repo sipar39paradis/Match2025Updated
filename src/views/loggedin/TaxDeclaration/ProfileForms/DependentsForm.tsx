@@ -11,57 +11,39 @@ export function DependentsForm() {
   const navigate = useNavigate();
 
   function onSubmitButton(data) {
-    console.log(data);
     navigate(`/platform/questionnaire?step=${TaxDeclarationStep.TAX_PROFILE}`);
   }
   return (
     <section className="flex flex-col align-baseline items-start w-full">
-      <h1>
-        Avez-vous des enfants ou soutenez-vous financièrement une autre
-        personne?
-      </h1>
+      <h1>Avez-vous des enfants</h1>
       <p className="my-4">
         Vos enfants valent leur pesant d&apos;or. Nous allons essayer
         d&apos;obtenir un crédit d&apos;impôt pour chaque enfant que vous
         soutenez
       </p>
-      <p className="my-4">
-        Votre conjoint n&apos;est pas considéré comme une personne à charge aux
-        fins de cette question. Si vous subvenez aux besoins de votre époux ou
-        conjoint, vous avez droit à un type différent de crédit. Nous nous
-        occuperons de ça plus tard.
-      </p>
+
       <form
         onSubmit={handleSubmit(onSubmitButton)}
         className="flex flex-col items-start mt-4 w-full"
       >
-        <fieldset className="flex flex-row m-4">
+        <fieldset className="flex flex-row mx-4">
           <div className="flex items-center">
             <input
               type="radio"
               value="no"
-              id="field-dead-person-yes"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label
-              htmlFor="country-option-4"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Oui, j&apos;ai des enfants ou je soutiens financièrement une autre
-              personne.
+            <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Oui, j&apos;ai des enfants
             </label>
           </div>
           <div className="flex items-center m-4">
             <input
               type="radio"
               value="yes"
-              id="field-dead-person-no"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label
-              htmlFor="country-option-4"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
+            <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
               Non, ce n&apos;est pas le cas.
             </label>
           </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
@@ -11,6 +11,7 @@ export function PersonnalInformationsForm() {
     register,
     handleSubmit,
     formState: {},
+    control,
   } = useForm<PersonalInformations>();
   const navigate = useNavigate();
 
@@ -38,17 +39,12 @@ export function PersonnalInformationsForm() {
       >
         <div className="relative z-0 w-full my-4 group">
           <input
-            {...register('email')}
+            {...register('email', { required: true })}
             type="email"
-            name="floating_email"
-            id="floating_email"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
             placeholder=" "
           />
-          <label
-            htmlFor="floating_email"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
+          <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
             Courriel
           </label>
         </div>
@@ -56,26 +52,19 @@ export function PersonnalInformationsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...register('firstName')}
+              {...register('firstName', { required: true })}
               type="text"
-              name="floating_first_name"
-              id="floating_first_name"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
             />
-            <label
-              htmlFor="floating_first_name"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Prénom
             </label>
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...register('lastName')}
+              {...(register('lastName'), { required: true })}
               type="text"
-              name="floating_last_name"
-              id="floating_last_name"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
             />
@@ -90,29 +79,17 @@ export function PersonnalInformationsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...register('socialSecurityNumber')}
+              {...(register('socialSecurityNumber'), { required: true })}
               type="text"
-              name="floating_ssn"
-              id="floating_ssn"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
-              onChange={(event) => {
-                if (event.target.value.length > 0) {
-                  if (event.target.value.length % 3 == 0) {
-                    event.target.value += ' ';
-                  }
-                }
-              }}
             />
-            <label
-              htmlFor="floating_ssn"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Numéro d&apos;assurance sociale
             </label>
           </div>
           <Datepicker
-            {...register('birthDay')}
+            {...(register('birthDay'), { required: true })}
             containerClassName="h-fit"
             useRange={false}
             asSingle={true}
@@ -123,37 +100,44 @@ export function PersonnalInformationsForm() {
         </div>
         <p>
           Outre la présente, est-ce que d&apos;autres déclarations seront
-          produites au nom du contribuable décédé pour 2021? (P. ex. une
+          produites au nom du contribuable décédé pour 2022? (P. ex. une
           déclaration distincte relative aux droits et biens au moment du décès
           ou au revenu d&apos;une fiducie testamentaire, d&apos;une société de
           personnes ou d&apos;une entreprise personnelle.
         </p>
-        <fieldset className="flex flex-row m-4">
-          <div className="flex items-center">
-            <input
-              type="radio"
-              value="no"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              Oui
-            </label>
-          </div>
-          <div className="flex items-center m-4">
-            <input
-              type="radio"
-              value="yes"
-              id="field-dead-person-no"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="country-option-4"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Non
-            </label>
-          </div>
-        </fieldset>
+        <Controller
+          control={control}
+          name="otherReport"
+          render={({ field: { onChange, value } }) => (
+            <fieldset className="flex flex-row m-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  value="yes"
+                  onChange={() => onChange(true)}
+                  checked={value === true}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                  Oui
+                </p>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  type="radio"
+                  value="no"
+                  onChange={() => onChange(false)}
+                  checked={value === false}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                  Non
+                </p>
+              </div>
+            </fieldset>
+          )}
+        />
+
         <p className="opacity-100">
           NOTE : La déclaration fédérale d&apos;une personne décédée doit être
           imprimée et envoyée par la poste. La déclaration du Québec peut être

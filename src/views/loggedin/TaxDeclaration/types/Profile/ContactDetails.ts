@@ -15,7 +15,7 @@ export interface ContactDetails {
   bankruptcy: boolean
   disabled: boolean
   firstTimeARC: boolean
-  jailLast30Days: boolean
+  jailLast90Days: boolean
   jailLast6months: boolean
   canadianRedisentStatusChange: boolean
   canadianIncomes: number

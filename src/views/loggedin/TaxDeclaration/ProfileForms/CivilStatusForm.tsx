@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { CivilStatus } from '../types/Profile/CivilStatus';
 import { CivilStatusEnum } from '../types/Profile/CivilStatusEnum';
@@ -11,6 +11,7 @@ export function CivilStatusForm() {
     handleSubmit,
     formState: {},
     watch,
+    control,
   } = useForm<CivilStatus>();
   const navigate = useNavigate();
   const watchCivilStatus = watch('civilStatus');
@@ -29,104 +30,81 @@ export function CivilStatusForm() {
         onSubmit={handleSubmit(onSubmitButton)}
         className="flex flex-col items-start w-full"
       >
-        <fieldset className="m-4">
-          <legend className="sr-only">État civil</legend>
+        <Controller
+          control={control}
+          name="civilStatus"
+          render={() => (
+            <fieldset className="flex flex-col m-4">
+              <div className="flex items-center my-4">
+                <input
+                  {...register('civilStatus', { required: true })}
+                  type="radio"
+                  value={CivilStatusEnum.MARRIED}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Marié(e)
+                </label>
+              </div>
+              <div className="flex items-center my-4">
+                <input
+                  {...(register('civilStatus'), { required: true })}
+                  type="radio"
+                  value={CivilStatusEnum.COMMON_LAW_PARTNER}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Conjoint(e) de fait
+                </label>
+              </div>
+              <div className="flex items-center my-4">
+                <input
+                  {...register('civilStatus', { required: true })}
+                  type="radio"
+                  value={CivilStatusEnum.WIDOW}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Veuf(ve)
+                </label>
+              </div>
+              <div className="flex items-center my-4">
+                <input
+                  {...register('civilStatus', { required: true })}
+                  type="radio"
+                  value={CivilStatusEnum.DIVORCED}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Divorcé(e)
+                </label>
+              </div>
+              <div className="flex items-center my-4">
+                <input
+                  {...register('civilStatus', { required: true })}
+                  type="radio"
+                  value={CivilStatusEnum.SEPARATED}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Séparé(e)
+                </label>
+              </div>
+              <div className="flex items-center my-4">
+                <input
+                  {...register('civilStatus', { required: true })}
+                  type="radio"
+                  value={CivilStatusEnum.SINGLE}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Célibataire
+                </label>
+              </div>
+            </fieldset>
+          )}
+        />
 
-          <div className="flex items-center mb-4">
-            <input
-              {...register('civilStatus')}
-              type="radio"
-              value={CivilStatusEnum.MARRIED}
-              id="field-married"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="civil-status-option-1"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Marié(e)
-            </label>
-          </div>
-
-          <div className="flex items-center mb-4">
-            <input
-              {...register('civilStatus')}
-              type="radio"
-              value={CivilStatusEnum.COMMON_LAW_PARTNER}
-              id="field-common-law-partner"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="civil-status-option-2"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Conjoint(e) de fait
-            </label>
-          </div>
-
-          <div className="flex items-center mb-4">
-            <input
-              {...register('civilStatus')}
-              type="radio"
-              value={CivilStatusEnum.WIDOW}
-              id="field-widow"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="civil-status-option-3"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Veuf(ve)
-            </label>
-          </div>
-
-          <div className="flex items-center mb-4">
-            <input
-              {...register('civilStatus')}
-              type="radio"
-              value={CivilStatusEnum.DIVORCED}
-              id="field-divorced"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="civil-status-option-4"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Divorcé(e)
-            </label>
-          </div>
-
-          <div className="flex items-center mb-4">
-            <input
-              {...register('civilStatus')}
-              type="radio"
-              value={CivilStatusEnum.SEPARATED}
-              id="civil-status-separated"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="country-option-5"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Séparé(e)
-            </label>
-          </div>
-          <div className="flex items-center mb-4">
-            <input
-              {...register('civilStatus')}
-              type="radio"
-              value={CivilStatusEnum.SINGLE}
-              id="field-single"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="civil-status-option-6"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Célibataire
-            </label>
-          </div>
-        </fieldset>
         {(watchCivilStatus === CivilStatusEnum.COMMON_LAW_PARTNER ||
           watchCivilStatus === CivilStatusEnum.MARRIED) && (
           <div>

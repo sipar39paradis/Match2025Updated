@@ -1,4 +1,4 @@
-import { Checkbox } from 'flowbite-react';
+import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
@@ -380,7 +380,7 @@ export function WorkIncomesForm(props: TaxProfileFormProps) {
           ) : (
             <>
               <p>
-                Il semble que vous n&apos;avez pas travaillé en 2021. Est-ce que
+                Il semble que vous n&apos;avez pas travaillé en 2022. Est-ce que
                 l&apos;une des situations suivantes vous concerne?
               </p>
               <div className="flex items-center gap-2 py-2">

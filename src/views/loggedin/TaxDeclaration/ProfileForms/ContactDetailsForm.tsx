@@ -1,6 +1,6 @@
-import { Select } from 'flowbite-react';
+import { Select } from 'flowbite-react/lib/esm/components/FormControls';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { ContactDetails } from '../types/Profile/ContactDetails';
@@ -11,8 +11,12 @@ export function ContactDetailsForm() {
     register,
     handleSubmit,
     formState: {},
+    control,
+    watch,
   } = useForm<ContactDetails>();
   const navigate = useNavigate();
+  const formData = watch();
+  const [showPrisonQuestions, setShowPrisonQuestions] = useState(false);
 
   useEffect(() => {
     window.scroll({
@@ -67,33 +71,23 @@ export function ContactDetailsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...register('address')}
+              {...(register('address'), { required: true })}
               type="text"
-              name="floating_address"
-              id="floating_address"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
             />
-            <label
-              htmlFor="floating_address"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Adresse/Adresse municipale
             </label>
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...register('appartment')}
+              {...(register('appartment'), { required: true })}
               type="text"
-              name="floating_appartment"
-              id="floating_appartment"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
             />
-            <label
-              htmlFor="floating_appartment"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               No d&apos;appartement
             </label>
           </div>
@@ -101,33 +95,23 @@ export function ContactDetailsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...register('city')}
+              {...(register('city'), { required: true })}
               type="text"
-              name="floating_city"
-              id="floating_city"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
             />
-            <label
-              htmlFor="floating_city"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Ville
             </label>
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...register('postal')}
+              {...(register('postal'), { required: true })}
               type="postal"
-              name="floating_postal"
-              id="floating_postal"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
             />
-            <label
-              htmlFor="floating_postal"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Code postal
             </label>
           </div>
@@ -137,7 +121,7 @@ export function ContactDetailsForm() {
           territoire en 2022, entrez la date de votre déménagement
         </p>
         <Datepicker
-          {...register('movedFromOtherProvince')}
+          {...(register('movedFromOtherProvince'), { required: true })}
           containerClassName="h-fit w-96 my-8"
           useRange={false}
           asSingle={true}
@@ -149,49 +133,45 @@ export function ContactDetailsForm() {
           Votre adresse domiciliaire est-elle identique à votre adresse postale
           ?
         </p>
-        <fieldset className="flex flex-row m-4">
-          <div className="flex items-center">
-            <input
-              {...register('sameAddress')}
-              type="radio"
-              value="no"
-              id="field-same-address-yes"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="same-address-option-1"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Oui
-            </label>
-          </div>
-          <div className="flex items-center m-4">
-            <input
-              {...register('sameAddress')}
-              type="radio"
-              value="yes"
-              id="field-same-address-yes"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="same-address-option-1"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Non
-            </label>
-          </div>
-        </fieldset>
+        <Controller
+          control={control}
+          name="sameAddress"
+          render={({ field: { onChange, value } }) => (
+            <fieldset className="flex flex-row m-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  value="yes"
+                  onChange={() => onChange(true)}
+                  checked={value === true}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                  Oui
+                </p>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  type="radio"
+                  value="no"
+                  onChange={() => onChange(false)}
+                  checked={value === false}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                  Non
+                </p>
+              </div>
+            </fieldset>
+          )}
+        />
         <p>
           Si la province ou le territoire où vous résidez présentement
           n&apos;est pas la(le) même que dans votre adresse postale
         </p>
 
         <div id="select" className="my-4 w-80">
-          <Select
-            {...register('differentProvince')}
-            id="provinces"
-            required={true}
-          >
+          <Select {...register('differentProvince')} id="provinces">
             <option>Je réside dans la même province</option>
             <option>Alberta</option>
             <option>Colombie-Britanique</option>
@@ -210,20 +190,15 @@ export function ContactDetailsForm() {
 
         <h2 className="mb-0 mt-4">Téléphones </h2>
         <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
+
         <div className="relative z-0 w-full my-4 group">
           <input
-            {...register('phoneNumber')}
             type="tel"
-            name="tel"
-            id="tel"
             className="block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
             placeholder=" "
             pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
           />
-          <label
-            htmlFor="tel"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
+          <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
             Numéro de téléphone à domicile
           </label>
         </div>
@@ -233,16 +208,11 @@ export function ContactDetailsForm() {
             <input
               {...register('workPhoneNumber')}
               type="postal"
-              name="floating-work-phone-number"
-              id="floating-work-phone-number"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
               pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
             />
-            <label
-              htmlFor="floating-work-phone-number"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Numéro de téléphone au travail
             </label>
           </div>
@@ -250,15 +220,10 @@ export function ContactDetailsForm() {
             <input
               {...register('extensionNumber')}
               type="number"
-              name="floating-extension-number"
-              id="floating-extension-number"
               className="block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
             />
-            <label
-              htmlFor="floating-extension-number"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Poste
             </label>
           </div>
@@ -269,314 +234,354 @@ export function ContactDetailsForm() {
           Avez-vous fait faillite en 2021 ou 2022, ou êtes-vous en faillite
           selon les dossiers de l&apos;Agence du revenu du Canada (ARC)?
         </p>
-        <fieldset className="flex flex-row m-4">
-          <div className="flex items-center">
-            <input
-              {...register('bankruptcy')}
-              type="radio"
-              value="no"
-              id="field-bankruptcy-yes"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="bankruptcy-option-1"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Oui
-            </label>
-          </div>
-          <div className="flex items-center m-4">
-            <input
-              {...register('bankruptcy')}
-              type="radio"
-              value="yes"
-              id="field-bankruptcy-no"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="bankruptcy-option-2"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Non
-            </label>
-          </div>
-        </fieldset>
+        <Controller
+          control={control}
+          name="bankruptcy"
+          render={({ field: { onChange, value } }) => (
+            <fieldset className="flex flex-row m-4">
+              <div className="flex items-center">
+                <input
+                  {...register('bankruptcy', { required: true })}
+                  type="radio"
+                  value="yes"
+                  onChange={() => onChange(true)}
+                  checked={value === true}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                  Oui
+                </p>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  {...register('bankruptcy', { required: true })}
+                  type="radio"
+                  value="no"
+                  onChange={() => onChange(false)}
+                  checked={value === false}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                  Non
+                </p>
+              </div>
+            </fieldset>
+          )}
+        />
         <p>Êtes-vous une personne handicapée?</p>
-        <fieldset className="flex flex-row m-4">
-          <div className="flex items-center">
-            <input
-              {...register('disabled')}
-              type="radio"
-              value="no"
-              id="field-disabled-yes"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="disabled-option-1"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Oui
-            </label>
-          </div>
-          <div className="flex items-center m-4">
-            <input
-              {...register('disabled')}
-              type="radio"
-              value="yes"
-              id="field-disabled-no"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="disabled-option-2"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Non
-            </label>
-          </div>
-        </fieldset>
+        <Controller
+          control={control}
+          name="disabled"
+          render={({ field: { onChange, value } }) => (
+            <fieldset className="flex flex-row m-4">
+              <div className="flex items-center">
+                <input
+                  {...(register('disabled'), { required: true })}
+                  type="radio"
+                  value="yes"
+                  onChange={() => onChange(true)}
+                  checked={value === true}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                  Oui
+                </p>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  {...(register('disabled'), { required: true })}
+                  type="radio"
+                  value="no"
+                  onChange={() => onChange(false)}
+                  checked={value === false}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                  Non
+                </p>
+              </div>
+            </fieldset>
+          )}
+        />
         <p>
           Est-ce la première fois que vous produisez une déclaration de revenus
           auprès de l&apos;ARC?
         </p>
-        <fieldset className="flex flex-row m-4">
-          <div className="flex items-center">
-            <input
-              {...register('firstTimeARC')}
-              type="radio"
-              value="no"
-              id="field-first-time-arc-yes"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="first-time-arc-option-1"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Oui
-            </label>
-          </div>
-          <div className="flex items-center m-4">
-            <input
-              {...register('firstTimeARC')}
-              type="radio"
-              value="yes"
-              id="field-first-time-arc-no"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="first-time-arc-option-2"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Non
-            </label>
-          </div>
-        </fieldset>
-
+        <Controller
+          control={control}
+          name="firstTimeARC"
+          render={({ field: { onChange, value } }) => (
+            <fieldset className="flex flex-row m-4">
+              <div className="flex items-center">
+                <input
+                  {...(register('firstTimeARC'), { required: true })}
+                  type="radio"
+                  value="yes"
+                  onChange={() => onChange(true)}
+                  checked={value === true}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                  Oui
+                </p>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  {...(register('firstTimeARC'), { required: true })}
+                  type="radio"
+                  value="no"
+                  onChange={() => onChange(false)}
+                  checked={value === false}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                  Non
+                </p>
+              </div>
+            </fieldset>
+          )}
+        />
         <p>
           Avez-vous été détenu dans une prison ou dans un établissement
-          semblable pendant 90 jours ou plus durant l&apos;année?
+          semblable durant l&apos;année?
         </p>
         <fieldset className="flex flex-row m-4">
           <div className="flex items-center">
             <input
-              {...register('jailLast30Days')}
               type="radio"
               value="no"
-              id="field-jail-last-30-days-yes"
+              onChange={() => setShowPrisonQuestions(true)}
+              checked={showPrisonQuestions === true}
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label
-              htmlFor="jail-last-30-days-option-1"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
+            <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
               Oui
-            </label>
+            </p>
           </div>
           <div className="flex items-center m-4">
             <input
-              {...register('jailLast30Days')}
               type="radio"
               value="yes"
-              id="field-jail-last-30-days-no"
+              onChange={() => setShowPrisonQuestions(false)}
+              checked={showPrisonQuestions === false}
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label
-              htmlFor="jail-last-30-days-option-2"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
+            <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
               Non
-            </label>
+            </p>
           </div>
         </fieldset>
-        <p>
-          En 2022, avez-vous été détenu dans une prison pendant au moins 6 mois?
-        </p>
-        <fieldset className="flex flex-row m-4">
-          <div className="flex items-center">
-            <input
-              {...register('jailLast6months')}
-              type="radio"
-              value="no"
-              id="field-jail-last-6-months-yes"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+        {showPrisonQuestions === true && (
+          <>
+            <p>
+              Avez-vous été détenu dans une prison ou dans un établissement
+              semblable pendant 90 jours ou plus durant l&apos;année?
+            </p>
+            <Controller
+              control={control}
+              name="jailLast90Days"
+              render={({ field: { onChange, value } }) => (
+                <fieldset className="flex flex-row m-4">
+                  <div className="flex items-center">
+                    <input
+                      {...(register('jailLast90Days'), { required: true })}
+                      type="radio"
+                      value="yes"
+                      onChange={() => onChange(true)}
+                      checked={value === true}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                      Oui
+                    </p>
+                  </div>
+                  <div className="flex items-center m-4">
+                    <input
+                      {...(register('jailLast90Days'), { required: true })}
+                      type="radio"
+                      value="no"
+                      onChange={() => onChange(false)}
+                      checked={value === false}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                      Non
+                    </p>
+                  </div>
+                </fieldset>
+              )}
             />
-            <label
-              htmlFor="jail-last-6-months-option-1"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Oui
-            </label>
-          </div>
-          <div className="flex items-center m-4">
-            <input
-              {...register('jailLast6months')}
-              type="radio"
-              value="yes"
-              id="field-jail-last-6-months-no"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+            <p>
+              En 2022, avez-vous été détenu dans une prison pendant au moins 6
+              mois?
+            </p>
+            <Controller
+              control={control}
+              name="jailLast6months"
+              render={({ field: { onChange, value } }) => (
+                <fieldset className="flex flex-row m-4">
+                  <div className="flex items-center">
+                    <input
+                      {...(register('jailLast6months'), { required: true })}
+                      type="radio"
+                      value="yes"
+                      onChange={() => onChange(true)}
+                      checked={value === true}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                      Oui
+                    </p>
+                  </div>
+                  <div className="flex items-center m-4">
+                    <input
+                      {...(register('jailLast6months'), { required: true })}
+                      type="radio"
+                      value="no"
+                      onChange={() => onChange(false)}
+                      checked={value === false}
+                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                      Non
+                    </p>
+                  </div>
+                </fieldset>
+              )}
             />
-            <label
-              htmlFor="jail-last-6-months-option-2"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Non
-            </label>
-          </div>
-        </fieldset>
+          </>
+        )}
+
         <h2 className="mb-0">Résidences </h2>
         <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
         <p>Est-ce que votre statut de résident canadien a changé en 2022?</p>
-        <fieldset className="flex flex-row m-4">
-          <div className="flex items-center">
-            <input
-              {...register('canadianRedisentStatusChange')}
-              type="radio"
-              value="no"
-              id="field-canadian-resident-status-change-yes"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="canadian-resident-status-change-option-1"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Oui
-            </label>
-          </div>
-          <div className="flex items-center m-4">
-            <input
-              {...register('canadianRedisentStatusChange')}
-              type="radio"
-              value="yes"
-              id="field-canadian-resident-status-change-no"
-              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="canadian-resident-status-change-option-2"
-              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Non
-            </label>
-          </div>
-        </fieldset>
-        <p>Entrez la date de votre entrée au Canada en 2022</p>
-        <Datepicker
-          containerClassName="h-fit w-96 my-8"
-          useRange={false}
-          asSingle={true}
-          value={entryCanadaDate}
-          onChange={handleEntryCanadaDateChange}
-          placeholder={'JJ/MM/AAAA'}
+        <Controller
+          control={control}
+          name="canadianRedisentStatusChange"
+          render={({ field: { onChange, value } }) => (
+            <fieldset className="flex flex-row m-4">
+              <div className="flex items-center">
+                <input
+                  {...(register('canadianRedisentStatusChange'),
+                  { required: true })}
+                  type="radio"
+                  value="yes"
+                  onChange={() => onChange(true)}
+                  checked={value === true}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                  Oui
+                </p>
+              </div>
+              <div className="flex items-center m-4">
+                <input
+                  {...(register('canadianRedisentStatusChange'),
+                  { required: true })}
+                  type="radio"
+                  value="no"
+                  onChange={() => onChange(false)}
+                  checked={value === false}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                  Non
+                </p>
+              </div>
+            </fieldset>
+          )}
         />
-        <p>
-          Revenues de sources canadiennes (excluant le revenu de la Parti XIII)
-          pour la période de l&apos;année durant laquelle vous n&apos;étiez pas
-          un résident du Canada
-        </p>
-        <div className="relative z-0 my-4 group w-full">
-          <input
-            {...register('canadianIncomes')}
-            type="number"
-            name="floating_canadian_incomes"
-            id="floating__canadian_incomes"
-            className="block w-96 py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
-            placeholder=" "
-          />
-          <label
-            htmlFor="floating__canadian_incomes"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Revenues de sources canadiennes
-          </label>
-        </div>
-        <p>
-          Revenues de sources étrangères, plus le revenu de source canadienne de
-          la Parti XIII, pour la période de l&apos;année durant laquelle vous
-          n&apos;étiez pas un résident du Canada
-        </p>
-        <div className="relative z-0 my-4 group w-full">
-          <input
-            {...register('foreignIncomes')}
-            type="number"
-            name="floating_foreign_incomes"
-            id="floating_foreign_incomes"
-            className="block w-96 py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
-            placeholder=" "
-          />
-          <label
-            htmlFor="floating_foreign_incomes"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Revenues de sources étrangères
-          </label>
-        </div>
-        <p>
-          Entrez la date à laquelle vous avez cessé d&apos;être résident du
-          Canada en 2022
-        </p>
-        <Datepicker
-          {...register('lostResidencyDate')}
-          containerClassName="h-fit w-96 my-8"
-          useRange={false}
-          asSingle={true}
-          value={lostResidencyDateChange}
-          onChange={handlelostResidencyDateChange}
-          placeholder={'JJ/MM/AAAA'}
-        />
-        <p>Raison de votre arrivé ou de votre départ</p>
-        <div id="select" className="my-4 w-80">
-          <Select
-            {...register('residentStatus')}
-            id="canada"
-            placeholder="Veuillez sélectionner"
-          >
-            <option>Nouveau résident du Canada</option>
-            <option>Séjour temporaire du Canada</option>
-            <option>Travailleur agricole étranger</option>
-            <option>Étudiant étranger</option>
-            <option>Émigrant</option>
-            <option>Séjour temporaire hors du Canada</option>
-            <option>Autre situation</option>
-          </Select>
-        </div>
-        <p>
-          Entrez le revenu que vous avez gagné pendant la période durant
-          laquelle vous n&apos;étiez pas résident du Canada
-        </p>
-        <div className="relative z-0 my-4 group w-full">
-          <input
-            {...register('nonResidentRevenues')}
-            type="number"
-            name="floating_non_resident_incomes"
-            id="floating_non_resident_incomes"
-            className="block w-96 py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
-            placeholder=" "
-          />
-          <label
-            htmlFor="floating_non_resident_incomes"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Revenues
-          </label>
-        </div>
+        {formData.canadianRedisentStatusChange === true && (
+          <>
+            <p>Entrez la date de votre entrée au Canada en 2022</p>
+            <Datepicker
+              containerClassName="h-fit w-96 my-8"
+              useRange={false}
+              asSingle={true}
+              value={entryCanadaDate}
+              onChange={handleEntryCanadaDateChange}
+              placeholder={'JJ/MM/AAAA'}
+            />
+            <p>
+              Revenues de sources canadiennes (excluant le revenu de la Parti
+              XIII) pour la période de l&apos;année durant laquelle vous
+              n&apos;étiez pas un résident du Canada
+            </p>
+            <div className="relative z-0 my-4 group w-full">
+              <input
+                {...(register('canadianIncomes'), { required: true })}
+                type="number"
+                className="block w-96 py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+                placeholder=" "
+              />
+              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                Revenues de sources canadiennes
+              </label>
+            </div>
+            <p>
+              Revenues de sources étrangères, plus le revenu de source
+              canadienne de la Parti XIII, pour la période de l&apos;année
+              durant laquelle vous n&apos;étiez pas un résident du Canada
+            </p>
+            <div className="relative z-0 my-4 group w-full">
+              <input
+                {...(register('foreignIncomes'), { required: true })}
+                type="number"
+                className="block w-96 py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+                placeholder=" "
+              />
+              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                Revenues de sources étrangères
+              </label>
+            </div>
+            <p>
+              Entrez la date à laquelle vous avez cessé d&apos;être résident du
+              Canada en 2022
+            </p>
+
+            <Datepicker
+              {...register('lostResidencyDate')}
+              containerClassName="h-fit w-96 my-8"
+              useRange={false}
+              asSingle={true}
+              value={lostResidencyDateChange}
+              onChange={handlelostResidencyDateChange}
+              placeholder={'JJ/MM/AAAA'}
+            />
+            <p>Raison de votre arrivé ou de votre départ</p>
+            <div id="select" className="my-4 w-80">
+              <Select
+                {...register('residentStatus')}
+                id="canada"
+                placeholder="Veuillez sélectionner"
+              >
+                <option>Nouveau résident du Canada</option>
+                <option>Séjour temporaire du Canada</option>
+                <option>Travailleur agricole étranger</option>
+                <option>Étudiant étranger</option>
+                <option>Émigrant</option>
+                <option>Séjour temporaire hors du Canada</option>
+                <option>Autre situation</option>
+              </Select>
+            </div>
+            <p>
+              Entrez le revenu que vous avez gagné pendant la période durant
+              laquelle vous n&apos;étiez pas résident du Canada
+            </p>
+            <div className="relative z-0 my-4 group w-full">
+              <input
+                {...register('nonResidentRevenues', { required: true })}
+                type="number"
+                className="block w-96 py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+                placeholder=" "
+              />
+              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                Revenues
+              </label>
+            </div>
+          </>
+        )}
+
         <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
         <div className="w-full flex justify-between mt-4">
           <input

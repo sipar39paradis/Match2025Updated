@@ -7,6 +7,7 @@ lastName: string
 birthDay: DateRangeType
 socialSecurityNumber: string
 email: string
+otherReport: boolean
 }
 
 export enum TitleEnum {
