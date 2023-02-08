@@ -8,25 +8,22 @@ import { ProfileDropdown } from './ProfileDropdown';
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderItemProps {
-  text: string
-  toLink: string
+  text: string;
+  toLink: string;
 }
 
-function HeaderItem(props: HeaderItemProps){
-  
+function HeaderItem(props: HeaderItemProps) {
   return (
-                  <li>
-                    <Link
-                      to={props.toLink}
-                      className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white"
-                    >
-                    {props.text}
-                    </Link>
-                  </li>
-
-  )
+    <li>
+      <Link
+        to={props.toLink}
+        className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white"
+      >
+        {props.text}
+      </Link>
+    </li>
+  );
 }
-
 
 export function Header() {
   const { user } = useContext(AppContext) as AppContextType;
@@ -93,11 +90,12 @@ export function Header() {
             <div className="w-full self-center">
               <nav>
                 <ul className="navbar flex flex-col items-center justify-center space-y-5 text-center lg:flex-row lg:justify-start lg:space-x-10 lg:space-y-0">
-                  <HeaderItem text='Accueil' toLink='/#home'/>
-                  <HeaderItem text='Comment ça marche' toLink='/#features' />
-                  <HeaderItem text='Avantages' toLink='/#advantages'/>
-                  <HeaderItem text='À propos de nous' toLink='/#about'/>
-                  <HeaderItem text={'Nous joindre'} toLink='/#support' />
+                  <HeaderItem text="Accueil" toLink="/#home" />
+                  <HeaderItem text="Comment ça marche" toLink="/#features" />
+                  <HeaderItem text="Avantages" toLink="/#advantages" />
+                  <HeaderItem text="À propos de nous" toLink="/#about" />
+                  <HeaderItem text="Préparateur" toLink="/preparator" />
+                  <HeaderItem text={'Nous joindre'} toLink="/#support" />
                 </ul>
               </nav>
             </div>
