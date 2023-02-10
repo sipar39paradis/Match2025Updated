@@ -1,4 +1,4 @@
-import { Checkbox } from 'flowbite-react';
+import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
 import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
