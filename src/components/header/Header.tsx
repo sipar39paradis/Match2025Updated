@@ -101,7 +101,7 @@ export function Header() {
                 </ul>
               </nav>
             </div>
-            {user && <ProfileDropdown user={user} />}
+            {user && <ProfileDropdown user={user} displayModal={displayModal} />}
             {!user && (
               <div className="absolute bottom-0 left-0 flex w-full items-center justify-between space-x-5 self-end p-5 lg:static lg:w-auto lg:self-center lg:p-0">
                 <button

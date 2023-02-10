@@ -1,15 +1,17 @@
 import React, { useContext, useState } from 'react';
-import { AppContext, AppContextType } from '../../context/AppContext';
-import { ReactComponent as GoogleIcon } from '../../icons/GoogleIcon.svg';
-import { ReactComponent as FacebookIcon } from '../../icons/FacebookIcon.svg';
-import { AuthButton } from './AuthButton';
+import { AppContext, AppContextType } from '../../../context/AppContext';
+import { ReactComponent as GoogleIcon } from '../../../icons/GoogleIcon.svg';
+import { ReactComponent as FacebookIcon } from '../../../icons/FacebookIcon.svg';
+import { AuthButton } from '../AuthButton';
 import { useForm } from 'react-hook-form';
-import { Modal } from '../common/Modal';
-import { AuthModalEnum } from './AuthModal';
+import { Modal } from '../../common/Modal';
+import { AuthModalEnum } from '../AuthModal';
 
-interface SignInModalProps {
+interface SignInModalBodyProps {
   closeModal: (show: boolean) => void;
   switchModal: (modal: AuthModalEnum) => void;
+  setPromiseFromText: any
+  setResolver: any
 }
 
 type signInData = {
@@ -17,8 +19,7 @@ type signInData = {
   password: string;
 };
 
-export function SignInModal(props: SignInModalProps) {
-  const { closeModal, switchModal } = props;
+export function SignInModalBody({ closeModal, switchModal, setPromiseFromText, setResolver }: SignInModalBodyProps) {
   const { signInWithGoogle, signInWithFacebook, signIn } = useContext(
     AppContext
   ) as AppContextType;
@@ -35,8 +36,7 @@ export function SignInModal(props: SignInModalProps) {
   const [authError, setAuthError] = useState('');
 
   return (
-    <Modal closeModalCallBack={() => closeModal(false)}>
-      <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white">
+    <>
         {/*header*/}
         <div className="flex items-center justify-center p-5 rounded-t">
           <h3 className="text-xl font-semibold">Se connecter à Impot Match</h3>
@@ -113,10 +113,19 @@ export function SignInModal(props: SignInModalProps) {
           <AuthButton
             Icon={GoogleIcon}
             onClick={async () => {
-              const res = await signInWithGoogle();
-              res ? setAuthError(res) : closeModal(false);
+              const [promise, resolver, err] = await signInWithGoogle();
+              const verificationId = await promise
+              console.log(promise,'promise')
+              
+              if (resolver) {
+                setPromiseFromText(promise)
+                setResolver(resolver)
+              }
+              else if (err) setAuthError(await promise)
+              else closeModal(false)
             }}
             text="Continuez avec Google"
+            id= 'google-login'
           ></AuthButton>
           <AuthButton
             Icon={FacebookIcon}
@@ -125,6 +134,7 @@ export function SignInModal(props: SignInModalProps) {
               res ? setAuthError(res) : closeModal(false);
             }}
             text="Continue with Facebook"
+            id= 'facebook-login'
           ></AuthButton>
         </div>
 
@@ -144,7 +154,6 @@ export function SignInModal(props: SignInModalProps) {
             Courriel ou mot de passe invalide
           </span>
         )}
-      </div>
-    </Modal>
+    </>
   );
 }

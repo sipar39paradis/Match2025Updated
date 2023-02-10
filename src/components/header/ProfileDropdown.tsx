@@ -3,15 +3,17 @@ import React, { Fragment, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppContext, AppContextType } from '../../context/AppContext'
 import { classNames } from '../../utils/utils'
+import { AuthModalEnum } from '../auth/AuthModal'
 
 interface ProfileDropdownProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any
+  displayModal: any
 }
 
-export function ProfileDropdown(props: ProfileDropdownProps) {
+export function ProfileDropdown({user, displayModal}: ProfileDropdownProps) {
   const { signOut } = useContext(AppContext) as AppContextType
-  const { user } = props
+  // const { user } = props
   const navigate = useNavigate()
 
   return (
@@ -55,6 +57,19 @@ export function ProfileDropdown(props: ProfileDropdownProps) {
                 onClick={() => signOut()}
               >
                 Sign out
+              </span>
+            )}
+          </Menu.Item>
+          <Menu.Item>
+            {({ active }: { active: boolean }) => (
+              <span
+                className={classNames(
+                  active ? 'bg-gray-100' : '',
+                  'block px-4 py-2 text-sm text-gray-700 hover:cursor-pointer'
+                )}
+                onClick={() => displayModal(AuthModalEnum.TwoFactor)}
+              >
+                Add 2 Factor Authentication
               </span>
             )}
           </Menu.Item>

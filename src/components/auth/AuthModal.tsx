@@ -1,15 +1,17 @@
 import React from 'react'
 import { Modal } from '../common/Modal'
 import { ResetPasswordModal } from './ResetPasswordModal'
-import { SignInModal } from './SignInModal'
+import { SignInModal } from './signin/SignInModal'
 import { SignUpModal } from './SignUpModal'
 import { SignUpWithEmailModal } from './SignUpWithEmailModal'
+import { TwoFactorModal } from './TwoFactorModal'
 
 export enum AuthModalEnum {
   SignUp = 'SignUp',
   SignIn = 'SignIn',
   ResetPassword = 'ResetPassword',
   SignUpWithEmail = 'SignUpWithEmail',
+  TwoFactor = 'twoFactor'
 }
 
 interface AuthModalProps {
@@ -46,6 +48,12 @@ export function AuthModal(props: AuthModalProps) {
           closeModal={closeModal}
           switchModal={switchModal}
         ></SignUpWithEmailModal>
+      )}
+      {authModalToDisplay === AuthModalEnum.TwoFactor && (
+        <TwoFactorModal
+          closeModal={closeModal}
+          switchModal={switchModal}
+        ></TwoFactorModal>
       )}
     </Modal>
   )
