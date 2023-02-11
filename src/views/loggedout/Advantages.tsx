@@ -53,7 +53,8 @@ export function Advantages() {
                 Tous les dossiers sont révisés par un CPA
               </h3>
             </div>
-            <div className="flex flex-row items-center">
+
+            {/* <div className="flex flex-row items-center">
               <div className="mr-8 flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100">
                 <ChatBubble className="h-10" />
               </div>
@@ -62,7 +63,7 @@ export function Advantages() {
                 préférences; clavardage, courriel et vidéoconférence sur
                 rendez-vous
               </h3>
-            </div>
+            </div> */}
           </div>
         </div>
       </Fade>

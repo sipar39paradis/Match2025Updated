@@ -11,7 +11,9 @@ interface SignUpModalProps {
 }
 
 export function SignUpModal(props: SignUpModalProps) {
-  const { signInWithGoogle, signInWithFacebook } = useContext(AppContext) as AppContextType;
+  const { signInWithGoogle, signInWithFacebook } = useContext(
+    AppContext
+  ) as AppContextType;
   const { closeModal, switchModal } = props;
   const [authError, setAuthError] = useState('');
 
@@ -19,7 +21,7 @@ export function SignUpModal(props: SignUpModalProps) {
     <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-[28rem] bg-white">
       {/*header*/}
       <div className="flex items-center justify-center p-5 mb-5">
-        <h3 className="text-xl font-semibold">Bienvenue à Impot Match</h3>
+        <h3 className="text-xl font-semibold">Bienvenue à Impôts Match</h3>
         <button
           className="flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2"
           onClick={() => closeModal(false)}
@@ -36,7 +38,7 @@ export function SignUpModal(props: SignUpModalProps) {
             err ? setAuthError(err) : closeModal(false);
           }}
           text="Continuez avec Google"
-          id= 'google-signup'
+          id="google-signup"
         ></AuthButton>
         <AuthButton
           Icon={GoogleIcon}
@@ -45,7 +47,7 @@ export function SignUpModal(props: SignUpModalProps) {
             res ? setAuthError(res) : closeModal(false);
           }}
           text="Continuez avec Facebook"
-          id= 'facebook-signup'
+          id="facebook-signup"
         ></AuthButton>
         {authError && (
           <span className="text-red-500 ml-1">Something went wrong</span>

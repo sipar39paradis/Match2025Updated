@@ -12,7 +12,7 @@ export function About() {
           {/* <!-- Section Title --> */}
           <div className="relative mx-auto mb-12 pt-6 text-center lg:mb-20 lg:pt-16">
             <h2 className="mx-auto mb-5 max-w-[570px] font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]">
-              En savoir plus sur notre entreprise
+              A propos de nous
             </h2>
           </div>
 
@@ -71,11 +71,7 @@ export function About() {
                 </defs>
               </svg>
             </div>
-            <div className="tabButtons flex w-full items-center justify-around">
-              <h1 className="w-full text-2xl text-center border-b px-2 pt-8 pb-6 font-heading hover:border-orange-500 hover:text-orange-500 dark:border-[#4B4E56] dark:text-white dark:hover:border-orange-500 lg:pt-9 lg:pb-7">
-                Qui sommes-nous ?
-              </h1>
-            </div>
+
             <div className="w-full">
               <div className="tabPanel">
                 <div className="-mx-4 flex flex-wrap items-center pt-[70px]">
@@ -132,10 +128,6 @@ export function About() {
                   </div>
                   <div className="w-full px-4 lg:w-1/2">
                     <div className="max-w-[565px] lg:ml-auto">
-                      <h2 className="mb-8 font-heading text-2xl font-bold text-dark dark:text-white sm:text-[40px] sm:leading-[50px]">
-                        Nous sommes une entreprise de comptabilité situé à
-                        Québec
-                      </h2>
                       <p className="mb-6 text-base text-dark-text">
                         Impôts Match est la première plateforme 100% en ligne
                         pour la préparation des déclarations d’impôts qui offre

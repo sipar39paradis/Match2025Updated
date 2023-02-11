@@ -72,7 +72,7 @@ export function Contact() {
               <div className="w-full px-4 lg:w-2/3">
                 <div className="mx-auto mb-10 max-w-[550px] text-center lg:ml-0 lg:mb-0 lg:text-left">
                   <h2 className="mb-4 font-heading text-xl font-semibold leading-tight text-dark dark:text-white sm:text-[38px]">
-                    Intéresser à joindre notre équipe
+                    Intéressé à joindre notre équipe
                   </h2>
                   <p className="text-base text-dark-text">
                     Si vous êtes un préparateur d’expérience et voulez

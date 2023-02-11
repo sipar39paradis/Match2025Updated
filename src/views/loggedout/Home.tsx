@@ -17,7 +17,7 @@ export function Home() {
                   La solution comptable en ligne
                 </span>
                 <h1 className="mb-5 font-heading text-2xl font-semibold dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]">
-                  Impot Match
+                  Impôts Match
                   <span
                     className="txt-type underline"
                     data-wait="3000"
@@ -25,9 +25,9 @@ export function Home() {
                   ></span>
                 </h1>
                 <p className="mb-12 text-base text-dark-text">
-                  Impôts match vous permet de trouver donner la préparation de
-                  vos déclarations de revenus à un professionnel d’impôts
-                  compétent. Le tout dans le confort de votre domicile.
+                  Impôts Match vous permet de trouver un préparateur d’impôts et
+                  de lui donner la préparation de vos déclarations de revenus.
+                  Le tout dans le confort de votre domicile.
                 </p>
                 <div className="flex flex-wrap items-center justify-center lg:justify-start">
                   <a
@@ -161,7 +161,7 @@ export function Home() {
           viewBox="0 0 1356 860"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className='-z-10'
+          className="-z-10"
         >
           <g opacity="0.5" filter="url(#filter0_f_201_2181)">
             <rect
