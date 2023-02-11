@@ -35,8 +35,8 @@ export function TaxDeclaration() {
   }
 
   return (
-    <div className="flex justify-center sm:pt-36 lg:pb-[120px]">
-      <div className=" w-[1080px]">
+    <div className="flex justify-center p-36 bg-orange-50 min-h-screen">
+      <div className="w-[800px] bg-white rounded-lg p-8 h-fit">
         {renderTaxDeclarationStep(query.get(TAX_DECLARATION_STEP))}
       </div>
     </div>

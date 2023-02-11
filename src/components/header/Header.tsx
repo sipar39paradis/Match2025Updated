@@ -63,8 +63,8 @@ export function Header() {
           switchModal={setModalToDisplay}
         ></AuthModal>
       )}
-      <header className="header absolute top-0 left-0 w-full">
-        <div className="flex w-full flex-wrap px-5 lg:flex-nowrap lg:items-center lg:px-5 xl:px-10 2xl:px-20">
+      <header className="header absolute top-0 left-0 w-full bg-white">
+        <div className="flex w-full flex-wrap px-5 lg:flex-nowrap lg:items-center lg:px-5 xl:px-10 2xl:px-20 h-16">
           <div className="relative z-[99] max-w-[250px] lg:w-full xl:max-w-[350px]">
             <a className="inline-block">
               <img

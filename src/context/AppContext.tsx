@@ -9,13 +9,13 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   UserCredential,
-  FacebookAuthProvider
-} from 'firebase/auth'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore'
-import { useNavigate } from 'react-router-dom'
-import { UserProfile } from '../interfaces/User'
-import { upsertUserProfile } from '../client/firebaseClient'
+  FacebookAuthProvider,
+} from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { UserProfile } from '../interfaces/User';
+import { upsertUserProfile } from '../client/firebaseClient';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -143,7 +143,12 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await sendPasswordResetEmail(auth, email);
   }
 
-  const createProfile = async  (userCredential: UserCredential, firstName: string, lastName: string, referralCode: string) => {
+  const createProfile = async (
+    userCredential: UserCredential,
+    firstName: string,
+    lastName: string,
+    referralCode: string
+  ) => {
     const profile: UserProfile = {
       id: userCredential.user.uid,
       email: userCredential.user.email,
@@ -153,8 +158,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       avatar: userCredential.user.photoURL || '',
     };
 
-    await upsertUserProfile(userCredential.user.uid, profile, true)
-  }
+    await upsertUserProfile(userCredential.user.uid, profile, true);
+  };
 
   return (
     <AppContext.Provider
