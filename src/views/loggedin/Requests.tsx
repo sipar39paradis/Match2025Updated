@@ -13,7 +13,7 @@ export function Requests() {
       setUserProfiles(await getAllUserProfiles())
     }
     call()
-  })
+  }, [])
 
   return (
     <main>
