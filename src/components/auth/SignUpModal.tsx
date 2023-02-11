@@ -32,10 +32,11 @@ export function SignUpModal(props: SignUpModalProps) {
         <AuthButton
           Icon={GoogleIcon}
           onClick={async () => {
-            const res = await signInWithGoogle();
-            res ? setAuthError(res) : closeModal(false);
+            const [promise, resolver, err] = await signInWithGoogle();
+            err ? setAuthError(err) : closeModal(false);
           }}
           text="Continuez avec Google"
+          id= 'google-signup'
         ></AuthButton>
         <AuthButton
           Icon={GoogleIcon}
@@ -44,6 +45,7 @@ export function SignUpModal(props: SignUpModalProps) {
             res ? setAuthError(res) : closeModal(false);
           }}
           text="Continuez avec Facebook"
+          id= 'facebook-signup'
         ></AuthButton>
         {authError && (
           <span className="text-red-500 ml-1">Something went wrong</span>
