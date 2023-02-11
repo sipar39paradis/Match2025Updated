@@ -1,24 +1,33 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { CivilStatus } from '../types/Profile/CivilStatus';
 import { CivilStatusEnum } from '../types/Profile/CivilStatusEnum';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, Firestore, setDoc } from 'firebase/firestore';
+import { User } from 'firebase/auth';
+import { Profile } from '../types/Profile/Profile';
 
-export function CivilStatusForm() {
+export function CivilStatusForm({
+  firestore,
+  user,
+}: {
+  firestore: Firestore;
+  user: User;
+}) {
   const {
     register,
     handleSubmit,
     formState: {},
     watch,
     control,
-  } = useForm<CivilStatus>();
+  } = useForm<Profile>();
   const navigate = useNavigate();
-  const watchCivilStatus = watch('civilStatus');
+  const formData = watch();
 
-  function onSubmitButton() {
+  async function onSubmitButton() {
+    // await setDoc(doc(firestore, 'profile', user.uid), {});
+    console.log(formData);
     navigate(
       `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
     );
@@ -35,12 +44,12 @@ export function CivilStatusForm() {
         >
           <Controller
             control={control}
-            name="civilStatus"
+            name="civilStatus.civilStatus"
             render={() => (
               <fieldset className="flex flex-col m-4">
                 <div className="flex items-center my-4">
                   <input
-                    {...register('civilStatus', { required: true })}
+                    {...register('civilStatus.civilStatus', { required: true })}
                     type="radio"
                     value={CivilStatusEnum.MARRIED}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
@@ -51,7 +60,7 @@ export function CivilStatusForm() {
                 </div>
                 <div className="flex items-center my-4">
                   <input
-                    {...register('civilStatus', { required: true })}
+                    {...register('civilStatus.civilStatus', { required: true })}
                     type="radio"
                     value={CivilStatusEnum.COMMON_LAW_PARTNER}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
@@ -62,7 +71,7 @@ export function CivilStatusForm() {
                 </div>
                 <div className="flex items-center my-4">
                   <input
-                    {...register('civilStatus', { required: true })}
+                    {...register('civilStatus.civilStatus', { required: true })}
                     type="radio"
                     value={CivilStatusEnum.WIDOW}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -73,7 +82,7 @@ export function CivilStatusForm() {
                 </div>
                 <div className="flex items-center my-4">
                   <input
-                    {...register('civilStatus', { required: true })}
+                    {...register('civilStatus.civilStatus', { required: true })}
                     type="radio"
                     value={CivilStatusEnum.DIVORCED}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -84,7 +93,7 @@ export function CivilStatusForm() {
                 </div>
                 <div className="flex items-center my-4">
                   <input
-                    {...register('civilStatus', { required: true })}
+                    {...register('civilStatus.civilStatus', { required: true })}
                     type="radio"
                     value={CivilStatusEnum.SEPARATED}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -95,7 +104,7 @@ export function CivilStatusForm() {
                 </div>
                 <div className="flex items-center my-4">
                   <input
-                    {...register('civilStatus', { required: true })}
+                    {...register('civilStatus.civilStatus', { required: true })}
                     type="radio"
                     value={CivilStatusEnum.SINGLE}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -108,8 +117,9 @@ export function CivilStatusForm() {
             )}
           />
 
-          {(watchCivilStatus === CivilStatusEnum.COMMON_LAW_PARTNER ||
-            watchCivilStatus === CivilStatusEnum.MARRIED) && (
+          {(formData.civilStatus.civilStatus ===
+            CivilStatusEnum.COMMON_LAW_PARTNER ||
+            formData.civilStatus.civilStatus === CivilStatusEnum.MARRIED) && (
             <div>
               <h1 className="font-bold">
                 Comment voulez-vous préparer vos déclarations?
@@ -128,7 +138,7 @@ export function CivilStatusForm() {
               <fieldset className="flex flex-row">
                 <div className="flex items-center m-4">
                   <input
-                    {...register('together')}
+                    {...register('civilStatus.together')}
                     type="radio"
                     value="no"
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -139,7 +149,7 @@ export function CivilStatusForm() {
                 </div>
                 <div className="flex items-center m-4">
                   <input
-                    {...register('together')}
+                    {...register('civilStatus.together')}
                     type="radio"
                     value="yes"
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"

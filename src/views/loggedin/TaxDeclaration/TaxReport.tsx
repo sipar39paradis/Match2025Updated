@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
@@ -8,16 +8,20 @@ import { ContactDetailsForm } from './ProfileForms/ContactDetailsForm';
 import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import { DependentsForm } from './ProfileForms/DependentsForm';
 import { TaxReportForm } from './TaxForms/TaxReportForm';
-import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload'
+import { AppContext, AppContextType } from '../../../context/AppContext';
 
 const TAX_DECLARATION_STEP = 'step';
-export function TaxDeclaration() {
+export function TaxReport() {
+  const { firestore, user } = useContext(AppContext) as AppContextType;
+
   const query = useQuery();
 
   function renderTaxReportStep(step: string) {
     switch (step) {
       case TaxDeclarationStep.CIVIL_STATUS:
-        return <CivilStatusForm></CivilStatusForm>;
+        return (
+          <CivilStatusForm firestore={firestore} user={user}></CivilStatusForm>
+        );
       case TaxDeclarationStep.PERSONAL_INFORMATIONS:
         return <PersonnalInformationsForm></PersonnalInformationsForm>;
       case TaxDeclarationStep.CIVIL_STATUS_CHANGE:
@@ -28,12 +32,12 @@ export function TaxDeclaration() {
         return <DependentsForm></DependentsForm>;
       case TaxDeclarationStep.TAX_PROFILE:
         return <TaxReportForm></TaxReportForm>;
-      case TaxDeclarationStep.UPLOAD_FILES:
-        return <TaxDeclarationFileUpload></TaxDeclarationFileUpload>
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:
-        return <CivilStatusForm></CivilStatusForm>;
+        return (
+          <CivilStatusForm firestore={firestore} user={user}></CivilStatusForm>
+        );
     }
   }
 
