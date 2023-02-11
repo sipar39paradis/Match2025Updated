@@ -16,9 +16,16 @@ import {
   RecaptchaVerifier,
   multiFactor,
   MultiFactorResolver,
+  User,
 } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore';
+import {
+  doc,
+  setDoc,
+  getFirestore,
+  getDoc,
+  Firestore,
+} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../interfaces/User';
 import { upsertUserProfile } from '../client/firebaseClient';
@@ -39,12 +46,12 @@ const firebaseConfig = {
   measurementId: 'G-6JTV1BLMVR',
 };
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const firestore = getFirestore(app);
 const auth: Auth = getAuth();
 
 export interface AppContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any;
+  user: User;
   loading: boolean;
   errors: Error;
   signIn: (email: string, password: string) => Promise<string>;
@@ -71,6 +78,7 @@ export interface AppContextType {
     referralCode: string
   ) => Promise<string>;
   resetPassword: (email: string) => void;
+  firestore: Firestore;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -239,7 +247,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await signInWithPopup(auth, provider)
       .then((userCredential) => {
         console.log(userCredential);
-        const userInfo = getDoc(doc(db, 'userInfo', userCredential.user.email));
+        const userInfo = getDoc(
+          doc(firestore, 'userInfo', userCredential.user.email)
+        );
         setUserInfo(userInfo);
       })
       .catch((error) => {
@@ -316,6 +326,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         signOut,
         signUpWithEmailAndPassword,
         resetPassword,
+        firestore,
       }}
     >
       {children}
