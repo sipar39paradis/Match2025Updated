@@ -13,7 +13,7 @@ const TAX_DECLARATION_STEP = 'step';
 export function TaxDeclaration() {
   const query = useQuery();
 
-  function renderTaxDeclarationStep(step: string) {
+  function renderTaxReportStep(step: string) {
     switch (step) {
       case TaxDeclarationStep.CIVIL_STATUS:
         return <CivilStatusForm></CivilStatusForm>;
@@ -35,9 +35,9 @@ export function TaxDeclaration() {
   }
 
   return (
-    <div className="flex justify-center p-36 bg-orange-50 min-h-screen">
+    <div className="flex justify-center p-16 bg-orange-50 min-h-screen">
       <div className="w-[800px] bg-white rounded-lg p-8 h-fit">
-        {renderTaxDeclarationStep(query.get(TAX_DECLARATION_STEP))}
+        {renderTaxReportStep(query.get(TAX_DECLARATION_STEP))}
       </div>
     </div>
   );

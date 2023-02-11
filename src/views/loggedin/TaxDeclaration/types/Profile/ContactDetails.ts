@@ -2,7 +2,7 @@ import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types'
 
 export interface ContactDetails {
   address: string
-  appartment: number
+  appartment?: number
   street: string
   city: string
   postal: string
@@ -10,13 +10,9 @@ export interface ContactDetails {
   sameAddress: boolean
   differentProvince?: ProvinceEnum
   phoneNumber: string
-  workPhoneNumber?: string
-  extensionNumber?: number
   bankruptcy: boolean
   disabled: boolean
   firstTimeARC: boolean
-  jailLast90Days: boolean
-  jailLast6months: boolean
   canadianRedisentStatusChange: boolean
   canadianIncomes: number
   foreignIncomes: number

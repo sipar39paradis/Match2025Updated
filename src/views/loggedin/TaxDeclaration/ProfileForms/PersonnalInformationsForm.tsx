@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
@@ -12,7 +12,6 @@ export function PersonnalInformationsForm() {
     register,
     handleSubmit,
     formState: {},
-    control,
   } = useForm<PersonalInformations>();
   const navigate = useNavigate();
 
@@ -70,10 +69,7 @@ export function PersonnalInformationsForm() {
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
               />
-              <label
-                htmlFor="floating_last_name"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
+              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Nom de famille
               </label>
             </div>
@@ -100,51 +96,6 @@ export function PersonnalInformationsForm() {
               placeholder={'Date de naissance (JJ/MM/AAAA)'}
             />
           </div>
-          <p>
-            Outre la présente, est-ce que d&apos;autres déclarations seront
-            produites au nom du contribuable décédé pour 2022? (P. ex. une
-            déclaration distincte relative aux droits et biens au moment du
-            décès ou au revenu d&apos;une fiducie testamentaire, d&apos;une
-            société de personnes ou d&apos;une entreprise personnelle.
-          </p>
-          <Controller
-            control={control}
-            name="otherReport"
-            render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    value="yes"
-                    onChange={() => onChange(true)}
-                    checked={value === true}
-                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
-                    Oui
-                  </p>
-                </div>
-                <div className="flex items-center m-4">
-                  <input
-                    type="radio"
-                    value="no"
-                    onChange={() => onChange(false)}
-                    checked={value === false}
-                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                    Non
-                  </p>
-                </div>
-              </fieldset>
-            )}
-          />
-
-          <p className="opacity-100">
-            NOTE : La déclaration fédérale d&apos;une personne décédée doit être
-            imprimée et envoyée par la poste. La déclaration du Québec peut être
-            produite avec ImpôtNet Québec.
-          </p>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
           <div className="w-full flex justify-between mt-4">
             <input
