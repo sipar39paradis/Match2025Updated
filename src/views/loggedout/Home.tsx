@@ -161,6 +161,7 @@ export function Home() {
           viewBox="0 0 1356 860"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          className='-z-10'
         >
           <g opacity="0.5" filter="url(#filter0_f_201_2181)">
             <rect

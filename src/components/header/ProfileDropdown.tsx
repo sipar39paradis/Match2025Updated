@@ -17,7 +17,7 @@ export function ProfileDropdown({user, displayModal}: ProfileDropdownProps) {
   const navigate = useNavigate()
 
   return (
-    <Menu as='div' className='relative px-2 h-fit'>
+    <Menu as='div' className='relative px-2 h-fit z-20'>
       <div>
         <Menu.Button className='flex max-w-xs items-center rounded-full bg-gray-800 text-sm'>
           <span className='sr-only'>Open user menu</span>

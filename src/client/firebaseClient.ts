@@ -1,5 +1,14 @@
 import { initializeApp } from 'firebase/app';
-import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
 
 const firebaseConfig = {
@@ -63,6 +72,21 @@ export const getClientProfile = async (
   userId: string
 ): Promise<UserProfile> => {
   return <UserProfile>(await getDoc(doc(db, 'clientProfile', userId))).data();
+};
+
+export const getAllUserProfiles = async (): Promise<Array<UserProfile>> => {
+  //TODO set key to each doc as UID from user
+
+  const returnedDocs = await getDocs(collection(db, PROFILE_DB_NAME));
+  return returnedDocs.docs.map((returnedDoc) => {
+    const data = returnedDoc.data();
+    console.log(data, 'data');
+    return addDefaultValues(
+      data.type == 'accountant'
+        ? docToProfile(<UserProfileDoc>data)
+        : <UserProfile>data
+    );
+  });
 };
 
 export const upsertUserProfile = async (

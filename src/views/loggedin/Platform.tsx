@@ -49,7 +49,7 @@ export function Platform() {
 
   return (
     <>
-      <nav className='pt-28'>
+      {/* <nav className='pt-28'>
         <ul className='navbar flex flex-col items-center justify-center space-y-5 text-center lg:flex-row lg:space-x-10 lg:space-y-0'>
           <li>
             <span
@@ -88,7 +88,7 @@ export function Platform() {
             </span>
           </li>
         </ul>
-      </nav>
+      </nav> */}
       {renderTab(activeSubTab)}
     </>
   )

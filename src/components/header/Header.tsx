@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 import { AppContext, AppContextType } from '../../context/AppContext';
 import { AuthModal, AuthModalEnum } from '../auth/AuthModal';
 import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
 import { useNavigate } from 'react-router-dom';
+import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 
 interface HeaderItemProps {
   text: string;
@@ -33,6 +34,9 @@ export function Header() {
   const [modalToDisplay, setModalToDisplay] =
     React.useState<AuthModalEnum | null>(null);
 
+  const [activeLink, setActiveLink] = useState('home')
+  const [hover, setHover] = useState('')
+
   useEffect(() => {
     window.addEventListener('scroll', stickNavBar);
     return () => window.removeEventListener('scroll', stickNavBar);
@@ -56,7 +60,7 @@ export function Header() {
 
   return (
     <>
-      {showModal && modalToDisplay && (
+      {/* {showModal && modalToDisplay && (
         <AuthModal
           authModalToDisplay={modalToDisplay}
           closeModal={setShowModal}
@@ -118,7 +122,122 @@ export function Header() {
             )}
           </div>
         </div>
-      </header>
+      </header> */}
+      {showModal && modalToDisplay && (
+        <AuthModal
+          authModalToDisplay={modalToDisplay}
+          closeModal={setShowModal}
+          switchModal={setModalToDisplay}
+        ></AuthModal>
+      )}
+      <Navbar
+        fluid={true}
+        rounded={true}
+        className="header top-0 left-0 w-full z-[99] relative"
+      >
+        <Navbar.Brand href="https://flowbite.com/">
+          <img
+            src={require('../../images/logo/impot-match-logo.svg').default}
+            className="mr-3 py-0 h-24"
+            alt="Flowbite Logo"
+          />
+          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+            Flowbite
+          </span>
+        </Navbar.Brand>
+        <div className="flex md:order-2">
+          {user && <ProfileDropdown user={user} displayModal={displayModal} />}
+          {!user && (
+            <div className="absolute bottom-0 left-0 flex w-full items-center justify-between space-x-5 self-end p-5 lg:static lg:w-auto lg:self-center lg:p-0">
+              <button
+                onClick={() => displayModal(AuthModalEnum.SignIn)}
+                className="w-full whitespace-nowrap rounded bg-orange-500 py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto"
+              >
+                Se connecter
+              </button>
+              <button
+                onClick={() => displayModal(AuthModalEnum.SignUp)}
+                className="w-full whitespace-nowrap rounded bg-[#222C40] py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto"
+              >
+                S&apos;inscrire
+              </button>
+            </div>
+          )}
+          <Navbar.Toggle />
+        </div>
+        <Navbar.Collapse>
+        <div
+            className={hover==='home' || activeLink === 'home'? 'md:text-orange-500': null}
+            onMouseEnter={() => {
+              setHover('home')
+            }}
+            onMouseLeave={() => {
+              setHover('')
+            }}
+            onClick={() => {
+              setActiveLink('home')
+              navigate('/') 
+            }}>
+            Home
+          </div>
+          <div
+            className={hover==='profile' || activeLink === 'profile'? 'md:text-orange-500': null}
+            onMouseEnter={() => {
+              setHover('profile')
+            }}
+            onMouseLeave={() => {
+              setHover('')
+            }}
+            onClick={() => {
+              setActiveLink('profile')
+              navigate('/platform') 
+            }}>
+            Profile
+          </div>
+          <div
+            className={hover==='requests' || activeLink === 'requests'? 'md:text-orange-500': null}
+            onMouseEnter={() => {
+              setHover('requests')
+            }}
+            onMouseLeave={() => {
+              setHover('')
+            }}
+            onClick={() => {
+              setActiveLink('requests')
+              navigate('/requests') 
+            }}>
+            Requests
+          </div>
+          <div
+            className={hover==='messages' || activeLink === 'messages'? 'md:text-orange-500': null}
+            onMouseEnter={() => {
+              setHover('messages')
+            }}
+            onMouseLeave={() => {
+              setHover('')
+            }}
+            onClick={() => {
+              setActiveLink('messages')
+              navigate('/messages') 
+            }}>
+            Messages
+          </div>
+          <div
+            className={hover==='files' || activeLink === 'files'? 'md:text-orange-500': null}
+            onMouseEnter={() => {
+              setHover('files')
+            }}
+            onMouseLeave={() => {
+              setHover('')
+            }}
+            onClick={() => {
+              setActiveLink('files')
+              navigate('/files') 
+            }}>
+            Files
+          </div>
+        </Navbar.Collapse>
+      </Navbar>
     </>
   );
 }
