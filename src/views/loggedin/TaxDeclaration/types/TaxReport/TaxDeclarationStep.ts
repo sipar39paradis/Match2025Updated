@@ -6,4 +6,5 @@ export enum TaxDeclarationStep {
   DEPENDENTS = 'dependents',
   TAX_PROFILE = 'taxProfile',
   REVIEW = 'review',
+  UPLOAD_FILES = 'uploadFiles'
 }

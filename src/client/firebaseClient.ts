@@ -9,6 +9,7 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
+import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
 
 const firebaseConfig = {
@@ -67,6 +68,10 @@ export const writeExistingFiles = async (
     userId: userId,
   });
 };
+
+export const getRequiredFiles = async(userId: string): Promise<FilesDoc> => {
+  return <FilesDoc>(await getDoc(doc(db, 'UserRequiredFiles', userId))).data()
+}
 
 export const getClientProfile = async (
   userId: string
