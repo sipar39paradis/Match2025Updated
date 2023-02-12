@@ -1,18 +1,15 @@
 import { Select } from 'flowbite-react';
 import React, { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DependentRelatationShipEnum } from '../types/Profile/Dependent';
+import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 
-export function DependentsForm() {
-  const {
-    handleSubmit,
-    formState: {},
-    register,
-    control,
-  } = useForm();
+export function DependentsForm(props: ProfileFormProps) {
+  const { register, handleSubmit, saveFormAnswers, control } = props;
+
   const navigate = useNavigate();
   const [showDependentForm, setShowDependentForm] = useState(false);
 
@@ -25,7 +22,8 @@ export function DependentsForm() {
     setBirthDayValue(newValue);
   };
 
-  function onSubmitButton(data) {
+  function onSubmitButton() {
+    saveFormAnswers();
     navigate(`/platform/questionnaire?step=${TaxDeclarationStep.TAX_PROFILE}`);
   }
 
@@ -74,7 +72,7 @@ export function DependentsForm() {
             <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
               <div className="relative z-0 w-full mb-6 group">
                 <input
-                  {...register('firstName', { required: true })}
+                  {...register('dependent.firstName', { required: true })}
                   type="text"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                   placeholder=" "
@@ -85,7 +83,7 @@ export function DependentsForm() {
               </div>
               <div className="relative z-0 w-full mb-6 group">
                 <input
-                  {...(register('lastName'), { required: true })}
+                  {...(register('dependent.lastName'), { required: true })}
                   type="text"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                   placeholder=" "
@@ -98,7 +96,8 @@ export function DependentsForm() {
             <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
               <div className="relative z-0 w-full mb-6 group">
                 <input
-                  {...(register('socialSecurityNumber'), { required: true })}
+                  {...(register('dependent.socialSecurityNumber'),
+                  { required: true })}
                   type="text"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                   placeholder=" "
@@ -108,7 +107,7 @@ export function DependentsForm() {
                 </label>
               </div>
               <Datepicker
-                {...(register('birthDay'), { required: true })}
+                {...(register('dependent.birthDate'), { required: true })}
                 containerClassName="h-fit"
                 useRange={false}
                 asSingle={true}
@@ -119,7 +118,7 @@ export function DependentsForm() {
             </div>
             <div id="select" className="w-80 my-4">
               <p className="pb-2">Lien de parenté</p>
-              <Select {...register('relationship')}>
+              <Select {...register('dependent.relationship')}>
                 <option value="" disabled selected>
                   Veuillez sélectionner
                 </option>
@@ -160,14 +159,12 @@ export function DependentsForm() {
               <p>Vivait avec le contribuable en 2022</p>
               <Controller
                 control={control}
-                name="livedWithTaxPayer"
+                name="dependent.livedWithTaxPayer"
                 render={({ field: { onChange, value } }) => (
                   <fieldset className="flex flex-row mx-4">
                     <div className="flex items-center">
                       <input
-                        {...register('livedWithTaxPayer', { required: true })}
                         type="radio"
-                        value="yes"
                         onChange={() => onChange(true)}
                         checked={value === true}
                         className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -178,9 +175,7 @@ export function DependentsForm() {
                     </div>
                     <div className="flex items-center m-4">
                       <input
-                        {...register('livedWithTaxPayer', { required: true })}
                         type="radio"
-                        value="no"
                         onChange={() => onChange(false)}
                         checked={value === false}
                         className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"

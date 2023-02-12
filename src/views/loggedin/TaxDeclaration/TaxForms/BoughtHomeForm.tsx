@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
+import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
-export function BoughtHomeForm(props: TaxProfileFormProps) {
+export function BoughtHomeForm(props: TaxReportFormProps) {
   const { register } = props;
   const [showBoughtHome, setShowBoughtHome] = useState(false);
   const [showBoughtHomeLastYear, setShowBoughtHomeLastYear] = useState(false);

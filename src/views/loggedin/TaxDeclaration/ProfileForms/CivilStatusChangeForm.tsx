@@ -1,20 +1,14 @@
 import { Select } from 'flowbite-react/lib/esm/components/FormControls';
 import React, { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
+import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 
-export function CivilStatusChangeForm() {
-  const {
-    handleSubmit,
-    formState: {},
-    control,
-    register,
-    watch,
-  } = useForm();
+export function CivilStatusChangeForm(props: ProfileFormProps) {
+  const { register, handleSubmit, saveFormAnswers, formData, control } = props;
   const navigate = useNavigate();
-  const formData = watch();
 
   useEffect(() => {
     window.scroll({
@@ -24,6 +18,7 @@ export function CivilStatusChangeForm() {
   }, []);
 
   function onSubmitButton() {
+    saveFormAnswers();
     navigate(`/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}`);
   }
 
@@ -55,14 +50,12 @@ export function CivilStatusChangeForm() {
       >
         <Controller
           control={control}
-          name="civiStatusChange"
+          name="civilStatusChange.civiStatusChange"
           render={({ field: { onChange, value } }) => (
             <fieldset className="flex flex-row mx-4">
               <div className="flex items-center">
                 <input
-                  {...register('civiStatusChange', { required: true })}
                   type="radio"
-                  value="yes"
                   onChange={() => onChange(true)}
                   checked={value === true}
                   className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -73,7 +66,6 @@ export function CivilStatusChangeForm() {
               </div>
               <div className="flex items-center m-4">
                 <input
-                  {...register('civiStatusChange', { required: true })}
                   type="radio"
                   value="no"
                   onChange={() => onChange(false)}
@@ -87,13 +79,14 @@ export function CivilStatusChangeForm() {
             </fieldset>
           )}
         />
-        {formData.civiStatusChange === true && (
+        {formData?.civilStatusChange?.civiStatusChange === true && (
           <>
             <h1>Changements d&apos;état civil </h1>
             <p>Quel était votre état civil au 31 décembre 2022?</p>
             <div id="select" className="my-4 w-96">
               <Select
-                {...(register('lastYearCivilStatus'), { required: true })}
+                {...(register('civilStatusChange.lastYearCivilStatus'),
+                { required: true })}
               >
                 <option value="" disabled selected>
                   Veuillez sélectionner

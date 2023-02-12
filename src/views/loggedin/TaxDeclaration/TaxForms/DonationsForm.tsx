@@ -1,8 +1,8 @@
 import { Checkbox } from 'flowbite-react';
 import React, { useState } from 'react';
-import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
+import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
-export function DonationsForm(props: TaxProfileFormProps) {
+export function DonationsForm(props: TaxReportFormProps) {
   const { register } = props;
   const [showDonations, setShowDonations] = useState(false);
 

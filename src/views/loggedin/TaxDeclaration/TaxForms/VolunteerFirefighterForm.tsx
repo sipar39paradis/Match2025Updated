@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
+import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
-export function VolunteerFirefighterForm(props: TaxProfileFormProps) {
+export function VolunteerFirefighterForm(props: TaxReportFormProps) {
   const { register } = props;
   const [showVolunteerFirefighterForm, setVolunteerFirefighterForm] =
     useState(false);

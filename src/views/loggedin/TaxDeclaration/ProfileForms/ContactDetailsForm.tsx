@@ -1,21 +1,15 @@
 import { Select } from 'flowbite-react/lib/esm/components/FormControls';
 import React, { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
-import { ContactDetails } from '../types/Profile/ContactDetails';
+import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 
-export function ContactDetailsForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: {},
-    control,
-    watch,
-  } = useForm<ContactDetails>();
+export function ContactDetailsForm(props: ProfileFormProps) {
+  const { register, handleSubmit, saveFormAnswers, formData, control } = props;
+
   const navigate = useNavigate();
-  const formData = watch();
 
   useEffect(() => {
     window.scroll({
@@ -25,6 +19,8 @@ export function ContactDetailsForm() {
   }, []);
 
   function onSubmitButton() {
+    console.log(formData);
+    saveFormAnswers();
     navigate(
       `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
     );
@@ -35,26 +31,8 @@ export function ContactDetailsForm() {
     endDate: null,
   });
 
-  const handlelostResidencyDateChange = (newValue) => {
-    setLostResidencyDateChange(newValue);
-  };
-
-  const [lostResidencyDateChange, setLostResidencyDateChange] = useState({
-    startDate: null,
-    endDate: null,
-  });
-
   const handleMovedFromOtherProvinceChange = (newValue) => {
     setMovedFromOtherProvince(newValue);
-  };
-
-  const [entryCanadaDate, setEntryCanadaDate] = useState({
-    startDate: null,
-    endDate: null,
-  });
-
-  const handleEntryCanadaDateChange = (newValue) => {
-    setEntryCanadaDate(newValue);
   };
 
   return (
@@ -70,7 +48,7 @@ export function ContactDetailsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...(register('address'), { required: true })}
+              {...(register('contactDetails.address'), { required: true })}
               type="text"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -81,7 +59,7 @@ export function ContactDetailsForm() {
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...register('appartment')}
+              {...register('contactDetails.appartment')}
               type="text"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -94,7 +72,7 @@ export function ContactDetailsForm() {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...(register('city'), { required: true })}
+              {...(register('contactDetails.city'), { required: true })}
               type="text"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -105,7 +83,7 @@ export function ContactDetailsForm() {
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...(register('postal'), { required: true })}
+              {...(register('contactDetails.postal'), { required: true })}
               type="postal"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -120,7 +98,7 @@ export function ContactDetailsForm() {
           territoire en 2022, entrez la date de votre déménagement
         </p>
         <Datepicker
-          {...register('movedFromOtherProvince')}
+          {...register('contactDetails.movedFromOtherProvince')}
           containerClassName="h-fit w-96 my-8"
           useRange={false}
           asSingle={true}
@@ -134,13 +112,12 @@ export function ContactDetailsForm() {
         </p>
         <Controller
           control={control}
-          name="sameAddress"
+          name="contactDetails.sameAddress"
           render={({ field: { onChange, value } }) => (
             <fieldset className="flex flex-row m-4">
               <div className="flex items-center">
                 <input
                   type="radio"
-                  value="yes"
                   onChange={() => onChange(true)}
                   checked={value === true}
                   className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -152,7 +129,6 @@ export function ContactDetailsForm() {
               <div className="flex items-center m-4">
                 <input
                   type="radio"
-                  value="no"
                   onChange={() => onChange(false)}
                   checked={value === false}
                   className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -170,7 +146,10 @@ export function ContactDetailsForm() {
         </p>
 
         <div id="select" className="my-4 w-80">
-          <Select {...register('differentProvince')} id="provinces">
+          <Select
+            {...register('contactDetails.differentProvince')}
+            id="provinces"
+          >
             <option>Je réside dans la même province</option>
             <option>Alberta</option>
             <option>Colombie-Britanique</option>
@@ -192,7 +171,7 @@ export function ContactDetailsForm() {
 
         <div className="relative z-0 w-full my-4 group">
           <input
-            {...(register('phoneNumber'), { required: true })}
+            {...(register('contactDetails.phoneNumber'), { required: true })}
             type="tel"
             className="block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
             placeholder=" "
@@ -211,12 +190,12 @@ export function ContactDetailsForm() {
         </p>
         <Controller
           control={control}
-          name="bankruptcy"
+          name="contactDetails.bankruptcy"
           render={({ field: { onChange, value } }) => (
             <fieldset className="flex flex-row m-4">
               <div className="flex items-center">
                 <input
-                  {...register('bankruptcy', { required: true })}
+                  {...register('contactDetails.bankruptcy', { required: true })}
                   type="radio"
                   value="yes"
                   onChange={() => onChange(true)}
@@ -229,7 +208,7 @@ export function ContactDetailsForm() {
               </div>
               <div className="flex items-center m-4">
                 <input
-                  {...register('bankruptcy', { required: true })}
+                  {...register('contactDetails.bankruptcy', { required: true })}
                   type="radio"
                   value="no"
                   onChange={() => onChange(false)}
@@ -246,12 +225,11 @@ export function ContactDetailsForm() {
         <p>Êtes-vous une personne handicapée?</p>
         <Controller
           control={control}
-          name="disabled"
+          name="contactDetails.disabled"
           render={({ field: { onChange, value } }) => (
             <fieldset className="flex flex-row m-4">
               <div className="flex items-center">
                 <input
-                  {...(register('disabled'), { required: true })}
                   type="radio"
                   value="yes"
                   onChange={() => onChange(true)}
@@ -264,7 +242,6 @@ export function ContactDetailsForm() {
               </div>
               <div className="flex items-center m-4">
                 <input
-                  {...(register('disabled'), { required: true })}
                   type="radio"
                   value="no"
                   onChange={() => onChange(false)}
@@ -284,15 +261,12 @@ export function ContactDetailsForm() {
         <p>Est-ce que votre statut de résident canadien a changé en 2022?</p>
         <Controller
           control={control}
-          name="canadianRedisentStatusChange"
+          name="contactDetails.canadianRedisentStatusChange"
           render={({ field: { onChange, value } }) => (
             <fieldset className="flex flex-row m-4">
               <div className="flex items-center">
                 <input
-                  {...(register('canadianRedisentStatusChange'),
-                  { required: true })}
                   type="radio"
-                  value="yes"
                   onChange={() => onChange(true)}
                   checked={value === true}
                   className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -303,10 +277,7 @@ export function ContactDetailsForm() {
               </div>
               <div className="flex items-center m-4">
                 <input
-                  {...(register('canadianRedisentStatusChange'),
-                  { required: true })}
                   type="radio"
-                  value="no"
                   onChange={() => onChange(false)}
                   checked={value === false}
                   className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -318,7 +289,7 @@ export function ContactDetailsForm() {
             </fieldset>
           )}
         />
-        {formData.canadianRedisentStatusChange === true && (
+        {formData?.contactDetails?.canadianRedisentStatusChange === true && (
           <p>Votre préparateur va entrer en contact avec vous.</p>
         )}
 

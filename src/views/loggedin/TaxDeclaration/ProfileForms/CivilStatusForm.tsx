@@ -1,33 +1,17 @@
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { CivilStatusEnum } from '../types/Profile/CivilStatusEnum';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
-import { doc, Firestore, setDoc } from 'firebase/firestore';
-import { User } from 'firebase/auth';
-import { Profile } from '../types/Profile/Profile';
+import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
 
-export function CivilStatusForm({
-  firestore,
-  user,
-}: {
-  firestore: Firestore;
-  user: User;
-}) {
-  const {
-    register,
-    handleSubmit,
-    formState: {},
-    watch,
-    control,
-  } = useForm<Profile>();
+export function CivilStatusForm(props: ProfileFormProps) {
+  const { register, control, formData, handleSubmit, saveFormAnswers } = props;
   const navigate = useNavigate();
-  const formData = watch();
 
   async function onSubmitButton() {
-    // await setDoc(doc(firestore, 'profile', user.uid), {});
-    console.log(formData);
+    saveFormAnswers();
     navigate(
       `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
     );
@@ -117,9 +101,9 @@ export function CivilStatusForm({
             )}
           />
 
-          {(formData.civilStatus.civilStatus ===
+          {(formData?.civilStatus?.civilStatus ===
             CivilStatusEnum.COMMON_LAW_PARTNER ||
-            formData.civilStatus.civilStatus === CivilStatusEnum.MARRIED) && (
+            formData?.civilStatus?.civilStatus === CivilStatusEnum.MARRIED) && (
             <div>
               <h1 className="font-bold">
                 Comment voulez-vous préparer vos déclarations?
@@ -135,30 +119,36 @@ export function CivilStatusForm({
                 prépariez vos déclarations séparément.
               </p>
               <h2>Voulez-vous préparer vos déclarations ensemble?</h2>
-              <fieldset className="flex flex-row">
-                <div className="flex items-center m-4">
-                  <input
-                    {...register('civilStatus.together')}
-                    type="radio"
-                    value="no"
-                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Oui
-                  </label>
-                </div>
-                <div className="flex items-center m-4">
-                  <input
-                    {...register('civilStatus.together')}
-                    type="radio"
-                    value="yes"
-                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Non
-                  </label>
-                </div>
-              </fieldset>
+              <Controller
+                control={control}
+                name="civilStatus.together"
+                render={({ field: { onChange, value } }) => (
+                  <fieldset className="flex flex-row mx-4">
+                    <div className="flex items-center">
+                      <input
+                        type="radio"
+                        onChange={() => onChange(true)}
+                        checked={value === true}
+                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                        Oui
+                      </p>
+                    </div>
+                    <div className="flex items-center m-4">
+                      <input
+                        type="radio"
+                        onChange={() => onChange(false)}
+                        checked={value === false}
+                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                        Non
+                      </p>
+                    </div>
+                  </fieldset>
+                )}
+              />
             </div>
           )}
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />

@@ -1,10 +1,8 @@
 import { Checkbox } from 'flowbite-react';
 import React, { useState } from 'react';
-import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
+import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
-export function SelfEmploymentRentalOtherIncomeForm(
-  props: TaxProfileFormProps
-) {
+export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
   const { register } = props;
   const [
     showSelfEmploymentRentalOtherIncomes,

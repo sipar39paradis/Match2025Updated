@@ -1,8 +1,8 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
+import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
-export function ForeignAssetsForm(props: TaxProfileFormProps) {
+export function ForeignAssetsForm(props: TaxReportFormProps) {
   const { control, formData } = props;
 
   return (

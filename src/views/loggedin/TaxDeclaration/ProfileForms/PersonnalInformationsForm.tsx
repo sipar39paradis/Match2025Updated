@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
-import { PersonalInformations } from '../types/Profile/PersonnalInformations';
 import Fade from 'react-reveal';
+import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
 
-export function PersonnalInformationsForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: {},
-  } = useForm<PersonalInformations>();
+export function PersonnalInformationsForm(props: ProfileFormProps) {
+  const { register, handleSubmit, saveFormAnswers, formData } = props;
+
   const navigate = useNavigate();
 
   const [birthDayValue, setBirthDayValue] = useState({
@@ -25,6 +21,8 @@ export function PersonnalInformationsForm() {
   };
 
   function onSubmitButton() {
+    saveFormAnswers();
+    console.log(formData);
     navigate(
       `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}`
     );
@@ -40,7 +38,7 @@ export function PersonnalInformationsForm() {
         >
           <div className="relative z-0 w-full my-4 group">
             <input
-              {...register('email', { required: true })}
+              {...register('personalInformations.email', { required: true })}
               type="email"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -53,7 +51,9 @@ export function PersonnalInformationsForm() {
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('firstName', { required: true })}
+                {...register('personalInformations.firstName', {
+                  required: true,
+                })}
                 type="text"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -64,7 +64,9 @@ export function PersonnalInformationsForm() {
             </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...(register('lastName'), { required: true })}
+                {...register('personalInformations.lastName', {
+                  required: true,
+                })}
                 type="text"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -77,7 +79,9 @@ export function PersonnalInformationsForm() {
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...(register('socialSecurityNumber'), { required: true })}
+                {...register('personalInformations.socialSecurityNumber', {
+                  required: true,
+                })}
                 type="text"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -87,7 +91,6 @@ export function PersonnalInformationsForm() {
               </label>
             </div>
             <Datepicker
-              {...(register('birthDay'), { required: true })}
               containerClassName="h-fit"
               useRange={false}
               asSingle={true}

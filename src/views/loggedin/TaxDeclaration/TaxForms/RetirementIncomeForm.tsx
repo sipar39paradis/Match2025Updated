@@ -1,9 +1,9 @@
 import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
 import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
+import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
-export function RetirementIncomesForm(props: TaxProfileFormProps) {
+export function RetirementIncomesForm(props: TaxReportFormProps) {
   const { control, register } = props;
 
   const [showRetirementIncomes, setShowRetirementIncomes] = useState(false);

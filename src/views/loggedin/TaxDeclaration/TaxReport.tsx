@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
@@ -9,34 +9,126 @@ import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import { DependentsForm } from './ProfileForms/DependentsForm';
 import { TaxReportForm } from './TaxForms/TaxReportForm';
 import { AppContext, AppContextType } from '../../../context/AppContext';
+import { getDoc, doc, setDoc } from 'firebase/firestore';
+import { Profile } from './types/Profile/Profile';
+import { useForm } from 'react-hook-form';
 
 const TAX_DECLARATION_STEP = 'step';
 export function TaxReport() {
   const { firestore, user } = useContext(AppContext) as AppContextType;
-
   const query = useQuery();
+  const {
+    register,
+    handleSubmit,
+    formState: {},
+    watch,
+    control,
+    setValue,
+    reset,
+  } = useForm<Profile>();
+  let formData = watch();
+
+  useEffect(() => {
+    const defaultValues = {
+      civilStatus: null,
+      personalInformations: null,
+      contactDetails: null,
+      civilStatusChange: null,
+      dependent: null,
+    };
+    reset({ ...defaultValues });
+  }, []);
+
+  useEffect(() => {
+    async function fetchUserAnswers() {
+      const docSnap = await getDoc(doc(firestore, 'profile', user.uid));
+      if (docSnap.exists()) {
+        formData = docSnap.data() as Profile;
+        if (formData.civilStatus) setValue('civilStatus', formData.civilStatus);
+        if (formData.personalInformations)
+          setValue('personalInformations', formData.personalInformations);
+        if (formData.contactDetails)
+          setValue('contactDetails', formData.contactDetails);
+        if (formData.civilStatusChange)
+          setValue('civilStatusChange', formData.civilStatusChange);
+        if (formData.dependent) setValue('dependent', formData.dependent);
+        console.log(formData);
+      }
+    }
+    if (user) {
+      fetchUserAnswers();
+    }
+  }, [user]);
+
+  async function saveFormAnswers() {
+    console.log(formData);
+    await setDoc(doc(firestore, 'profile', user.uid), formData);
+  }
 
   function renderTaxReportStep(step: string) {
     switch (step) {
       case TaxDeclarationStep.CIVIL_STATUS:
         return (
-          <CivilStatusForm firestore={firestore} user={user}></CivilStatusForm>
+          <CivilStatusForm
+            register={register}
+            control={control}
+            formData={formData}
+            handleSubmit={handleSubmit}
+            saveFormAnswers={saveFormAnswers}
+          ></CivilStatusForm>
         );
       case TaxDeclarationStep.PERSONAL_INFORMATIONS:
-        return <PersonnalInformationsForm></PersonnalInformationsForm>;
+        return (
+          <PersonnalInformationsForm
+            register={register}
+            control={control}
+            formData={formData}
+            handleSubmit={handleSubmit}
+            saveFormAnswers={saveFormAnswers}
+          ></PersonnalInformationsForm>
+        );
       case TaxDeclarationStep.CIVIL_STATUS_CHANGE:
-        return <CivilStatusChangeForm></CivilStatusChangeForm>;
+        return (
+          <CivilStatusChangeForm
+            register={register}
+            control={control}
+            formData={formData}
+            handleSubmit={handleSubmit}
+            saveFormAnswers={saveFormAnswers}
+          ></CivilStatusChangeForm>
+        );
       case TaxDeclarationStep.CONTACT_DETAILS:
-        return <ContactDetailsForm></ContactDetailsForm>;
+        return (
+          <ContactDetailsForm
+            register={register}
+            control={control}
+            formData={formData}
+            handleSubmit={handleSubmit}
+            saveFormAnswers={saveFormAnswers}
+          ></ContactDetailsForm>
+        );
       case TaxDeclarationStep.DEPENDENTS:
-        return <DependentsForm></DependentsForm>;
+        return (
+          <DependentsForm
+            register={register}
+            control={control}
+            formData={formData}
+            handleSubmit={handleSubmit}
+            saveFormAnswers={saveFormAnswers}
+          ></DependentsForm>
+        );
       case TaxDeclarationStep.TAX_PROFILE:
         return <TaxReportForm></TaxReportForm>;
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:
         return (
-          <CivilStatusForm firestore={firestore} user={user}></CivilStatusForm>
+          <CivilStatusForm
+            register={register}
+            control={control}
+            formData={formData}
+            handleSubmit={handleSubmit}
+          ></CivilStatusForm>
         );
     }
   }
