@@ -20,7 +20,6 @@ export function ForeignAssetsForm(props: TaxReportFormProps) {
             <div className="flex items-center">
               <input
                 type="radio"
-                value="yes"
                 onChange={() => onChange(true)}
                 checked={value === true}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -32,7 +31,6 @@ export function ForeignAssetsForm(props: TaxReportFormProps) {
             <div className="flex items-center m-4">
               <input
                 type="radio"
-                value="no"
                 onChange={() => onChange(false)}
                 checked={value === false}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -44,7 +42,7 @@ export function ForeignAssetsForm(props: TaxReportFormProps) {
           </fieldset>
         )}
       />
-      {formData?.foreignAssets === true && (
+      {formData?.foreignAssets && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p>
             Vous avez indiqué que vous possédez ou détenez des biens étrangers

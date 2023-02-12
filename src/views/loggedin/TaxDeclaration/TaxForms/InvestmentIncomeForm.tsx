@@ -1,19 +1,10 @@
 import { Checkbox } from 'flowbite-react';
-import React, { useState } from 'react';
+import React from 'react';
+import { Controller } from 'react-hook-form';
 import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
 export function InvestmentIncomeForm(props: TaxReportFormProps) {
-  const { register } = props;
-  const [displayForm, setDisplayForm] = useState(false);
-  const [showReportedInvestmentIncomes, setShowReportedInvestmentIncomes] =
-    useState(false);
-  const [
-    showNonDeclaredInterestDividendPartnershipIncome,
-    setShowNonDeclaredInterestDividendPartnershipIncome,
-  ] = useState(false);
-  const [showBoughtAssets, setShowBoughtAssets] = useState(false);
-  const [showSoldAssets, setShowSoldAssets] = useState(false);
-  const [showSoldCrypto, setShowSoldCrypto] = useState(false);
+  const { register, formData, control } = props;
 
   return (
     <>
@@ -24,59 +15,27 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
         cryptomonnaie la vente de biens immobiliers et les frais de placement
         connexes.
       </p>
-      <fieldset className="flex flex-row m-4">
-        <div className="flex items-center">
-          <input
-            type="radio"
-            value="yes"
-            onChange={() => setDisplayForm(true)}
-            checked={displayForm === true}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Oui
-          </p>
-        </div>
-        <div className="flex items-center m-4">
-          <input
-            type="radio"
-            value="no"
-            onChange={() => setDisplayForm(false)}
-            checked={displayForm === false}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Non
-          </p>
-        </div>
-      </fieldset>
-
-      {displayForm === true && (
-        <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-          <p>
-            Avez-vous eu un revenu provenant de placements qui est déclaré sur
-            un feuillet (par exemple, un T5, T3, T5008, T5013)?
-          </p>
-
-          <fieldset className="flex flex-row mx-4">
+      <Controller
+        control={control}
+        name="investmentIncomes.investmentIncomes"
+        render={({ field: { onChange, value } }) => (
+          <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
               <input
                 type="radio"
-                value="yes"
-                onChange={() => setShowReportedInvestmentIncomes(true)}
-                checked={showReportedInvestmentIncomes === true}
+                onChange={() => onChange(true)}
+                checked={value === true}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
               />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+              <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
                 Oui
               </p>
             </div>
             <div className="flex items-center m-4">
               <input
                 type="radio"
-                value="no"
-                onChange={() => setShowReportedInvestmentIncomes(false)}
-                checked={showReportedInvestmentIncomes === false}
+                onChange={() => onChange(false)}
+                checked={value === false}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
               />
               <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
@@ -84,8 +43,47 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
               </p>
             </div>
           </fieldset>
+        )}
+      />
 
-          {showReportedInvestmentIncomes && (
+      {formData?.investmentIncomes?.investmentIncomes && (
+        <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+          <p>
+            Avez-vous eu un revenu provenant de placements qui est déclaré sur
+            un feuillet (par exemple, un T5, T3, T5008, T5013)?
+          </p>
+          <Controller
+            control={control}
+            name="investmentIncomes.reportedInvestmentIncome"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
+
+          {formData?.investmentIncomes?.reportedInvestmentIncome && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -160,43 +158,39 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
             Avez-vous eu un revenu en intérêts, de dividendes ou d&apos;une
             société de personnes qui n&apos;est PAS déclaré sur un feuillet?
           </p>
+          <Controller
+            control={control}
+            name="investmentIncomes.nonDeclaredInterestDividendPartnershipIncome"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
 
-          <fieldset className="flex flex-row mx-4">
-            <div className="flex items-center">
-              <input
-                type="radio"
-                value="yes"
-                onChange={() =>
-                  setShowNonDeclaredInterestDividendPartnershipIncome(true)
-                }
-                checked={
-                  showNonDeclaredInterestDividendPartnershipIncome === true
-                }
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                Oui
-              </p>
-            </div>
-            <div className="flex items-center m-4">
-              <input
-                type="radio"
-                value="no"
-                onChange={() =>
-                  setShowNonDeclaredInterestDividendPartnershipIncome(false)
-                }
-                checked={
-                  showNonDeclaredInterestDividendPartnershipIncome === false
-                }
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                Non
-              </p>
-            </div>
-          </fieldset>
-
-          {showNonDeclaredInterestDividendPartnershipIncome && (
+          {formData?.investmentIncomes
+            ?.nonDeclaredInterestDividendPartnershipIncome && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -235,67 +229,72 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
             Avez-vous acheté des actions, des obligations, des fonds communs, de
             l&apos;immobilier ou d&apos;autres biens cette année?
           </p>
-
-          <fieldset className="flex flex-row mx-4">
-            <div className="flex items-center">
-              <input
-                type="radio"
-                value="yes"
-                onChange={() => setShowBoughtAssets(true)}
-                checked={showBoughtAssets === true}
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                Oui
-              </p>
-            </div>
-            <div className="flex items-center m-4">
-              <input
-                type="radio"
-                value="no"
-                onChange={() => setShowBoughtAssets(false)}
-                checked={showBoughtAssets === false}
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                Non
-              </p>
-            </div>
-          </fieldset>
-
+          <Controller
+            control={control}
+            name="investmentIncomes.boughtAssets"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
           <p>
             Avez-vous vendu des actions, des obligations, des fonds communs, de
             l&apos;immobilier ou d&apos;autres biens cette année?
           </p>
+          <Controller
+            control={control}
+            name="investmentIncomes.soldAssets"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
 
-          <fieldset className="flex flex-row mx-4">
-            <div className="flex items-center">
-              <input
-                type="radio"
-                value="yes"
-                onChange={() => setShowSoldAssets(true)}
-                checked={showSoldAssets === true}
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                Oui
-              </p>
-            </div>
-            <div className="flex items-center m-4">
-              <input
-                type="radio"
-                value="no"
-                onChange={() => setShowSoldAssets(false)}
-                checked={showSoldAssets === false}
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                Non
-              </p>
-            </div>
-          </fieldset>
-
-          {showSoldAssets && (
+          {formData?.investmentIncomes?.soldAssets && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -373,35 +372,38 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
             Avez-vous acheté ou vendu de la cryptomonnaie, des jetons numériques
             ou d&apos;autres monnaies virtuelles?
           </p>
+          <Controller
+            control={control}
+            name="investmentIncomes.cryptoCurrency"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
 
-          <fieldset className="flex flex-row mx-4">
-            <div className="flex items-center">
-              <input
-                type="radio"
-                value="yes"
-                onChange={() => setShowSoldCrypto(true)}
-                checked={showSoldCrypto === true}
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                Oui
-              </p>
-            </div>
-            <div className="flex items-center m-4">
-              <input
-                type="radio"
-                value="no"
-                onChange={() => setShowSoldCrypto(false)}
-                checked={showSoldCrypto === false}
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                Non
-              </p>
-            </div>
-          </fieldset>
-
-          {showSoldCrypto && (
+          {formData?.investmentIncomes?.cryptoCurrency && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">

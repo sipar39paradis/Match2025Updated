@@ -19,7 +19,6 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
         <div className="flex items-center">
           <input
             type="radio"
-            value="yes"
             onChange={() => setShowBoughtHome(true)}
             className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             checked={showBoughtHome}
@@ -31,7 +30,6 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
         <div className="flex items-center m-4">
           <input
             type="radio"
-            value="no"
             onChange={() => setShowBoughtHome(false)}
             className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             checked={!showBoughtHome}
@@ -48,7 +46,6 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
             <div className="flex items-center">
               <input
                 type="radio"
-                value="yes"
                 onChange={() => setShowBoughtHomeLastYear(true)}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                 checked={showBoughtHomeLastYear}
@@ -60,7 +57,6 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
             <div className="flex items-center m-4">
               <input
                 type="radio"
-                value="no"
                 onChange={() => setShowBoughtHomeLastYear(false)}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                 checked={!showBoughtHomeLastYear}
@@ -81,7 +77,6 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center">
                   <input
                     type="radio"
-                    value="yes"
                     onChange={() => setShowDifferentHome(true)}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                     checked={showDifferentHome}
@@ -93,7 +88,6 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center m-4">
                   <input
                     type="radio"
-                    value="no"
                     onChange={() => setShowDifferentHome(false)}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                     checked={!showDifferentHome}
@@ -114,7 +108,6 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
                     <div className="flex items-center">
                       <input
                         type="radio"
-                        value="yes"
                         className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                       />
                       <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
@@ -124,7 +117,6 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
                     <div className="flex items-center m-4">
                       <input
                         type="radio"
-                        value="no"
                         className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                       />
                       <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
@@ -146,7 +138,6 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
                   <input
                     {...register('homeAccessibilityTaxCredit')}
                     type="radio"
-                    value="yes"
                     onClick={() => setShowBoughForDisabled(true)}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                   />
@@ -158,7 +149,6 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
                   <input
                     {...register('homeAccessibilityTaxCredit')}
                     type="radio"
-                    value="no"
                     onClick={() => setShowBoughForDisabled(false)}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                   />

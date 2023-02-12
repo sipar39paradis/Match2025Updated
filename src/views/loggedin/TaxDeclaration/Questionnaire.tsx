@@ -14,6 +14,8 @@ import { Profile } from './types/Profile/Profile';
 import { useForm } from 'react-hook-form';
 
 const TAX_DECLARATION_STEP = 'step';
+const PROFILE_TABLE = 'profile';
+
 export function Questionnaire() {
   const { firestore, user } = useContext(AppContext) as AppContextType;
   const query = useQuery();
@@ -41,7 +43,7 @@ export function Questionnaire() {
 
   useEffect(() => {
     async function fetchUserAnswers() {
-      const docSnap = await getDoc(doc(firestore, 'profile', user.uid));
+      const docSnap = await getDoc(doc(firestore, PROFILE_TABLE, user.uid));
       if (docSnap.exists()) {
         formData = docSnap.data() as Profile;
         if (formData.civilStatus) setValue('civilStatus', formData.civilStatus);

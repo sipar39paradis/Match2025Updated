@@ -12,7 +12,6 @@ import { StudentLastYearForm } from './StudentLastYearForm';
 import { TaxDeductionsForm } from './TaxDeductionsForm';
 import { OtherDeductionsForm } from './OtherDeductionsForm';
 import { VolunteerFirefighterForm } from './VolunteerFirefighterForm';
-import { LossesForm } from './LossesForm';
 import { ForeignAssetsForm } from './ForeignAssetsForm';
 import { DonationsForm } from './DonationsForm';
 import { MovingExpensesForm } from './MovingExpensesForm';
@@ -20,6 +19,8 @@ import { BoughtHomeForm } from './BoughtHomeForm';
 import { SoldMainHomeForm } from './SoldMainHome';
 import { doc, Firestore, getDoc, setDoc } from 'firebase/firestore';
 import { User } from 'firebase/auth';
+
+const TAX_REPORT_TABLE = 'taxReport';
 
 export function TaxReportForm({
   firestore,
@@ -64,7 +65,7 @@ export function TaxReportForm({
 
   useEffect(() => {
     async function fetchTaxReport() {
-      const docSnap = await getDoc(doc(firestore, 'profile', user.uid));
+      const docSnap = await getDoc(doc(firestore, TAX_REPORT_TABLE, user.uid));
       if (docSnap.exists()) {
         formData = docSnap.data() as TaxReport;
         if (formData.workIncomes) setValue('workIncomes', formData.workIncomes);
@@ -175,7 +176,11 @@ export function TaxReportForm({
             formData={formData}
             register={register}
           />
-          <MovingExpensesForm />
+          <MovingExpensesForm
+            control={control}
+            formData={formData}
+            register={register}
+          />
 
           <p>
             Avez-vous engagé des frais médicaux pour vous-même, votre conjoint
@@ -189,7 +194,6 @@ export function TaxReportForm({
                 <div className="flex items-center">
                   <input
                     type="radio"
-                    value="yes"
                     onChange={() => onChange(true)}
                     checked={value === true}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -201,7 +205,6 @@ export function TaxReportForm({
                 <div className="flex items-center m-4">
                   <input
                     type="radio"
-                    value="no"
                     onChange={() => onChange(false)}
                     checked={value === false}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -228,7 +231,6 @@ export function TaxReportForm({
                 <div className="flex items-center">
                   <input
                     type="radio"
-                    value="yes"
                     onChange={() => onChange(true)}
                     checked={value === true}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -240,7 +242,6 @@ export function TaxReportForm({
                 <div className="flex items-center m-4">
                   <input
                     type="radio"
-                    value="no"
                     onChange={() => onChange(false)}
                     checked={value === false}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -252,11 +253,14 @@ export function TaxReportForm({
               </fieldset>
             )}
           />
-          <LossesForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
+          {formData?.homeAccessibilityTaxCredit && (
+            <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+              <p className="opacity-100 pb-2">
+                Votre préparateur va entre en contact avec vous pour avoir plus
+                de renseignements.
+              </p>
+            </div>
+          )}
           <VolunteerFirefighterForm
             control={control}
             formData={formData}

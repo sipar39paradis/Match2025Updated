@@ -17,7 +17,6 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
             <div className="flex items-center">
               <input
                 type="radio"
-                value="no"
                 onChange={() => onChange(true)}
                 checked={value === true}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -29,7 +28,6 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
             <div className="flex items-center m-4">
               <input
                 type="radio"
-                value="yes"
                 onChange={() => onChange(false)}
                 checked={value === false}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -72,8 +70,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                         )}
                       />
                       <p>
-                        T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente,
-                        prestations liées à la COVID-19 reçues ou remboursées et
+                        T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente et
                         autres revenus
                       </p>
                     </div>
@@ -225,11 +222,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                             <Checkbox
                               {...register('workIncomes.remoteWorkExpenses')}
                             />
-                            <p>
-                              J&apos;ai des dépenses d&apos;emploi, y compris
-                              pour du travail à domicile en raison de la
-                              COVID-19.
-                            </p>
+                            <p>J&apos;ai des dépenses d&apos;emploi</p>
                           </div>
                           <div className="flex items-center gap-2 py-2">
                             <Checkbox {...register('workIncomes.taxRefund')} />
@@ -273,8 +266,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                 />
                 <p>
                   J&apos;ai reçu des prestations d&apos;assurance-emploi ou de
-                  congé parental, ou j&apos;ai reçu/remboursé des prestations
-                  liées à la COVID-19
+                  congé parental
                 </p>
               </div>
               {formData.workIncomes.employmentInsuranceOrParentalBenefits && (
@@ -283,11 +275,10 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                   <div className="px-8">
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
-                        {...register('workIncomes.covidInsuranceBenefits')}
+                        {...register('workIncomes.insuranceBenefits')}
                       />
                       <p>
-                        T4E / Relevé 6 - Prestations d&apos;assurance-emploi et
-                        prestations ou remboursements liés à la COVID-19
+                        T4E / Relevé 6 - Prestations d&apos;assurance-emploi
                       </p>
                     </div>
                     <div className="flex items-center gap-2 py-2">
@@ -298,8 +289,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                       />
                       <p>
                         T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente et
-                        autres revenus, incluant la PCU et le remboursement de
-                        prestations liées à la COVID-19
+                        autres revenus, incluant la PCU
                       </p>
                     </div>
                   </div>
@@ -340,40 +330,6 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                 <p>
                   J&apos;ai reçu des pourboires ou fait du travail occasionnel
                   et je ne recevrai pas de feuillet T4
-                </p>
-              </div>
-              <div className="flex items-center gap-2 py-2">
-                <Checkbox
-                  {...register('workIncomes.onTheJobTrainingProgram')}
-                />
-                <p>
-                  J&apos;ai participé à un programme de formation au travail
-                </p>
-              </div>
-              {formData.workIncomes.onTheJobTrainingProgram && (
-                <>
-                  <hr className="py-2"></hr>
-                  <div className="px-8">
-                    <div className="flex items-center gap-2 py-2">
-                      <Checkbox
-                        {...register('workIncomes.employmentInsuranceBenefits')}
-                      />
-                      <p>
-                        T4E / Relevé 6 - Prestations d&apos;assurance-emploi
-                      </p>
-                    </div>
-                  </div>
-                </>
-              )}
-              <div className="flex items-center gap-2 py-2">
-                <Checkbox
-                  {...register(
-                    'workIncomes.familyOrIntermediateResourceCompensation'
-                  )}
-                />
-                <p>
-                  J&apos;ai reçu une rétribution d&apos;une ressource de type
-                  familial ou d&apos;une ressource intermédiaire (relevé 29)
                 </p>
               </div>
             </>
@@ -445,29 +401,6 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                       <p>
                         T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente et
                         autres revenus, incluant la PCU
-                      </p>
-                    </div>
-                  </div>
-                </>
-              )}
-              <div className="flex items-center gap-2 py-2">
-                <Checkbox
-                  {...register('workIncomes.onTheJobTrainingProgram')}
-                />
-                <p>
-                  J&apos;ai participé à un programme de formation au travail
-                </p>
-              </div>
-              {formData.workIncomes.onTheJobTrainingProgram && (
-                <>
-                  <hr className="py-2"></hr>
-                  <div className="px-8">
-                    <div className="flex items-center gap-2 py-2">
-                      <Checkbox
-                        {...register('workIncomes.employmentInsuranceBenefits')}
-                      />
-                      <p>
-                        T4E / Relevé 6 - Prestations d&apos;assurance-emploi
                       </p>
                     </div>
                   </div>

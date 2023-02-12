@@ -1,50 +1,51 @@
 import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller } from 'react-hook-form';
 import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
 export function RetirementIncomesForm(props: TaxReportFormProps) {
-  const { control, register } = props;
-
-  const [showRetirementIncomes, setShowRetirementIncomes] = useState(false);
+  const { control, register, formData } = props;
 
   return (
     <>
       <p>
-        Avez-vous reçu un revenu de pension ou de retraite ou des prestations
-        liées à la COVID-19, ou avez-vous retiré de l&apos;argent d&apos;un REER
-        ou d&apos;un FERR? Cela n&apos;inclut pas les cotisations à un REER ni à
-        un régime de retraite.
+        Avez-vous reçu un revenu de pension ou de retraite, ou avez-vous retiré
+        de l&apos;argent d&apos;un REER ou d&apos;un FERR? Cela n&apos;inclut
+        pas les cotisations à un REER ni à un régime de retraite.
       </p>
 
-      <fieldset className="flex flex-row m-4">
-        <div className="flex items-center">
-          <input
-            type="radio"
-            value="no"
-            onChange={() => setShowRetirementIncomes(true)}
-            checked={showRetirementIncomes === true}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Oui
-          </p>
-        </div>
-        <div className="flex items-center m-4">
-          <input
-            type="radio"
-            value="yes"
-            onChange={() => setShowRetirementIncomes(false)}
-            checked={showRetirementIncomes === false}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Non
-          </p>
-        </div>
-      </fieldset>
+      <Controller
+        control={control}
+        name="retirementIncomes.retirementIncomes"
+        render={({ field: { onChange, value } }) => (
+          <fieldset className="flex flex-row m-4">
+            <div className="flex items-center">
+              <input
+                type="radio"
+                onChange={() => onChange(true)}
+                checked={value === true}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                Oui
+              </p>
+            </div>
+            <div className="flex items-center m-4">
+              <input
+                type="radio"
+                onChange={() => onChange(false)}
+                checked={value === false}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                Non
+              </p>
+            </div>
+          </fieldset>
+        )}
+      />
 
-      {showRetirementIncomes === true && (
+      {formData?.retirementIncomes?.retirementIncomes && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p>Cochez toutes les cases qui s&apos;appliquent. </p>
           <div className="flex items-center gap-2 py-2">
@@ -76,8 +77,8 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
               {...register('retirementIncomes.pensionRetirementAnnuityIncome')}
             />
             <p>
-              T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente, prestations
-              liées à la COVID-19 reçues ou remboursées et autres revenus
+              T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente et autres
+              revenus
             </p>
           </div>
           <div className="flex items-center gap-2 py-2">
@@ -133,7 +134,6 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
                 <div className="flex items-center">
                   <input
                     type="radio"
-                    value="no"
                     onChange={() => onChange(true)}
                     checked={value === true}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -145,7 +145,6 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
                 <div className="flex items-center m-4">
                   <input
                     type="radio"
-                    value="yes"
                     onChange={() => onChange(false)}
                     checked={value === false}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"

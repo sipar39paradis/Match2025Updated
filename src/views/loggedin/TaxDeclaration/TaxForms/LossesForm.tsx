@@ -1,12 +1,11 @@
 import { Checkbox } from 'flowbite-react';
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller } from 'react-hook-form';
 import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
+// We removed this form from the questionnaire for now, keeping it case steph change his mind since it took quite some time to do.
 export function LossesForm(props: TaxReportFormProps) {
-  const { control, register } = props;
-  const [showLosses, setShowLosses] = useState(false);
-  const [showPreviousYearsLost, setShowPreviousYearsLost] = useState(false);
+  const { control, register, formData } = props;
 
   return (
     <>
@@ -16,33 +15,38 @@ export function LossesForm(props: TaxReportFormProps) {
         pour pouvoir déduire cette perte. Une perte dans un REER n&apos;est pas
         admissible ?
       </p>
-      <fieldset className="flex flex-row m-4">
-        <div className="flex items-center">
-          <input
-            type="radio"
-            value="yes"
-            onChange={() => setShowLosses(true)}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            checked={showLosses}
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Oui
-          </p>
-        </div>
-        <div className="flex items-center m-4">
-          <input
-            type="radio"
-            value="no"
-            onChange={() => setShowLosses(false)}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            checked={!showLosses}
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Non
-          </p>
-        </div>
-      </fieldset>
-      {showLosses && (
+      <Controller
+        control={control}
+        name="losses.losses"
+        render={({ field: { onChange, value } }) => (
+          <fieldset className="flex flex-row m-4">
+            <div className="flex items-center">
+              <input
+                type="radio"
+                onChange={() => onChange(true)}
+                checked={value === true}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                Oui
+              </p>
+            </div>
+            <div className="flex items-center m-4">
+              <input
+                type="radio"
+                onChange={() => onChange(false)}
+                checked={value === false}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                Non
+              </p>
+            </div>
+          </fieldset>
+        )}
+      />
+
+      {formData?.losses?.losses && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>
             Aviez-vous une perte déductible au titre d&apos;un placement
@@ -58,7 +62,6 @@ export function LossesForm(props: TaxReportFormProps) {
                 <div className="flex items-center">
                   <input
                     type="radio"
-                    value="no"
                     onChange={() => onChange(true)}
                     checked={value === true}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -70,7 +73,6 @@ export function LossesForm(props: TaxReportFormProps) {
                 <div className="flex items-center m-4">
                   <input
                     type="radio"
-                    value="yes"
                     onChange={() => onChange(false)}
                     checked={value === false}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -86,33 +88,68 @@ export function LossesForm(props: TaxReportFormProps) {
             Avez-vous des pertes d&apos;années précédentes que vous voulez
             reporter à cette année ou déduire de vos gains cette année?
           </p>
-          <fieldset className="flex flex-row m-2">
-            <div className="flex items-center">
-              <input
-                type="radio"
-                value="no"
-                onClick={() => setShowPreviousYearsLost(true)}
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                checked={showPreviousYearsLost}
-              />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                Oui
-              </p>
-            </div>
-            <div className="flex items-center m-4">
-              <input
-                type="radio"
-                value="yes"
-                onClick={() => setShowPreviousYearsLost(false)}
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                checked={!showPreviousYearsLost}
-              />
-              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                Non
-              </p>
-            </div>
-          </fieldset>
-          {showPreviousYearsLost && (
+          <Controller
+            control={control}
+            name="losses.deductibleBusinessInvestmentLoss"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
+          <Controller
+            control={control}
+            name="losses.previousYearsLost"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
+
+          {formData?.losses?.previousYearsLost && (
             <>
               <hr className="py-2"></hr>
               <div className="mx-8 mb-4">
@@ -123,12 +160,6 @@ export function LossesForm(props: TaxReportFormProps) {
                     Pertes liées à l&apos;emploi ou à une entreprise subies dans
                     une année précédente
                   </p>
-                </div>
-                <div className="flex items-center gap-2 py-2">
-                  <Checkbox
-                    {...register('losses.fishingOrAgricultureLosses')}
-                  />
-                  <p>Pertes d&apos;agriculture ou de pêche</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox {...register('losses.personnalPropertyLosees')} />
@@ -166,7 +197,6 @@ export function LossesForm(props: TaxReportFormProps) {
                 <div className="flex items-center">
                   <input
                     type="radio"
-                    value="no"
                     onChange={() => onChange(true)}
                     checked={value === true}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -178,7 +208,6 @@ export function LossesForm(props: TaxReportFormProps) {
                 <div className="flex items-center m-4">
                   <input
                     type="radio"
-                    value="yes"
                     onChange={() => onChange(false)}
                     checked={value === false}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"

@@ -1,64 +1,58 @@
 import { Checkbox } from 'flowbite-react';
-import React, { useState } from 'react';
+import React from 'react';
+import { Controller } from 'react-hook-form';
 import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
 export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
-  const { register } = props;
-  const [
-    showSelfEmploymentRentalOtherIncomes,
-    setShowSelfEmploymentRentalOtherIncomes,
-  ] = useState(false);
-  const [showSelfEmployed, setShowSelfEmployed] = useState(false);
-  const [showSchoolIncome, setShowSchoolIncome] = useState(false);
-  const [showRRSPorRRIFincomes, setShowRRSPorRRIFincomes] = useState(false);
-  const [showSocialAssitance, setShowSocialAssitance] = useState(false);
-  const [showDisabilityOrDeathBenefits, setShowDisabilityOrDeathBenefits] =
-    useState(false);
-  const [
-    showAdvancePaymentsWorkingIncomeTaxBenefit,
-    setShowAdvancePaymentsWorkingIncomeTaxBenefit,
-  ] = useState(false);
+  const { register, formData, control } = props;
+
   return (
     <>
       <p>
         Avez-vous un revenu de travailleur autonome, de location ou
         d&apos;autres revenus?
       </p>
+      <Controller
+        control={control}
+        name="selfEmploymentRentalOtherIncomes.selfEmploymentRentalOtherIncomes"
+        render={({ field: { onChange, value } }) => (
+          <fieldset className="flex flex-row m-4">
+            <div className="flex items-center">
+              <input
+                type="radio"
+                onChange={() => onChange(true)}
+                checked={value === true}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                Oui
+              </p>
+            </div>
+            <div className="flex items-center m-4">
+              <input
+                type="radio"
+                onChange={() => onChange(false)}
+                checked={value === false}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                Non
+              </p>
+            </div>
+          </fieldset>
+        )}
+      />
 
-      <fieldset className="flex flex-row m-4">
-        <div className="flex items-center">
-          <input
-            type="radio"
-            value="yes"
-            onChange={() => setShowSelfEmploymentRentalOtherIncomes(true)}
-            checked={showSelfEmploymentRentalOtherIncomes === true}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Oui
-          </p>
-        </div>
-        <div className="flex items-center m-4">
-          <input
-            type="radio"
-            value="no"
-            onChange={() => setShowSelfEmploymentRentalOtherIncomes(false)}
-            checked={showSelfEmploymentRentalOtherIncomes === false}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Non
-          </p>
-        </div>
-      </fieldset>
-
-      {showSelfEmploymentRentalOtherIncomes === true && (
+      {formData?.selfEmploymentRentalOtherIncomes
+        ?.selfEmploymentRentalOtherIncomes && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <div className="flex items-center gap-2 py-2">
-            <Checkbox onClick={() => setShowSelfEmployed(!showSelfEmployed)} />
+            <Checkbox
+              {...register('selfEmploymentRentalOtherIncomes.selfEmployed')}
+            />
             <p>J&apos;étais un travailleur autonome</p>
           </div>
-          {showSelfEmployed && (
+          {formData?.selfEmploymentRentalOtherIncomes?.selfEmployed && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -78,22 +72,6 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                     )}
                   />
                   <p>Commission</p>
-                </div>
-                <div className="flex items-center gap-2 py-2">
-                  <Checkbox
-                    {...register(
-                      'selfEmploymentRentalOtherIncomes.selfEmployed.agriculture'
-                    )}
-                  />
-                  <p>Agriculture</p>
-                </div>
-                <div className="flex items-center gap-2 py-2">
-                  <Checkbox
-                    {...register(
-                      'selfEmploymentRentalOtherIncomes.selfEmployed.fishing'
-                    )}
-                  />
-                  <p>Pêche</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
@@ -118,13 +96,13 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              onChange={() => setShowRRSPorRRIFincomes(!showRRSPorRRIFincomes)}
+              {...register('selfEmploymentRentalOtherIncomes.RRSPorRRIFincome')}
             />
             <p>
               J&apos;ai retiré de l&apos;argent d&apos;un REER ou d&apos;un FERR
             </p>
           </div>
-          {showRRSPorRRIFincomes && (
+          {formData?.selfEmploymentRentalOtherIncomes?.RRSPorRRIFincome && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -195,10 +173,12 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
             </>
           )}
           <div className="flex items-center gap-2 py-2">
-            <Checkbox onClick={() => setShowSchoolIncome(!showSchoolIncome)} />
+            <Checkbox
+              {...register('selfEmploymentRentalOtherIncomes.schoolIncome')}
+            />
             <p>J&apos;ai un revenu scolaire</p>
           </div>
-          {showSchoolIncome && (
+          {formData?.selfEmploymentRentalOtherIncomes?.schoolIncome && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -237,11 +217,11 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           )}
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              onClick={() => setShowSocialAssitance(!showSocialAssitance)}
+              {...register('selfEmploymentRentalOtherIncomes.socialAssitance')}
             />
             <p>J&apos;ai reçu de l&apos;aide sociale</p>
           </div>
-          {showSocialAssitance && (
+          {formData?.selfEmploymentRentalOtherIncomes?.socialAssitance && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -266,16 +246,17 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           )}
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              onClick={() =>
-                setShowDisabilityOrDeathBenefits(showDisabilityOrDeathBenefits)
-              }
+              {...register(
+                'selfEmploymentRentalOtherIncomes.disabilityOrDeathBenefits'
+              )}
             />
             <p>
               J&apos;ai reçu des prestations d&apos;invalidité ou des
               prestations de décès
             </p>
           </div>
-          {showDisabilityOrDeathBenefits && (
+          {formData?.selfEmploymentRentalOtherIncomes
+            ?.disabilityOrDeathBenefits && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -318,18 +299,17 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              onClick={() =>
-                setShowAdvancePaymentsWorkingIncomeTaxBenefit(
-                  !showAdvancePaymentsWorkingIncomeTaxBenefit
-                )
-              }
+              {...register(
+                'selfEmploymentRentalOtherIncomes.advancePaymentsWorkingIncomeTaxBenefitIncome'
+              )}
             />
             <p>
               J&apos;ai reçu des versements anticipés de la prestation fiscale
               pour le revenu de travail
             </p>
           </div>
-          {showAdvancePaymentsWorkingIncomeTaxBenefit && (
+          {formData?.selfEmploymentRentalOtherIncomes
+            ?.advancePaymentsWorkingIncomeTaxBenefitIncome && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
