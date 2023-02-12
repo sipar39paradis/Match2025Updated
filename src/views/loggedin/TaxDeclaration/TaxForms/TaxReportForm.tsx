@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
@@ -18,19 +18,112 @@ import { DonationsForm } from './DonationsForm';
 import { MovingExpensesForm } from './MovingExpensesForm';
 import { BoughtHomeForm } from './BoughtHomeForm';
 import { SoldMainHomeForm } from './SoldMainHome';
+import { doc, Firestore, getDoc, setDoc } from 'firebase/firestore';
+import { User } from 'firebase/auth';
 
-export function TaxReportForm() {
+export function TaxReportForm({
+  firestore,
+  user,
+}: {
+  firestore: Firestore;
+  user: User;
+}) {
   const {
     register,
     handleSubmit,
     formState: {},
     watch,
     control,
+    reset,
+    setValue,
   } = useForm<TaxReport>();
   const navigate = useNavigate();
-  const formData = watch();
+  let formData = watch();
+
+  useEffect(() => {
+    const defaultValues = {
+      workIncomes: null,
+      retirementIncomes: null,
+      investmentIncomes: null,
+      selfEmploymentRentalOtherIncomes: null,
+      foreignAssets: false,
+      studentExpenses: null,
+      taxDeductions: null,
+      donations: null,
+      movingExpenses: null,
+      medicalExpenses: false,
+      eligibleHomeBuyerTaxCredit: false,
+      homeAccessibilityTaxCredit: false,
+      losses: null,
+      firefighterOrSearchAndRescueVolunteer: 0,
+      otherDeductions: null,
+      instalmentPayments: 0,
+    };
+    reset({ ...defaultValues });
+  }, []);
+
+  useEffect(() => {
+    async function fetchTaxReport() {
+      const docSnap = await getDoc(doc(firestore, 'profile', user.uid));
+      if (docSnap.exists()) {
+        formData = docSnap.data() as TaxReport;
+        if (formData.workIncomes) setValue('workIncomes', formData.workIncomes);
+        if (formData.retirementIncomes)
+          setValue('retirementIncomes', formData.retirementIncomes);
+        if (formData.investmentIncomes)
+          setValue('workIncomes', formData.workIncomes);
+        if (formData.workIncomes)
+          setValue('investmentIncomes', formData.investmentIncomes);
+        if (formData.selfEmploymentRentalOtherIncomes)
+          setValue(
+            'selfEmploymentRentalOtherIncomes',
+            formData.selfEmploymentRentalOtherIncomes
+          );
+        if (formData.foreignAssets)
+          setValue('foreignAssets', formData.foreignAssets);
+        if (formData.studentExpenses)
+          setValue('studentExpenses', formData.studentExpenses);
+        if (formData.taxDeductions)
+          setValue('taxDeductions', formData.taxDeductions);
+        if (formData.movingExpenses)
+          setValue('movingExpenses', formData.movingExpenses);
+        if (formData.medicalExpenses)
+          setValue('medicalExpenses', formData.medicalExpenses);
+        if (formData.eligibleHomeBuyerTaxCredit)
+          setValue(
+            'eligibleHomeBuyerTaxCredit',
+            formData.eligibleHomeBuyerTaxCredit
+          );
+        if (formData.homeAccessibilityTaxCredit)
+          setValue(
+            'homeAccessibilityTaxCredit',
+            formData.homeAccessibilityTaxCredit
+          );
+        if (formData.losses) setValue('losses', formData.losses);
+        if (formData.firefighterOrSearchAndRescueVolunteer)
+          setValue(
+            'firefighterOrSearchAndRescueVolunteer',
+            formData.firefighterOrSearchAndRescueVolunteer
+          );
+        if (formData.otherDeductions)
+          setValue('otherDeductions', formData.otherDeductions);
+        if (formData.instalmentPayments)
+          setValue('instalmentPayments', formData.instalmentPayments);
+        console.log(formData);
+      }
+    }
+    if (user) {
+      fetchTaxReport();
+    }
+  }, [user]);
+
+  async function saveTaxReportForm() {
+    console.log(formData);
+    await setDoc(doc(firestore, 'taxReport', user.uid), formData);
+  }
 
   function onSubmitButton() {
+    saveTaxReportForm();
     navigate(`/platform/questionnaire?step=${TaxDeclarationStep.REVIEW}`);
   }
 
@@ -179,11 +272,12 @@ export function TaxReportForm() {
             <input
               type="submit"
               value="Precedant"
-              onClick={() =>
+              onClick={() => {
+                saveTaxReportForm();
                 navigate(
                   `/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}`
-                )
-              }
+                );
+              }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
             <input

@@ -9,7 +9,7 @@ import { Messages } from './views/loggedin/Messages';
 import { Files } from './views/loggedin/Files';
 import { AppContextProvider } from './context/AppContext';
 import { Platform } from './views/loggedin/Platform';
-import { TaxReport } from './views/loggedin/TaxDeclaration/TaxReport';
+import { Questionnaire } from './views/loggedin/TaxDeclaration/Questionnaire';
 import { Preparator } from './views/loggedout/Preparator';
 
 function App() {
@@ -26,7 +26,10 @@ function App() {
               <Route path="/requests" element={<Requests />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/platform" element={<Platform />} />
-              <Route path="/platform/questionnaire" element={<TaxReport />} />
+              <Route
+                path="/platform/questionnaire"
+                element={<Questionnaire />}
+              />
               <Route path="/preparator" element={<Preparator />} />
             </Routes>
           </div>

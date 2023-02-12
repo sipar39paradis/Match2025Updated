@@ -14,7 +14,7 @@ import { Profile } from './types/Profile/Profile';
 import { useForm } from 'react-hook-form';
 
 const TAX_DECLARATION_STEP = 'step';
-export function TaxReport() {
+export function Questionnaire() {
   const { firestore, user } = useContext(AppContext) as AppContextType;
   const query = useQuery();
   const {
@@ -118,7 +118,9 @@ export function TaxReport() {
           ></DependentsForm>
         );
       case TaxDeclarationStep.TAX_PROFILE:
-        return <TaxReportForm></TaxReportForm>;
+        return (
+          <TaxReportForm firestore={firestore} user={user}></TaxReportForm>
+        );
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:

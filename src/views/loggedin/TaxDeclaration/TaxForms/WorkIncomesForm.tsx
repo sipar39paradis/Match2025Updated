@@ -41,7 +41,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
           </fieldset>
         )}
       />
-      {formData?.workIncomes?.workedLastYear !== undefined && (
+      {formData?.workIncomes?.workedLastYear && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           {formData.workIncomes.workedLastYear === true ? (
             <>
