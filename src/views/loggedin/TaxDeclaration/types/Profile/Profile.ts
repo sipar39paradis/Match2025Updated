@@ -9,5 +9,5 @@ export interface Profile {
   personalInformations: PersonalInformations
   contactDetails: ContactDetails
   civilStatusChange?: CivilStatusChange
-  dependent?: Dependent
+  dependents?: Dependent
 }

@@ -34,7 +34,7 @@ export function TaxReport() {
       personalInformations: null,
       contactDetails: null,
       civilStatusChange: null,
-      dependent: null,
+      dependents: null,
     };
     reset({ ...defaultValues });
   }, []);
@@ -51,7 +51,7 @@ export function TaxReport() {
           setValue('contactDetails', formData.contactDetails);
         if (formData.civilStatusChange)
           setValue('civilStatusChange', formData.civilStatusChange);
-        if (formData.dependent) setValue('dependent', formData.dependent);
+        if (formData.dependents) setValue('dependents', formData.dependents);
         console.log(formData);
       }
     }

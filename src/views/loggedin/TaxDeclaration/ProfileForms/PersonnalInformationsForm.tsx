@@ -7,7 +7,7 @@ import Fade from 'react-reveal';
 import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
 
 export function PersonnalInformationsForm(props: ProfileFormProps) {
-  const { register, handleSubmit, saveFormAnswers, formData } = props;
+  const { register, handleSubmit, saveFormAnswers } = props;
 
   const navigate = useNavigate();
 
@@ -22,7 +22,6 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    console.log(formData);
     navigate(
       `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}`
     );
@@ -104,11 +103,12 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
             <input
               type="submit"
               value="Precedant"
-              onClick={() =>
+              onClick={() => {
+                saveFormAnswers();
                 navigate(
                   `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}`
-                )
-              }
+                );
+              }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
             <input

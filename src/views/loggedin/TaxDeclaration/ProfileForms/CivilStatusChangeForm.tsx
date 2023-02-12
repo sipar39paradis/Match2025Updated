@@ -67,7 +67,6 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
               <div className="flex items-center m-4">
                 <input
                   type="radio"
-                  value="no"
                   onChange={() => onChange(false)}
                   checked={value === false}
                   className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -84,10 +83,7 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
             <h1>Changements d&apos;état civil </h1>
             <p>Quel était votre état civil au 31 décembre 2022?</p>
             <div id="select" className="my-4 w-96">
-              <Select
-                {...(register('civilStatusChange.lastYearCivilStatus'),
-                { required: true })}
-              >
+              <Select {...register('civilStatusChange.lastYearCivilStatus')}>
                 <option value="" disabled selected>
                   Veuillez sélectionner
                 </option>
@@ -151,8 +147,8 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
               placeholder={'JJ/MM/AAAA'}
             />
             <p>Nouvel état civil</p>
-            <div id="select" className="my-4 w-96">
-              <Select id="civil-status" required={true}>
+            <div className="my-4 w-96">
+              <Select>
                 <option value="" disabled selected>
                   Veuillez sélectionner
                 </option>
@@ -172,11 +168,12 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
           <input
             type="submit"
             value="Precedant"
-            onClick={() =>
+            onClick={() => {
+              saveFormAnswers;
               navigate(
                 `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}`
-              )
-            }
+              );
+            }}
             className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
           />
           <input

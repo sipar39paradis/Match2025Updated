@@ -19,7 +19,6 @@ export function ContactDetailsForm(props: ProfileFormProps) {
   }, []);
 
   function onSubmitButton() {
-    console.log(formData);
     saveFormAnswers();
     navigate(
       `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
@@ -48,7 +47,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...(register('contactDetails.address'), { required: true })}
+              {...register('contactDetails.address', { required: true })}
               type="text"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -72,7 +71,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
         <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...(register('contactDetails.city'), { required: true })}
+              {...register('contactDetails.city', { required: true })}
               type="text"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -83,7 +82,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
-              {...(register('contactDetails.postal'), { required: true })}
+              {...register('contactDetails.postal', { required: true })}
               type="postal"
               className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -146,10 +145,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
         </p>
 
         <div id="select" className="my-4 w-80">
-          <Select
-            {...register('contactDetails.differentProvince')}
-            id="provinces"
-          >
+          <Select {...register('contactDetails.differentProvince')}>
             <option>Je réside dans la même province</option>
             <option>Alberta</option>
             <option>Colombie-Britanique</option>
@@ -171,7 +167,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
 
         <div className="relative z-0 w-full my-4 group">
           <input
-            {...(register('contactDetails.phoneNumber'), { required: true })}
+            {...register('contactDetails.phoneNumber', { required: true })}
             type="tel"
             className="block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
             placeholder=" "
@@ -195,9 +191,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
             <fieldset className="flex flex-row m-4">
               <div className="flex items-center">
                 <input
-                  {...register('contactDetails.bankruptcy', { required: true })}
                   type="radio"
-                  value="yes"
                   onChange={() => onChange(true)}
                   checked={value === true}
                   className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -208,9 +202,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
               </div>
               <div className="flex items-center m-4">
                 <input
-                  {...register('contactDetails.bankruptcy', { required: true })}
                   type="radio"
-                  value="no"
                   onChange={() => onChange(false)}
                   checked={value === false}
                   className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -298,11 +290,12 @@ export function ContactDetailsForm(props: ProfileFormProps) {
           <input
             type="submit"
             value="Precedant"
-            onClick={() =>
+            onClick={() => {
+              saveFormAnswers();
               navigate(
                 `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
-              )
-            }
+              );
+            }}
             className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
           />
           <input
