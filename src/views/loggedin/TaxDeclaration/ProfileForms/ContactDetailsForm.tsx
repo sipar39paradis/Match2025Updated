@@ -3,11 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
+import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 
 export function ContactDetailsForm(props: ProfileFormProps) {
-  const { register, handleSubmit, saveFormAnswers, formData, control } = props;
+  const {
+    register,
+    handleSubmit,
+    saveFormAnswers,
+    formData,
+    control,
+    setValue,
+  } = props;
 
   const navigate = useNavigate();
 
@@ -25,12 +33,20 @@ export function ContactDetailsForm(props: ProfileFormProps) {
     );
   }
 
+  useEffect(() => {
+    setMovedFromOtherProvince({
+      startDate: formData?.contactDetails?.movedFromOtherProvince,
+      endDate: formData?.contactDetails?.movedFromOtherProvince,
+    });
+  }, [formData]);
+
   const [movedFromOtherProvince, setMovedFromOtherProvince] = useState({
     startDate: null,
     endDate: null,
   });
 
-  const handleMovedFromOtherProvinceChange = (newValue) => {
+  const handleMovedFromOtherProvinceChange = (newValue: DateRangeType) => {
+    setValue('contactDetails.movedFromOtherProvince', newValue.startDate);
     setMovedFromOtherProvince(newValue);
   };
 
@@ -97,7 +113,6 @@ export function ContactDetailsForm(props: ProfileFormProps) {
           territoire en 2022, entrez la date de votre déménagement
         </p>
         <Datepicker
-          {...register('contactDetails.movedFromOtherProvince')}
           containerClassName="h-fit w-96 my-8"
           useRange={false}
           asSingle={true}

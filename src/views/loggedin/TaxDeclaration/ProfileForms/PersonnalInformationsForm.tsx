@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
 import Fade from 'react-reveal';
 import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
+import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 
 export function PersonnalInformationsForm(props: ProfileFormProps) {
-  const { register, handleSubmit, saveFormAnswers } = props;
+  const { register, handleSubmit, saveFormAnswers, setValue, formData } = props;
 
   const navigate = useNavigate();
 
@@ -16,7 +17,15 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
     endDate: null,
   });
 
-  const handleBirthDayValueChange = (newValue) => {
+  useEffect(() => {
+    setBirthDayValue({
+      startDate: formData?.personalInformations?.birthDay,
+      endDate: formData?.personalInformations?.birthDay,
+    });
+  }, [formData]);
+
+  const handleBirthDayValueChange = (newValue: DateRangeType) => {
+    setValue('personalInformations.birthDay', newValue.startDate);
     setBirthDayValue(newValue);
   };
 

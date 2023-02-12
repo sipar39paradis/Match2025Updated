@@ -1,4 +1,4 @@
-import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types'
+import {  DateType } from 'react-tailwindcss-datepicker/dist/types'
 
 export interface ContactDetails {
   address: string
@@ -6,7 +6,7 @@ export interface ContactDetails {
   street: string
   city: string
   postal: string
-  movedFromOtherProvince: DateRangeType
+  movedFromOtherProvince: DateType
   sameAddress: boolean
   differentProvince?: ProvinceEnum
   phoneNumber: string
@@ -17,8 +17,6 @@ export interface ContactDetails {
   canadianIncomes: number
   foreignIncomes: number
   residentStatus: ResidentStatusEnum
-  lostResidencyDate: DateRangeType
-  entryCanadaDate: DateRangeType
   nonResidentRevenues: number
 }
 

@@ -87,6 +87,7 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
+            setValue={setValue}
           ></PersonnalInformationsForm>
         );
       case TaxDeclarationStep.CIVIL_STATUS_CHANGE:
@@ -107,6 +108,7 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
+            setValue={setValue}
           ></ContactDetailsForm>
         );
       case TaxDeclarationStep.DEPENDENTS:

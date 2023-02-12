@@ -1,9 +1,9 @@
-import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types'
+import { DateType } from 'react-tailwindcss-datepicker/dist/types'
 
 export interface PersonalInformations {
 firstName: string
 lastName: string
-birthDay: DateRangeType
+birthDay: DateType
 socialSecurityNumber: string
 email: string
 }

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
+import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 
@@ -22,13 +23,20 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
     navigate(`/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}`);
   }
 
-  const [value, setValue] = useState({
+  useEffect(() => {
+    setCivilStatusChangeDate({
+      startDate: formData?.contactDetails?.movedFromOtherProvince,
+      endDate: formData?.contactDetails?.movedFromOtherProvince,
+    });
+  }, [formData]);
+
+  const [civilStatusChangeDate, setCivilStatusChangeDate] = useState({
     startDate: null,
     endDate: null,
   });
 
-  const handleValueChange = (newValue) => {
-    setValue(newValue);
+  const handleValueChange = (newValue: DateRangeType) => {
+    setCivilStatusChangeDate(newValue);
   };
 
   return (
@@ -83,8 +91,11 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
             <h1>Changements d&apos;état civil </h1>
             <p>Quel était votre état civil au 31 décembre 2022?</p>
             <div id="select" className="my-4 w-96">
-              <Select {...register('civilStatusChange.lastYearCivilStatus')}>
-                <option value="" disabled selected>
+              <Select
+                {...register('civilStatusChange.lastYearCivilStatus')}
+                defaultValue=""
+              >
+                <option value="" disabled>
                   Veuillez sélectionner
                 </option>
                 <option>Marié(e)</option>
@@ -100,7 +111,7 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
               containerClassName="h-fit w-96 my-8"
               useRange={false}
               asSingle={true}
-              value={value}
+              value={civilStatusChangeDate}
               onChange={handleValueChange}
               placeholder={'JJ/MM/AAAA'}
             />
@@ -113,7 +124,7 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
               containerClassName="h-fit w-96 my-4"
               useRange={false}
               asSingle={true}
-              value={value}
+              value={civilStatusChangeDate}
               onChange={handleValueChange}
               placeholder={'JJ/MM/AAAA'}
             />
@@ -142,14 +153,14 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
               containerClassName="h-fit w-96 my-4"
               useRange={false}
               asSingle={true}
-              value={value}
+              value={civilStatusChangeDate}
               onChange={handleValueChange}
               placeholder={'JJ/MM/AAAA'}
             />
             <p>Nouvel état civil</p>
             <div className="my-4 w-96">
-              <Select>
-                <option value="" disabled selected>
+              <Select defaultValue="">
+                <option value="" disabled>
                   Veuillez sélectionner
                 </option>
                 <option>Marié(e)</option>
