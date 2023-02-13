@@ -9,6 +9,9 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
+import { deleteObject, FirebaseStorage, getStorage, listAll, ref } from 'firebase/storage';
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
 
@@ -30,8 +33,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage()
 
 const PROFILE_DB_NAME = 'UserProfile';
+const STORAGE_BASE_FOLDER = 'customerdata/';
 
 export const getUserProfile = async (
   userEmail: string
@@ -68,6 +73,75 @@ export const writeExistingFiles = async (
     userId: userId,
   });
 };
+
+export const appendRequiredFiles = async (
+  fileName: string,
+  userId: string
+): Promise<void> => {
+  getRequiredFiles(userId).then((res) =>{
+    if(res == undefined){
+      writeRequiredFiles([fileName], userId)
+    }else{
+      res?.files?.push(fileName)
+      writeRequiredFiles(res?.files, userId)
+    }
+  })
+}
+
+export const appendExistingFiles = async (
+  fileName: string,
+  userId: string
+): Promise<void> => {
+  getExistingFiles(userId).then((res) => {
+    if(res == undefined){
+      writeExistingFiles([fileName], userId)
+    }else{
+      res?.files.push(fileName)
+      writeExistingFiles(res?.files, userId)
+    } 
+  })
+}
+
+export const removeExistingfile = async (
+  fileName: string,
+  userId: string
+): Promise<void> => {
+  getExistingFiles(userId).then((res) => {
+    if(res != undefined){
+      console.log(res.files)
+      writeExistingFiles(res?.files?.filter(file => file != fileName), userId)
+      appendRequiredFiles(fileName, userId)
+      removeUserFile(fileName, userId)
+    } 
+  })
+}
+
+export const removeUserFile = async (
+  fileName: string,
+  userId: string
+): Promise<void> => {
+  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + userId)
+  listAll(filesListRef).then((res) => {
+    const fileRefToRemove = res?.items?.filter((itemRef) => itemRef.name.includes(fileName))[0]
+    deleteObject(fileRefToRemove).catch((err) => {
+      console.log('There was an issue deleting the file ' + fileName)
+    })
+  })
+}
+
+export const removeRequiredfile = async (
+  fileName: string,
+  userId: string
+): Promise<void> => {
+  getRequiredFiles(userId).then((res) => {
+    const newReqFiles = res?.files?.filter((file) => file != fileName)
+    writeRequiredFiles(newReqFiles, userId)
+  })
+}
+
+export const getExistingFiles = async (userId: string): Promise<FilesDoc> => {
+  return <FilesDoc>(await getDoc(doc(db, 'UserExistingFiles', userId))).data()
+}
 
 export const getRequiredFiles = async(userId: string): Promise<FilesDoc> => {
   return <FilesDoc>(await getDoc(doc(db, 'UserRequiredFiles', userId))).data()

@@ -117,9 +117,9 @@ export function CivilStatusForm({
             )}
           />
 
-          {(formData.civilStatus.civilStatus ===
+          {(formData?.civilStatus?.civilStatus ===
             CivilStatusEnum.COMMON_LAW_PARTNER ||
-            formData.civilStatus.civilStatus === CivilStatusEnum.MARRIED) && (
+            formData?.civilStatus?.civilStatus === CivilStatusEnum.MARRIED) && (
             <div>
               <h1 className="font-bold">
                 Comment voulez-vous préparer vos déclarations?

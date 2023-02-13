@@ -9,6 +9,7 @@ import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import { DependentsForm } from './ProfileForms/DependentsForm';
 import { TaxReportForm } from './TaxForms/TaxReportForm';
 import { AppContext, AppContextType } from '../../../context/AppContext';
+import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 
 const TAX_DECLARATION_STEP = 'step';
 export function TaxReport() {
@@ -32,6 +33,8 @@ export function TaxReport() {
         return <DependentsForm></DependentsForm>;
       case TaxDeclarationStep.TAX_PROFILE:
         return <TaxReportForm></TaxReportForm>;
+      case TaxDeclarationStep.UPLOAD_FILES:
+          return <TaxDeclarationFileUpload></TaxDeclarationFileUpload>
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:

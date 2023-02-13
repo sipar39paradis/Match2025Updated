@@ -6,7 +6,7 @@ type Files = {
 
 export interface FilesDoc{
   userId: string
-  filrs: Array<string>
+  files: Array<string>
 }
 
 export const FileListConverter: FirestoreDataConverter<Files> = {
