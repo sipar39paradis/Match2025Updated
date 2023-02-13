@@ -11,6 +11,11 @@ import { AppContextProvider } from './context/AppContext';
 import { Platform } from './views/loggedin/Platform';
 import { Questionnaire } from './views/loggedin/TaxDeclaration/Questionnaire';
 import { Preparator } from './views/loggedout/Preparator';
+import { Familly } from './views/loggedin/boxes/familly';
+import { Questionaire } from './views/loggedin/boxes/questionaire';
+import { Declaration } from './views/loggedin/boxes/declaration';
+import { Progression } from './views/loggedin/boxes/progression';
+import { CustomerService } from './views/loggedin/boxes/CustomerService';
 
 function App() {
   return (
@@ -31,6 +36,12 @@ function App() {
                 element={<Questionnaire />}
               />
               <Route path="/preparator" element={<Preparator />} />
+              <Route path="/familly" element={<Familly />} />
+              <Route path="/questionaire" element={<Questionaire />} />
+              <Route path="/declaration" element={<Declaration />} />
+              <Route path="/progression" element={<Progression />} />
+              <Route path="/customerService" element={<CustomerService />} />
+              <Route path="/documents" element={<Files />} />
             </Routes>
           </div>
         </AppContextProvider>
