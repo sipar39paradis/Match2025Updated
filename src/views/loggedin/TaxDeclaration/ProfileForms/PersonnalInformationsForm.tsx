@@ -8,7 +8,14 @@ import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 
 export function PersonnalInformationsForm(props: ProfileFormProps) {
-  const { register, handleSubmit, saveFormAnswers, setValue, formData } = props;
+  const {
+    register,
+    handleSubmit,
+    saveFormAnswers,
+    setValue,
+    formData,
+    clientType,
+  } = props;
 
   const navigate = useNavigate();
 
@@ -115,7 +122,7 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
               onClick={() => {
                 saveFormAnswers();
                 navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}`
+                  `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}&clientType=${clientType}`
                 );
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"

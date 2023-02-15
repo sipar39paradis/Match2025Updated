@@ -16,6 +16,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
     formData,
     control,
     setValue,
+    clientType,
   } = props;
 
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
   function onSubmitButton() {
     saveFormAnswers();
     navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
+      `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}&clientType=${clientType}`
     );
   }
 
@@ -310,7 +311,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
               onClick={() => {
                 saveFormAnswers();
                 navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
+                  `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}&clientType=${clientType}`
                 );
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"

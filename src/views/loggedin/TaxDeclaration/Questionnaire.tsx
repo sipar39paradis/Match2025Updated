@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
@@ -14,7 +14,8 @@ import { Profile } from './types/Profile/Profile';
 import { useForm } from 'react-hook-form';
 
 const TAX_DECLARATION_STEP = 'step';
-const PROFILE_TABLE = 'profile';
+const PROFILE_COLLECTION = 'profile';
+const CLIENT_TYPE_SUB_COLLECTION = 'clientType';
 
 export function Questionnaire() {
   const { firestore, user } = useContext(AppContext) as AppContextType;
@@ -28,9 +29,15 @@ export function Questionnaire() {
     setValue,
     reset,
   } = useForm<Profile>();
+
   let formData = watch();
+  const [clientType, setClientType] = useState<string>(undefined);
 
   useEffect(() => {
+    resetForm();
+  }, []);
+
+  function resetForm() {
     const defaultValues = {
       civilStatus: null,
       personalInformations: null,
@@ -39,11 +46,31 @@ export function Questionnaire() {
       dependents: null,
     };
     reset({ ...defaultValues });
-  }, []);
+  }
+
+  useEffect(() => {
+    if (query) {
+      const type = query.get(CLIENT_TYPE_SUB_COLLECTION);
+      if (type === 'main' || type === 'partner') {
+        setClientType(query.get(CLIENT_TYPE_SUB_COLLECTION));
+      } else {
+        setClientType('main');
+        query.append(CLIENT_TYPE_SUB_COLLECTION, 'main');
+      }
+    }
+  }, [query]);
 
   useEffect(() => {
     async function fetchUserAnswers() {
-      const docSnap = await getDoc(doc(firestore, PROFILE_TABLE, user.uid));
+      const docSnap = await getDoc(
+        doc(
+          firestore,
+          PROFILE_COLLECTION,
+          user.uid,
+          CLIENT_TYPE_SUB_COLLECTION,
+          query.get(CLIENT_TYPE_SUB_COLLECTION)
+        )
+      );
       if (docSnap.exists()) {
         formData = docSnap.data() as Profile;
         if (formData.civilStatus) setValue('civilStatus', formData.civilStatus);
@@ -64,7 +91,16 @@ export function Questionnaire() {
 
   async function saveFormAnswers() {
     console.log(formData);
-    await setDoc(doc(firestore, 'profile', user.uid), formData);
+    await setDoc(
+      doc(
+        firestore,
+        PROFILE_COLLECTION,
+        user.uid,
+        CLIENT_TYPE_SUB_COLLECTION,
+        clientType
+      ),
+      formData
+    );
   }
 
   function renderTaxReportStep(step: string) {
@@ -77,6 +113,7 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
+            clientType={clientType}
           ></CivilStatusForm>
         );
       case TaxDeclarationStep.PERSONAL_INFORMATIONS:
@@ -88,6 +125,7 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             setValue={setValue}
+            clientType={clientType}
           ></PersonnalInformationsForm>
         );
       case TaxDeclarationStep.CIVIL_STATUS_CHANGE:
@@ -98,6 +136,7 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
+            clientType={clientType}
           ></CivilStatusChangeForm>
         );
       case TaxDeclarationStep.CONTACT_DETAILS:
@@ -109,6 +148,7 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             setValue={setValue}
+            clientType={clientType}
           ></ContactDetailsForm>
         );
       case TaxDeclarationStep.DEPENDENTS:
@@ -119,6 +159,8 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
+            clientType={clientType}
+            resetForm={resetForm}
           ></DependentsForm>
         );
       case TaxDeclarationStep.TAX_PROFILE:
@@ -134,6 +176,7 @@ export function Questionnaire() {
             control={control}
             formData={formData}
             handleSubmit={handleSubmit}
+            clientType={clientType}
           ></CivilStatusForm>
         );
     }

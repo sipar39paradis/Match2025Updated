@@ -8,4 +8,6 @@ export interface ProfileFormProps {
   handleSubmit?: UseFormHandleSubmit<Profile>
   saveFormAnswers?: () => void
   setValue?: UseFormSetValue<Profile>
+  clientType: string | undefined
+  resetForm?: () => void
 }

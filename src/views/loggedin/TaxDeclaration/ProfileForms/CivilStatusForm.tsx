@@ -7,13 +7,20 @@ import Fade from 'react-reveal';
 import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
 
 export function CivilStatusForm(props: ProfileFormProps) {
-  const { register, control, formData, handleSubmit, saveFormAnswers } = props;
+  const {
+    register,
+    control,
+    formData,
+    handleSubmit,
+    saveFormAnswers,
+    clientType,
+  } = props;
   const navigate = useNavigate();
 
   async function onSubmitButton() {
     saveFormAnswers();
     navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
+      `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}&clientType=${clientType}`
     );
   }
 

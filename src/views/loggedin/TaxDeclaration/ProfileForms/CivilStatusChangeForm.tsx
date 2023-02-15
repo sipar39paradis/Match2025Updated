@@ -9,7 +9,14 @@ import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 
 export function CivilStatusChangeForm(props: ProfileFormProps) {
-  const { register, handleSubmit, saveFormAnswers, formData, control } = props;
+  const {
+    register,
+    handleSubmit,
+    saveFormAnswers,
+    formData,
+    control,
+    clientType,
+  } = props;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +28,9 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    navigate(`/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}`);
+    navigate(
+      `/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}&clientType=${clientType}`
+    );
   }
 
   useEffect(() => {
@@ -184,7 +193,7 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
               onClick={() => {
                 saveFormAnswers;
                 navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}`
+                  `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}&clientType=${clientType}`
                 );
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
