@@ -115,23 +115,25 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
             />
           </div>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
-          <div className="w-full flex justify-between mt-4">
-            <input
-              type="submit"
-              value="Precedant"
-              onClick={() => {
-                saveFormAnswers();
-                navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}&clientType=${clientType}`
-                );
-              }}
-              className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
-            />
+          <div className="w-full flex justify-between mt-4 flex-row-reverse">
             <input
               type="submit"
               value="Continuez"
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
+            {clientType !== 'partner' && (
+              <input
+                type="submit"
+                value="Precedant"
+                onClick={() => {
+                  saveFormAnswers();
+                  navigate(
+                    `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}&clientType=${clientType}`
+                  );
+                }}
+                className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
+              />
+            )}
           </div>
         </form>
       </section>
