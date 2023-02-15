@@ -16,7 +16,6 @@ export function DependentsForm(props: ProfileFormProps) {
     control,
     clientType,
     formData,
-    resetForm,
   } = props;
 
   const navigate = useNavigate();
@@ -34,7 +33,6 @@ export function DependentsForm(props: ProfileFormProps) {
   function onSubmitButton() {
     saveFormAnswers();
     if (formData.civilStatus.together && clientType === 'main') {
-      resetForm();
       navigate(
         `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}&clientType=partner`
       );

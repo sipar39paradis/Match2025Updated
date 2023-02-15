@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
 import { CivilStatusChangeForm } from './ProfileForms/CivilStatusChangeForm';
@@ -29,13 +29,10 @@ export function Questionnaire() {
     setValue,
     reset,
   } = useForm<Profile>();
+  const navigate = useNavigate();
 
   let formData = watch();
   const [clientType, setClientType] = useState<string>(undefined);
-
-  useEffect(() => {
-    resetForm();
-  }, []);
 
   function resetForm() {
     const defaultValues = {
@@ -50,15 +47,18 @@ export function Questionnaire() {
 
   useEffect(() => {
     if (query) {
+      resetForm();
       const type = query.get(CLIENT_TYPE_SUB_COLLECTION);
       if (type === 'main' || type === 'partner') {
         setClientType(query.get(CLIENT_TYPE_SUB_COLLECTION));
       } else {
         setClientType('main');
-        query.append(CLIENT_TYPE_SUB_COLLECTION, 'main');
+        navigate(
+          `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}&clientType=${clientType}`
+        );
       }
     }
-  }, [query]);
+  }, [query.get(CLIENT_TYPE_SUB_COLLECTION)]);
 
   useEffect(() => {
     async function fetchUserAnswers() {
@@ -68,7 +68,7 @@ export function Questionnaire() {
           PROFILE_COLLECTION,
           user.uid,
           CLIENT_TYPE_SUB_COLLECTION,
-          query.get(CLIENT_TYPE_SUB_COLLECTION)
+          clientType
         )
       );
       if (docSnap.exists()) {
@@ -84,10 +84,10 @@ export function Questionnaire() {
         console.log(formData);
       }
     }
-    if (user) {
+    if (user && clientType) {
       fetchUserAnswers();
     }
-  }, [user]);
+  }, [user, clientType]);
 
   async function saveFormAnswers() {
     console.log(formData);

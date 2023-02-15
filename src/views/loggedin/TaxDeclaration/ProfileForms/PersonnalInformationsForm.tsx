@@ -39,7 +39,7 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
   function onSubmitButton() {
     saveFormAnswers();
     navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}`
+      `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}&clientType=${clientType}`
     );
   }
 
