@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller } from 'react-hook-form';
 import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
 export function MovingExpensesForm(props: TaxReportFormProps) {
-  const { control, formData, register } = props;
+  const { control, formData } = props;
   return (
     <>
       <p>
