@@ -165,7 +165,12 @@ export function Questionnaire() {
         );
       case TaxDeclarationStep.TAX_PROFILE:
         return (
-          <TaxReportForm firestore={firestore} user={user}></TaxReportForm>
+          <TaxReportForm
+            firestore={firestore}
+            user={user}
+            clientType={clientType}
+            questionnaire={formData}
+          ></TaxReportForm>
         );
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;

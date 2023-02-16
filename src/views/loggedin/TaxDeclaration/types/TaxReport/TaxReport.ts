@@ -3,7 +3,7 @@ export interface TaxReport {
   retirementIncomes: RetirementIncomes
   investmentIncomes: InvestmentIncomes
   selfEmploymentRentalOtherIncomes?: SelfEmploymentRentalOtherIncomes
-  foreignAssets?: boolean
+  foreignAssets: boolean
   studentExpenses: StudentExpenses
   taxDeductions: TaxDeductions
   donations: Donations

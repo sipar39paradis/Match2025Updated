@@ -33,7 +33,7 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
             <div className="flex items-center m-4">
               <input
                 type="radio"
-                onChange={() => onChange(null)}
+                onChange={() => onChange(false)}
                 checked={value === false}
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
               />

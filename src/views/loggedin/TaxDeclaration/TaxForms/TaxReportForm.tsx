@@ -19,15 +19,21 @@ import { BoughtHomeForm } from './BoughtHomeForm';
 import { SoldMainHomeForm } from './SoldMainHome';
 import { doc, Firestore, getDoc, setDoc } from 'firebase/firestore';
 import { User } from 'firebase/auth';
+import { Profile } from '../types/Profile/Profile';
 
 const TAX_REPORT_TABLE = 'taxReport';
-
+const CLIENT_TYPE_SUB_COLLECTION = 'clientType';
+const YEAR_SUB_COLLECTION = 'year';
 export function TaxReportForm({
   firestore,
   user,
+  clientType,
+  questionnaire,
 }: {
   firestore: Firestore;
   user: User;
+  clientType: string;
+  questionnaire: Profile;
 }) {
   const {
     register,
@@ -40,7 +46,7 @@ export function TaxReportForm({
   } = useForm<TaxReport>();
   const navigate = useNavigate();
   let formData = watch();
-
+  const currentYear = new Date().getFullYear();
   useEffect(() => {
     const defaultValues = {
       workIncomes: null,
@@ -65,7 +71,17 @@ export function TaxReportForm({
 
   useEffect(() => {
     async function fetchTaxReport() {
-      const docSnap = await getDoc(doc(firestore, TAX_REPORT_TABLE, user.uid));
+      const docSnap = await getDoc(
+        doc(
+          firestore,
+          TAX_REPORT_TABLE,
+          user.uid,
+          YEAR_SUB_COLLECTION,
+          currentYear.toString(),
+          CLIENT_TYPE_SUB_COLLECTION,
+          clientType
+        )
+      );
       if (docSnap.exists()) {
         formData = docSnap.data() as TaxReport;
         if (formData.workIncomes) setValue('workIncomes', formData.workIncomes);
@@ -120,12 +136,31 @@ export function TaxReportForm({
 
   async function saveTaxReportForm() {
     console.log(formData);
-    await setDoc(doc(firestore, 'taxReport', user.uid), formData);
+    await setDoc(
+      doc(
+        firestore,
+        TAX_REPORT_TABLE,
+        user.uid,
+        YEAR_SUB_COLLECTION,
+        currentYear.toString(),
+        CLIENT_TYPE_SUB_COLLECTION,
+        clientType
+      ),
+      formData
+    );
   }
 
   function onSubmitButton() {
     saveTaxReportForm();
-    navigate(`/platform/questionnaire?step=${TaxDeclarationStep.REVIEW}`);
+    if (questionnaire.civilStatus.together && clientType === 'main') {
+      navigate(
+        `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}&clientType=partner`
+      );
+    } else {
+      navigate(
+        `/platform/questionnaire?step=${TaxDeclarationStep.REVIEW}&clientType=${clientType}`
+      );
+    }
   }
 
   return (

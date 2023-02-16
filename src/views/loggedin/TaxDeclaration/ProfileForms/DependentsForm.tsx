@@ -9,14 +9,8 @@ import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 
 export function DependentsForm(props: ProfileFormProps) {
-  const {
-    register,
-    handleSubmit,
-    saveFormAnswers,
-    control,
-    clientType,
-    formData,
-  } = props;
+  const { register, handleSubmit, saveFormAnswers, control, clientType } =
+    props;
 
   const navigate = useNavigate();
   const [showDependentForm, setShowDependentForm] = useState(false);
@@ -32,15 +26,9 @@ export function DependentsForm(props: ProfileFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    if (formData.civilStatus.together && clientType === 'main') {
-      navigate(
-        `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}&clientType=partner`
-      );
-    } else {
-      navigate(
-        `/platform/questionnaire?step=${TaxDeclarationStep.TAX_PROFILE}&clientType=${clientType}`
-      );
-    }
+    navigate(
+      `/platform/questionnaire?step=${TaxDeclarationStep.TAX_PROFILE}&clientType=${clientType}`
+    );
   }
 
   return (
