@@ -29,6 +29,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../interfaces/User';
 import { upsertUserProfile } from '../client/firebaseClient';
+import { FirebaseStorage, getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -48,6 +49,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
+const storage = getStorage(app)
 const auth: Auth = getAuth();
 
 export interface AppContextType {
@@ -80,6 +82,7 @@ export interface AppContextType {
   ) => Promise<string>;
   resetPassword: (email: string) => void;
   firestore: Firestore;
+  storage: FirebaseStorage
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -328,6 +331,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         signUpWithEmailAndPassword,
         resetPassword,
         firestore,
+        storage,
       }}
     >
       {children}

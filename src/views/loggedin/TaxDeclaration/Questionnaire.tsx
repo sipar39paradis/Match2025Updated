@@ -8,6 +8,7 @@ import { ContactDetailsForm } from './ProfileForms/ContactDetailsForm';
 import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import { DependentsForm } from './ProfileForms/DependentsForm';
 import { TaxReportForm } from './TaxForms/TaxReportForm';
+import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { getDoc, doc, setDoc } from 'firebase/firestore';
 import { Profile } from './types/Profile/Profile';
@@ -172,6 +173,10 @@ export function Questionnaire() {
             questionnaire={formData}
           ></TaxReportForm>
         );
+      case TaxDeclarationStep.UPLOAD_FILES:
+        return (
+          <TaxDeclarationFileUpload/>
+        )
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:

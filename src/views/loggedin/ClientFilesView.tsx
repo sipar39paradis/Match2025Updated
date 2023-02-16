@@ -108,6 +108,8 @@ export default function ClientFilesView () {
   const requiredFilesQuery = query(requiredFilesRef, where('userId', '==', user.uid)).withConverter(FileListConverter)
   const existingFilesQuery = query(existingFilesRef, where('userId', '==', user.uid)).withConverter(FileListConverter)
 
+  console.log(user)
+
   const userRequiredFiles = useCollectionData(requiredFilesQuery)
   const userExistingFiles = useCollectionData(existingFilesQuery)
 
