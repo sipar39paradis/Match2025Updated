@@ -1,10 +1,10 @@
 import { Checkbox } from 'flowbite-react';
-import React, { useState } from 'react';
-import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
+import React from 'react';
+import { Controller } from 'react-hook-form';
+import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
-export function StudentLastYearForm(props: TaxProfileFormProps) {
-  const { register } = props;
-  const [showstudentExpenses, setShowstudentExpenses] = useState(false);
+export function StudentLastYearForm(props: TaxReportFormProps) {
+  const { register, control, formData } = props;
 
   return (
     <>
@@ -12,35 +12,38 @@ export function StudentLastYearForm(props: TaxProfileFormProps) {
         Étiez-vous aux études en 2022 ou avez-vous reporté des dépenses liées à
         vos études des années antérieures?
       </p>
+      <Controller
+        control={control}
+        name="studentExpenses.studentExpenses"
+        render={({ field: { onChange, value } }) => (
+          <fieldset className="flex flex-row m-4">
+            <div className="flex items-center">
+              <input
+                type="radio"
+                onChange={() => onChange(true)}
+                checked={value === true}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                Oui
+              </p>
+            </div>
+            <div className="flex items-center m-4">
+              <input
+                type="radio"
+                onChange={() => onChange(false)}
+                checked={value === false}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                Non
+              </p>
+            </div>
+          </fieldset>
+        )}
+      />
 
-      <fieldset className="flex flex-row m-4">
-        <div className="flex items-center">
-          <input
-            type="radio"
-            value="yes"
-            onChange={() => setShowstudentExpenses(true)}
-            checked={showstudentExpenses === true}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Oui
-          </p>
-        </div>
-        <div className="flex items-center m-4">
-          <input
-            type="radio"
-            value="no"
-            onChange={() => setShowstudentExpenses(false)}
-            checked={showstudentExpenses === false}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Non
-          </p>
-        </div>
-      </fieldset>
-
-      {showstudentExpenses === true && (
+      {formData?.studentExpenses?.studentExpenses && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p>Cochez toutes les cases qui s&apos;appliquent.</p>
           <div className="flex items-center gap-2 py-2">

@@ -16,6 +16,12 @@ import { Skeleton } from '../../components/common/Skeleton';
 import { useParams } from 'react-router';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { EditButton } from '../../components/common/EditButtons';
+import { useNavigate } from 'react-router-dom';
+import { BreadcrumbWrapper } from '../../components/profile/BreadcrumbWrapper';
+
+interface FamillyProps {
+    switchTab: any
+}
 
 export function Profile() {
   const { t } = useTranslation();
@@ -27,6 +33,7 @@ export function Profile() {
   const [loading, setLoading] = useState(true);
   const [inErr, setInErr] = useState({});
   const { width, height } = useWindowDimensions();
+  const navigate = useNavigate();
 
   let ownProfile = false;
   ownProfile = profile && profile.email === user.email;
@@ -48,6 +55,15 @@ export function Profile() {
     });
   }, []);
 
+  const boxes = {
+    familly: 'Famille',
+    questionaire: 'Questionaire',
+    declaration: 'Ma Declaration',
+    progression: 'Progression',
+    documents: 'Mes Documents',
+    customerService: 'Service Clientelle',
+  };
+
   const updateProfile = async (id: string, profile: UserProfile) => {
     await upsertUserProfile(id, profile);
     initializeProfile(profile);
@@ -59,15 +75,30 @@ export function Profile() {
     setLoading(false);
   };
 
+  const box = (endpoint: string, text: string) => {
+    return (
+      <div 
+        className="h-[200px] w-[200px] border-solid border-2 border-orange-400 rounded-lg m-4 flex justify-center items-center"
+        onClick={() => navigate(`/${endpoint}`)}
+      >
+        <p>{text}</p>
+      </div>
+    );
+  };
+
   return (
     <main>
       <div className="flex justify-start flex-col w-screen p-10 sm:px-30 lg:px-40">
+      <BreadcrumbWrapper
+            breadcrumbEndpoint={['profile']}
+            breadcrumbName={['profil']}
+          >
         <div className={width > 540 ? 'flex flex-row justify-center' : ''}>
           <div className={width > 540 ? 'max-w-xs pr-64' : ''}>
             <div
               className={
                 width > 540
-                  ? 'sticky position-webstick top-28'
+                  ? 'sticky position-webstick top-38'
                   : 'flex flex-row justify-center'
               }
             >
@@ -92,48 +123,14 @@ export function Profile() {
               />
             </div>
           </div>
-
-          <div className="flex sm:w-full md:w-8/12 px-20">
-            <div className="flex flex-col justify-start text-left w-full">
-              <ProfileAbout
-                profile={tempProfile}
-                edit={edit}
-                loading={loading}
-                setProfile={setTempProfile}
-              />
-              <hr className="m-8 flex justify-self-center self-center mb-2 w-10/12 h-0.5 bg-gray-200 rounded border-0 md:my-10"></hr>
-
-              <div className="flex flex-row">
-                {!loading ? (
-                  profile.type === 'accountant' ? (
-                    <>
-                      <ExperienceTimeline
-                        profile={tempProfile}
-                        edit={edit}
-                        inErr={inErr}
-                        setInErr={setInErr}
-                        setProfile={setTempProfile}
-                      />
-                      <EducationTimeline
-                        profile={tempProfile}
-                        edit={edit}
-                        inErr={inErr}
-                        setInErr={setInErr}
-                        setProfile={setTempProfile}
-                      />
-                    </>
-                  ) : null
-                ) : (
-                  <>
-                    <Skeleton rows={5} />
-                    <Skeleton rows={5} />
-                  </>
-                )}
-              </div>
-              <h3 className="font-semibold py-8 text-xl">Clients</h3>
-            </div>
+          <div className="flex flex-wrap max-w-[700px] justify-center">
+            {Object.entries(boxes).map((entry) => {
+              console.log('hi', 'test');
+              return box(entry[0], entry[1]);
+            })}
           </div>
         </div>
+        </BreadcrumbWrapper>
       </div>
     </main>
   );

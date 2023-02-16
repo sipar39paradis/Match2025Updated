@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
@@ -12,26 +12,155 @@ import { StudentLastYearForm } from './StudentLastYearForm';
 import { TaxDeductionsForm } from './TaxDeductionsForm';
 import { OtherDeductionsForm } from './OtherDeductionsForm';
 import { VolunteerFirefighterForm } from './VolunteerFirefighterForm';
-import { LossesForm } from './LossesForm';
 import { ForeignAssetsForm } from './ForeignAssetsForm';
 import { DonationsForm } from './DonationsForm';
 import { MovingExpensesForm } from './MovingExpensesForm';
 import { BoughtHomeForm } from './BoughtHomeForm';
 import { SoldMainHomeForm } from './SoldMainHome';
+import { doc, Firestore, getDoc, setDoc } from 'firebase/firestore';
+import { User } from 'firebase/auth';
+import { Profile } from '../types/Profile/Profile';
 
-export function TaxReportForm() {
+const TAX_REPORT_TABLE = 'taxReport';
+const CLIENT_TYPE_SUB_COLLECTION = 'clientType';
+const YEAR_SUB_COLLECTION = 'year';
+export function TaxReportForm({
+  firestore,
+  user,
+  clientType,
+  questionnaire,
+}: {
+  firestore: Firestore;
+  user: User;
+  clientType: string;
+  questionnaire: Profile;
+}) {
   const {
     register,
     handleSubmit,
     formState: {},
     watch,
     control,
+    reset,
+    setValue,
   } = useForm<TaxReport>();
   const navigate = useNavigate();
-  const formData = watch();
+  let formData = watch();
+  const currentYear = new Date().getFullYear();
+  useEffect(() => {
+    const defaultValues = {
+      workIncomes: null,
+      retirementIncomes: null,
+      investmentIncomes: null,
+      selfEmploymentRentalOtherIncomes: null,
+      foreignAssets: false,
+      studentExpenses: null,
+      taxDeductions: null,
+      donations: null,
+      movingExpenses: null,
+      medicalExpenses: false,
+      eligibleHomeBuyerTaxCredit: false,
+      homeAccessibilityTaxCredit: false,
+      losses: null,
+      firefighterOrSearchAndRescueVolunteer: 0,
+      otherDeductions: null,
+      instalmentPayments: 0,
+    };
+    reset({ ...defaultValues });
+  }, []);
+
+  useEffect(() => {
+    async function fetchTaxReport() {
+      const docSnap = await getDoc(
+        doc(
+          firestore,
+          TAX_REPORT_TABLE,
+          user.uid,
+          YEAR_SUB_COLLECTION,
+          currentYear.toString(),
+          CLIENT_TYPE_SUB_COLLECTION,
+          clientType
+        )
+      );
+      if (docSnap.exists()) {
+        formData = docSnap.data() as TaxReport;
+        if (formData.workIncomes) setValue('workIncomes', formData.workIncomes);
+        if (formData.retirementIncomes)
+          setValue('retirementIncomes', formData.retirementIncomes);
+        if (formData.investmentIncomes)
+          setValue('workIncomes', formData.workIncomes);
+        if (formData.workIncomes)
+          setValue('investmentIncomes', formData.investmentIncomes);
+        if (formData.selfEmploymentRentalOtherIncomes)
+          setValue(
+            'selfEmploymentRentalOtherIncomes',
+            formData.selfEmploymentRentalOtherIncomes
+          );
+        if (formData.foreignAssets)
+          setValue('foreignAssets', formData.foreignAssets);
+        if (formData.studentExpenses)
+          setValue('studentExpenses', formData.studentExpenses);
+        if (formData.taxDeductions)
+          setValue('taxDeductions', formData.taxDeductions);
+        if (formData.movingExpenses)
+          setValue('movingExpenses', formData.movingExpenses);
+        if (formData.medicalExpenses)
+          setValue('medicalExpenses', formData.medicalExpenses);
+        if (formData.eligibleHomeBuyerTaxCredit)
+          setValue(
+            'eligibleHomeBuyerTaxCredit',
+            formData.eligibleHomeBuyerTaxCredit
+          );
+        if (formData.homeAccessibilityTaxCredit)
+          setValue(
+            'homeAccessibilityTaxCredit',
+            formData.homeAccessibilityTaxCredit
+          );
+        if (formData.losses) setValue('losses', formData.losses);
+        if (formData.firefighterOrSearchAndRescueVolunteer)
+          setValue(
+            'firefighterOrSearchAndRescueVolunteer',
+            formData.firefighterOrSearchAndRescueVolunteer
+          );
+        if (formData.otherDeductions)
+          setValue('otherDeductions', formData.otherDeductions);
+        if (formData.instalmentPayments)
+          setValue('instalmentPayments', formData.instalmentPayments);
+        console.log(formData);
+      }
+    }
+    if (user) {
+      fetchTaxReport();
+    }
+  }, [user]);
+
+  async function saveTaxReportForm() {
+    console.log(formData);
+    await setDoc(
+      doc(
+        firestore,
+        TAX_REPORT_TABLE,
+        user.uid,
+        YEAR_SUB_COLLECTION,
+        currentYear.toString(),
+        CLIENT_TYPE_SUB_COLLECTION,
+        clientType
+      ),
+      formData
+    );
+  }
 
   function onSubmitButton() {
-    navigate(`/platform/questionnaire?step=${TaxDeclarationStep.REVIEW}`);
+    saveTaxReportForm();
+    if (questionnaire.civilStatus.together && clientType === 'main') {
+      navigate(
+        `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}&clientType=partner`
+      );
+    } else {
+      navigate(
+        `/platform/questionnaire?step=${TaxDeclarationStep.REVIEW}&clientType=${clientType}`
+      );
+    }
   }
 
   return (
@@ -82,7 +211,11 @@ export function TaxReportForm() {
             formData={formData}
             register={register}
           />
-          <MovingExpensesForm />
+          <MovingExpensesForm
+            control={control}
+            formData={formData}
+            register={register}
+          />
 
           <p>
             Avez-vous engagé des frais médicaux pour vous-même, votre conjoint
@@ -96,7 +229,6 @@ export function TaxReportForm() {
                 <div className="flex items-center">
                   <input
                     type="radio"
-                    value="yes"
                     onChange={() => onChange(true)}
                     checked={value === true}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -108,7 +240,6 @@ export function TaxReportForm() {
                 <div className="flex items-center m-4">
                   <input
                     type="radio"
-                    value="no"
                     onChange={() => onChange(false)}
                     checked={value === false}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -135,7 +266,6 @@ export function TaxReportForm() {
                 <div className="flex items-center">
                   <input
                     type="radio"
-                    value="yes"
                     onChange={() => onChange(true)}
                     checked={value === true}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -147,7 +277,6 @@ export function TaxReportForm() {
                 <div className="flex items-center m-4">
                   <input
                     type="radio"
-                    value="no"
                     onChange={() => onChange(false)}
                     checked={value === false}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -159,11 +288,14 @@ export function TaxReportForm() {
               </fieldset>
             )}
           />
-          <LossesForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
+          {formData?.homeAccessibilityTaxCredit && (
+            <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+              <p className="opacity-100 pb-2">
+                Votre préparateur va entre en contact avec vous pour avoir plus
+                de renseignements.
+              </p>
+            </div>
+          )}
           <VolunteerFirefighterForm
             control={control}
             formData={formData}
@@ -179,11 +311,12 @@ export function TaxReportForm() {
             <input
               type="submit"
               value="Precedant"
-              onClick={() =>
+              onClick={() => {
+                saveTaxReportForm();
                 navigate(
                   `/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}`
-                )
-              }
+                );
+              }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
             <input

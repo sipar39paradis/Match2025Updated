@@ -3,24 +3,25 @@ export interface TaxReport {
   retirementIncomes: RetirementIncomes
   investmentIncomes: InvestmentIncomes
   selfEmploymentRentalOtherIncomes?: SelfEmploymentRentalOtherIncomes
-  foreignAssets?: boolean
+  foreignAssets: boolean
   studentExpenses: StudentExpenses
   taxDeductions: TaxDeductions
   donations: Donations
-  movingExpenses: MovingExpenses
+  movingExpenses: boolean
   medicalExpenses: boolean
   eligibleHomeBuyerTaxCredit: boolean
   homeAccessibilityTaxCredit: boolean
-  losses: Losses
+  losses?: Losses
   firefighterOrSearchAndRescueVolunteer: number
   otherDeductions: OtherDeductions
   instalmentPayments: number
 }
 
 export interface Losses {
+  losses: boolean
+  previousYearsLost: boolean
   deductibleBusinessInvestmentLoss?: boolean
   workOrBusinessLosses?: boolean
-  fishingOrAgricultureLosses?: boolean
   personnalPropertyLosees?: boolean
   capitalAssetsLosses?: boolean
   partnershipLosses?: boolean
@@ -29,7 +30,6 @@ export interface Losses {
 
 export interface OtherDeductions {
   digitalNewServicesSubscription?: boolean
-  covid19BenefitsReimbursement?: boolean
   boughtEligibleSchoolSupplies?: boolean
   paidUnionOrProfessionalDues?: boolean
   paidSpousalOrChildSupport?: boolean
@@ -42,13 +42,8 @@ export interface OtherDeductions {
   otherDeductions?: boolean
 }
 
-
-export interface MovingExpenses {
-  movedForWorkOrSchool: boolean
-  reportedMovingExpenses?: boolean
-}
-
 export interface Donations {
+  donations: boolean
   charitableDonations?: boolean
   politicalContributions?: boolean
 }
@@ -65,7 +60,6 @@ export interface WorkIncomes {
   workerCompensationOrSocialAssistance?: boolean
   employmentInsuranceBenefits?: boolean
   employmentInsuranceOrParentalBenefits?: boolean
-  onTheJobTrainingProgram?: boolean
   clergyMember?: boolean
   formT1198RetroactivePayment?: boolean
   wageLossReplacementPlan?: boolean
@@ -77,8 +71,7 @@ export interface WorkIncomes {
   unionsOrProfessionalDues?: boolean
   remoteWorkExpenses?: boolean
   tipsOrCasualWork?: boolean
-  covidInsuranceBenefits?: boolean
-  familyOrIntermediateResourceCompensation ?: boolean
+  insuranceBenefits?: boolean
 }
 interface RetirementIncomes {
   retirementIncomes?: boolean
@@ -97,6 +90,7 @@ interface RetirementIncomes {
 }
 
 interface SelfEmploymentRentalOtherIncomes {
+  selfEmploymentRentalOtherIncomes: boolean
   selfEmployed?: SelfEmployedIncomes
   rentalPropertyIncomes?: boolean
   homeOwnershipPlan?: boolean
@@ -106,9 +100,11 @@ interface SelfEmploymentRentalOtherIncomes {
   welfareSeniorSupplement?: boolean
   disabilityOrDeathBenefits?: boolean
   spousalOrChildSupportPayments?: boolean
+  advancePaymentsWorkingIncomeTaxBenefitIncome: boolean
   advancePaymentsWorkingIncomeTaxBenefit?: boolean
   spousalRRSP?: boolean
   spousalRRIF ?: boolean
+  RRSPorRRIFincome?: boolean
   RRSPorRRIFdeductions?: boolean
   canadaPensionPlanOrQuebecPensionPlanBenefits?: boolean
   registeredRetirementSavingsPlanIncome?: boolean
@@ -119,11 +115,10 @@ interface SelfEmployedIncomes {
   selfEmployedIncomes?: boolean
   liberalProfession?: boolean
   commission?: boolean
-  agriculture?: boolean
-  fishing?: boolean
   other?: boolean}
 
 interface StudentExpenses {
+  studentExpenses: boolean
   tuitionFees?: boolean
   otherTuitionsFees?: boolean
   boughtFurnitures?: boolean
@@ -135,6 +130,8 @@ interface StudentExpenses {
 }
 
 interface InvestmentIncomes {
+ investmentIncomes: boolean
+ reportedInvestmentIncome: boolean
  declaredInvestmentIncome?: boolean
  trustIncome?: boolean
  securityTransactions?: boolean
@@ -166,6 +163,8 @@ interface InvestmentIncomes {
 }
 
 export interface TaxDeductions {
+  taxDeductions: boolean
+  pensionPLan: boolean
   RRSPcontributions?: boolean
   reportedButUnusedRRSPorSPP?: boolean
   unreportedRRSP?: boolean
@@ -176,8 +175,11 @@ export interface TaxDeductions {
   contributionSPP?: boolean
   refundLLP?: boolean
   refundHOP?: boolean
+  LLPorHBP: boolean
+  LLPorHBPrepayment: boolean
   T4RSP?: boolean
   T4RIF?: boolean
   labourSponsoredFundTaxCredits?: boolean
   foreignPensionPlan?: boolean
+  RRSPorRRIFmoneyWithdrawn: boolean
 }

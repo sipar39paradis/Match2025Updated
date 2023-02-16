@@ -1,8 +1,8 @@
 import { Checkbox } from 'flowbite-react';
 import React, { useState } from 'react';
-import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
+import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
-export function OtherDeductionsForm(props: TaxProfileFormProps) {
+export function OtherDeductionsForm(props: TaxReportFormProps) {
   const { register } = props;
   const [showOtherDeductionsForm, setShowOtherDeductionsForm] = useState(false);
   const [showInstalmentPayments, setShowInstalmentPayments] = useState(false);
@@ -11,14 +11,13 @@ export function OtherDeductionsForm(props: TaxProfileFormProps) {
       <p>
         Voulez-vous demander d&apos;autres déductions (abonnement à des services
         de nouvelles numériques, laissez-passer de transport en commun,
-        cotisations syndicales ou professionnelles, pension alimentaire payée ou
-        remboursement des prestations liées à la COVID-19)?
+        cotisations syndicales ou professionnelles ou pension alimentaire
+        payée)?
       </p>
       <fieldset className="flex flex-row m-4">
         <div className="flex items-center">
           <input
             type="radio"
-            value="yes"
             onChange={() => setShowOtherDeductionsForm(true)}
             className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             checked={showOtherDeductionsForm}
@@ -30,7 +29,6 @@ export function OtherDeductionsForm(props: TaxProfileFormProps) {
         <div className="flex items-center m-4">
           <input
             type="radio"
-            value="yes"
             onChange={() => setShowOtherDeductionsForm(false)}
             className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             checked={!showOtherDeductionsForm}
@@ -50,15 +48,6 @@ export function OtherDeductionsForm(props: TaxProfileFormProps) {
             <p>
               J&apos;ai acheté un abonnement à des services de nouvelles
               numériques
-            </p>
-          </div>
-          <div className="flex items-center gap-2 py-2">
-            <Checkbox
-              {...register('otherDeductions.covid19BenefitsReimbursement')}
-            />
-            <p>
-              NOUVEAU! J&apos;ai remboursé des prestations liées à la COVID-19
-              avant le 1er janvier 2023
             </p>
           </div>
           <div className="flex items-center gap-2 py-2">
@@ -143,7 +132,6 @@ export function OtherDeductionsForm(props: TaxProfileFormProps) {
         <div className="flex items-center">
           <input
             type="radio"
-            value="yes"
             onChange={() => setShowInstalmentPayments(true)}
             className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             checked={showInstalmentPayments}
@@ -155,7 +143,6 @@ export function OtherDeductionsForm(props: TaxProfileFormProps) {
         <div className="flex items-center m-4">
           <input
             type="radio"
-            value="no"
             onChange={() => setShowInstalmentPayments(false)}
             className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             checked={!showInstalmentPayments}
@@ -176,8 +163,6 @@ export function OtherDeductionsForm(props: TaxProfileFormProps) {
             <input
               {...register('instalmentPayments')}
               type="number"
-              name="floating_canadian_incomes"
-              id="floating__canadian_incomes"
               className="block py-2.5 px-0  text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
             />

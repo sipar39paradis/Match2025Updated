@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
-import { PersonalInformations } from '../types/Profile/PersonnalInformations';
 import Fade from 'react-reveal';
+import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
+import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 
-export function PersonnalInformationsForm() {
+export function PersonnalInformationsForm(props: ProfileFormProps) {
   const {
     register,
     handleSubmit,
-    formState: {},
-  } = useForm<PersonalInformations>();
+    saveFormAnswers,
+    setValue,
+    formData,
+    clientType,
+  } = props;
+
   const navigate = useNavigate();
 
   const [birthDayValue, setBirthDayValue] = useState({
@@ -20,13 +24,22 @@ export function PersonnalInformationsForm() {
     endDate: null,
   });
 
-  const handleBirthDayValueChange = (newValue) => {
+  useEffect(() => {
+    setBirthDayValue({
+      startDate: formData?.personalInformations?.birthDay,
+      endDate: formData?.personalInformations?.birthDay,
+    });
+  }, [formData]);
+
+  const handleBirthDayValueChange = (newValue: DateRangeType) => {
+    setValue('personalInformations.birthDay', newValue.startDate);
     setBirthDayValue(newValue);
   };
 
   function onSubmitButton() {
+    saveFormAnswers();
     navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}`
+      `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}&clientType=${clientType}`
     );
   }
 
@@ -40,7 +53,7 @@ export function PersonnalInformationsForm() {
         >
           <div className="relative z-0 w-full my-4 group">
             <input
-              {...register('email', { required: true })}
+              {...register('personalInformations.email', { required: true })}
               type="email"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -53,7 +66,9 @@ export function PersonnalInformationsForm() {
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('firstName', { required: true })}
+                {...register('personalInformations.firstName', {
+                  required: true,
+                })}
                 type="text"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -64,7 +79,9 @@ export function PersonnalInformationsForm() {
             </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...(register('lastName'), { required: true })}
+                {...register('personalInformations.lastName', {
+                  required: true,
+                })}
                 type="text"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -77,7 +94,9 @@ export function PersonnalInformationsForm() {
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...(register('socialSecurityNumber'), { required: true })}
+                {...register('personalInformations.socialSecurityNumber', {
+                  required: true,
+                })}
                 type="text"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -87,7 +106,6 @@ export function PersonnalInformationsForm() {
               </label>
             </div>
             <Datepicker
-              {...(register('birthDay'), { required: true })}
               containerClassName="h-fit"
               useRange={false}
               asSingle={true}
@@ -97,22 +115,25 @@ export function PersonnalInformationsForm() {
             />
           </div>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
-          <div className="w-full flex justify-between mt-4">
-            <input
-              type="submit"
-              value="Precedant"
-              onClick={() =>
-                navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}`
-                )
-              }
-              className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
-            />
+          <div className="w-full flex justify-between mt-4 flex-row-reverse">
             <input
               type="submit"
               value="Continuez"
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
+            {clientType !== 'partner' && (
+              <input
+                type="submit"
+                value="Precedant"
+                onClick={() => {
+                  saveFormAnswers();
+                  navigate(
+                    `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}&clientType=${clientType}`
+                  );
+                }}
+                className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
+              />
+            )}
           </div>
         </form>
       </section>

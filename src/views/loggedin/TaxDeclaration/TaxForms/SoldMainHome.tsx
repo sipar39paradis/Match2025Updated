@@ -37,11 +37,9 @@ export function SoldMainHomeForm() {
       </fieldset>
       {showSoldMainHomeForm && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
-          <p>
-            Dès l&apos;année d&apos;imposition de 2016, les contribuables qui
-            vendent leur résidence principale doivent déclarer la vente dans
-            leur déclaration de revenus. Nous vous guiderons sur cette
-            disposition dans la section Revenus.
+          <p className="opacity-100 pb-2">
+            Votre préparateur va entre en contact avec vous pour avoir plus de
+            renseignements.
           </p>
         </div>
       )}

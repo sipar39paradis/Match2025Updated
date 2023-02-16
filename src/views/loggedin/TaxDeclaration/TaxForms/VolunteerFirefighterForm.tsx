@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { TaxProfileFormProps } from '../types/TaxReport/TaxProfileFormProps';
+import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
-export function VolunteerFirefighterForm(props: TaxProfileFormProps) {
+export function VolunteerFirefighterForm(props: TaxReportFormProps) {
   const { register } = props;
   const [showVolunteerFirefighterForm, setVolunteerFirefighterForm] =
     useState(false);
@@ -17,7 +17,6 @@ export function VolunteerFirefighterForm(props: TaxProfileFormProps) {
         <div className="flex items-center">
           <input
             type="radio"
-            value="yes"
             onClick={() => setVolunteerFirefighterForm(true)}
             className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             checked={showVolunteerFirefighterForm}
@@ -29,7 +28,6 @@ export function VolunteerFirefighterForm(props: TaxProfileFormProps) {
         <div className="flex items-center m-4">
           <input
             type="radio"
-            value="no"
             onClick={() => setVolunteerFirefighterForm(false)}
             className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
             checked={!showVolunteerFirefighterForm}
@@ -50,7 +48,6 @@ export function VolunteerFirefighterForm(props: TaxProfileFormProps) {
             <div className="flex items-center">
               <input
                 type="radio"
-                value="no"
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
               />
               <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
@@ -60,7 +57,6 @@ export function VolunteerFirefighterForm(props: TaxProfileFormProps) {
             <div className="flex items-center m-4">
               <input
                 type="radio"
-                value="yes"
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
               />
               <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
@@ -76,7 +72,6 @@ export function VolunteerFirefighterForm(props: TaxProfileFormProps) {
             <div className="flex items-center">
               <input
                 type="radio"
-                value="no"
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
               />
               <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
@@ -86,7 +81,6 @@ export function VolunteerFirefighterForm(props: TaxProfileFormProps) {
             <div className="flex items-center m-4">
               <input
                 type="radio"
-                value="yes"
                 className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
               />
               <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">

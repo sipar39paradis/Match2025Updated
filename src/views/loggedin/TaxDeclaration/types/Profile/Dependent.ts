@@ -4,6 +4,7 @@ export interface Dependent {
   firstName: string
   lastName: string
   birthDate: boolean
+  socialSecurityNumber: number
   relationship: DependentRelatationShipEnum
   livedWithTaxPayer: boolean
   federalNetIncome: number
