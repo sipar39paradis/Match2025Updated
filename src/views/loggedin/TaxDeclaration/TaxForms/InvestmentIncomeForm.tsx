@@ -2,9 +2,9 @@ import { Checkbox } from 'flowbite-react';
 import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
 import { AppContext, AppContextType } from '../../../../context/AppContext';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function InvestmentIncomeForm(props: TaxReportFormProps) {
+export function InvestmentIncomeForm(props: RespondentFormProps) {
   const { user } = useContext(AppContext) as AppContextType;
   const { register, formData, control } = props;
 
@@ -19,7 +19,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
       </p>
       <Controller
         control={control}
-        name="investmentIncomes.investmentIncomes"
+        name="taxReport.investmentIncomes.investmentIncomes"
         render={({ field: { onChange, value } }) => (
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
@@ -48,7 +48,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
         )}
       />
 
-      {formData?.investmentIncomes?.investmentIncomes && (
+      {formData?.taxReport?.investmentIncomes?.investmentIncomes && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>
             Avez-vous eu un revenu provenant de placements qui est déclaré sur
@@ -56,7 +56,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
           </p>
           <Controller
             control={control}
-            name="investmentIncomes.reportedInvestmentIncome"
+            name="taxReport.investmentIncomes.reportedInvestmentIncome"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row m-4">
                 <div className="flex items-center">
@@ -85,19 +85,23 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
             )}
           />
 
-          {formData?.investmentIncomes?.reportedInvestmentIncome && (
+          {formData?.taxReport?.investmentIncomes?.reportedInvestmentIncome && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
                 <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('investmentIncomes.declaredInvestmentIncome')}
+                    {...register(
+                      'taxReport.investmentIncomes.declaredInvestmentIncome'
+                    )}
                   />
                   <p>T5 / Relevé 3 - Revenus de placements</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('investmentIncomes.trustIncome')} />
+                  <Checkbox
+                    {...register('taxReport.investmentIncomes.trustIncome')}
+                  />
                   <p>
                     T3 / Relevé 16 - État des revenus de fiducie (répartitions
                     et attributions)f
@@ -105,13 +109,17 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('investmentIncomes.securityTransactions')}
+                    {...register(
+                      'taxReport.investmentIncomes.securityTransactions'
+                    )}
                   />
                   <p>T5008 / Relevé 18 - Opérations sur titres</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('investmentIncomes.partnershipIncomes')}
+                    {...register(
+                      'taxReport.investmentIncomes.partnershipIncomes'
+                    )}
                   />
                   <p>
                     T5013 / Relevé 15 - Revenus d&apos;une société de personnes
@@ -120,7 +128,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'investmentIncomes.explorationAndShareExpenses'
+                      'taxReport.investmentIncomes.explorationAndShareExpenses'
                     )}
                   />
                   <p>
@@ -130,7 +138,9 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('investmentIncomes.investmentPlanIncome')}
+                    {...register(
+                      'taxReport.investmentIncomes.investmentPlanIncome'
+                    )}
                   />
                   <p>
                     Relevé 7 - Placements dans un régime d&apos;investissement
@@ -138,7 +148,9 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('taxDeductions.labourSponsoredFundTaxCredits')}
+                    {...register(
+                      'taxReport.taxDeductions.labourSponsoredFundTaxCredits'
+                    )}
                   />
                   <p>
                     Relevé 10 - Crédit d&apos;impôt relatif à un fonds de
@@ -146,11 +158,15 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('investmentIncomes.desjardins')} />
+                  <Checkbox
+                    {...register('taxReport.investmentIncomes.desjardins')}
+                  />
                   <p>Relevé 26 - Capital régional et coopératif Desjardins</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('investmentIncomes.foreignIncomes')} />
+                  <Checkbox
+                    {...register('taxReport.investmentIncomes.foreignIncomes')}
+                  />
                   <p>Étranger - Revenu provenant de sources étrangères</p>
                 </div>
               </div>
@@ -162,7 +178,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
           </p>
           <Controller
             control={control}
-            name="investmentIncomes.nonDeclaredInterestDividendPartnershipIncome"
+            name="taxReport.investmentIncomes.nonDeclaredInterestDividendPartnershipIncome"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row m-4">
                 <div className="flex items-center">
@@ -191,21 +207,25 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
             )}
           />
 
-          {formData?.investmentIncomes
+          {formData?.taxReport?.investmentIncomes
             ?.nonDeclaredInterestDividendPartnershipIncome && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
                 <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('investmentIncomes.interestSlip')} />
+                  <Checkbox
+                    {...register('taxReport.investmentIncomes.interestSlip')}
+                  />
                   <p>
                     J&apos;avais un revenu en intérêts n&apos;apparaissant pas
                     sur un feuillet
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('investmentIncomes.dividendSlip')} />
+                  <Checkbox
+                    {...register('taxReport.investmentIncomes.dividendSlip')}
+                  />
                   <p>
                     J&apos;avais un revenu de dividendes n&apos;apparaissant pas
                     sur un feuillet
@@ -214,7 +234,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'investmentIncomes.nonDeclaredInterestDividendPartnershipIncome'
+                      'taxReport.investmentIncomes.nonDeclaredInterestDividendPartnershipIncome'
                     )}
                   />
                   <p>
@@ -233,7 +253,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
           </p>
           <Controller
             control={control}
-            name="investmentIncomes.boughtAssets"
+            name="taxReport.investmentIncomes.boughtAssets"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row m-4">
                 <div className="flex items-center">
@@ -267,7 +287,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
           </p>
           <Controller
             control={control}
-            name="investmentIncomes.soldAssets"
+            name="taxReport.investmentIncomes.soldAssets"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row m-4">
                 <div className="flex items-center">
@@ -296,27 +316,33 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
             )}
           />
 
-          {formData?.investmentIncomes?.soldAssets && (
+          {formData?.taxReport?.investmentIncomes?.soldAssets && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
                 <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('investmentIncomes.soldStocks')} />
+                  <Checkbox
+                    {...register('taxReport.investmentIncomes.soldStocks')}
+                  />
                   <p>
                     J&apos;ai vendu des actions du capital d&apos;un fonds
                     commun, y compris des actions cotées à la bourse
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('investmentIncomes.soldRealEstate')} />
+                  <Checkbox
+                    {...register('taxReport.investmentIncomes.soldRealEstate')}
+                  />
                   <p>
                     J&apos;ai vendu un bien, un terrain ou des bâtiments de
                     location En savoir plus
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('investmentIncomes.soldBonds')} />
+                  <Checkbox
+                    {...register('taxReport.investmentIncomes.soldBonds')}
+                  />
                   <p>
                     J&apos;ai vendu des obligations, des débentures, des billets
                     à ordre, des bons du Trésor En savoir plus
@@ -324,7 +350,9 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('investmentIncomes.soldGoodForPersonalUse')}
+                    {...register(
+                      'taxReport.investmentIncomes.soldGoodForPersonalUse'
+                    )}
                   />
                   <p>
                     J&apos;ai vendu une automobile, un véhicule récréatif, un
@@ -335,7 +363,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'investmentIncomes.soldSpecificMovableProperty'
+                      'taxReport.investmentIncomes.soldSpecificMovableProperty'
                     )}
                   />
                   <p>
@@ -348,7 +376,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'investmentIncomes.soldEligibleSmallBusinessShares'
+                      'taxReport.investmentIncomes.soldEligibleSmallBusinessShares'
                     )}
                   />
                   <p>
@@ -358,7 +386,9 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('investmentIncomes.soldFarmFishingProperty')}
+                    {...register(
+                      'taxReport.investmentIncomes.soldFarmFishingProperty'
+                    )}
                   />
                   <p>
                     J&apos;ai vendu ma part d&apos;une entreprise agricole ou de
@@ -376,7 +406,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
           </p>
           <Controller
             control={control}
-            name="investmentIncomes.cryptoCurrency"
+            name="taxReport.investmentIncomes.cryptoCurrency"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row m-4">
                 <div className="flex items-center">
@@ -405,17 +435,21 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
             )}
           />
 
-          {formData?.investmentIncomes?.cryptoCurrency && (
+          {formData?.taxReport?.investmentIncomes?.cryptoCurrency && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
                 <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('investmentIncomes.boughtCrypto')} />
+                  <Checkbox
+                    {...register('taxReport.investmentIncomes.boughtCrypto')}
+                  />
                   <p>J&apos;ai acheté des monnaies virtuelles</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('investmentIncomes.soldCrypto')} />
+                  <Checkbox
+                    {...register('taxReport.investmentIncomes.soldCrypto')}
+                  />
                   <p>J&apos;ai vendu des monnaies virtuelles</p>
                 </div>
               </div>

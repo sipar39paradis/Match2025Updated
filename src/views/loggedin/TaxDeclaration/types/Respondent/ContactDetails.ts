@@ -8,11 +8,10 @@ export interface ContactDetails {
   postal: string
   movedFromOtherProvince: DateType
   sameAddress: boolean
+  isDifferentProvince: boolean
   differentProvince?: ProvinceEnum
   phoneNumber: string
-  bankruptcy: boolean
-  disabled: boolean
-  firstTimeARC: boolean
+
   canadianRedisentStatusChange: boolean
   canadianIncomes: number
   foreignIncomes: number

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
 import { CivilStatusChangeForm } from './ProfileForms/CivilStatusChangeForm';
@@ -7,20 +7,30 @@ import { TaxDeclarationReview } from './TaxDeclarationReview';
 import { ContactDetailsForm } from './ProfileForms/ContactDetailsForm';
 import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import { DependentsForm } from './ProfileForms/DependentsForm';
-import { TaxReportForm } from './TaxForms/TaxReportForm';
+import { IncomesForm } from './TaxForms/IncomesForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
-import { getDoc, doc, setDoc } from 'firebase/firestore';
-import { Profile } from './types/Profile/Profile';
+import {
+  getDoc,
+  doc,
+  setDoc,
+  addDoc,
+  collection,
+  getDocs,
+} from 'firebase/firestore';
+import { Respondent } from './types/Respondent/Respondent';
 import { useForm } from 'react-hook-form';
+import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
 
-const TAX_DECLARATION_STEP = 'step';
-const PROFILE_COLLECTION = 'profile';
-const CLIENT_TYPE_SUB_COLLECTION = 'clientType';
+export const TAX_DECLARATION_STEP = 'step';
+const TAX_REPORT_COLLECTION = 'taxReport';
+const QUESTIONNAIRE_SUB_COLLECTTION = 'questionnaires';
 
 export function Questionnaire() {
   const { firestore, user } = useContext(AppContext) as AppContextType;
-  const query = useQuery();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { id } = useParams();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -29,11 +39,11 @@ export function Questionnaire() {
     control,
     setValue,
     reset,
-  } = useForm<Profile>();
-  const navigate = useNavigate();
-
+  } = useForm<Respondent>();
   let formData = watch();
-  const [clientType, setClientType] = useState<string>(undefined);
+  const [questionnaires, setQuestionnaires] = useState<Map<string, Respondent>>(
+    new Map()
+  );
 
   function resetForm() {
     const defaultValues = {
@@ -42,65 +52,87 @@ export function Questionnaire() {
       contactDetails: null,
       civilStatusChange: null,
       dependents: null,
+      taxReport: null,
     };
     reset({ ...defaultValues });
   }
-
-  useEffect(() => {
-    if (query) {
-      resetForm();
-      const type = query.get(CLIENT_TYPE_SUB_COLLECTION);
-      if (type === 'main' || type === 'partner') {
-        setClientType(query.get(CLIENT_TYPE_SUB_COLLECTION));
-      } else {
-        setClientType('main');
-        navigate(
-          `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}&clientType=${clientType}`
-        );
-      }
-    }
-  }, [query.get(CLIENT_TYPE_SUB_COLLECTION)]);
 
   useEffect(() => {
     async function fetchUserAnswers() {
       const docSnap = await getDoc(
         doc(
           firestore,
-          PROFILE_COLLECTION,
+          TAX_REPORT_COLLECTION,
           user.uid,
-          CLIENT_TYPE_SUB_COLLECTION,
-          clientType
+          QUESTIONNAIRE_SUB_COLLECTTION,
+          id
         )
       );
       if (docSnap.exists()) {
-        formData = docSnap.data() as Profile;
-        if (formData.civilStatus) setValue('civilStatus', formData.civilStatus);
-        if (formData.personalInformations)
-          setValue('personalInformations', formData.personalInformations);
-        if (formData.contactDetails)
-          setValue('contactDetails', formData.contactDetails);
-        if (formData.civilStatusChange)
-          setValue('civilStatusChange', formData.civilStatusChange);
-        if (formData.dependents) setValue('dependents', formData.dependents);
-        console.log(formData);
+        formData = docSnap.data() as Respondent;
+        reset({
+          mainClient: formData?.mainClient || null,
+          year: formData?.year || null,
+          civilStatus: formData?.civilStatus || null,
+          personalInformations: formData?.personalInformations || null,
+          contactDetails: formData?.contactDetails || null,
+          civilStatusChange: formData?.civilStatusChange || null,
+          dependents: formData?.dependents || null,
+          taxReport: formData?.taxReport || null,
+        });
+        console.log('fetch', formData);
+
+        const querySnapshot = await getDocs(
+          collection(
+            firestore,
+            TAX_REPORT_COLLECTION,
+            user.uid,
+            QUESTIONNAIRE_SUB_COLLECTTION
+          )
+        );
+        const map = new Map();
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          map.set(doc.id, doc.data());
+        });
+        setQuestionnaires(map);
+        console.log(questionnaires);
       }
     }
-    if (user && clientType) {
+    console.log('search params change');
+    if (user && id) {
       fetchUserAnswers();
+    } else if (!id) {
+      addQuestionnaire();
     }
-  }, [user, clientType]);
+  }, [user, id]);
+
+  async function addQuestionnaire(mainClient = true) {
+    console.log('new');
+    await addDoc(
+      collection(firestore, 'taxReport', user.uid, 'questionnaires'),
+      { mainClient, year: new Date().getFullYear() }
+    ).then((docRef) => {
+      navigate(
+        `/platform/questionnaire/${docRef.id}?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
+      );
+    });
+  }
 
   async function saveFormAnswers() {
-    console.log(formData);
+    console.log('save', formData);
     await setDoc(
       doc(
         firestore,
-        PROFILE_COLLECTION,
+        TAX_REPORT_COLLECTION,
         user.uid,
-        CLIENT_TYPE_SUB_COLLECTION,
-        clientType
+        QUESTIONNAIRE_SUB_COLLECTTION,
+        id
       ),
-      formData
+      formData,
+      {
+        merge: true,
+      }
     );
   }
 
@@ -114,7 +146,7 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
-            clientType={clientType}
+            setSearchParams={setSearchParams}
           ></CivilStatusForm>
         );
       case TaxDeclarationStep.PERSONAL_INFORMATIONS:
@@ -126,7 +158,7 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             setValue={setValue}
-            clientType={clientType}
+            setSearchParams={setSearchParams}
           ></PersonnalInformationsForm>
         );
       case TaxDeclarationStep.CIVIL_STATUS_CHANGE:
@@ -137,7 +169,7 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
-            clientType={clientType}
+            setSearchParams={setSearchParams}
           ></CivilStatusChangeForm>
         );
       case TaxDeclarationStep.CONTACT_DETAILS:
@@ -149,7 +181,7 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             setValue={setValue}
-            clientType={clientType}
+            setSearchParams={setSearchParams}
           ></ContactDetailsForm>
         );
       case TaxDeclarationStep.DEPENDENTS:
@@ -160,23 +192,36 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
-            clientType={clientType}
             resetForm={resetForm}
+            setSearchParams={setSearchParams}
           ></DependentsForm>
         );
-      case TaxDeclarationStep.TAX_PROFILE:
+      case TaxDeclarationStep.INCOMES:
         return (
-          <TaxReportForm
-            firestore={firestore}
-            user={user}
-            clientType={clientType}
-            questionnaire={formData}
-          ></TaxReportForm>
+          <IncomesForm
+            register={register}
+            control={control}
+            formData={formData}
+            handleSubmit={handleSubmit}
+            saveFormAnswers={saveFormAnswers}
+            setSearchParams={setSearchParams}
+            addQuestionnaire={addQuestionnaire}
+          ></IncomesForm>
+        );
+      case TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT:
+        return (
+          <DeductionsAndTaxCreditsForm
+            register={register}
+            control={control}
+            formData={formData}
+            handleSubmit={handleSubmit}
+            saveFormAnswers={saveFormAnswers}
+            setSearchParams={setSearchParams}
+            addQuestionnaire={addQuestionnaire}
+          ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
-        return (
-          <TaxDeclarationFileUpload/>
-        )
+        return <TaxDeclarationFileUpload />;
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:
@@ -186,23 +231,43 @@ export function Questionnaire() {
             control={control}
             formData={formData}
             handleSubmit={handleSubmit}
-            clientType={clientType}
           ></CivilStatusForm>
         );
     }
   }
 
+  function generateTabs() {
+    const tabs = [];
+    questionnaires.forEach((value: Respondent, key: string) =>
+      tabs.push({ value, key })
+    );
+    return tabs;
+  }
+
   return (
-    <div className="flex justify-center p-16 bg-orange-50 min-h-screen">
-      <div className="w-[800px] bg-white rounded-lg p-8 h-fit">
-        {renderTaxReportStep(query.get(TAX_DECLARATION_STEP))}
+    <div className="flex p-8 bg-orange-50 min-h-screen flex-col items-center">
+      <div className="w-[800px] flex flex-row">
+        {generateTabs().map((tab) => (
+          <div
+            key={tab.key}
+            className="bg-white rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200"
+            onClick={() =>
+              navigate(
+                `/platform/questionnaire/${tab?.key}?step=${searchParams.get(
+                  TAX_DECLARATION_STEP
+                )}`
+              )
+            }
+          >
+            <p className="opacity-100">
+              {tab?.value?.personalInformations?.firstName || 'Client'}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div className="w-[800px] bg-white rounded-md p-8 h-fit">
+        {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}
       </div>
     </div>
   );
-}
-
-function useQuery() {
-  const { search } = useLocation();
-
-  return React.useMemo(() => new URLSearchParams(search), [search]);
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function MovingExpensesForm(props: TaxReportFormProps) {
+export function MovingExpensesForm(props: RespondentFormProps) {
   const { control, formData } = props;
   return (
     <>
@@ -12,7 +12,7 @@ export function MovingExpensesForm(props: TaxReportFormProps) {
       </p>
       <Controller
         control={control}
-        name="movingExpenses"
+        name="taxReport.movingExpenses"
         render={({ field: { onChange, value } }) => (
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
@@ -41,7 +41,7 @@ export function MovingExpensesForm(props: TaxReportFormProps) {
         )}
       />
 
-      {formData?.movingExpenses && (
+      {formData?.taxReport?.movingExpenses && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p className="opacity-100 pb-2">
             Votre préparateur va entre en contact avec vous pour avoir plus de

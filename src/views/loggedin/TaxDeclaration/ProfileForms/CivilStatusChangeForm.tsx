@@ -1,23 +1,21 @@
 import { Select } from 'flowbite-react/lib/esm/components/FormControls';
 import React, { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
-import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 
-export function CivilStatusChangeForm(props: ProfileFormProps) {
+export function CivilStatusChangeForm(props: RespondentFormProps) {
   const {
     register,
     handleSubmit,
     saveFormAnswers,
     formData,
     control,
-    clientType,
+    setSearchParams,
   } = props;
-  const navigate = useNavigate();
 
   useEffect(() => {
     window.scroll({
@@ -28,9 +26,7 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}&clientType=${clientType}`
-    );
+    setSearchParams({ step: TaxDeclarationStep.CONTACT_DETAILS });
   }
 
   useEffect(() => {
@@ -119,6 +115,8 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
               </div>
               <p>Date de changement de votre état civil en 2022</p>
               <Datepicker
+                i18n={'fr'}
+                primaryColor={'orange'}
                 containerClassName="h-fit w-96 my-8"
                 useRange={false}
                 asSingle={true}
@@ -132,6 +130,8 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
               <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
               <p>Date de changement de votre état civil à célibataire </p>
               <Datepicker
+                i18n={'fr'}
+                primaryColor={'orange'}
                 containerClassName="h-fit w-96 my-4"
                 useRange={false}
                 asSingle={true}
@@ -161,6 +161,8 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
               <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
               <p>Date de changement de votre état civil</p>
               <Datepicker
+                i18n={'fr'}
+                primaryColor={'orange'}
                 containerClassName="h-fit w-96 my-4"
                 useRange={false}
                 asSingle={true}
@@ -189,18 +191,16 @@ export function CivilStatusChangeForm(props: ProfileFormProps) {
           <div className="w-full flex justify-between mt-4">
             <input
               type="submit"
-              value="Precedant"
+              value="Précédant"
               onClick={() => {
                 saveFormAnswers;
-                navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}&clientType=${clientType}`
-                );
+                setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
             <input
               type="submit"
-              value="Continuez"
+              value="Suivant"
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
           </div>

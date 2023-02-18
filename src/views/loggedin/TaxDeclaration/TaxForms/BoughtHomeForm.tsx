@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function BoughtHomeForm(props: TaxReportFormProps) {
+export function BoughtHomeForm(props: RespondentFormProps) {
   const { register } = props;
   const [showBoughtHome, setShowBoughtHome] = useState(false);
   const [showBoughtHomeLastYear, setShowBoughtHomeLastYear] = useState(false);
@@ -136,7 +136,7 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
               <fieldset className="flex flex-row m-2">
                 <div className="flex items-center">
                   <input
-                    {...register('homeAccessibilityTaxCredit')}
+                    {...register('taxReport.homeAccessibilityTaxCredit')}
                     type="radio"
                     onClick={() => setShowBoughForDisabled(true)}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
@@ -147,7 +147,7 @@ export function BoughtHomeForm(props: TaxReportFormProps) {
                 </div>
                 <div className="flex items-center m-4">
                   <input
-                    {...register('homeAccessibilityTaxCredit')}
+                    {...register('taxReport.homeAccessibilityTaxCredit')}
                     type="radio"
                     onClick={() => setShowBoughForDisabled(false)}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"

@@ -1,34 +1,34 @@
-import React, { useContext, useState } from 'react'
-import { AppContext, AppContextType } from '../../context/AppContext'
-import { AuthModalEnum } from './AuthModal'
-import { useForm } from 'react-hook-form'
+import React, { useContext, useState } from 'react';
+import { AppContext, AppContextType } from '../../context/AppContext';
+import { AuthModalEnum } from './AuthModal';
+import { useForm } from 'react-hook-form';
 
 interface SignUpWithEmailModalProps {
-  closeModal: (show: boolean) => void
-  switchModal: (modal: AuthModalEnum) => void
+  closeModal: (show: boolean) => void;
+  switchModal: (modal: AuthModalEnum) => void;
 }
 
 type signUpWithEmailData = {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-  referralCode: string
-}
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  referralCode: string;
+};
 
 export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
-  const { closeModal, switchModal } = props
+  const { closeModal, switchModal } = props;
   const { signUpWithEmailAndPassword } = useContext(
     AppContext
-  ) as AppContextType
-  
-  const [authError, setAuthError] = useState('')
+  ) as AppContextType;
+
+  const [authError, setAuthError] = useState('');
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<signUpWithEmailData>()
+  } = useForm<signUpWithEmailData>();
   const onSubmit = async (data: signUpWithEmailData) => {
     const res = await signUpWithEmailAndPassword(
       data.email,
@@ -36,140 +36,123 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
       data.firstName,
       data.lastName,
       data.referralCode
-    )
-    console.log(res)
-    res ? setAuthError(res) : closeModal(false)
-  }
+    );
+    console.log(res);
+    res ? setAuthError(res) : closeModal(false);
+  };
 
   return (
-    <div className='border-0 rounded-lg shadow-lg relative flex flex-col bg-white'>
+    <div className="border-0 rounded-lg shadow-lg relative flex flex-col bg-white">
       {/*header*/}
-      <div className='flex items-center justify-center p-5 mb-5'>
-        <h3 className='text-xl font-semibold'>Lets get started</h3>
+      <div className="flex items-center justify-center p-5 mb-2">
+        <h3 className="text-xl font-semibold">Incription à Impôts Match</h3>
         <button
-          className='flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2'
+          className="flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2"
           onClick={() => closeModal(false)}
         >
           ×
         </button>
       </div>
       {/*body*/}
-      <div className='flex flex-col space-y-3.5 bg-white rounded pt-6 pb-8 mb-2'>
+      <div className="flex flex-col space-y-3.5 bg-white rounded pt-2 pb-8 mb-2">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='bg-white rounded px-8 pt-6 pb-8'
+          className="bg-white rounded px-8 pt-6 pb-8"
         >
-          <div className='flex flex-col items-baseline mb-4'>
-            <div className='flex flex-row mb-4'>
-              <div className='flex flex-col items-baseline w-48  mr-8'>
-                <label
-                  className='block text-gray-700 text-sm font-bold mb-2 ml-1'
-                  htmlFor='FirstName'
-                >
-                  First name
+          <div className="flex flex-col items-baseline mb-4">
+            <div className="flex flex-row mb-4">
+              <div className="flex flex-col items-baseline w-48  mr-8">
+                <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
+                  Prénom
                 </label>
                 <input
-                  className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700'
-                  type='text'
-                  placeholder='First name'
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+                  type="text"
+                  placeholder="Prénom"
                   {...register('firstName', { required: true })}
                 />
                 {errors.firstName && (
-                  <span className='text-red-500 ml-1'>
-                    First name is required
-                  </span>
+                  <span className="text-red-500 ml-1">Prénom requis</span>
                 )}
               </div>
 
-              <div className='flex flex-col items-baseline w-48'>
-                <label
-                  className='block text-gray-700 text-sm font-bold mb-2 ml-1'
-                  htmlFor='lastName'
-                >
-                  Last name
+              <div className="flex flex-col items-baseline w-48">
+                <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
+                  Nom de famille
                 </label>
                 <input
-                  className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700'
-                  type='text'
-                  placeholder='Last Name'
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+                  type="text"
+                  placeholder=" Nom de famille"
                   {...register('lastName', { required: true })}
                 />
                 {errors.lastName && (
-                  <span className='text-red-500 ml-1'>
-                    Last name is required
+                  <span className="text-red-500 ml-1">
+                    Nom de famille requis
                   </span>
                 )}
               </div>
             </div>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-2 ml-1'
-              htmlFor='email'
-            >
-              Email
+            <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
+              Courriel
             </label>
             <input
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700'
-              type='text'
-              placeholder='Email'
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+              type="text"
+              placeholder="Courriel"
               {...register('email', { required: true, minLength: 6 })}
             />
             {errors.email && (
-              <span className='text-red-500 ml-1'>Email is required</span>
+              <span className="text-red-500 ml-1">Courriel requis</span>
             )}
             {authError && (
-              <span className='text-red-500 ml-1'>{authError}</span>
+              <span className="text-red-500 ml-1">{authError}</span>
             )}
           </div>
-          <div className='flex flex-col items-baseline mb-6'>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-2 ml-1'
-              htmlFor='password'
-            >
+          <div className="flex flex-col items-baseline mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
               Password
             </label>
             <input
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight'
-              type='password'
-              placeholder='******************'
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+              type="password"
+              placeholder="******************"
               {...register('password', { required: true })}
             />
             {errors.password && (
-              <span className='text-red-500 ml-1'>Password is required</span>
+              <span className="text-red-500 ml-1">Mot de passe requis</span>
             )}
           </div>
-          <div className='flex flex-col items-baseline mb-6'>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-2 ml-1'
-              htmlFor='password'
-            >
-             Referral Code 
+          <div className="flex flex-col items-baseline mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
+              Code de référence
             </label>
             <input
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight'
-              type='text'
-              placeholder='ABCD1234'
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+              type="text"
+              placeholder="ABCD1234"
               {...register('referralCode', { required: false })}
             />
           </div>
           <input
-            type='submit'
-            value='Sign up'
-            className='bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 w-full rounded cursor-pointer'
+            type="submit"
+            value="S'inscrire"
+            className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 w-full rounded cursor-pointer"
           />
         </form>
       </div>
       {/*footer*/}
-      <div className='flex flex-row items-center justify-center mb-8'>
-        <div className='mr-2'>Already have an account ?</div>
+      <div className="flex flex-row items-center justify-center mb-8">
+        <div className="mr-2">Vous avez déjà un compte?</div>
         <button
-          className='hover:bg-gray-100 text-black font-semibold px-2 py-1 border border-black text-sm relative'
+          className="hover:bg-gray-100 text-black font-semibold px-2 py-1 border border-black text-sm relative"
           onClick={() => {
-            switchModal(AuthModalEnum.SignIn)
+            switchModal(AuthModalEnum.SignIn);
           }}
         >
-          Sign in
+          Se connecter
         </button>
       </div>
     </div>
-  )
+  );
 }

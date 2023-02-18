@@ -1,9 +1,11 @@
 import { Checkbox } from 'flowbite-react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
+export function SelfEmploymentRentalOtherIncomeForm(
+  props: RespondentFormProps
+) {
   const { register, formData, control } = props;
 
   return (
@@ -14,7 +16,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
       </p>
       <Controller
         control={control}
-        name="selfEmploymentRentalOtherIncomes.selfEmploymentRentalOtherIncomes"
+        name="taxReport.selfEmploymentRentalOtherIncomes.selfEmploymentRentalOtherIncomes"
         render={({ field: { onChange, value } }) => (
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
@@ -43,16 +45,19 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
         )}
       />
 
-      {formData?.selfEmploymentRentalOtherIncomes
+      {formData?.taxReport?.selfEmploymentRentalOtherIncomes
         ?.selfEmploymentRentalOtherIncomes && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('selfEmploymentRentalOtherIncomes.selfEmployed')}
+              {...register(
+                'taxReport.selfEmploymentRentalOtherIncomes.selfEmployed'
+              )}
             />
             <p>J&apos;étais un travailleur autonome</p>
           </div>
-          {formData?.selfEmploymentRentalOtherIncomes?.selfEmployed && (
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
+            ?.selfEmployed && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -60,7 +65,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.selfEmployed.liberalProfession'
+                      'taxReport.selfEmploymentRentalOtherIncomes.selfEmployed.liberalProfession'
                     )}
                   />
                   <p>Profession libérale</p>
@@ -68,7 +73,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.selfEmployed.commission'
+                      'taxReport.selfEmploymentRentalOtherIncomes.selfEmployed.commission'
                     )}
                   />
                   <p>Commission</p>
@@ -76,7 +81,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.selfEmployed.other'
+                      'taxReport.selfEmploymentRentalOtherIncomes.selfEmployed.other'
                     )}
                   />
                   <p>Autre</p>
@@ -87,7 +92,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           <div className="flex items-center gap-2 py-2">
             <Checkbox
               {...register(
-                'selfEmploymentRentalOtherIncomes.rentalPropertyIncomes'
+                'taxReport.selfEmploymentRentalOtherIncomes.rentalPropertyIncomes'
               )}
             />
             <p>
@@ -96,13 +101,16 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('selfEmploymentRentalOtherIncomes.RRSPorRRIFincome')}
+              {...register(
+                'taxReport.selfEmploymentRentalOtherIncomes.RRSPorRRIFincome'
+              )}
             />
             <p>
               J&apos;ai retiré de l&apos;argent d&apos;un REER ou d&apos;un FERR
             </p>
           </div>
-          {formData?.selfEmploymentRentalOtherIncomes?.RRSPorRRIFincome && (
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
+            ?.RRSPorRRIFincome && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -110,7 +118,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.homeOwnershipPlan'
+                      'taxReport.selfEmploymentRentalOtherIncomes.homeOwnershipPlan'
                     )}
                   />
                   <p>
@@ -121,7 +129,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.continuingEducationIncentivePlan'
+                      'taxReport.selfEmploymentRentalOtherIncomes.continuingEducationIncentivePlan'
                     )}
                   />
                   <p>
@@ -130,17 +138,17 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('taxDeductions.T4RSP')} />
+                  <Checkbox {...register('taxReport.taxDeductions.T4RSP')} />
                   <p>J&apos;ai reçu un T4RSP / Relevé 2</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('taxDeductions.T4RIF')} />
+                  <Checkbox {...register('taxReport.taxDeductions.T4RIF')} />
                   <p>J&apos;ai reçu un T4RIF / Relevé 2</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.spousalRRSP'
+                      'taxReport.selfEmploymentRentalOtherIncomes.spousalRRSP'
                     )}
                   />
                   <p>
@@ -150,7 +158,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.spousalRRIF'
+                      'taxReport.selfEmploymentRentalOtherIncomes.spousalRRIF'
                     )}
                   />
                   <p>
@@ -160,7 +168,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.RRSPorRRIFdeductions'
+                      'taxReport.selfEmploymentRentalOtherIncomes.RRSPorRRIFdeductions'
                     )}
                   />
                   <p>
@@ -174,11 +182,14 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           )}
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('selfEmploymentRentalOtherIncomes.schoolIncome')}
+              {...register(
+                'taxReport.selfEmploymentRentalOtherIncomes.schoolIncome'
+              )}
             />
             <p>J&apos;ai un revenu scolaire</p>
           </div>
-          {formData?.selfEmploymentRentalOtherIncomes?.schoolIncome && (
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
+            ?.schoolIncome && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -186,7 +197,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'retirementIncomes.pensionRetirementAnnuityIncome'
+                      'taxReport.retirementIncomes.pensionRetirementAnnuityIncome'
                     )}
                   />
                   <p>
@@ -197,14 +208,16 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('workIncomes.employmentInsuranceBenefits')}
+                    {...register(
+                      'taxReport.workIncomes.employmentInsuranceBenefits'
+                    )}
                   />
                   <p>T4E / Relevé 6 - Prestations d&apos;assurance-emploi</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.registeredRetirementSavingsPlanIncome'
+                      'taxReport.selfEmploymentRentalOtherIncomes.registeredRetirementSavingsPlanIncome'
                     )}
                   />
                   <p>
@@ -217,18 +230,23 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           )}
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('selfEmploymentRentalOtherIncomes.socialAssitance')}
+              {...register(
+                'taxReport.selfEmploymentRentalOtherIncomes.socialAssitance'
+              )}
             />
             <p>J&apos;ai reçu de l&apos;aide sociale</p>
           </div>
-          {formData?.selfEmploymentRentalOtherIncomes?.socialAssitance && (
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
+            ?.socialAssitance && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
                 <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('retirementIncomes.welfareSeniorSupplement')}
+                    {...register(
+                      'taxReport.retirementIncomes.welfareSeniorSupplement'
+                    )}
                   />
                   <p>
                     T5007 / Relevé 5 - Prestations d&apos;assistance sociale ou
@@ -237,7 +255,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('retirementIncomes.advancePayments')}
+                    {...register('taxReport.retirementIncomes.advancePayments')}
                   />
                   <p>Relevé 19 - Versements anticipés</p>
                 </div>
@@ -247,7 +265,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           <div className="flex items-center gap-2 py-2">
             <Checkbox
               {...register(
-                'selfEmploymentRentalOtherIncomes.disabilityOrDeathBenefits'
+                'taxReport.selfEmploymentRentalOtherIncomes.disabilityOrDeathBenefits'
               )}
             />
             <p>
@@ -255,7 +273,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
               prestations de décès
             </p>
           </div>
-          {formData?.selfEmploymentRentalOtherIncomes
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
             ?.disabilityOrDeathBenefits && (
             <>
               <hr className="py-2"></hr>
@@ -264,7 +282,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.canadaPensionPlanOrQuebecPensionPlanBenefits'
+                      'taxReport.selfEmploymentRentalOtherIncomes.canadaPensionPlanOrQuebecPensionPlanBenefits'
                     )}
                   />
                   <p>
@@ -275,7 +293,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.registeredRetirementSavingsPlanIncome'
+                      'taxReport.selfEmploymentRentalOtherIncomes.registeredRetirementSavingsPlanIncome'
                     )}
                   />
                   <p>
@@ -289,7 +307,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           <div className="flex items-center gap-2 py-2">
             <Checkbox
               {...register(
-                'selfEmploymentRentalOtherIncomes.spousalOrChildSupportPayments'
+                'taxReport.selfEmploymentRentalOtherIncomes.spousalOrChildSupportPayments'
               )}
             />
             <p>
@@ -300,7 +318,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
           <div className="flex items-center gap-2 py-2">
             <Checkbox
               {...register(
-                'selfEmploymentRentalOtherIncomes.advancePaymentsWorkingIncomeTaxBenefitIncome'
+                'taxReport.selfEmploymentRentalOtherIncomes.advancePaymentsWorkingIncomeTaxBenefitIncome'
               )}
             />
             <p>
@@ -308,7 +326,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
               pour le revenu de travail
             </p>
           </div>
-          {formData?.selfEmploymentRentalOtherIncomes
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
             ?.advancePaymentsWorkingIncomeTaxBenefitIncome && (
             <>
               <hr className="py-2"></hr>
@@ -317,7 +335,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'selfEmploymentRentalOtherIncomes.advancePaymentsWorkingIncomeTaxBenefit'
+                      'taxReport.selfEmploymentRentalOtherIncomes.advancePaymentsWorkingIncomeTaxBenefit'
                     )}
                   />
                   <p>
@@ -327,7 +345,7 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('retirementIncomes.advancePayments')}
+                    {...register('taxReport.retirementIncomes.advancePayments')}
                   />
                   <p>Relevé 19 - Versements anticipés</p>
                 </div>
@@ -337,7 +355,9 @@ export function SelfEmploymentRentalOtherIncomeForm(props: TaxReportFormProps) {
 
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('selfEmploymentRentalOtherIncomes.otherRevenues')}
+              {...register(
+                'taxReport.selfEmploymentRentalOtherIncomes.otherRevenues'
+              )}
             />
             <p>
               J&apos;ai reçu d&apos;autres revenus qui ne sont pas inclus

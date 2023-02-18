@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
 import Fade from 'react-reveal';
-import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
+import { Controller } from 'react-hook-form';
 
-export function PersonnalInformationsForm(props: ProfileFormProps) {
+export function PersonnalInformationsForm(props: RespondentFormProps) {
   const {
     register,
     handleSubmit,
     saveFormAnswers,
     setValue,
     formData,
-    clientType,
+    setSearchParams,
+    control,
   } = props;
-
-  const navigate = useNavigate();
 
   const [birthDayValue, setBirthDayValue] = useState({
     startDate: null,
@@ -38,9 +37,7 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}&clientType=${clientType}`
-    );
+    setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
   }
 
   return (
@@ -106,6 +103,8 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
               </label>
             </div>
             <Datepicker
+              i18n={'fr'}
+              primaryColor={'orange'}
               containerClassName="h-fit"
               useRange={false}
               asSingle={true}
@@ -114,26 +113,82 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
               placeholder={'Date de naissance (JJ/MM/AAAA)'}
             />
           </div>
+          <h2 className="mb-0">Autres renseignements personnels </h2>
+          <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
+          <p>
+            Avez-vous fait faillite en 2021 ou 2022, ou êtes-vous en faillite
+            selon les dossiers de l&apos;Agence du revenu du Canada (ARC)?
+          </p>
+          <Controller
+            control={control}
+            name="personalInformations.bankruptcy"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
+          <p>Êtes-vous une personne handicapée?</p>
+          <Controller
+            control={control}
+            name="personalInformations.disabled"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    value="yes"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    value="no"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
           <div className="w-full flex justify-between mt-4 flex-row-reverse">
             <input
               type="submit"
-              value="Continuez"
+              value="Suivant"
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
-            {clientType !== 'partner' && (
-              <input
-                type="submit"
-                value="Precedant"
-                onClick={() => {
-                  saveFormAnswers();
-                  navigate(
-                    `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}&clientType=${clientType}`
-                  );
-                }}
-                className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
-              />
-            )}
           </div>
         </form>
       </section>

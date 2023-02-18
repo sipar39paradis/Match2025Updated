@@ -1,9 +1,9 @@
 import { Checkbox } from 'flowbite-react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function StudentLastYearForm(props: TaxReportFormProps) {
+export function StudentLastYearForm(props: RespondentFormProps) {
   const { register, control, formData } = props;
 
   return (
@@ -14,7 +14,7 @@ export function StudentLastYearForm(props: TaxReportFormProps) {
       </p>
       <Controller
         control={control}
-        name="studentExpenses.studentExpenses"
+        name="taxReport.studentExpenses.studentExpenses"
         render={({ field: { onChange, value } }) => (
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
@@ -43,33 +43,39 @@ export function StudentLastYearForm(props: TaxReportFormProps) {
         )}
       />
 
-      {formData?.studentExpenses?.studentExpenses && (
+      {formData?.taxReport?.studentExpenses?.studentExpenses && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p>Cochez toutes les cases qui s&apos;appliquent.</p>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('studentExpenses.tuitionFees')} />
+            <Checkbox {...register('taxReport.studentExpenses.tuitionFees')} />
             <p>
               J&apos;avais des frais de scolarité figurant sur un feuillet
               T2202, un relevé 8 ou un feuillet TL11
             </p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('studentExpenses.otherTuitionsFees')} />
+            <Checkbox
+              {...register('taxReport.studentExpenses.otherTuitionsFees')}
+            />
             <p>J&apos;avais d&apos;autres frais de scolarité</p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('studentExpenses.boughtFurnitures')} />
+            <Checkbox
+              {...register('taxReport.studentExpenses.boughtFurnitures')}
+            />
             <p>J&apos;ai acheté des manuels et des fournitures</p>
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('studentExpenses.tuitionsFeesPreviousYear')}
+              {...register(
+                'taxReport.studentExpenses.tuitionsFeesPreviousYear'
+              )}
             />
             <p>J&apos;avais des frais de scolarité dans une année précédente</p>
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('studentExpenses.scholarshipGrantBursary')}
+              {...register('taxReport.studentExpenses.scholarshipGrantBursary')}
             />
             <p>
               J&apos;ai reçu une bourse d&apos;études, une subvention ou une
@@ -77,16 +83,16 @@ export function StudentLastYearForm(props: TaxReportFormProps) {
             </p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('studentExpenses.studentLoan')} />
+            <Checkbox {...register('taxReport.studentExpenses.studentLoan')} />
             <p>J&apos;ai ou j&apos;avais un prêt étudiant</p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('studentExpenses.RESPincomes')} />
+            <Checkbox {...register('taxReport.studentExpenses.RESPincomes')} />
             <p>J&apos;ai retiré de l&apos;argent d&apos;un REER</p>
           </div>
 
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('studentExpenses.RRSPincomes')} />
+            <Checkbox {...register('taxReport.studentExpenses.RRSPincomes')} />
             <p>J&apos;avais des revenus provenant d&apos;un REEE</p>
           </div>
         </div>

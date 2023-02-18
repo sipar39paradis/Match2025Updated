@@ -1,8 +1,8 @@
 import { Checkbox } from 'flowbite-react';
 import React, { useState } from 'react';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function OtherDeductionsForm(props: TaxReportFormProps) {
+export function OtherDeductionsForm(props: RespondentFormProps) {
   const { register } = props;
   const [showOtherDeductionsForm, setShowOtherDeductionsForm] = useState(false);
   const [showInstalmentPayments, setShowInstalmentPayments] = useState(false);
@@ -43,7 +43,9 @@ export function OtherDeductionsForm(props: TaxReportFormProps) {
           <p>Cochez TOUTES les cases qui s&apos;appliquent. </p>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('otherDeductions.digitalNewServicesSubscription')}
+              {...register(
+                'taxReport.otherDeductions.digitalNewServicesSubscription'
+              )}
             />
             <p>
               J&apos;ai acheté un abonnement à des services de nouvelles
@@ -52,7 +54,9 @@ export function OtherDeductionsForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('otherDeductions.boughtEligibleSchoolSupplies')}
+              {...register(
+                'taxReport.otherDeductions.boughtEligibleSchoolSupplies'
+              )}
             />
             <p>
               Je suis un enseignant ou un éducateur de la petite enfance
@@ -62,32 +66,42 @@ export function OtherDeductionsForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('otherDeductions.paidUnionOrProfessionalDues')}
+              {...register(
+                'taxReport.otherDeductions.paidUnionOrProfessionalDues'
+              )}
             />
             <p>J&apos;ai payé des cotisations syndicales ou professionnelles</p>
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('otherDeductions.paidSpousalOrChildSupport')}
+              {...register(
+                'taxReport.otherDeductions.paidSpousalOrChildSupport'
+              )}
             />
             <p>
               J&apos;ai payé une pension alimentaire pour conjoint ou enfants
             </p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('otherDeductions.unusedSpousalCredits')} />
+            <Checkbox
+              {...register('taxReport.otherDeductions.unusedSpousalCredits')}
+            />
             <p>
               Mon conjoint a des crédits qu&apos;il n&apos;utilisera pas et qui
               peuvent m&apos;être transférés
             </p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('otherDeductions.paidForeignTaxes')} />
+            <Checkbox
+              {...register('taxReport.otherDeductions.paidForeignTaxes')}
+            />
             <p>J&apos;ai payé de l&apos;impôt à un pays étranger</p>
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('otherDeductions.northernResidentsDeduction')}
+              {...register(
+                'taxReport.otherDeductions.northernResidentsDeduction'
+              )}
             />
             <p>
               Je vis dans une région désignée et je suis admissible à la
@@ -96,14 +110,16 @@ export function OtherDeductionsForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('otherDeductions.paidForestryOperationsTaxes')}
+              {...register(
+                'taxReport.otherDeductions.paidForestryOperationsTaxes'
+              )}
             />
             <p>J&apos;ai payé de l&apos;impôt sur les opérations forestières</p>
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
               {...register(
-                'otherDeductions.carryingForwardalternativeMinimumTaxPayments'
+                'taxReport.otherDeductions.carryingForwardalternativeMinimumTaxPayments'
               )}
             />
             <p>
@@ -113,7 +129,9 @@ export function OtherDeductionsForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('otherDeductions.alternativeMinimumTaxRevision')}
+              {...register(
+                'taxReport.otherDeductions.alternativeMinimumTaxRevision'
+              )}
             />
             <p>
               Je veux réviser mon impôt minimum de remplacement (IMR) pour 2022.
@@ -122,7 +140,9 @@ export function OtherDeductionsForm(props: TaxReportFormProps) {
             </p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('otherDeductions.otherDeductions')} />
+            <Checkbox
+              {...register('taxReport.otherDeductions.otherDeductions')}
+            />
             <p>J&apos;avais d&apos;autres déductions non incluses ci-dessus</p>
           </div>
         </div>
@@ -161,7 +181,7 @@ export function OtherDeductionsForm(props: TaxReportFormProps) {
           </p>
           <div className="relative z-0 mt-4 mb-6 group w-full">
             <input
-              {...register('instalmentPayments')}
+              {...register('taxReport.instalmentPayments')}
               type="number"
               className="block py-2.5 px-0  text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "

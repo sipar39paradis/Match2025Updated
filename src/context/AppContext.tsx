@@ -25,6 +25,8 @@ import {
   getFirestore,
   getDoc,
   Firestore,
+  addDoc,
+  collection,
 } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../interfaces/User';
@@ -49,7 +51,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
-const storage = getStorage(app)
+const storage = getStorage(app);
 const auth: Auth = getAuth();
 
 export interface AppContextType {
@@ -82,7 +84,7 @@ export interface AppContextType {
   ) => Promise<string>;
   resetPassword: (email: string) => void;
   firestore: Firestore;
-  storage: FirebaseStorage
+  storage: FirebaseStorage;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -118,7 +120,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       .getSession()
       .then(function (multiFactorSession) {
         // Specify the phone number and pass the MFA session.
-        console.log('in then', phoneNumber);
         const phoneInfoOptions = {
           phoneNumber: `+1${phoneNumber}`,
           session: multiFactorSession,
@@ -199,7 +200,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider)
       .then(async (userCredential) => {
-        succsessfulSignIn(userCredential);
+        // succsessfulSignIn(userCredential);
+        errorMessage = 'No Two Factor';
       })
       .catch((error) => {
         console.log(error);
@@ -276,8 +278,15 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
-          await createProfile(userCredential, firstName, lastName, referalCode);
-          setUserInfo(userCredential);
+          await createProfile(
+            userCredential,
+            firstName,
+            lastName,
+            referalCode
+          ).then(async () => {
+            setUserInfo(userCredential);
+            navigate('/platform/questionnaire');
+          });
         }
       })
       .catch((error) => {

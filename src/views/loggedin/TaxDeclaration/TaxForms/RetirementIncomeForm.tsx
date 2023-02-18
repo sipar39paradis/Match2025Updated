@@ -1,9 +1,9 @@
 import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function RetirementIncomesForm(props: TaxReportFormProps) {
+export function RetirementIncomesForm(props: RespondentFormProps) {
   const { control, register, formData } = props;
 
   return (
@@ -16,7 +16,7 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
 
       <Controller
         control={control}
-        name="retirementIncomes.retirementIncomes"
+        name="taxReport.retirementIncomes.retirementIncomes"
         render={({ field: { onChange, value } }) => (
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
@@ -45,17 +45,19 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
         )}
       />
 
-      {formData?.retirementIncomes?.retirementIncomes && (
+      {formData?.taxReport?.retirementIncomes?.retirementIncomes && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p>Cochez toutes les cases qui s&apos;appliquent. </p>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('retirementIncomes.oldAgeSecurity')} />
+            <Checkbox
+              {...register('taxReport.retirementIncomes.oldAgeSecurity')}
+            />
             <p>T4A (OAS) - Sécurité de la vieillesse</p>
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
               {...register(
-                'retirementIncomes.canadaPensionPlanOrQuebecPensionPlanBenefits'
+                'taxReport.retirementIncomes.canadaPensionPlanOrQuebecPensionPlanBenefits'
               )}
             />
             <p>
@@ -65,7 +67,9 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('retirementIncomes.welfareSeniorSupplement')}
+              {...register(
+                'taxReport.retirementIncomes.welfareSeniorSupplement'
+              )}
             />
             <p>
               T5007 / Relevé 5 - Prestations d&apos;assistance sociale ou de la
@@ -74,7 +78,9 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('retirementIncomes.pensionRetirementAnnuityIncome')}
+              {...register(
+                'taxReport.retirementIncomes.pensionRetirementAnnuityIncome'
+              )}
             />
             <p>
               T4A / Relevé 2 / Relevé 1 - Pension, retraite, rente et autres
@@ -83,7 +89,9 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('retirementIncomes.statementOfDistribution')}
+              {...register(
+                'taxReport.retirementIncomes.statementOfDistribution'
+              )}
             />
             <p>
               T4A-RCA - État des montants distribués d&apos;une convention de
@@ -92,7 +100,9 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('retirementIncomes.registeredRetirementsavingsPlan')}
+              {...register(
+                'taxReport.retirementIncomes.registeredRetirementsavingsPlan'
+              )}
             />
             <p>
               T4RSP / Relevé 2 - Revenus d&apos;un régime enregistré
@@ -101,20 +111,28 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('retirementIncomes.registeredRetirementIncomeFund')}
+              {...register(
+                'taxReport.retirementIncomes.registeredRetirementIncomeFund'
+              )}
             />
             <p>T4RIF / Relevé 2 - Fonds enregistré de revenu de retraite</p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('retirementIncomes.foreignIncome')} />
+            <Checkbox
+              {...register('taxReport.retirementIncomes.foreignIncome')}
+            />
             <p>Étranger - Revenu provenant de sources étrangères</p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('retirementIncomes.advancePayments')} />
+            <Checkbox
+              {...register('taxReport.retirementIncomes.advancePayments')}
+            />
             <p>Relevé 19 - Versements anticipés</p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('retirementIncomes.creditAdjustment')} />
+            <Checkbox
+              {...register('taxReport.retirementIncomes.creditAdjustment')}
+            />
             <p>
               Je dois rajuster mon crédit pour revenu de pension parce que
               j&apos;avais un revenu de pension étranger ou un excédent
@@ -128,7 +146,7 @@ export function RetirementIncomesForm(props: TaxReportFormProps) {
           </p>
           <Controller
             control={control}
-            name="retirementIncomes.splitPensionIncome"
+            name="taxReport.retirementIncomes.splitPensionIncome"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row m-4">
                 <div className="flex items-center">

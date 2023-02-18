@@ -1,9 +1,9 @@
 import { Checkbox } from 'flowbite-react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function TaxDeductionsForm(props: TaxReportFormProps) {
+export function TaxDeductionsForm(props: RespondentFormProps) {
   const { register, control, formData } = props;
 
   return (
@@ -16,7 +16,7 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
       </p>
       <Controller
         control={control}
-        name="taxDeductions.taxDeductions"
+        name="taxReport.taxDeductions.taxDeductions"
         render={({ field: { onChange, value } }) => (
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
@@ -45,7 +45,7 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
         )}
       />
 
-      {formData?.taxDeductions?.taxDeductions && (
+      {formData?.taxReport?.taxDeductions?.taxDeductions && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>
             Avez-vous versé des cotisations à un régime de pension comme un
@@ -54,7 +54,7 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
           </p>
           <Controller
             control={control}
-            name="taxDeductions.pensionPLan"
+            name="taxReport.taxDeductions.pensionPLan"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
@@ -83,13 +83,15 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
             )}
           />
 
-          {formData?.taxDeductions?.pensionPLan && (
+          {formData?.taxReport?.taxDeductions?.pensionPLan && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
                 <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('taxDeductions.RRSPcontributions')} />
+                  <Checkbox
+                    {...register('taxReport.taxDeductions.RRSPcontributions')}
+                  />
                   <p>
                     J&apos;ai versé des cotisations au REER entre mars 2022 et
                     février 2022
@@ -97,7 +99,9 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
-                    {...register('taxDeductions.reportedButUnusedRRSPorSPP')}
+                    {...register(
+                      'taxReport.taxDeductions.reportedButUnusedRRSPorSPP'
+                    )}
                   />
                   <p>
                     J&apos;ai des cotisations versées à un REER ou des
@@ -106,50 +110,36 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('taxDeductions.unreportedRRSP')} />
+                  <Checkbox
+                    {...register('taxReport.taxDeductions.unreportedRRSP')}
+                  />
                   <p>
                     J&apos;ai versé des cotisations au REER avant mars 2022 et
                     je ne les ai pas indiquées dans une déclaration de revenus
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('taxDeductions.deferRRSP')} />
-                  <p>
-                    Je veux reporter mes REER. (Des hésitations? Ne vous
-                    inquiétez pas. Ce que vous choisissez ici n&apos;est pas
-                    définitif. S&apos;il n&apos;est pas nécessaire que vous
-                    déduisiez tout le montant versé à vos REER, TurboImpôt vous
-                    en avertira plus tard.) En savoir plus
-                  </p>
+                  <Checkbox
+                    {...register('taxReport.taxDeductions.deferRRSP')}
+                  />
+                  <p>Je veux reporter mes REER.</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('taxDeductions.employerPRPP')} />
+                  <Checkbox
+                    {...register('taxReport.taxDeductions.employerPRPP')}
+                  />
                   <p>
                     J&apos;ai versé ou mon employeur a versé des cotisations au
                     RPAC en mon nom, entre janvier 2022 et mars 2022
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('taxDeductions.contributionRPP')} />
+                  <Checkbox
+                    {...register('taxReport.taxDeductions.contributionRPP')}
+                  />
                   <p>
                     J&apos;ai versé des cotisations à un régime de pension agréé
                     (RPA) pour des services courants ou passés
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 py-2">
-                  <Checkbox
-                    {...register('taxDeductions.amateurAthletesTrust')}
-                  />
-                  <p>
-                    J&apos;ai versé des revenus dans une fiducie au profit
-                    d&apos;athlètes amateurs (FPAA)
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...register('taxDeductions.contributionSPP')} />
-                  <p>
-                    J&apos;ai versé des cotisations au Régime de pension de la
-                    Saskatchewan (SPP)
                   </p>
                 </div>
               </div>
@@ -163,7 +153,7 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
           </p>
           <Controller
             control={control}
-            name="taxDeductions.LLPorHBP"
+            name="taxReport.taxDeductions.LLPorHBP"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
@@ -192,14 +182,14 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
             )}
           />
 
-          {formData?.taxDeductions?.LLPorHBP && (
+          {formData?.taxReport?.taxDeductions?.LLPorHBP && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
                 <p>Devez-vous verser un remboursement au REEP ou au RAP?</p>
                 <Controller
                   control={control}
-                  name="taxDeductions.LLPorHBPrepayment"
+                  name="taxReport.taxDeductions.LLPorHBPrepayment"
                   render={({ field: { onChange, value } }) => (
                     <fieldset className="flex flex-row mx-4">
                       <div className="flex items-center">
@@ -227,16 +217,20 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
                     </fieldset>
                   )}
                 />
-                {formData?.taxDeductions?.LLPorHBPrepayment && (
+                {formData?.taxReport?.taxDeductions?.LLPorHBPrepayment && (
                   <>
                     <hr className="py-2"></hr>
                     <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                     <div className="flex items-center gap-2 py-2">
-                      <Checkbox {...register('taxDeductions.refundLLP')} />
+                      <Checkbox
+                        {...register('taxReport.taxDeductions.refundLLP')}
+                      />
                       <p>J&apos;ai versé un remboursement au RAP</p>
                     </div>
                     <div className="flex items-center gap-2 py-2">
-                      <Checkbox {...register('taxDeductions.refundHOP')} />
+                      <Checkbox
+                        {...register('taxReport.taxDeductions.refundHOP')}
+                      />
                       <p>J&apos;ai versé un remboursement au REEP</p>
                     </div>
                     <p className="mt-2">
@@ -251,7 +245,7 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
                 </p>
                 <Controller
                   control={control}
-                  name="taxDeductions.RRSPorRRIFmoneyWithdrawn"
+                  name="taxReport.taxDeductions.RRSPorRRIFmoneyWithdrawn"
                   render={({ field: { onChange, value } }) => (
                     <fieldset className="flex flex-row mx-4">
                       <div className="flex items-center">
@@ -280,16 +274,21 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
                   )}
                 />
 
-                {formData?.taxDeductions?.RRSPorRRIFmoneyWithdrawn && (
+                {formData?.taxReport?.taxDeductions
+                  ?.RRSPorRRIFmoneyWithdrawn && (
                   <>
                     <hr className="py-2"></hr>
                     <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                     <div className="flex items-center gap-2 py-2">
-                      <Checkbox {...register('taxDeductions.T4RSP')} />
+                      <Checkbox
+                        {...register('taxReport.taxDeductions.T4RSP')}
+                      />
                       <p>J&apos;ai reçu un T4RSP / Relevé 2</p>
                     </div>
                     <div className="flex items-center gap-2 py-2">
-                      <Checkbox {...register('taxDeductions.T4RIF')} />
+                      <Checkbox
+                        {...register('taxReport.taxDeductions.T4RIF')}
+                      />
                       <p>J&apos;ai reçu un T4RIF / Relevé 2</p>
                     </div>
                   </>
@@ -304,7 +303,7 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
           </p>
           <Controller
             control={control}
-            name="taxDeductions.labourSponsoredFundTaxCredits"
+            name="taxReport.taxDeductions.labourSponsoredFundTaxCredits"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
@@ -335,7 +334,7 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
           {/* <div className="px-8">
             <div className="flex items-center gap-2 py-2">
               <Checkbox
-                {...register('taxDeductions.labourSponsoredFundTaxCredits')}
+                {...register('taxReport.taxDeductions.labourSponsoredFundTaxCredits')}
               />
               <p>J&apos;ai reçu un T4RIF / Relevé 2</p>
             </div>
@@ -347,7 +346,7 @@ export function TaxDeductionsForm(props: TaxReportFormProps) {
           </p>
           <Controller
             control={control}
-            name="taxDeductions.foreignPensionPlan"
+            name="taxReport.taxDeductions.foreignPensionPlan"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">

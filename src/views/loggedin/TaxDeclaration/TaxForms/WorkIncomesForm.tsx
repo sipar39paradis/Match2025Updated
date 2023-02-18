@@ -1,9 +1,9 @@
 import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function WorkIncomesForm(props: TaxReportFormProps) {
+export function WorkIncomesForm(props: RespondentFormProps) {
   const { control, formData, register } = props;
 
   return (
@@ -11,7 +11,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
       <p>Avez-vous travaillé en 2022?</p>
       <Controller
         control={control}
-        name="workIncomes.workedLastYear"
+        name="taxReport.workIncomes.workedLastYear"
         render={({ field: { onChange, value } }) => (
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
@@ -39,34 +39,36 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
           </fieldset>
         )}
       />
-      {formData?.workIncomes?.workedLastYear && (
+      {formData?.taxReport?.workIncomes?.workedLastYear && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-          {formData.workIncomes.workedLastYear === true ? (
+          {formData?.taxReport?.workIncomes?.workedLastYear === true ? (
             <>
               <p>
                 Veuillez indiquer quel genre de travail vous faisiez (cochez
                 toutes les cases qui s&apos;appliquent)
               </p>
               <div className="flex items-center gap-2 py-2">
-                <Checkbox {...register('workIncomes.employed')} />
+                <Checkbox {...register('taxReport.workIncomes.employed')} />
                 <p>
                   J&apos;étais un employé (comprend le travail à la commission)
                 </p>
               </div>
-              {formData.workIncomes.employed && (
+              {formData.taxReport.workIncomes.employed && (
                 <>
                   <hr className="py-2"></hr>
                   <div className="px-8">
                     <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                     <div className="flex items-center gap-2 py-2">
-                      <Checkbox {...register('workIncomes.employmentIncome')} />
+                      <Checkbox
+                        {...register('taxReport.workIncomes.employmentIncome')}
+                      />
                       <p>T4 / Relevé 1 - Revenus d&apos;emploi</p>
                     </div>
 
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
                         {...register(
-                          'retirementIncomes.pensionRetirementAnnuityIncome'
+                          'taxReport.retirementIncomes.pensionRetirementAnnuityIncome'
                         )}
                       />
                       <p>
@@ -77,7 +79,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
                         {...register(
-                          'retirementIncomes.statementOfDistribution'
+                          'taxReport.retirementIncomes.statementOfDistribution'
                         )}
                       />
                       <p>
@@ -87,7 +89,9 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                     </div>
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
-                        {...register('workIncomes.employmentProfitSharingPlan')}
+                        {...register(
+                          'taxReport.workIncomes.employmentProfitSharingPlan'
+                        )}
                       />
                       <p>
                         T4PS / Relevé 25 - Régime de participation des employés
@@ -96,17 +100,23 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                     </div>
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
-                        {...register('workIncomes.pensionAdjustmentReversal')}
+                        {...register(
+                          'taxReport.workIncomes.pensionAdjustmentReversal'
+                        )}
                       />
                       <p>T10 - Facteur d&apos;équivalence rectifié (FER)</p>
                     </div>
                     <div className="flex items-center gap-2 py-2">
-                      <Checkbox {...register('workIncomes.foreignIncomes')} />
+                      <Checkbox
+                        {...register('taxReport.workIncomes.foreignIncomes')}
+                      />
                       <p>Étranger - Revenu provenant de sources étrangères</p>
                     </div>
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
-                        {...register('workIncomes.outsideCanadaIncome')}
+                        {...register(
+                          'taxReport.workIncomes.outsideCanadaIncome'
+                        )}
                       />
                       <p>
                         Relevé 17 - Rémunération provenant d&apos;un emploi à
@@ -116,7 +126,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
                         {...register(
-                          'workIncomes.multiEmployerInsurancePlanIncome'
+                          'taxReport.workIncomes.multiEmployerInsurancePlanIncome'
                         )}
                       />
                       <p>
@@ -130,12 +140,16 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                       concerne?
                     </p>
                     <div className="flex items-center gap-2 py-2">
-                      <Checkbox {...register('workIncomes.clergyMember')} />
+                      <Checkbox
+                        {...register('taxReport.workIncomes.clergyMember')}
+                      />
                       <p>J&apos;étais un membre du clergé</p>
                     </div>
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
-                        {...register('workIncomes.formT1198RetroactivePayment')}
+                        {...register(
+                          'taxReport.workIncomes.formT1198RetroactivePayment'
+                        )}
                       />
                       <p>
                         Déclarez-vous un paiement forfaitaire rétroactif
@@ -144,7 +158,9 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                     </div>
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
-                        {...register('workIncomes.wageLossReplacementPlan')}
+                        {...register(
+                          'taxReport.workIncomes.wageLossReplacementPlan'
+                        )}
                       />
                       <p>
                         J&apos;ai reçu un revenu d&apos;un régime
@@ -154,7 +170,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
                         {...register(
-                          'workIncomes.optionalCPPorQPPcontributions'
+                          'taxReport.workIncomes.optionalCPPorQPPcontributions'
                         )}
                       />
                       <p>
@@ -163,7 +179,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                       </p>
                     </div>
                     <div className="flex items-center gap-2 py-2">
-                      <Checkbox {...register('workIncomes.stocks')} />
+                      <Checkbox {...register('taxReport.workIncomes.stocks')} />
                       <p>
                         J&apos;ai des actions dans ma compagnie et j&apos;ai des
                         avantages tirés d&apos;une option d&apos;achat
@@ -178,7 +194,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                     <p>Avez-vous des dépenses liées à votre emploi?</p>
                     <Controller
                       control={control}
-                      name="workIncomes.jobRelatedExpenses"
+                      name="taxReport.workIncomes.jobRelatedExpenses"
                       render={({ field: { onChange, value } }) => (
                         <fieldset className="flex flex-row mx-4">
                           <div className="flex items-center">
@@ -208,7 +224,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                         </fieldset>
                       )}
                     />
-                    {formData.workIncomes.jobRelatedExpenses && (
+                    {formData?.taxReport?.workIncomes.jobRelatedExpenses && (
                       <>
                         <hr className="py-2"></hr>
                         <div className="mx-8">
@@ -220,12 +236,16 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                           <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                           <div className="flex items-center gap-2 py-2">
                             <Checkbox
-                              {...register('workIncomes.remoteWorkExpenses')}
+                              {...register(
+                                'taxReport.workIncomes.remoteWorkExpenses'
+                              )}
                             />
                             <p>J&apos;ai des dépenses d&apos;emploi</p>
                           </div>
                           <div className="flex items-center gap-2 py-2">
-                            <Checkbox {...register('workIncomes.taxRefund')} />
+                            <Checkbox
+                              {...register('taxReport.workIncomes.taxRefund')}
+                            />
                             <p>
                               J&apos;ai reçu le remboursement de la TPS/TVH
                               (GST370)
@@ -233,7 +253,9 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                           </div>
                           <div className="flex items-center gap-2 py-2">
                             <Checkbox
-                              {...register('workIncomes.mealsAndAccomodation')}
+                              {...register(
+                                'taxReport.workIncomes.mealsAndAccomodation'
+                              )}
                             />
                             <p>
                               J&apos;avais des frais de repas et de logement en
@@ -243,7 +265,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                           <div className="flex items-center gap-2 py-2">
                             <Checkbox
                               {...register(
-                                'workIncomes.unionsOrProfessionalDues'
+                                'taxReport.workIncomes.unionsOrProfessionalDues'
                               )}
                             />
                             <p>
@@ -261,7 +283,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
               <div className="flex items-center gap-2 py-2">
                 <Checkbox
                   {...register(
-                    'workIncomes.employmentInsuranceOrParentalBenefits'
+                    'taxReport.workIncomes.employmentInsuranceOrParentalBenefits'
                   )}
                 />
                 <p>
@@ -269,13 +291,14 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                   congé parental
                 </p>
               </div>
-              {formData.workIncomes.employmentInsuranceOrParentalBenefits && (
+              {formData?.taxReport?.workIncomes
+                .employmentInsuranceOrParentalBenefits && (
                 <>
                   <hr className="py-2"></hr>
                   <div className="px-8">
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
-                        {...register('workIncomes.insuranceBenefits')}
+                        {...register('taxReport.workIncomes.insuranceBenefits')}
                       />
                       <p>
                         T4E / Relevé 6 - Prestations d&apos;assurance-emploi
@@ -284,7 +307,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
                         {...register(
-                          'retirementIncomes.pensionRetirementAnnuityIncome'
+                          'taxReport.retirementIncomes.pensionRetirementAnnuityIncome'
                         )}
                       />
                       <p>
@@ -299,7 +322,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
               <div className="flex items-center gap-2 py-2">
                 <Checkbox
                   {...register(
-                    'workIncomes.workerCompensationOrSocialAssistance'
+                    'taxReport.workIncomes.workerCompensationOrSocialAssistance'
                   )}
                 />
                 <p>
@@ -307,14 +330,15 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                   l&apos;aide sociale
                 </p>
               </div>
-              {formData.workIncomes.workerCompensationOrSocialAssistance && (
+              {formData?.taxReport?.workIncomes
+                .workerCompensationOrSocialAssistance && (
                 <>
                   <hr className="py-2"></hr>
                   <div className="px-8">
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
                         {...register(
-                          'retirementIncomes.welfareSeniorSupplement'
+                          'taxReport.retirementIncomes.welfareSeniorSupplement'
                         )}
                       />
                       <p>
@@ -326,7 +350,9 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                 </>
               )}
               <div className="flex items-center gap-2 py-2">
-                <Checkbox {...register('workIncomes.tipsOrCasualWork')} />
+                <Checkbox
+                  {...register('taxReport.workIncomes.tipsOrCasualWork')}
+                />
                 <p>
                   J&apos;ai reçu des pourboires ou fait du travail occasionnel
                   et je ne recevrai pas de feuillet T4
@@ -342,7 +368,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
               <div className="flex items-center gap-2 py-2">
                 <Checkbox
                   {...register(
-                    'workIncomes.workerCompensationOrSocialAssistance'
+                    'taxReport.workIncomes.workerCompensationOrSocialAssistance'
                   )}
                 />
                 <p>
@@ -350,14 +376,15 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                   l&apos;aide sociale
                 </p>
               </div>
-              {formData.workIncomes.workerCompensationOrSocialAssistance && (
+              {formData?.taxReport?.workIncomes
+                .workerCompensationOrSocialAssistance && (
                 <>
                   <hr className="py-2"></hr>
                   <div className="px-8">
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
                         {...register(
-                          'retirementIncomes.welfareSeniorSupplement'
+                          'taxReport.retirementIncomes.welfareSeniorSupplement'
                         )}
                       />
                       <p>
@@ -371,7 +398,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
               <div className="flex items-center gap-2 py-2">
                 <Checkbox
                   {...register(
-                    'workIncomes.employmentInsuranceOrParentalBenefits'
+                    'taxReport.workIncomes.employmentInsuranceOrParentalBenefits'
                   )}
                 />
                 <p>
@@ -379,14 +406,17 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                   d&apos;un congé parental, la PCU ou d&apos;autres montants
                 </p>
               </div>
-              {formData.workIncomes.employmentInsuranceOrParentalBenefits && (
+              {formData?.taxReport?.workIncomes
+                .employmentInsuranceOrParentalBenefits && (
                 <>
                   <hr className="py-2"></hr>
                   <div className="px-8">
                     <p>Cochez toutes les cases qui s&apos;appliquent.</p>
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
-                        {...register('workIncomes.employmentInsuranceBenefits')}
+                        {...register(
+                          'taxReport.workIncomes.employmentInsuranceBenefits'
+                        )}
                       />
                       <p>
                         T4E / Relevé 6 - Prestations d&apos;assurance-emploi
@@ -395,7 +425,7 @@ export function WorkIncomesForm(props: TaxReportFormProps) {
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
                         {...register(
-                          'retirementIncomes.pensionRetirementAnnuityIncome'
+                          'taxReport.retirementIncomes.pensionRetirementAnnuityIncome'
                         )}
                       />
                       <p>

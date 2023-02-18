@@ -4,7 +4,8 @@ export enum TaxDeclarationStep {
   CIVIL_STATUS_CHANGE = 'civilStatusChange',
   CONTACT_DETAILS = 'contactDetails',
   DEPENDENTS = 'dependents',
-  TAX_PROFILE = 'taxProfile',
+  INCOMES = 'incomes',
+  DEDUCTIONS_AND_TAX_CREDIT = 'deductionsAndTaxCredits',
   REVIEW = 'review',
   UPLOAD_FILES = 'uploadFiles'
 }

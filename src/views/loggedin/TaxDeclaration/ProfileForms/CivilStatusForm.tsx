@@ -1,27 +1,23 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { CivilStatusEnum } from '../types/Profile/CivilStatusEnum';
+import { CivilStatusEnum } from '../types/Respondent/CivilStatusEnum';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
-import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function CivilStatusForm(props: ProfileFormProps) {
+export function CivilStatusForm(props: RespondentFormProps) {
   const {
     register,
     control,
     formData,
     handleSubmit,
     saveFormAnswers,
-    clientType,
+    setSearchParams,
   } = props;
-  const navigate = useNavigate();
 
-  async function onSubmitButton() {
+  function onSubmitButton() {
     saveFormAnswers();
-    navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}&clientType=${clientType}`
-    );
+    setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS_CHANGE });
   }
 
   return (
@@ -156,14 +152,33 @@ export function CivilStatusForm(props: ProfileFormProps) {
                   </fieldset>
                 )}
               />
+              {formData.civilStatus.together && (
+                <p className="opacity-100">
+                  Le conjoint/marié aura son questionnaire à remplir après celui
+                  du client principal
+                </p>
+              )}
             </div>
           )}
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
-          <input
-            type="submit"
-            value="Continuez"
-            className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer self-end"
-          />
+          <div className="w-full flex justify-between mt-4 flex-row-reverse">
+            <input
+              type="submit"
+              value="Suivant"
+              className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer self-end"
+            />
+            <input
+              type="submit"
+              value="Précédant"
+              onClick={() => {
+                saveFormAnswers();
+                setSearchParams({
+                  step: TaxDeclarationStep.CIVIL_STATUS_CHANGE,
+                });
+              }}
+              className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
+            />
+          </div>
         </form>
       </section>
     </Fade>

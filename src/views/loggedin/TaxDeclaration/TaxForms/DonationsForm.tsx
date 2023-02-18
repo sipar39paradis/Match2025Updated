@@ -1,9 +1,9 @@
 import { Checkbox } from 'flowbite-react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function DonationsForm(props: TaxReportFormProps) {
+export function DonationsForm(props: RespondentFormProps) {
   const { register, formData, control } = props;
 
   return (
@@ -14,7 +14,7 @@ export function DonationsForm(props: TaxReportFormProps) {
       </p>
       <Controller
         control={control}
-        name="donations.donations"
+        name="taxReport.donations.donations"
         render={({ field: { onChange, value } }) => (
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
@@ -43,15 +43,19 @@ export function DonationsForm(props: TaxReportFormProps) {
         )}
       />
 
-      {formData?.donations?.donations && (
+      {formData?.taxReport?.donations?.donations && (
         <div className="px-8 py-4 mb-4 w-full bg-gray-100 rounded-lg">
           <p>Cochez toutes les cases qui s&apos;appliquent.</p>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('donations.charitableDonations')} />
+            <Checkbox
+              {...register('taxReport.donations.charitableDonations')}
+            />
             <p>J&apos;ai fait des dons de bienfaisance</p>
           </div>
           <div className="flex items-center gap-2 py-2">
-            <Checkbox {...register('donations.politicalContributions')} />
+            <Checkbox
+              {...register('taxReport.donations.politicalContributions')}
+            />
             <p>J&apos;ai fait des contributions politiques</p>
           </div>
         </div>
