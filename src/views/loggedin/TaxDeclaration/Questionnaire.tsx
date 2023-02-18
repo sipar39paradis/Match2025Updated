@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
@@ -10,7 +10,14 @@ import { DependentsForm } from './ProfileForms/DependentsForm';
 import { TaxReportForm } from './TaxForms/TaxReportForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
-import { getDoc, doc, setDoc, addDoc, collection } from 'firebase/firestore';
+import {
+  getDoc,
+  doc,
+  setDoc,
+  addDoc,
+  collection,
+  getDocs,
+} from 'firebase/firestore';
 import { Respondent } from './types/Respondent/Respondent';
 import { useForm } from 'react-hook-form';
 
@@ -33,6 +40,9 @@ export function Questionnaire() {
     reset,
   } = useForm<Respondent>();
   let formData = watch();
+  const [questionnaires, setQuestionnaires] = useState<Map<string, Respondent>>(
+    new Map()
+  );
 
   function resetForm() {
     const defaultValues = {
@@ -71,35 +81,39 @@ export function Questionnaire() {
         });
         console.log('fetch', formData);
 
-        // const querySnapshot = await getDocs(
-        //   collection(
-        //     firestore,
-        //     TAX_REPORT_COLLECTION,
-        //     user.uid,
-        //     QUESTIONNAIRE_SUB_COLLECTTION
-        //   )
-        // );
-        // querySnapshot.forEach((doc) => {
-        //   // doc.data() is never undefined for query doc snapshots
-        //   console.log(doc.id, ' => ', doc.data());
-        // });
+        const querySnapshot = await getDocs(
+          collection(
+            firestore,
+            TAX_REPORT_COLLECTION,
+            user.uid,
+            QUESTIONNAIRE_SUB_COLLECTTION
+          )
+        );
+        const map = new Map();
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          map.set(doc.id, doc.data());
+        });
+        setQuestionnaires(map);
+        console.log(questionnaires);
       }
     }
+    console.log('search params change');
     if (user && id) {
       fetchUserAnswers();
     } else if (!id) {
       addQuestionnaire();
     }
-  }, [user]);
+  }, [user, id]);
 
   async function addQuestionnaire(mainClient = true) {
     console.log('new');
     await addDoc(
       collection(firestore, 'taxReport', user.uid, 'questionnaires'),
       { mainClient, year: new Date().getFullYear() }
-    ).then((dorRef) => {
+    ).then((docRef) => {
       navigate(
-        `/platform/questionnaire/${dorRef.id}?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
+        `/platform/questionnaire/${docRef.id}?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
       );
     });
   }
@@ -209,9 +223,34 @@ export function Questionnaire() {
     }
   }
 
+  function generateTabs() {
+    const tabs = [];
+    questionnaires.forEach((value: Respondent, key: string) =>
+      tabs.push({ value, key })
+    );
+    return tabs;
+  }
+
   return (
-    <div className="flex justify-center p-16 bg-orange-50 min-h-screen">
-      <div className="w-[800px] bg-white rounded-lg p-8 h-fit">
+    <div className="flex p-8 bg-orange-50 min-h-screen flex-col items-center">
+      <div className="w-[800px] flex flex-row">
+        {generateTabs().map((tab) => (
+          <div
+            key={tab.key}
+            className="bg-white rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200"
+            onClick={() =>
+              navigate(
+                `/platform/questionnaire/${tab.key}?step=${searchParams.get(
+                  TAX_DECLARATION_STEP
+                )}`
+              )
+            }
+          >
+            {tab.value.personalInformations.firstName || 'Client'}
+          </div>
+        ))}
+      </div>
+      <div className="w-[800px] bg-white rounded-md p-8 h-fit">
         {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}
       </div>
     </div>
