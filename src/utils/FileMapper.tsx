@@ -103,10 +103,10 @@ export default function mapFiles(taxReport: TaxReport): Array<string>{
     // Self Employment
     if(selfEmploymentRentalOtherIncomes?.disabilityOrDeathBenefits){
         if(selfEmploymentRentalOtherIncomes?.registeredRetirementSavingsPlanIncome){
-            filesArr.push('T4A_Releve 2_Releve 1')
+            filesArr.push('T4A_Relevé 2_Relevé 1')
         }
         if(selfEmploymentRentalOtherIncomes?.canadaPensionPlanOrQuebecPensionPlanBenefits){
-            filesArr.push('T4A(P)_Releve 2')
+            filesArr.push('T4A(P)_Relevé 2')
         }
     }
     if(selfEmploymentRentalOtherIncomes?.schoolIncome){
@@ -114,7 +114,7 @@ export default function mapFiles(taxReport: TaxReport): Array<string>{
             filesArr.push('T4A_Relevé 2_Relevé 1')
         }
         if(selfEmploymentRentalOtherIncomes?.registeredRetirementSavingsPlanIncome){
-            filesArr.push('T4RSP_Releve 2')
+            filesArr.push('T4RSP_Relevé 2')
         }
     }
     if(selfEmploymentRentalOtherIncomes?.socialAssitance){
@@ -125,11 +125,19 @@ export default function mapFiles(taxReport: TaxReport): Array<string>{
             filesArr.push('Relevé 19')
         }
     }
+    if(selfEmploymentRentalOtherIncomes?.advancePaymentsWorkingIncomeTaxBenefit){
+        if(selfEmploymentRentalOtherIncomes.advancePaymentsWorkingIncomeTaxBenefit){
+            filesArr.push('RC210')
+        }
+        if(retirementIncomes?.advancePayments){
+            filesArr.push('Relevé 19')
+        }
+    }
     
     // Work incomes
     if(workIncomes?.employed && workIncomes?.workedLastYear){
         if(workIncomes?.employmentIncome){
-            filesArr.push('T4_Releve 1')
+            filesArr.push('T4_Relevé 1')
         }
         if(retirementIncomes?.pensionRetirementAnnuityIncome){
             filesArr.push('T4A_Relevé 2_Relevé 1')
@@ -138,7 +146,7 @@ export default function mapFiles(taxReport: TaxReport): Array<string>{
             filesArr.push('T4A-RCA')
         }
         if(workIncomes?.employmentProfitSharingPlan){
-            filesArr.push('T4PS_Releve 25')
+            filesArr.push('T4PS_Relevé 25')
         }
         if(workIncomes?.pensionAdjustmentReversal){
             filesArr.push('T10')
@@ -147,15 +155,15 @@ export default function mapFiles(taxReport: TaxReport): Array<string>{
             filesArr.push('Foreign_income')
         }
         if(workIncomes?.outsideCanadaIncome){
-            filesArr.push('Releve 17')
+            filesArr.push('Relevé 17')
         }
         if(workIncomes?.multiEmployerInsurancePlanIncome){
-            filesArr.push('Releve 22')
+            filesArr.push('Relevé 22')
         }
         
         if(workIncomes?.employmentInsuranceOrParentalBenefits){
             if(workIncomes?.insuranceBenefits){
-                filesArr.push('T4E_Releve 6')
+                filesArr.push('T4E_Relevé 6')
             }
             if(retirementIncomes?.pensionRetirementAnnuityIncome){
                 filesArr.push('T4A_Relevé 2_Relevé 1')
@@ -169,7 +177,7 @@ export default function mapFiles(taxReport: TaxReport): Array<string>{
         }
         if(workIncomes?.employmentInsuranceOrParentalBenefits){
             if(workIncomes?.employmentInsuranceBenefits){
-                filesArr.push('T4E_Releve 6')
+                filesArr.push('T4E_Relevé 6')
             }
             if(retirementIncomes?.pensionRetirementAnnuityIncome){
                 filesArr.push('T4A_Relevé 2_Relevé 1')
