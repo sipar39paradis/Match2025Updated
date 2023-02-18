@@ -125,7 +125,11 @@ export function SignInModalBody({
             if (resolver) {
               setPromiseFromText(promise);
               setResolver(resolver);
-            } else if (err) setAuthError(await promise);
+            } else if (err) {
+              if(err === 'No Two Factor'){
+                switchModal(AuthModalEnum.TwoFactor)
+              }
+              setAuthError(await promise);}
             else closeModal(false);
           }}
           text="Continuez avec Google"

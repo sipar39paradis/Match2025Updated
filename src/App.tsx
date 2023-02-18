@@ -16,6 +16,8 @@ import { Declaration } from './views/loggedin/boxes/declaration';
 import { Progression } from './views/loggedin/boxes/progression';
 import { CustomerService } from './views/loggedin/boxes/CustomerService';
 import { Questionaire } from './views/loggedin/boxes/questionaire';
+import { CustomFooter } from './components/header/CustomFooter';
+import { UserConditions } from './views/loggedout/UserConditions';
 
 function App() {
   return (
@@ -23,7 +25,7 @@ function App() {
       <Router>
         <AppContextProvider>
           <Header />
-          <div>
+          <div className=" min-h-[84vh]">
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/profile/:id" element={<Profile />} />
@@ -42,8 +44,10 @@ function App() {
               <Route path="/progression" element={<Progression />} />
               <Route path="/customerService" element={<CustomerService />} />
               <Route path="/documents" element={<Files />} />
+              <Route path="/userConditions" element={<UserConditions />} />
             </Routes>
           </div>
+          <CustomFooter />
         </AppContextProvider>
       </Router>
     </div>

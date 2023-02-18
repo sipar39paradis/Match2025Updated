@@ -118,7 +118,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       .getSession()
       .then(function (multiFactorSession) {
         // Specify the phone number and pass the MFA session.
-        console.log('in then', phoneNumber);
         const phoneInfoOptions = {
           phoneNumber: `+1${phoneNumber}`,
           session: multiFactorSession,
@@ -199,7 +198,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider)
       .then(async (userCredential) => {
-        succsessfulSignIn(userCredential);
+        // succsessfulSignIn(userCredential);
+        errorMessage = 'No Two Factor'
       })
       .catch((error) => {
         console.log(error);

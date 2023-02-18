@@ -73,7 +73,6 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
               <TextInput
                 className='text-center select-none'
                 id="verifivation"
-                type="number"
                 required={true}
                 onChange={(e) => {
                   setVerificationCode(e.target.value)
@@ -93,7 +92,7 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
               console.log(verificationCode, 'verification code')
               console.log(resolver, 'resolver')
                 await verifyTwoFactor(promiseFromText, verificationCode, resolver)
-                closeModal(true)
+                closeModal(false)
               }
             }>
               Submit
