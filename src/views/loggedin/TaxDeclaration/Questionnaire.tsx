@@ -240,13 +240,15 @@ export function Questionnaire() {
             className="bg-white rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200"
             onClick={() =>
               navigate(
-                `/platform/questionnaire/${tab.key}?step=${searchParams.get(
+                `/platform/questionnaire/${tab?.key}?step=${searchParams.get(
                   TAX_DECLARATION_STEP
                 )}`
               )
             }
           >
-            {tab.value.personalInformations.firstName || 'Client'}
+            <p className="opacity-100">
+              {tab?.value?.personalInformations?.firstName || 'Client'}
+            </p>
           </div>
         ))}
       </div>

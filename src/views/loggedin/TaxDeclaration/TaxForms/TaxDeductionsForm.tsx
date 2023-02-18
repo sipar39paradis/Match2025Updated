@@ -122,13 +122,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
                   <Checkbox
                     {...register('taxReport.taxDeductions.deferRRSP')}
                   />
-                  <p>
-                    Je veux reporter mes REER. (Des hésitations? Ne vous
-                    inquiétez pas. Ce que vous choisissez ici n&apos;est pas
-                    définitif. S&apos;il n&apos;est pas nécessaire que vous
-                    déduisiez tout le montant versé à vos REER, TurboImpôt vous
-                    en avertira plus tard.) En savoir plus
-                  </p>
+                  <p>Je veux reporter mes REER.</p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
@@ -146,26 +140,6 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
                   <p>
                     J&apos;ai versé des cotisations à un régime de pension agréé
                     (RPA) pour des services courants ou passés
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 py-2">
-                  <Checkbox
-                    {...register(
-                      'taxReport.taxDeductions.amateurAthletesTrust'
-                    )}
-                  />
-                  <p>
-                    J&apos;ai versé des revenus dans une fiducie au profit
-                    d&apos;athlètes amateurs (FPAA)
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 py-2">
-                  <Checkbox
-                    {...register('taxReport.taxDeductions.contributionSPP')}
-                  />
-                  <p>
-                    J&apos;ai versé des cotisations au Régime de pension de la
-                    Saskatchewan (SPP)
                   </p>
                 </div>
               </div>

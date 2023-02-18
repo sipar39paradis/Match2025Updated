@@ -109,6 +109,8 @@ export function DependentsForm(props: RespondentFormProps) {
                 </div>
                 <Datepicker
                   {...(register('dependents.birthDate'), { required: true })}
+                  i18n={'fr'}
+                  primaryColor={'orange'}
                   containerClassName="h-fit"
                   useRange={false}
                   asSingle={true}
@@ -208,7 +210,7 @@ export function DependentsForm(props: RespondentFormProps) {
           <div className="w-full flex justify-between mt-4">
             <input
               type="submit"
-              value="Precedant"
+              value="Précédant"
               onClick={() =>
                 setSearchParams({
                   step: TaxDeclarationStep.CIVIL_STATUS_CHANGE,
@@ -218,7 +220,7 @@ export function DependentsForm(props: RespondentFormProps) {
             />
             <input
               type="submit"
-              value="Continuez"
+              value="Suivant"
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
           </div>

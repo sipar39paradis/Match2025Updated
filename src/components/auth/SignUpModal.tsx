@@ -11,9 +11,7 @@ interface SignUpModalProps {
 }
 
 export function SignUpModal(props: SignUpModalProps) {
-  const { signInWithGoogle, signInWithFacebook } = useContext(
-    AppContext
-  ) as AppContextType;
+  const { signInWithGoogle } = useContext(AppContext) as AppContextType;
   const { closeModal, switchModal } = props;
   const [authError, setAuthError] = useState('');
 

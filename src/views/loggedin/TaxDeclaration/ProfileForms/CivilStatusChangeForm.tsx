@@ -26,7 +26,7 @@ export function CivilStatusChangeForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    setSearchParams({ step: TaxDeclarationStep.DEPENDENTS });
+    setSearchParams({ step: TaxDeclarationStep.CONTACT_DETAILS });
   }
 
   useEffect(() => {
@@ -115,6 +115,8 @@ export function CivilStatusChangeForm(props: RespondentFormProps) {
               </div>
               <p>Date de changement de votre état civil en 2022</p>
               <Datepicker
+                i18n={'fr'}
+                primaryColor={'orange'}
                 containerClassName="h-fit w-96 my-8"
                 useRange={false}
                 asSingle={true}
@@ -128,6 +130,8 @@ export function CivilStatusChangeForm(props: RespondentFormProps) {
               <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
               <p>Date de changement de votre état civil à célibataire </p>
               <Datepicker
+                i18n={'fr'}
+                primaryColor={'orange'}
                 containerClassName="h-fit w-96 my-4"
                 useRange={false}
                 asSingle={true}
@@ -157,6 +161,8 @@ export function CivilStatusChangeForm(props: RespondentFormProps) {
               <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
               <p>Date de changement de votre état civil</p>
               <Datepicker
+                i18n={'fr'}
+                primaryColor={'orange'}
                 containerClassName="h-fit w-96 my-4"
                 useRange={false}
                 asSingle={true}
@@ -185,16 +191,16 @@ export function CivilStatusChangeForm(props: RespondentFormProps) {
           <div className="w-full flex justify-between mt-4">
             <input
               type="submit"
-              value="Precedant"
+              value="Précédant"
               onClick={() => {
                 saveFormAnswers;
-                setSearchParams({ step: TaxDeclarationStep.CONTACT_DETAILS });
+                setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
             <input
               type="submit"
-              value="Continuez"
+              value="Suivant"
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
           </div>

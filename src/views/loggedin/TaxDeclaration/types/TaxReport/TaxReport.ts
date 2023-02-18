@@ -171,8 +171,6 @@ export interface TaxDeductions {
   deferRRSP?: boolean
   employerPRPP?: boolean
   contributionRPP?: boolean
-  amateurAthletesTrust?: boolean
-  contributionSPP?: boolean
   refundLLP?: boolean
   refundHOP?: boolean
   LLPorHBP: boolean

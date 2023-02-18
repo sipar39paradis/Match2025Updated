@@ -6,5 +6,7 @@ lastName: string
 birthDay: DateType
 socialSecurityNumber: string
 email: string
+bankruptcy: boolean
+disabled: boolean
 }
 

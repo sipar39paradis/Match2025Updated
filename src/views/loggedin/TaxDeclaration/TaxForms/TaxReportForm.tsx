@@ -184,7 +184,7 @@ export function TaxReportForm(props: RespondentFormProps) {
           <div className="w-full flex justify-between mt-4">
             <input
               type="submit"
-              value="Precedant"
+              value="Précédant"
               onClick={() => {
                 saveFormAnswers();
                 setSearchParams({ step: TaxDeclarationStep.DEPENDENTS });
@@ -193,7 +193,7 @@ export function TaxReportForm(props: RespondentFormProps) {
             />
             <input
               type="submit"
-              value="Continuez"
+              value="Suivant"
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
           </div>

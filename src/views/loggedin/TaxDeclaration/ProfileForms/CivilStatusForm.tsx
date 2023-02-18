@@ -17,7 +17,7 @@ export function CivilStatusForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    setSearchParams({ step: TaxDeclarationStep.PERSONAL_INFORMATIONS });
+    setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS_CHANGE });
   }
 
   return (
@@ -152,14 +152,33 @@ export function CivilStatusForm(props: RespondentFormProps) {
                   </fieldset>
                 )}
               />
+              {formData.civilStatus.together && (
+                <p className="opacity-100">
+                  Le conjoint/marié aura son questionnaire à remplir après celui
+                  du client principal
+                </p>
+              )}
             </div>
           )}
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
-          <input
-            type="submit"
-            value="Continuez"
-            className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer self-end"
-          />
+          <div className="w-full flex justify-between mt-4 flex-row-reverse">
+            <input
+              type="submit"
+              value="Suivant"
+              className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer self-end"
+            />
+            <input
+              type="submit"
+              value="Précédant"
+              onClick={() => {
+                saveFormAnswers();
+                setSearchParams({
+                  step: TaxDeclarationStep.CIVIL_STATUS_CHANGE,
+                });
+              }}
+              className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
+            />
+          </div>
         </form>
       </section>
     </Fade>

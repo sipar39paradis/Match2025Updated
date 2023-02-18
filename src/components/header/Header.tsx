@@ -137,7 +137,7 @@ export function Header() {
         className="header top-0 left-0 w-full z-[99] relative"
       >
         <Navbar.Brand href="/">
-          <Logo className="w-24 h-24" />
+          <Logo className="w-16 h-16" />
           <p className="text-2xl text-gray-900 opacity-100">Impôts Match</p>
         </Navbar.Brand>
         <div className="flex md:order-2">
