@@ -183,6 +183,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
   async function signIn(email: string, password: string) {
     let errorMessage = '';
+    console.log(email, password);
     await signInWithEmailAndPassword(auth, email, password)
       .then(() => navigate('/platform'))
       .catch((error) => {
