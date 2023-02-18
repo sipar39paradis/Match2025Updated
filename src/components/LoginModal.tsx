@@ -61,7 +61,7 @@ export function LoginModal(props: LoginModalProps) {
               </div>
               <div className="flex items-center justify-between">
                 <button
-                  className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
                   type="button"
                 >
                   Sign In

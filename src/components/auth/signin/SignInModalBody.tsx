@@ -4,7 +4,6 @@ import { ReactComponent as GoogleIcon } from '../../../icons/GoogleIcon.svg';
 import { ReactComponent as FacebookIcon } from '../../../icons/FacebookIcon.svg';
 import { AuthButton } from '../AuthButton';
 import { useForm } from 'react-hook-form';
-import { Modal } from '../../common/Modal';
 import { AuthModalEnum } from '../AuthModal';
 
 interface SignInModalBodyProps {
@@ -97,10 +96,10 @@ export function SignInModalBody({
           <input
             type="submit"
             value="Se connecter"
-            className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+            className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
           />
           <a
-            className="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800"
+            className="inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-700"
             href="#"
             onClick={() => switchModal(AuthModalEnum.ResetPassword)}
           >
@@ -126,11 +125,11 @@ export function SignInModalBody({
               setPromiseFromText(promise);
               setResolver(resolver);
             } else if (err) {
-              if(err === 'No Two Factor'){
-                switchModal(AuthModalEnum.TwoFactor)
+              if (err === 'No Two Factor') {
+                switchModal(AuthModalEnum.TwoFactor);
               }
-              setAuthError(await promise);}
-            else closeModal(false);
+              setAuthError(await promise);
+            } else closeModal(false);
           }}
           text="Continuez avec Google"
           id="google-login"
