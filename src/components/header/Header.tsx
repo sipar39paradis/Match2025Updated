@@ -6,7 +6,8 @@ import { AuthModal, AuthModalEnum } from '../auth/AuthModal';
 import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Dropdown, Navbar } from 'flowbite-react';
+import { Navbar } from 'flowbite-react';
+import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
 
 interface HeaderItemProps {
   text: string;
@@ -135,12 +136,9 @@ export function Header() {
         rounded={true}
         className="header top-0 left-0 w-full z-[99] relative"
       >
-        <Navbar.Brand href="https://flowbite.com/">
-          <img
-            src={require('../../images/logo/impot-match-logo.svg').default}
-            className="mr-3 py-0 h-24"
-            alt="Flowbite Logo"
-          />
+        <Navbar.Brand href="/">
+          <Logo className="w-24 h-24" />
+          <p className="text-2xl text-gray-900 opacity-100">Impôts Match</p>
         </Navbar.Brand>
         <div className="flex md:order-2">
           {user && <ProfileDropdown user={user} displayModal={displayModal} />}
@@ -170,7 +168,8 @@ export function Header() {
                   className={
                     (hover === 'home' || activeLink === 'home'
                       ? 'md:text-orange-500'
-                      : '') + ' cursor-pointer font-heading text-base text-dark-text'
+                      : '') +
+                    ' cursor-pointer font-heading text-base text-dark-text'
                   }
                   onMouseEnter={() => {
                     setHover('home');
@@ -189,7 +188,8 @@ export function Header() {
                   className={
                     (hover === 'profile' || activeLink === 'profile'
                       ? 'md:text-orange-500'
-                      : '') + ' cursor-pointer font-heading text-base text-dark-text'
+                      : '') +
+                    ' cursor-pointer font-heading text-base text-dark-text'
                   }
                   onMouseEnter={() => {
                     setHover('profile');
@@ -208,7 +208,8 @@ export function Header() {
                   className={
                     (hover === 'files' || activeLink === 'files'
                       ? 'md:text-orange-500'
-                      : '') + ' cursor-pointer font-heading text-base text-dark-text'
+                      : '') +
+                    ' cursor-pointer font-heading text-base text-dark-text'
                   }
                   onMouseEnter={() => {
                     setHover('files');
@@ -226,12 +227,12 @@ export function Header() {
               </>
             ) : (
               <>
-                  <HeaderItem text="Accueil" toLink="/#home" />
-                  <HeaderItem text="Comment ça marche" toLink="/#features" />
-                  <HeaderItem text="Avantages" toLink="/#advantages" />
-                  <HeaderItem text="À propos de nous" toLink="/#about" />
-                  <HeaderItem text="Préparateur" toLink="/preparator" />
-                  <HeaderItem text={'Nous joindre'} toLink="/#support" />
+                <HeaderItem text="Accueil" toLink="/#home" />
+                <HeaderItem text="Comment ça marche" toLink="/#features" />
+                <HeaderItem text="Avantages" toLink="/#advantages" />
+                <HeaderItem text="À propos de nous" toLink="/#about" />
+                <HeaderItem text="Préparateur" toLink="/preparator" />
+                <HeaderItem text={'Nous joindre'} toLink="/#support" />
               </>
             )}
           </>
