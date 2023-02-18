@@ -100,7 +100,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
                   <Checkbox {...register('investmentIncomes.trustIncome')} />
                   <p>
                     T3 / Relevé 16 - État des revenus de fiducie (répartitions
-                    et attributions)
+                    et attributions)f
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">

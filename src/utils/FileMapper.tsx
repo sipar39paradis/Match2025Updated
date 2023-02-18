@@ -33,42 +33,43 @@ export default function mapFiles(taxReport: TaxReport): Array<string>{
     const taxDeductions = taxReport?.taxDeductions;
 
     // investment income
-    if(investmentIncomes?.declaredInvestmentIncome){
-        filesArr.push('T5_Relevé 3')
-    }
+    if(investmentIncomes?.reportedInvestmentIncome){
+        if(investmentIncomes?.declaredInvestmentIncome){
+            filesArr.push('T5_Relevé 3')
+        }
 
-    if(investmentIncomes?.trustIncome){
-        filesArr.push('T3_Relevé 16')
-    }
+        if(investmentIncomes?.trustIncome){
+            filesArr.push('T3_Relevé 16')
+        }
 
-    if(investmentIncomes?.securityTransactions){
-        filesArr.push('T5008_Relevé 18')
-    }
+        if(investmentIncomes?.securityTransactions){
+            filesArr.push('T5008_Relevé 18')
+        }
 
-    if(investmentIncomes?.partnershipIncomes){
-        filesArr.push('T5013_Relevé 15')
-    }
-    
-    if(investmentIncomes?.explorationAndShareExpenses){
-        filesArr.push('T101_Relevé 11')
-    }
+        if(investmentIncomes?.partnershipIncomes){
+            filesArr.push('T5013_Relevé 15')
+        }
+        
+        if(investmentIncomes?.explorationAndShareExpenses){
+            filesArr.push('T101_Relevé 11')
+        }
 
-    if(investmentIncomes?.investmentPlanIncome){
-        filesArr.push('Relevé 7')
-    }
+        if(investmentIncomes?.investmentPlanIncome){
+            filesArr.push('Relevé 7')
+        }
 
-    if(taxDeductions?.labourSponsoredFundTaxCredits){
-        filesArr.push('Relevé 10')
-    }
+        if(taxDeductions?.labourSponsoredFundTaxCredits){
+            filesArr.push('Relevé 10')
+        }
 
-    if(investmentIncomes?.desjardins){
-        filesArr.push('Relevé 26')
-    }
+        if(investmentIncomes?.desjardins){
+            filesArr.push('Relevé 26')
+        }
 
-    if(investmentIncomes?.foreignIncomes){
-        filesArr.push('Foreign Income')
+        if(investmentIncomes?.foreignIncomes){
+            filesArr.push('Foreign Income')
+        }
     }
-
     // Student expenses
     if(studentExpenses?.tuitionFees){
         filesArr.push('T2022_Relevé_8_TL11')
