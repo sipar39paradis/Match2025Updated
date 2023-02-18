@@ -141,9 +141,6 @@ export function Header() {
             className="mr-3 py-0 h-24"
             alt="Flowbite Logo"
           />
-          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-            Flowbite
-          </span>
         </Navbar.Brand>
         <div className="flex md:order-2">
           {user && <ProfileDropdown user={user} displayModal={displayModal} />}
@@ -166,101 +163,78 @@ export function Header() {
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
-          <div
-            className={
-              hover === 'home' || activeLink === 'home'
-                ? 'md:text-orange-500'
-                : null
-            }
-            onMouseEnter={() => {
-              setHover('home');
-            }}
-            onMouseLeave={() => {
-              setHover('');
-            }}
-            onClick={() => {
-              setActiveLink('home');
-              navigate('/');
-            }}
-          >
-            Home
-          </div>
-          <div
-            className={
-              hover === 'profile' || activeLink === 'profile'
-                ? 'md:text-orange-500'
-                : null
-            }
-            onMouseEnter={() => {
-              setHover('profile');
-            }}
-            onMouseLeave={() => {
-              setHover('');
-            }}
-            onClick={() => {
-              setActiveLink('profile');
-              navigate('/platform');
-            }}
-          >
-            Profile
-          </div>
-          <div
-            className={
-              hover === 'requests' || activeLink === 'requests'
-                ? 'md:text-orange-500'
-                : null
-            }
-            onMouseEnter={() => {
-              setHover('requests');
-            }}
-            onMouseLeave={() => {
-              setHover('');
-            }}
-            onClick={() => {
-              setActiveLink('requests');
-              navigate('/requests');
-            }}
-          >
-            Requests
-          </div>
-          <div
-            className={
-              hover === 'messages' || activeLink === 'messages'
-                ? 'md:text-orange-500'
-                : null
-            }
-            onMouseEnter={() => {
-              setHover('messages');
-            }}
-            onMouseLeave={() => {
-              setHover('');
-            }}
-            onClick={() => {
-              setActiveLink('messages');
-              navigate('/messages');
-            }}
-          >
-            Messages
-          </div>
-          <div
-            className={
-              hover === 'files' || activeLink === 'files'
-                ? 'md:text-orange-500'
-                : null
-            }
-            onMouseEnter={() => {
-              setHover('files');
-            }}
-            onMouseLeave={() => {
-              setHover('');
-            }}
-            onClick={() => {
-              setActiveLink('files');
-              navigate('/files');
-            }}
-          >
-            Files
-          </div>
+          <>
+            {user ? (
+              <>
+                <a
+                  className={
+                    (hover === 'home' || activeLink === 'home'
+                      ? 'md:text-orange-500'
+                      : '') + ' cursor-pointer font-heading text-base text-dark-text'
+                  }
+                  onMouseEnter={() => {
+                    setHover('home');
+                  }}
+                  onMouseLeave={() => {
+                    setHover('');
+                  }}
+                  onClick={() => {
+                    setActiveLink('home');
+                    navigate('/');
+                  }}
+                >
+                  Maison
+                </a>
+                <a
+                  className={
+                    (hover === 'profile' || activeLink === 'profile'
+                      ? 'md:text-orange-500'
+                      : '') + ' cursor-pointer font-heading text-base text-dark-text'
+                  }
+                  onMouseEnter={() => {
+                    setHover('profile');
+                  }}
+                  onMouseLeave={() => {
+                    setHover('');
+                  }}
+                  onClick={() => {
+                    setActiveLink('profile');
+                    navigate('/platform');
+                  }}
+                >
+                  Profil
+                </a>
+                <a
+                  className={
+                    (hover === 'files' || activeLink === 'files'
+                      ? 'md:text-orange-500'
+                      : '') + ' cursor-pointer font-heading text-base text-dark-text'
+                  }
+                  onMouseEnter={() => {
+                    setHover('files');
+                  }}
+                  onMouseLeave={() => {
+                    setHover('');
+                  }}
+                  onClick={() => {
+                    setActiveLink('files');
+                    navigate('/files');
+                  }}
+                >
+                  Mes Dossiers
+                </a>
+              </>
+            ) : (
+              <>
+                  <HeaderItem text="Accueil" toLink="/#home" />
+                  <HeaderItem text="Comment ça marche" toLink="/#features" />
+                  <HeaderItem text="Avantages" toLink="/#advantages" />
+                  <HeaderItem text="À propos de nous" toLink="/#about" />
+                  <HeaderItem text="Préparateur" toLink="/preparator" />
+                  <HeaderItem text={'Nous joindre'} toLink="/#support" />
+              </>
+            )}
+          </>
         </Navbar.Collapse>
       </Navbar>
     </>

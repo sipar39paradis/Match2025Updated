@@ -60,7 +60,7 @@ export function ProfileDropdown({user, displayModal}: ProfileDropdownProps) {
               </span>
             )}
           </Menu.Item>
-          <Menu.Item>
+          {/* <Menu.Item>
             {({ active }: { active: boolean }) => (
               <span
                 className={classNames(
@@ -72,7 +72,7 @@ export function ProfileDropdown({user, displayModal}: ProfileDropdownProps) {
                 Add 2 Factor Authentication
               </span>
             )}
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu.Items>
       </Transition>
     </Menu>
