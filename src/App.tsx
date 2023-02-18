@@ -12,10 +12,10 @@ import { Platform } from './views/loggedin/Platform';
 import { Questionnaire } from './views/loggedin/TaxDeclaration/Questionnaire';
 import { Preparator } from './views/loggedout/Preparator';
 import { Familly } from './views/loggedin/boxes/familly';
-import { Questionaire } from './views/loggedin/boxes/questionaire';
 import { Declaration } from './views/loggedin/boxes/declaration';
 import { Progression } from './views/loggedin/boxes/progression';
 import { CustomerService } from './views/loggedin/boxes/CustomerService';
+import { Questionaire } from './views/loggedin/boxes/questionaire';
 
 function App() {
   return (

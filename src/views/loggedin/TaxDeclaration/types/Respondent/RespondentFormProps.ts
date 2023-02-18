@@ -9,4 +9,5 @@ export interface RespondentFormProps {
   saveFormAnswers?: () => void
   setValue?: UseFormSetValue<Respondent>
   resetForm?: () => void
+  url?: URLSearchParams
 }

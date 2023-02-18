@@ -5,13 +5,16 @@ import { CivilStatusEnum } from '../types/Respondent/CivilStatusEnum';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { TAX_DECLARATION_STEP } from '../Questionnaire';
 
 export function CivilStatusForm(props: RespondentFormProps) {
-  const { register, control, formData, handleSubmit, saveFormAnswers } = props;
+  const { register, control, formData, handleSubmit, saveFormAnswers, url } =
+    props;
   const navigate = useNavigate();
 
   async function onSubmitButton() {
     saveFormAnswers();
+    url.set(TAX_DECLARATION_STEP, TaxDeclarationStep.PERSONAL_INFORMATIONS);
     navigate(
       `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
     );

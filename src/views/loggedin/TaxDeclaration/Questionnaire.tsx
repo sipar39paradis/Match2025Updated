@@ -14,8 +14,8 @@ import { getDoc, doc, setDoc } from 'firebase/firestore';
 import { Respondent } from './types/Respondent/Respondent';
 import { useForm } from 'react-hook-form';
 
-const TAX_DECLARATION_STEP = 'step';
-const QUESTIONNAIRE_COLLECTION = 'profile';
+export const TAX_DECLARATION_STEP = 'step';
+const TAX_REPORT_COLLECTION = 'taxReport';
 const YEAR_SUB_COLLECTION = 'year';
 
 export function Questionnaire() {
@@ -31,7 +31,6 @@ export function Questionnaire() {
     reset,
   } = useForm<Respondent>();
   const currentYear = new Date().getFullYear();
-
   let formData = watch();
 
   function resetForm() {
@@ -47,15 +46,11 @@ export function Questionnaire() {
   }
 
   useEffect(() => {
-    resetForm();
-  }, []);
-
-  useEffect(() => {
     async function fetchUserAnswers() {
       const docSnap = await getDoc(
         doc(
           firestore,
-          QUESTIONNAIRE_COLLECTION,
+          TAX_REPORT_COLLECTION,
           user.uid,
           YEAR_SUB_COLLECTION,
           currentYear.toString()
@@ -63,25 +58,41 @@ export function Questionnaire() {
       );
       if (docSnap.exists()) {
         formData = docSnap.data() as Respondent;
-        if (formData.civilStatus) setValue('civilStatus', formData.civilStatus);
-        if (formData.personalInformations)
-          setValue('personalInformations', formData.personalInformations);
-        if (formData.contactDetails)
-          setValue('contactDetails', formData.contactDetails);
-        if (formData.civilStatusChange)
-          setValue('civilStatusChange', formData.civilStatusChange);
-        if (formData.dependents) setValue('dependents', formData.dependents);
-        console.log(formData);
+        reset({
+          civilStatus: formData?.civilStatus || null,
+          personalInformations: formData?.personalInformations || null,
+          contactDetails: formData?.contactDetails || null,
+          civilStatusChange: formData?.civilStatusChange || null,
+          dependents: formData?.dependents || null,
+          taxReport: formData?.taxReport || null,
+        });
+        console.log('fetch', formData);
       }
     }
+
     if (user) {
+      console.log(user);
       fetchUserAnswers();
     }
   }, [user]);
 
   async function saveFormAnswers() {
-    console.log(formData);
-    await setDoc(doc(firestore, QUESTIONNAIRE_COLLECTION, user.uid), formData);
+    const taxReports = {
+      questionnaires: [formData],
+      step: query.get(TAX_DECLARATION_STEP),
+    };
+    console.log('save', taxReports);
+
+    await setDoc(
+      doc(
+        firestore,
+        TAX_REPORT_COLLECTION,
+        user.uid,
+        YEAR_SUB_COLLECTION,
+        currentYear.toString()
+      ),
+      taxReports
+    );
   }
 
   function renderTaxReportStep(step: string) {
@@ -94,6 +105,7 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
+            url={query}
           ></CivilStatusForm>
         );
       case TaxDeclarationStep.PERSONAL_INFORMATIONS:
