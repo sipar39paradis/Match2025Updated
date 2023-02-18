@@ -1,7 +1,6 @@
 import { Select } from 'flowbite-react/lib/esm/components/FormControls';
 import React, { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
@@ -16,9 +15,8 @@ export function ContactDetailsForm(props: RespondentFormProps) {
     formData,
     control,
     setValue,
+    setSearchParams,
   } = props;
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     window.scroll({
@@ -29,9 +27,7 @@ export function ContactDetailsForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
-    );
+    setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS_CHANGE });
   }
 
   useEffect(() => {
@@ -309,9 +305,9 @@ export function ContactDetailsForm(props: RespondentFormProps) {
               value="Precedant"
               onClick={() => {
                 saveFormAnswers();
-                navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
-                );
+                setSearchParams({
+                  step: TaxDeclarationStep.PERSONAL_INFORMATIONS,
+                });
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />

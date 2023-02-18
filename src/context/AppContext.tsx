@@ -25,6 +25,8 @@ import {
   getFirestore,
   getDoc,
   Firestore,
+  addDoc,
+  collection,
 } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../interfaces/User';
@@ -49,7 +51,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
-const storage = getStorage(app)
+const storage = getStorage(app);
 const auth: Auth = getAuth();
 
 export interface AppContextType {
@@ -82,7 +84,7 @@ export interface AppContextType {
   ) => Promise<string>;
   resetPassword: (email: string) => void;
   firestore: Firestore;
-  storage: FirebaseStorage
+  storage: FirebaseStorage;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -199,7 +201,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await signInWithPopup(auth, provider)
       .then(async (userCredential) => {
         // succsessfulSignIn(userCredential);
-        errorMessage = 'No Two Factor'
+        errorMessage = 'No Two Factor';
       })
       .catch((error) => {
         console.log(error);
@@ -278,6 +280,13 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         if (userCredential?.user.email) {
           await createProfile(userCredential, firstName, lastName, referalCode);
           setUserInfo(userCredential);
+          await addDoc(
+            collection(firestore, 'taxReport', user.uid, 'questionnaires'),
+            { mainClient: true, year: new Date().getFullYear() }
+          ).then((dorRef) => {
+            navigate(`/platform/questionnaire/${dorRef.id}`);
+          });
+          navigate('/platform/questionnaire');
         }
       })
       .catch((error) => {

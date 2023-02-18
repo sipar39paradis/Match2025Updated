@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
 import { CivilStatusChangeForm } from './ProfileForms/CivilStatusChangeForm';
@@ -16,11 +16,12 @@ import { useForm } from 'react-hook-form';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
-const YEAR_SUB_COLLECTION = 'year';
+const QUESTIONNAIRE_SUB_COLLECTTION = 'questionnaires';
 
 export function Questionnaire() {
   const { firestore, user } = useContext(AppContext) as AppContextType;
-  const query = useQuery();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
@@ -30,7 +31,6 @@ export function Questionnaire() {
     setValue,
     reset,
   } = useForm<Respondent>();
-  const currentYear = new Date().getFullYear();
   let formData = watch();
 
   function resetForm() {
@@ -52,8 +52,8 @@ export function Questionnaire() {
           firestore,
           TAX_REPORT_COLLECTION,
           user.uid,
-          YEAR_SUB_COLLECTION,
-          currentYear.toString()
+          QUESTIONNAIRE_SUB_COLLECTTION,
+          id
         )
       );
       if (docSnap.exists()) {
@@ -69,7 +69,6 @@ export function Questionnaire() {
         console.log('fetch', formData);
       }
     }
-
     if (user) {
       console.log(user);
       fetchUserAnswers();
@@ -77,22 +76,10 @@ export function Questionnaire() {
   }, [user]);
 
   async function saveFormAnswers() {
-    const taxReports = {
-      questionnaires: [formData],
-      step: query.get(TAX_DECLARATION_STEP),
-    };
-    console.log('save', taxReports);
-
-    await setDoc(
-      doc(
-        firestore,
-        TAX_REPORT_COLLECTION,
-        user.uid,
-        YEAR_SUB_COLLECTION,
-        currentYear.toString()
-      ),
-      taxReports
-    );
+    console.log('save', formData);
+    await setDoc(doc(firestore, TAX_REPORT_COLLECTION, user.uid), formData, {
+      merge: true,
+    });
   }
 
   function renderTaxReportStep(step: string) {
@@ -105,7 +92,7 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
-            url={query}
+            setSearchParams={setSearchParams}
           ></CivilStatusForm>
         );
       case TaxDeclarationStep.PERSONAL_INFORMATIONS:
@@ -178,14 +165,8 @@ export function Questionnaire() {
   return (
     <div className="flex justify-center p-16 bg-orange-50 min-h-screen">
       <div className="w-[800px] bg-white rounded-lg p-8 h-fit">
-        {renderTaxReportStep(query.get(TAX_DECLARATION_STEP))}
+        {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}
       </div>
     </div>
   );
-}
-
-function useQuery() {
-  const { search } = useLocation();
-
-  return React.useMemo(() => new URLSearchParams(search), [search]);
 }

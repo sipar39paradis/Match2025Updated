@@ -1,7 +1,6 @@
 import { Select } from 'flowbite-react/lib/esm/components/FormControls';
 import React, { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
@@ -9,8 +8,14 @@ import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 
 export function CivilStatusChangeForm(props: RespondentFormProps) {
-  const { register, handleSubmit, saveFormAnswers, formData, control } = props;
-  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    saveFormAnswers,
+    formData,
+    control,
+    setSearchParams,
+  } = props;
 
   useEffect(() => {
     window.scroll({
@@ -21,7 +26,7 @@ export function CivilStatusChangeForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    navigate(`/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}`);
+    setSearchParams({ step: TaxDeclarationStep.DEPENDENTS });
   }
 
   useEffect(() => {
@@ -183,9 +188,7 @@ export function CivilStatusChangeForm(props: RespondentFormProps) {
               value="Precedant"
               onClick={() => {
                 saveFormAnswers;
-                navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}`
-                );
+                setSearchParams({ step: TaxDeclarationStep.CONTACT_DETAILS });
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />

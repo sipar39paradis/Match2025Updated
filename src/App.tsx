@@ -34,6 +34,10 @@ function App() {
               <Route path="/messages" element={<Messages />} />
               <Route path="/platform" element={<Platform />} />
               <Route
+                path="/platform/questionnaire/:id"
+                element={<Questionnaire />}
+              />{' '}
+              <Route
                 path="/platform/questionnaire"
                 element={<Questionnaire />}
               />

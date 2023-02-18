@@ -1,7 +1,6 @@
 import { Select } from 'flowbite-react';
 import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DependentRelatationShipEnum } from '../types/Respondent/Dependent';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
@@ -9,9 +8,9 @@ import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 
 export function DependentsForm(props: RespondentFormProps) {
-  const { register, handleSubmit, saveFormAnswers, control } = props;
+  const { register, handleSubmit, saveFormAnswers, control, setSearchParams } =
+    props;
 
-  const navigate = useNavigate();
   const [showDependentForm, setShowDependentForm] = useState(false);
 
   const [birthDayValue, setBirthDayValue] = useState({
@@ -25,7 +24,7 @@ export function DependentsForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    navigate(`/platform/questionnaire?step=${TaxDeclarationStep.TAX_PROFILE}`);
+    setSearchParams({ step: TaxDeclarationStep.TAX_PROFILE });
   }
 
   return (
@@ -211,9 +210,9 @@ export function DependentsForm(props: RespondentFormProps) {
               type="submit"
               value="Precedant"
               onClick={() =>
-                navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
-                )
+                setSearchParams({
+                  step: TaxDeclarationStep.CIVIL_STATUS_CHANGE,
+                })
               }
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />

@@ -7,6 +7,7 @@ import { PersonalInformations } from './PersonnalInformations';
 
 export interface Respondent {
   mainClient: boolean
+  year: number
   civilStatus?: CivilStatus
   personalInformations: PersonalInformations
   contactDetails: ContactDetails

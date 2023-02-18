@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
 import Fade from 'react-reveal';
@@ -8,9 +7,14 @@ import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 
 export function PersonnalInformationsForm(props: RespondentFormProps) {
-  const { register, handleSubmit, saveFormAnswers, setValue, formData } = props;
-
-  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    saveFormAnswers,
+    setValue,
+    formData,
+    setSearchParams,
+  } = props;
 
   const [birthDayValue, setBirthDayValue] = useState({
     startDate: null,
@@ -31,9 +35,7 @@ export function PersonnalInformationsForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}`
-    );
+    setSearchParams({ step: TaxDeclarationStep.CONTACT_DETAILS });
   }
 
   return (
@@ -119,9 +121,7 @@ export function PersonnalInformationsForm(props: RespondentFormProps) {
               value="Precedant"
               onClick={() => {
                 saveFormAnswers();
-                navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}`
-                );
+                setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
