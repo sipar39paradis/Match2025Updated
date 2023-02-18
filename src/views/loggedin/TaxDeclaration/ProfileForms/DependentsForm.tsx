@@ -24,7 +24,7 @@ export function DependentsForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    setSearchParams({ step: TaxDeclarationStep.TAX_PROFILE });
+    setSearchParams({ step: TaxDeclarationStep.INCOMES });
   }
 
   return (

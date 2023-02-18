@@ -7,7 +7,7 @@ import { TaxDeclarationReview } from './TaxDeclarationReview';
 import { ContactDetailsForm } from './ProfileForms/ContactDetailsForm';
 import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import { DependentsForm } from './ProfileForms/DependentsForm';
-import { TaxReportForm } from './TaxForms/TaxReportForm';
+import { IncomesForm } from './TaxForms/IncomesForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import {
@@ -20,6 +20,7 @@ import {
 } from 'firebase/firestore';
 import { Respondent } from './types/Respondent/Respondent';
 import { useForm } from 'react-hook-form';
+import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
@@ -195,9 +196,9 @@ export function Questionnaire() {
             setSearchParams={setSearchParams}
           ></DependentsForm>
         );
-      case TaxDeclarationStep.TAX_PROFILE:
+      case TaxDeclarationStep.INCOMES:
         return (
-          <TaxReportForm
+          <IncomesForm
             register={register}
             control={control}
             formData={formData}
@@ -205,7 +206,19 @@ export function Questionnaire() {
             saveFormAnswers={saveFormAnswers}
             setSearchParams={setSearchParams}
             addQuestionnaire={addQuestionnaire}
-          ></TaxReportForm>
+          ></IncomesForm>
+        );
+      case TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT:
+        return (
+          <DeductionsAndTaxCreditsForm
+            register={register}
+            control={control}
+            formData={formData}
+            handleSubmit={handleSubmit}
+            saveFormAnswers={saveFormAnswers}
+            setSearchParams={setSearchParams}
+            addQuestionnaire={addQuestionnaire}
+          ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
         return <TaxDeclarationFileUpload />;

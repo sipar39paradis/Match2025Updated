@@ -1,23 +1,16 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
-import Fade from 'react-reveal';
-import { WorkIncomesForm } from './WorkIncomesForm';
-import { RetirementIncomesForm } from './RetirementIncomeForm';
-import { InvestmentIncomeForm as InvestmentIncomeForm } from './InvestmentIncomeForm';
-import { SelfEmploymentRentalOtherIncomeForm } from './SelfEmploymentRentalOtherIncomeForm';
-import { StudentLastYearForm } from './StudentLastYearForm';
-import { TaxDeductionsForm } from './TaxDeductionsForm';
-import { OtherDeductionsForm } from './OtherDeductionsForm';
-import { VolunteerFirefighterForm } from './VolunteerFirefighterForm';
-import { ForeignAssetsForm } from './ForeignAssetsForm';
+import { BoughtHomeForm } from './BoughtHomeForm';
 import { DonationsForm } from './DonationsForm';
 import { MovingExpensesForm } from './MovingExpensesForm';
-import { BoughtHomeForm } from './BoughtHomeForm';
+import { OtherDeductionsForm } from './OtherDeductionsForm';
 import { SoldMainHomeForm } from './SoldMainHome';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { VolunteerFirefighterForm } from './VolunteerFirefighterForm';
+import Fade from 'react-reveal';
 
-export function TaxReportForm(props: RespondentFormProps) {
+export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   const {
     register,
     handleSubmit,
@@ -30,7 +23,7 @@ export function TaxReportForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    if (formData.mainClient && formData.civilStatus.together) {
+    if (formData?.mainClient && formData?.civilStatus?.together) {
       addQuestionnaire(false);
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
     }
@@ -39,47 +32,12 @@ export function TaxReportForm(props: RespondentFormProps) {
 
   return (
     <section className="flex flex-col align-baseline items-start w-full">
-      <h1>Qu&apos;est-ce qui a marqué l&apos;année 2022?</h1>
+      <h1>Déductions et Crédits d’impôts </h1>
       <Fade>
         <form
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start mt-4 w-full"
         >
-          <WorkIncomesForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <RetirementIncomesForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <InvestmentIncomeForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <SelfEmploymentRentalOtherIncomeForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <StudentLastYearForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <TaxDeductionsForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <ForeignAssetsForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
           <DonationsForm
             control={control}
             formData={formData}
@@ -187,7 +145,7 @@ export function TaxReportForm(props: RespondentFormProps) {
               value="Précédant"
               onClick={() => {
                 saveFormAnswers();
-                setSearchParams({ step: TaxDeclarationStep.DEPENDENTS });
+                setSearchParams({ step: TaxDeclarationStep.INCOMES });
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
