@@ -60,6 +60,8 @@ export function Questionnaire() {
       if (docSnap.exists()) {
         formData = docSnap.data() as Respondent;
         reset({
+          mainClient: formData?.mainClient || null,
+          year: formData?.year || null,
           civilStatus: formData?.civilStatus || null,
           personalInformations: formData?.personalInformations || null,
           contactDetails: formData?.contactDetails || null,
@@ -68,34 +70,55 @@ export function Questionnaire() {
           taxReport: formData?.taxReport || null,
         });
         console.log('fetch', formData);
-      } else {
+
+        // const querySnapshot = await getDocs(
+        //   collection(
+        //     firestore,
+        //     TAX_REPORT_COLLECTION,
+        //     user.uid,
+        //     QUESTIONNAIRE_SUB_COLLECTTION
+        //   )
+        // );
+        // querySnapshot.forEach((doc) => {
+        //   // doc.data() is never undefined for query doc snapshots
+        //   console.log(doc.id, ' => ', doc.data());
+        // });
       }
     }
-    console.log(id);
     if (user && id) {
       fetchUserAnswers();
     } else if (!id) {
-      handleNewUser();
+      addQuestionnaire();
     }
   }, [user]);
 
-  async function handleNewUser() {
+  async function addQuestionnaire(mainClient = true) {
     console.log('new');
     await addDoc(
       collection(firestore, 'taxReport', user.uid, 'questionnaires'),
-      { mainClient: true, year: new Date().getFullYear() }
+      { mainClient, year: new Date().getFullYear() }
     ).then((dorRef) => {
       navigate(
-        `/platform/questionnaire/${dorRef.id}?step=${TaxDeclarationStep.CIVIL_STATUS}`
+        `/platform/questionnaire/${dorRef.id}?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
       );
     });
   }
 
   async function saveFormAnswers() {
     console.log('save', formData);
-    await setDoc(doc(firestore, TAX_REPORT_COLLECTION, user.uid), formData, {
-      merge: true,
-    });
+    await setDoc(
+      doc(
+        firestore,
+        TAX_REPORT_COLLECTION,
+        user.uid,
+        QUESTIONNAIRE_SUB_COLLECTTION,
+        id
+      ),
+      formData,
+      {
+        merge: true,
+      }
+    );
   }
 
   function renderTaxReportStep(step: string) {
@@ -164,6 +187,10 @@ export function Questionnaire() {
             register={register}
             control={control}
             formData={formData}
+            handleSubmit={handleSubmit}
+            saveFormAnswers={saveFormAnswers}
+            setSearchParams={setSearchParams}
+            addQuestionnaire={addQuestionnaire}
           ></TaxReportForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:

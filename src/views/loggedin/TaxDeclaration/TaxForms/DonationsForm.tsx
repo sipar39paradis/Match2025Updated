@@ -43,7 +43,7 @@ export function DonationsForm(props: RespondentFormProps) {
         )}
       />
 
-      {formData?.taxReport.donations?.donations && (
+      {formData?.taxReport?.donations?.donations && (
         <div className="px-8 py-4 mb-4 w-full bg-gray-100 rounded-lg">
           <p>Cochez toutes les cases qui s&apos;appliquent.</p>
           <div className="flex items-center gap-2 py-2">

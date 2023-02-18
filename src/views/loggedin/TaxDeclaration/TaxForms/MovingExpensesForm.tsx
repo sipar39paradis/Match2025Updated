@@ -41,7 +41,7 @@ export function MovingExpensesForm(props: RespondentFormProps) {
         )}
       />
 
-      {formData?.taxReport.movingExpenses && (
+      {formData?.taxReport?.movingExpenses && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p className="opacity-100 pb-2">
             Votre préparateur va entre en contact avec vous pour avoir plus de

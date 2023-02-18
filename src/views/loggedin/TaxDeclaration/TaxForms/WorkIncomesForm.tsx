@@ -224,7 +224,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                         </fieldset>
                       )}
                     />
-                    {formData.taxReport.workIncomes.jobRelatedExpenses && (
+                    {formData?.taxReport?.workIncomes.jobRelatedExpenses && (
                       <>
                         <hr className="py-2"></hr>
                         <div className="mx-8">
@@ -291,7 +291,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                   congé parental
                 </p>
               </div>
-              {formData.taxReport.workIncomes
+              {formData?.taxReport?.workIncomes
                 .employmentInsuranceOrParentalBenefits && (
                 <>
                   <hr className="py-2"></hr>
@@ -330,7 +330,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                   l&apos;aide sociale
                 </p>
               </div>
-              {formData.taxReport.workIncomes
+              {formData?.taxReport?.workIncomes
                 .workerCompensationOrSocialAssistance && (
                 <>
                   <hr className="py-2"></hr>
@@ -376,7 +376,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                   l&apos;aide sociale
                 </p>
               </div>
-              {formData.taxReport.workIncomes
+              {formData?.taxReport?.workIncomes
                 .workerCompensationOrSocialAssistance && (
                 <>
                   <hr className="py-2"></hr>
@@ -406,7 +406,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                   d&apos;un congé parental, la PCU ou d&apos;autres montants
                 </p>
               </div>
-              {formData.taxReport.workIncomes
+              {formData?.taxReport?.workIncomes
                 .employmentInsuranceOrParentalBenefits && (
                 <>
                   <hr className="py-2"></hr>

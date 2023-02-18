@@ -45,7 +45,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
         )}
       />
 
-      {formData?.taxReport.taxDeductions?.taxDeductions && (
+      {formData?.taxReport?.taxDeductions?.taxDeductions && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>
             Avez-vous versé des cotisations à un régime de pension comme un
@@ -83,7 +83,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
             )}
           />
 
-          {formData?.taxReport.taxDeductions?.pensionPLan && (
+          {formData?.taxReport?.taxDeductions?.pensionPLan && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -208,7 +208,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
             )}
           />
 
-          {formData?.taxReport.taxDeductions?.LLPorHBP && (
+          {formData?.taxReport?.taxDeductions?.LLPorHBP && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -243,7 +243,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
                     </fieldset>
                   )}
                 />
-                {formData?.taxReport.taxDeductions?.LLPorHBPrepayment && (
+                {formData?.taxReport?.taxDeductions?.LLPorHBPrepayment && (
                   <>
                     <hr className="py-2"></hr>
                     <p>Cochez toutes les cases qui s&apos;appliquent.</p>
@@ -300,7 +300,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
                   )}
                 />
 
-                {formData?.taxReport.taxDeductions
+                {formData?.taxReport?.taxDeductions
                   ?.RRSPorRRIFmoneyWithdrawn && (
                   <>
                     <hr className="py-2"></hr>

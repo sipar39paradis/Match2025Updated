@@ -11,4 +11,5 @@ export interface RespondentFormProps {
   setValue?: UseFormSetValue<Respondent>
   resetForm?: () => void
   setSearchParams?: (nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), navigateOpts?: NavigateOptions) => void
+  addQuestionnaire?: (mainClient: boolean) => void
 }

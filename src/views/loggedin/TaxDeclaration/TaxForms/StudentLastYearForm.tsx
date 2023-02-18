@@ -43,7 +43,7 @@ export function StudentLastYearForm(props: RespondentFormProps) {
         )}
       />
 
-      {formData?.taxReport.studentExpenses?.studentExpenses && (
+      {formData?.taxReport?.studentExpenses?.studentExpenses && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p>Cochez toutes les cases qui s&apos;appliquent.</p>
           <div className="flex items-center gap-2 py-2">

@@ -45,7 +45,7 @@ export function SelfEmploymentRentalOtherIncomeForm(
         )}
       />
 
-      {formData?.taxReport.selfEmploymentRentalOtherIncomes
+      {formData?.taxReport?.selfEmploymentRentalOtherIncomes
         ?.selfEmploymentRentalOtherIncomes && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <div className="flex items-center gap-2 py-2">
@@ -56,7 +56,7 @@ export function SelfEmploymentRentalOtherIncomeForm(
             />
             <p>J&apos;étais un travailleur autonome</p>
           </div>
-          {formData?.taxReport.selfEmploymentRentalOtherIncomes
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
             ?.selfEmployed && (
             <>
               <hr className="py-2"></hr>
@@ -109,7 +109,7 @@ export function SelfEmploymentRentalOtherIncomeForm(
               J&apos;ai retiré de l&apos;argent d&apos;un REER ou d&apos;un FERR
             </p>
           </div>
-          {formData?.taxReport.selfEmploymentRentalOtherIncomes
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
             ?.RRSPorRRIFincome && (
             <>
               <hr className="py-2"></hr>
@@ -188,7 +188,7 @@ export function SelfEmploymentRentalOtherIncomeForm(
             />
             <p>J&apos;ai un revenu scolaire</p>
           </div>
-          {formData?.taxReport.selfEmploymentRentalOtherIncomes
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
             ?.schoolIncome && (
             <>
               <hr className="py-2"></hr>
@@ -236,7 +236,7 @@ export function SelfEmploymentRentalOtherIncomeForm(
             />
             <p>J&apos;ai reçu de l&apos;aide sociale</p>
           </div>
-          {formData?.taxReport.selfEmploymentRentalOtherIncomes
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
             ?.socialAssitance && (
             <>
               <hr className="py-2"></hr>
@@ -273,7 +273,7 @@ export function SelfEmploymentRentalOtherIncomeForm(
               prestations de décès
             </p>
           </div>
-          {formData?.taxReport.selfEmploymentRentalOtherIncomes
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
             ?.disabilityOrDeathBenefits && (
             <>
               <hr className="py-2"></hr>
@@ -326,7 +326,7 @@ export function SelfEmploymentRentalOtherIncomeForm(
               pour le revenu de travail
             </p>
           </div>
-          {formData?.taxReport.selfEmploymentRentalOtherIncomes
+          {formData?.taxReport?.selfEmploymentRentalOtherIncomes
             ?.advancePaymentsWorkingIncomeTaxBenefitIncome && (
             <>
               <hr className="py-2"></hr>

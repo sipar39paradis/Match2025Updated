@@ -1,6 +1,5 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 import { WorkIncomesForm } from './WorkIncomesForm';
@@ -19,12 +18,23 @@ import { SoldMainHomeForm } from './SoldMainHome';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
 export function TaxReportForm(props: RespondentFormProps) {
-  const { register, handleSubmit, saveFormAnswers, formData, control } = props;
-  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    saveFormAnswers,
+    formData,
+    control,
+    setSearchParams,
+    addQuestionnaire,
+  } = props;
 
   function onSubmitButton() {
     saveFormAnswers();
-    navigate(`/platform/questionnaire?step=${TaxDeclarationStep.REVIEW}}`);
+    if (formData.mainClient && formData.civilStatus.together) {
+      addQuestionnaire(false);
+      setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
+    }
+    setSearchParams({ step: TaxDeclarationStep.REVIEW });
   }
 
   return (
@@ -152,7 +162,7 @@ export function TaxReportForm(props: RespondentFormProps) {
               </fieldset>
             )}
           />
-          {formData?.taxReport.homeAccessibilityTaxCredit && (
+          {formData?.taxReport?.homeAccessibilityTaxCredit && (
             <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
               <p className="opacity-100 pb-2">
                 Votre préparateur va entre en contact avec vous pour avoir plus
@@ -177,9 +187,7 @@ export function TaxReportForm(props: RespondentFormProps) {
               value="Precedant"
               onClick={() => {
                 saveFormAnswers();
-                navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.DEPENDENTS}`
-                );
+                setSearchParams({ step: TaxDeclarationStep.DEPENDENTS });
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />

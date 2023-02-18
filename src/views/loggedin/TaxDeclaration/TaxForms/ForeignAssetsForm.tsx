@@ -42,7 +42,7 @@ export function ForeignAssetsForm(props: RespondentFormProps) {
           </fieldset>
         )}
       />
-      {formData?.taxReport.foreignAssets && (
+      {formData?.taxReport?.foreignAssets && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p>
             Vous avez indiqué que vous possédez ou détenez des biens étrangers

@@ -46,7 +46,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
         )}
       />
 
-      {formData?.taxReport.investmentIncomes?.investmentIncomes && (
+      {formData?.taxReport?.investmentIncomes?.investmentIncomes && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>
             Avez-vous eu un revenu provenant de placements qui est déclaré sur
@@ -83,7 +83,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
             )}
           />
 
-          {formData?.taxReport.investmentIncomes?.reportedInvestmentIncome && (
+          {formData?.taxReport?.investmentIncomes?.reportedInvestmentIncome && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -205,7 +205,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
             )}
           />
 
-          {formData?.taxReport.investmentIncomes
+          {formData?.taxReport?.investmentIncomes
             ?.nonDeclaredInterestDividendPartnershipIncome && (
             <>
               <hr className="py-2"></hr>
@@ -314,7 +314,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
             )}
           />
 
-          {formData?.taxReport.investmentIncomes?.soldAssets && (
+          {formData?.taxReport?.investmentIncomes?.soldAssets && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">
@@ -433,7 +433,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
             )}
           />
 
-          {formData?.taxReport.investmentIncomes?.cryptoCurrency && (
+          {formData?.taxReport?.investmentIncomes?.cryptoCurrency && (
             <>
               <hr className="py-2"></hr>
               <div className="px-8 pb-2">

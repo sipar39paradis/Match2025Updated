@@ -46,7 +46,7 @@ export function LossesForm(props: RespondentFormProps) {
         )}
       />
 
-      {formData?.taxReport.losses?.losses && (
+      {formData?.taxReport?.losses?.losses && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>
             Aviez-vous une perte déductible au titre d&apos;un placement
@@ -149,7 +149,7 @@ export function LossesForm(props: RespondentFormProps) {
             )}
           />
 
-          {formData?.taxReport.losses?.previousYearsLost && (
+          {formData?.taxReport?.losses?.previousYearsLost && (
             <>
               <hr className="py-2"></hr>
               <div className="mx-8 mb-4">
