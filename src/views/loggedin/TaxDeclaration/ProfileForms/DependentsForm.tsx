@@ -3,14 +3,13 @@ import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
-import { DependentRelatationShipEnum } from '../types/Profile/Dependent';
-import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
+import { DependentRelatationShipEnum } from '../types/Respondent/Dependent';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 
-export function DependentsForm(props: ProfileFormProps) {
-  const { register, handleSubmit, saveFormAnswers, control, clientType } =
-    props;
+export function DependentsForm(props: RespondentFormProps) {
+  const { register, handleSubmit, saveFormAnswers, control } = props;
 
   const navigate = useNavigate();
   const [showDependentForm, setShowDependentForm] = useState(false);
@@ -26,9 +25,7 @@ export function DependentsForm(props: ProfileFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.TAX_PROFILE}&clientType=${clientType}`
-    );
+    navigate(`/platform/questionnaire?step=${TaxDeclarationStep.TAX_PROFILE}`);
   }
 
   return (
@@ -215,7 +212,7 @@ export function DependentsForm(props: ProfileFormProps) {
               value="Precedant"
               onClick={() =>
                 navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}&clientType=${clientType}`
+                  `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
                 )
               }
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"

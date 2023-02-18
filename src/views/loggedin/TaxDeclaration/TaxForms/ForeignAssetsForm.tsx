@@ -1,8 +1,8 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function ForeignAssetsForm(props: TaxReportFormProps) {
+export function ForeignAssetsForm(props: RespondentFormProps) {
   const { control, formData } = props;
 
   return (
@@ -14,7 +14,7 @@ export function ForeignAssetsForm(props: TaxReportFormProps) {
       </p>
       <Controller
         control={control}
-        name="foreignAssets"
+        name="taxReport.foreignAssets"
         render={({ field: { onChange, value } }) => (
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
@@ -42,7 +42,7 @@ export function ForeignAssetsForm(props: TaxReportFormProps) {
           </fieldset>
         )}
       />
-      {formData?.foreignAssets && (
+      {formData?.taxReport.foreignAssets && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p>
             Vous avez indiqué que vous possédez ou détenez des biens étrangers

@@ -4,18 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
 import Fade from 'react-reveal';
-import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 
-export function PersonnalInformationsForm(props: ProfileFormProps) {
-  const {
-    register,
-    handleSubmit,
-    saveFormAnswers,
-    setValue,
-    formData,
-    clientType,
-  } = props;
+export function PersonnalInformationsForm(props: RespondentFormProps) {
+  const { register, handleSubmit, saveFormAnswers, setValue, formData } = props;
 
   const navigate = useNavigate();
 
@@ -39,7 +32,7 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
   function onSubmitButton() {
     saveFormAnswers();
     navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}&clientType=${clientType}`
+      `/platform/questionnaire?step=${TaxDeclarationStep.CONTACT_DETAILS}`
     );
   }
 
@@ -121,19 +114,17 @@ export function PersonnalInformationsForm(props: ProfileFormProps) {
               value="Continuez"
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
-            {clientType !== 'partner' && (
-              <input
-                type="submit"
-                value="Precedant"
-                onClick={() => {
-                  saveFormAnswers();
-                  navigate(
-                    `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}&clientType=${clientType}`
-                  );
-                }}
-                className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
-              />
-            )}
+            <input
+              type="submit"
+              value="Precedant"
+              onClick={() => {
+                saveFormAnswers();
+                navigate(
+                  `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}`
+                );
+              }}
+              className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
+            />
           </div>
         </form>
       </section>

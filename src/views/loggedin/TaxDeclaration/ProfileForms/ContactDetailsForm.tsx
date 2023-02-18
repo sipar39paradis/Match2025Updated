@@ -4,11 +4,11 @@ import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
-import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 
-export function ContactDetailsForm(props: ProfileFormProps) {
+export function ContactDetailsForm(props: RespondentFormProps) {
   const {
     register,
     handleSubmit,
@@ -16,7 +16,6 @@ export function ContactDetailsForm(props: ProfileFormProps) {
     formData,
     control,
     setValue,
-    clientType,
   } = props;
 
   const navigate = useNavigate();
@@ -31,7 +30,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
   function onSubmitButton() {
     saveFormAnswers();
     navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}&clientType=${clientType}`
+      `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS_CHANGE}`
     );
   }
 
@@ -311,7 +310,7 @@ export function ContactDetailsForm(props: ProfileFormProps) {
               onClick={() => {
                 saveFormAnswers();
                 navigate(
-                  `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}&clientType=${clientType}`
+                  `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
                 );
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"

@@ -1,26 +1,19 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { CivilStatusEnum } from '../types/Profile/CivilStatusEnum';
+import { CivilStatusEnum } from '../types/Respondent/CivilStatusEnum';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
-import { ProfileFormProps } from '../types/Profile/ProfileFormProps';
+import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
-export function CivilStatusForm(props: ProfileFormProps) {
-  const {
-    register,
-    control,
-    formData,
-    handleSubmit,
-    saveFormAnswers,
-    clientType,
-  } = props;
+export function CivilStatusForm(props: RespondentFormProps) {
+  const { register, control, formData, handleSubmit, saveFormAnswers } = props;
   const navigate = useNavigate();
 
   async function onSubmitButton() {
     saveFormAnswers();
     navigate(
-      `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}&clientType=${clientType}`
+      `/platform/questionnaire?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
     );
   }
 

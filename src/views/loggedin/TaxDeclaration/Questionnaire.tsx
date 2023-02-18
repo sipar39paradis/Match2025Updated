@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
 import { CivilStatusChangeForm } from './ProfileForms/CivilStatusChangeForm';
@@ -11,12 +11,12 @@ import { TaxReportForm } from './TaxForms/TaxReportForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { getDoc, doc, setDoc } from 'firebase/firestore';
-import { Profile } from './types/Profile/Profile';
+import { Respondent } from './types/Respondent/Respondent';
 import { useForm } from 'react-hook-form';
 
 const TAX_DECLARATION_STEP = 'step';
-const PROFILE_COLLECTION = 'profile';
-const CLIENT_TYPE_SUB_COLLECTION = 'clientType';
+const QUESTIONNAIRE_COLLECTION = 'profile';
+const YEAR_SUB_COLLECTION = 'year';
 
 export function Questionnaire() {
   const { firestore, user } = useContext(AppContext) as AppContextType;
@@ -29,11 +29,10 @@ export function Questionnaire() {
     control,
     setValue,
     reset,
-  } = useForm<Profile>();
-  const navigate = useNavigate();
+  } = useForm<Respondent>();
+  const currentYear = new Date().getFullYear();
 
   let formData = watch();
-  const [clientType, setClientType] = useState<string>(undefined);
 
   function resetForm() {
     const defaultValues = {
@@ -42,38 +41,28 @@ export function Questionnaire() {
       contactDetails: null,
       civilStatusChange: null,
       dependents: null,
+      taxReport: null,
     };
     reset({ ...defaultValues });
   }
 
   useEffect(() => {
-    if (query) {
-      resetForm();
-      const type = query.get(CLIENT_TYPE_SUB_COLLECTION);
-      if (type === 'main' || type === 'partner') {
-        setClientType(query.get(CLIENT_TYPE_SUB_COLLECTION));
-      } else {
-        setClientType('main');
-        navigate(
-          `/platform/questionnaire?step=${TaxDeclarationStep.CIVIL_STATUS}&clientType=${clientType}`
-        );
-      }
-    }
-  }, [query.get(CLIENT_TYPE_SUB_COLLECTION)]);
+    resetForm();
+  }, []);
 
   useEffect(() => {
     async function fetchUserAnswers() {
       const docSnap = await getDoc(
         doc(
           firestore,
-          PROFILE_COLLECTION,
+          QUESTIONNAIRE_COLLECTION,
           user.uid,
-          CLIENT_TYPE_SUB_COLLECTION,
-          clientType
+          YEAR_SUB_COLLECTION,
+          currentYear.toString()
         )
       );
       if (docSnap.exists()) {
-        formData = docSnap.data() as Profile;
+        formData = docSnap.data() as Respondent;
         if (formData.civilStatus) setValue('civilStatus', formData.civilStatus);
         if (formData.personalInformations)
           setValue('personalInformations', formData.personalInformations);
@@ -85,23 +74,14 @@ export function Questionnaire() {
         console.log(formData);
       }
     }
-    if (user && clientType) {
+    if (user) {
       fetchUserAnswers();
     }
-  }, [user, clientType]);
+  }, [user]);
 
   async function saveFormAnswers() {
     console.log(formData);
-    await setDoc(
-      doc(
-        firestore,
-        PROFILE_COLLECTION,
-        user.uid,
-        CLIENT_TYPE_SUB_COLLECTION,
-        clientType
-      ),
-      formData
-    );
+    await setDoc(doc(firestore, QUESTIONNAIRE_COLLECTION, user.uid), formData);
   }
 
   function renderTaxReportStep(step: string) {
@@ -114,7 +94,6 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
-            clientType={clientType}
           ></CivilStatusForm>
         );
       case TaxDeclarationStep.PERSONAL_INFORMATIONS:
@@ -126,7 +105,6 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             setValue={setValue}
-            clientType={clientType}
           ></PersonnalInformationsForm>
         );
       case TaxDeclarationStep.CIVIL_STATUS_CHANGE:
@@ -137,7 +115,6 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
-            clientType={clientType}
           ></CivilStatusChangeForm>
         );
       case TaxDeclarationStep.CONTACT_DETAILS:
@@ -149,7 +126,6 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             setValue={setValue}
-            clientType={clientType}
           ></ContactDetailsForm>
         );
       case TaxDeclarationStep.DEPENDENTS:
@@ -160,23 +136,19 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
-            clientType={clientType}
             resetForm={resetForm}
           ></DependentsForm>
         );
       case TaxDeclarationStep.TAX_PROFILE:
         return (
           <TaxReportForm
-            firestore={firestore}
-            user={user}
-            clientType={clientType}
-            questionnaire={formData}
+            register={register}
+            control={control}
+            formData={formData}
           ></TaxReportForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
-        return (
-          <TaxDeclarationFileUpload/>
-        )
+        return <TaxDeclarationFileUpload />;
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:
@@ -186,7 +158,6 @@ export function Questionnaire() {
             control={control}
             formData={formData}
             handleSubmit={handleSubmit}
-            clientType={clientType}
           ></CivilStatusForm>
         );
     }
