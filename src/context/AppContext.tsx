@@ -278,15 +278,15 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
-          await createProfile(userCredential, firstName, lastName, referalCode);
-          setUserInfo(userCredential);
-          await addDoc(
-            collection(firestore, 'taxReport', user.uid, 'questionnaires'),
-            { mainClient: true, year: new Date().getFullYear() }
-          ).then((dorRef) => {
-            navigate(`/platform/questionnaire/${dorRef.id}`);
+          await createProfile(
+            userCredential,
+            firstName,
+            lastName,
+            referalCode
+          ).then(async () => {
+            setUserInfo(userCredential);
+            navigate('/platform/questionnaire');
           });
-          navigate('/platform/questionnaire');
         }
       })
       .catch((error) => {

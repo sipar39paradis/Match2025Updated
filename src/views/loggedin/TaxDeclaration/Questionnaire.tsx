@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
 import { CivilStatusChangeForm } from './ProfileForms/CivilStatusChangeForm';
@@ -10,7 +10,7 @@ import { DependentsForm } from './ProfileForms/DependentsForm';
 import { TaxReportForm } from './TaxForms/TaxReportForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
-import { getDoc, doc, setDoc } from 'firebase/firestore';
+import { getDoc, doc, setDoc, addDoc, collection } from 'firebase/firestore';
 import { Respondent } from './types/Respondent/Respondent';
 import { useForm } from 'react-hook-form';
 
@@ -22,6 +22,7 @@ export function Questionnaire() {
   const { firestore, user } = useContext(AppContext) as AppContextType;
   const [searchParams, setSearchParams] = useSearchParams();
   const { id } = useParams();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -67,13 +68,28 @@ export function Questionnaire() {
           taxReport: formData?.taxReport || null,
         });
         console.log('fetch', formData);
+      } else {
       }
     }
-    if (user) {
-      console.log(user);
+    console.log(id);
+    if (user && id) {
       fetchUserAnswers();
+    } else if (!id) {
+      handleNewUser();
     }
   }, [user]);
+
+  async function handleNewUser() {
+    console.log('new');
+    await addDoc(
+      collection(firestore, 'taxReport', user.uid, 'questionnaires'),
+      { mainClient: true, year: new Date().getFullYear() }
+    ).then((dorRef) => {
+      navigate(
+        `/platform/questionnaire/${dorRef.id}?step=${TaxDeclarationStep.CIVIL_STATUS}`
+      );
+    });
+  }
 
   async function saveFormAnswers() {
     console.log('save', formData);
@@ -104,6 +120,7 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             setValue={setValue}
+            setSearchParams={setSearchParams}
           ></PersonnalInformationsForm>
         );
       case TaxDeclarationStep.CIVIL_STATUS_CHANGE:
@@ -114,6 +131,7 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
+            setSearchParams={setSearchParams}
           ></CivilStatusChangeForm>
         );
       case TaxDeclarationStep.CONTACT_DETAILS:
@@ -125,6 +143,7 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             setValue={setValue}
+            setSearchParams={setSearchParams}
           ></ContactDetailsForm>
         );
       case TaxDeclarationStep.DEPENDENTS:
@@ -136,6 +155,7 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             resetForm={resetForm}
+            setSearchParams={setSearchParams}
           ></DependentsForm>
         );
       case TaxDeclarationStep.TAX_PROFILE:
