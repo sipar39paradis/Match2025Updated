@@ -10,11 +10,24 @@ export interface TaxReport {
   movingExpenses: boolean
   medicalExpenses: boolean
   eligibleHomeBuyerTaxCredit: boolean
+  boughHome: BoughtHome
+  soldHome: boolean
   homeAccessibilityTaxCredit: boolean
   losses?: Losses
+  isFirefighterOrSearchAndRescueVolunteer
   firefighterOrSearchAndRescueVolunteer: number
+  isOtherDeductions: boolean
   otherDeductions: OtherDeductions
+  isInstalmentPayments: boolean
   instalmentPayments: number
+}
+
+export interface BoughtHome {
+  boughHome: boolean
+  boughtHomeLastYear: boolean
+  differentHome: boolean
+  boughtForDisabled: boolean
+  homeAccessibilityTaxCredit: boolean
 }
 
 export interface Losses {

@@ -83,8 +83,11 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
               </fieldset>
             )}
           />
-          <BoughtHomeForm register={register} />
-          <SoldMainHomeForm></SoldMainHomeForm>
+          <BoughtHomeForm register={register} control={control} />
+          <SoldMainHomeForm
+            control={control}
+            formData={formData}
+          ></SoldMainHomeForm>
 
           <p>
             Avez-vous engagé des dépenses admissibles vous donnant droit au
