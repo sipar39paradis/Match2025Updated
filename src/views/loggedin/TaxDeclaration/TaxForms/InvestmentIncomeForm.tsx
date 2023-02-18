@@ -232,7 +232,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'taxReport.investmentIncomes.nonDeclaredInterestDividendPartnershipIncome'
+                      'taxReport.investmentIncomes.partnershipIncomes'
                     )}
                   />
                   <p>
