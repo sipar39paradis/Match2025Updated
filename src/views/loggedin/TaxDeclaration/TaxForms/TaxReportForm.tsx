@@ -20,6 +20,8 @@ import { SoldMainHomeForm } from './SoldMainHome';
 import { doc, Firestore, getDoc, setDoc } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 import { Profile } from '../types/Profile/Profile';
+import { writeRequiredFiles } from '../../../../client/firebaseClient';
+import mapFiles from '../../../../utils/FileMapper';
 
 const TAX_REPORT_TABLE = 'taxReport';
 const CLIENT_TYPE_SUB_COLLECTION = 'clientType';
@@ -136,6 +138,8 @@ export function TaxReportForm({
 
   async function saveTaxReportForm() {
     console.log(formData);
+    console.log(mapFiles(formData))
+    writeRequiredFiles(mapFiles(formData), user?.uid);
     await setDoc(
       doc(
         firestore,

@@ -1,9 +1,11 @@
 import { Checkbox } from 'flowbite-react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
+import { AppContext, AppContextType } from '../../../../context/AppContext';
 import { TaxReportFormProps } from '../types/TaxReport/TaxReportFormProps';
 
 export function InvestmentIncomeForm(props: TaxReportFormProps) {
+  const { user } = useContext(AppContext) as AppContextType;
   const { register, formData, control } = props;
 
   return (
@@ -420,6 +422,7 @@ export function InvestmentIncomeForm(props: TaxReportFormProps) {
             </>
           )}
         </div>
+        
       )}
     </>
   );
