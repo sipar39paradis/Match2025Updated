@@ -5,7 +5,6 @@ import { AppContext, AppContextType } from '../../../../context/AppContext';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
 export function InvestmentIncomeForm(props: RespondentFormProps) {
-  const { user } = useContext(AppContext) as AppContextType;
   const { register, formData, control } = props;
 
   return (

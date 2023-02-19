@@ -1,7 +1,7 @@
-import { collection, doc, Firestore, getDoc, getFirestore, query, setDoc, where } from 'firebase/firestore';
+import { collection, Firestore, query, where } from 'firebase/firestore';
 import { FirebaseStorage, ref, uploadBytes } from 'firebase/storage';
-import React, { ChangeEvent, useCallback, useContext, useState } from 'react';
-import { appendExistingFiles, getRequiredFiles, removeExistingfile, removeRequiredfile, writeRequiredFiles } from '../../../client/firebaseClient';
+import React, { useCallback, useContext, useState } from 'react';
+import { appendExistingFiles, getExistingFiles, getRequiredFiles, removeExistingfile, removeRequiredfile, writeRequiredFiles } from '../../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { ReactComponent as CheckMark } from '../../../icons/CheckMark.svg'
 import { useCollectionData } from  'react-firebase-hooks/firestore'
@@ -18,35 +18,45 @@ interface FileUploadProps{
     storage: FirebaseStorage
     userId: string
     requiredFiles: Array<string>
+    userEmail: string
+    setReqFiles: (reqFiles: Array<string>) => void;
 }
 
-interface ExistingFileProps{
-    fileName: string
-    userId: string
+interface FileNameComponentProps{
+    fileName: string;
+    hidden: boolean;
+    requiredFiles: Array<string>;
+    setReqFiles: (reqFiles: Array<string>) => void;
+    userId: string;
+    setHidden: (hidden: boolean) => void;
 }
 
-function ExistingFile(props: ExistingFileProps){
-    const { fileName, userId } = props;
+
+
+function FileNameComponent(props: FileNameComponentProps){
+    const { fileName,  hidden, requiredFiles, setReqFiles, userId, setHidden } = props;
 
     const onClickHandle = () => {
         if(confirm('Are you sure you wish to delete this file?')){
+            requiredFiles.push(fileName)
             removeExistingfile(fileName, userId)
+            writeRequiredFiles(requiredFiles, userId)
+            setReqFiles(requiredFiles)
+            setHidden(false)
         }else {
         }
     }
+
     return (
-        <>
-            <div>
-                <span>{fileName}     </span><button onClick={onClickHandle} type="button" className="m-1 px-3 py-2 text-xs font-medium text-center focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">X</button>
-            </div>
-        </>
+        <h2>{fileName}{ (hidden) ? <><button onClick={onClickHandle} type="button" className="m-1 px-3 py-2 text-xs font-medium text-center focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Remove File</button>
+        </> : <></>}</h2>
     )
 }
 
 function IndividualFileUpload(props: FileUploadProps){
-    const { firestore, storage, userId, fileName, requiredFiles} = props
+    const { storage, userId, fileName, setReqFiles, requiredFiles } = props
     const [hidden, setHidden] = useState(false)
-
+    
     const handleFileUpload = useCallback( (acceptedFiles) => {
         const constructedFileName = userId + '/' + fileName + '_' + acceptedFiles[0]?.name
         const fileRef = ref(storage, STORAGE_BASE_FOLDER + constructedFileName)
@@ -62,7 +72,14 @@ function IndividualFileUpload(props: FileUploadProps){
 
     return (
         <>
-        <h2>{fileName}{ (hidden) ? <span><CheckMark /> </span> : <></>}</h2>
+           <FileNameComponent 
+            fileName={fileName} 
+            setReqFiles={setReqFiles} 
+            hidden={hidden}
+            requiredFiles={requiredFiles} 
+            userId={userId} 
+            setHidden={setHidden}
+            />
            { (!hidden)? <div className="flex items-center justify-center w-full" >
                 <Dropzone onDrop={handleFileUpload}>
                 {({getRootProps, getInputProps}) => (
@@ -84,21 +101,42 @@ function IndividualFileUpload(props: FileUploadProps){
     )
 }
 
-
 export function TaxDeclarationFileUpload (){
     const { firestore, storage, user } = useContext(AppContext) as AppContextType
-    const [fetched, setFetched] = useState(false)
-    const requiredFilesRef = collection(firestore, FIRESTORE_REQUIRED_FILES_COLLECTION); 
-    const existingFilesRef = collection(firestore, FIRESTORE_EXISTING_FILES_COLLECTIONS);
-    
-    const requiredFilesQuery = query(requiredFilesRef, where('userId', '==', user?.uid)).withConverter(FileListConverter)
-    const existingFilesQuery = query(existingFilesRef, where('userId', '==', user?.uid)).withConverter(FileListConverter)
-  
-    const userRequiredFiles = useCollectionData(requiredFilesQuery)
-    const userExistingFiles = useCollectionData(existingFilesQuery)
+    const [ reqFiles, setReqFiles ] = useState([]);
+    const [ existingFiles, setExistingFiles ] = useState([]);
+    const [fetchedReqFiles, setFetchedReqFiles] = useState(false);
+    const [fetchedExFiles, setFetchedExFiles ] = useState(false);
+
+    if(!fetchedReqFiles && reqFiles.length == 0){
+        getRequiredFiles(user?.uid).then((res) => {
+            setReqFiles(res?.files);
+            setFetchedReqFiles(true);
+        })
+    }
+
+    if(!fetchedExFiles && existingFiles?.length == 0){
+        getExistingFiles(user?.uid).then((res) => {
+            setExistingFiles(res?.files);
+            setFetchedExFiles(true);
+        })
+    }
 
     return <>
-        { user?.uid &&
+        {
+            reqFiles?.map(item => 
+            <IndividualFileUpload 
+                requiredFiles={reqFiles} 
+                userId={user?.uid} 
+                userEmail={user?.email} 
+                fileName={item} 
+                firestore={firestore} 
+                storage={storage} 
+                key={item}
+                setReqFiles={setReqFiles}
+                />)
+        }
+        {/* { user?.uid &&
          userRequiredFiles[0] &&
           userRequiredFiles[0][0] &&
            userRequiredFiles[0][0]?.files &&
@@ -108,6 +146,6 @@ export function TaxDeclarationFileUpload (){
           userExistingFiles[0][0] &&
           userExistingFiles[0][0]?.files &&
           userExistingFiles[0][0]?.files.map(item => <ExistingFile userId={user?.uid} fileName={item} key={item}/>)
-          }
+          } */}
     </>
 }

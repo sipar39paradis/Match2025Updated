@@ -21,6 +21,8 @@ import {
 import { Respondent } from './types/Respondent/Respondent';
 import { useForm } from 'react-hook-form';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
+import { writeRequiredFiles } from '../../../client/firebaseClient';
+import mapFiles from '../../../utils/FileMapper';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
@@ -134,6 +136,9 @@ export function Questionnaire() {
         merge: true,
       }
     );
+    if(searchParams.get(TAX_DECLARATION_STEP) == TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT){
+      writeRequiredFiles(mapFiles(formData?.taxReport), user?.uid)
+    }
   }
 
   function renderTaxReportStep(step: string) {

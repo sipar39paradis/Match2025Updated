@@ -27,7 +27,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
       addQuestionnaire(false);
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
     }
-    setSearchParams({ step: TaxDeclarationStep.REVIEW });
+    setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
   }
 
   return (

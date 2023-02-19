@@ -46,7 +46,6 @@ export const getUserProfile = async (
   const returnedDoc = await getDoc(doc(db, PROFILE_DB_NAME, userEmail));
   const data = returnedDoc.data();
 
-  console.log(data, 'data');
   return addDefaultValues(
     data.type == 'accountant'
       ? docToProfile(<UserProfileDoc>data)
@@ -58,10 +57,14 @@ export const writeRequiredFiles = async (
   requiredFiles: Array<string>,
   userId: string
 ): Promise<void> => {
+  const nonDuplicateArr = requiredFiles.filter((item, index) => {
+    return requiredFiles.indexOf(item) === index;
+  })
+
   await setDoc(doc(db, 'UserRequiredFiles', userId), {
-    files: requiredFiles,
+    files: nonDuplicateArr,
     userId: userId,
-  });
+  }, {merge: true});
 };
 
 export const writeExistingFiles = async (
@@ -108,7 +111,6 @@ export const removeExistingfile = async (
 ): Promise<void> => {
   getExistingFiles(userId).then((res) => {
     if(res != undefined){
-      console.log(res.files)
       writeExistingFiles(res?.files?.filter(file => file != fileName), userId)
       appendRequiredFiles(fileName, userId)
       removeUserFile(fileName, userId)
@@ -159,7 +161,6 @@ export const getAllUserProfiles = async (): Promise<Array<UserProfile>> => {
   const returnedDocs = await getDocs(collection(db, PROFILE_DB_NAME));
   return returnedDocs.docs.map((returnedDoc) => {
     const data = returnedDoc.data();
-    console.log(data, 'data');
     return addDefaultValues(
       data.type == 'accountant'
         ? docToProfile(<UserProfileDoc>data)
