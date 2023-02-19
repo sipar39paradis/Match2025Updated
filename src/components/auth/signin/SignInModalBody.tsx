@@ -34,8 +34,22 @@ export function SignInModalBody({
     formState: { errors },
   } = useForm<signInData>();
   const onSubmit = async (data: signInData) => {
-    const res = await signIn(data.email, data.password);
-    res ? setAuthError(res) : closeModal(false);
+    // const res = await signIn(data.email, data.password);
+    // res ? setAuthError(res) : closeModal(false);
+
+    const [promise, resolver, err] = await signIn(data.email, data.password);
+    const verificationId = await promise;
+    console.log(promise, 'promise');
+
+    if (resolver) {
+      setPromiseFromText(promise);
+      setResolver(resolver);
+    } else if (err) {
+      if(err === 'No Two Factor'){
+        switchModal(AuthModalEnum.TwoFactor)
+      }
+      setAuthError(await promise);}
+    else closeModal(false);
   };
   const [authError, setAuthError] = useState('');
 

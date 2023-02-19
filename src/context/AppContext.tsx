@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState } from 'react';
+import React, { createContext, ReactNode, useState, useEffect, useRef } from 'react';
 import { initializeApp } from 'firebase/app';
 import {
   Auth,
@@ -32,6 +32,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../interfaces/User';
 import { upsertUserProfile } from '../client/firebaseClient';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
+import { Button, Label, Modal, TextInput } from 'flowbite-react';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -59,7 +60,8 @@ export interface AppContextType {
   user: User;
   loading: boolean;
   errors: Error;
-  signIn: (email: string, password: string) => Promise<string>;
+  signIn: (email: string, password: string) => Promise<
+  [Promise<string>, MultiFactorResolver, string]>;
   signInWithGoogle: () => Promise<
     [Promise<string>, MultiFactorResolver, string]
   >;
@@ -97,7 +99,17 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userInfo, setUserInfo] = useState(null);
   const [user, loading, errors] = useAuthState(auth);
+  const [openModel, setOpenModel] = useState(false);
+  const openRef = useRef(openModel)
+  const [continueSess, setContinueSess] = useState(false);
+  const continueSessRef = useRef(continueSess)
+  continueSessRef.current= continueSess
   const navigate = useNavigate();
+
+  useEffect(() => {
+    
+    return () => signOut()
+  }, []);
 
   async function enrollTwoFactor(phoneNumber: string): Promise<string> {
     console.log(phoneNumber);
@@ -153,9 +165,34 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   };
 
   const succsessfulSignIn = async (userCredential: UserCredential) => {
-    const names = userCredential.user.displayName.split(' ');
-    await createProfile(userCredential, names[0], names[1], '');
+    if(userCredential.user.displayName !== null){
+      const names = userCredential.user.displayName.split(' ');
+      await createProfile(userCredential, names[0], names[1], '');
+    }
     setUserInfo(userCredential);
+    timedSignOut();
+  };
+
+  const timedSignOut = async () => {
+    const FIVE_MINUTES_BEFORE_MODAL = 300000
+    const THIRTY_SECONDS_AFTER_MODAL = 30000
+
+    setTimeout(() => {
+      console.log(userInfo, 'userInfo')
+      setOpenModel(true)
+      setTimeout(() => {
+
+          if(continueSessRef.current){
+            setContinueSess(false)
+            timedSignOut()
+          }
+          else{
+            setOpenModel(false)
+            signOut()
+          }
+        // }
+      },THIRTY_SECONDS_AFTER_MODAL)
+    },  FIVE_MINUTES_BEFORE_MODAL);
   };
 
   const verifyTwoFactor = async (
@@ -176,39 +213,22 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         return resolver.resolveSignIn(multiFactorAssertion);
       })
       .then(function (userCredential) {
-        setUserInfo(userCredential);
+        succsessfulSignIn(userCredential);
       });
     await promise;
   };
 
-  async function signIn(email: string, password: string) {
-    let errorMessage = '';
-    console.log(email, password);
-    await signInWithEmailAndPassword(auth, email, password)
-      .then(() => navigate('/platform'))
-      .catch((error) => {
-        errorMessage = error.message;
-      });
-    return errorMessage;
-  }
-
-  async function signInWithGoogle(): Promise<
-    [Promise<string>, MultiFactorResolver, string]
-  > {
+  const handleLogin = async (userCredentialsPromise: Promise<UserCredential>): Promise<
+  [Promise<string>, MultiFactorResolver, string]> => {
     let errorMessage: string = null;
     let promise = null;
     let resolver = null;
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider)
-      .then(async (userCredential: UserCredential) => {
-        // succsessfulSignIn(userCredential);
-        const accountCreationDate = new Date(
-          userCredential.user.metadata.creationTime
-        );
-        const todayDate = new Date();
-        if (accountCreationDate.getDate() === todayDate.getDate()) {
-          navigate('/platform/questionnaire');
-        }
+
+    await userCredentialsPromise 
+      .then(async (userCredential) => {
+        console.log('timeout', 'in signin');
+        console.log(userCredential, 'user creds in signup');
+        succsessfulSignIn(userCredential);
         errorMessage = 'No Two Factor';
       })
       .catch((error) => {
@@ -255,6 +275,18 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     return [promise, resolver, errorMessage];
   }
 
+  async function signIn(email: string, password: string): Promise<
+  [Promise<string>, MultiFactorResolver, string]> {
+    return handleLogin(signInWithEmailAndPassword(auth, email, password))
+  }
+
+  async function signInWithGoogle(): Promise<
+    [Promise<string>, MultiFactorResolver, string]
+  > {
+    const provider = new GoogleAuthProvider();
+    return handleLogin(signInWithPopup(auth, provider))
+  }
+
   async function signInWithFacebook() {
     let errorMessage = '';
     const provider = new FacebookAuthProvider();
@@ -286,15 +318,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
-          await createProfile(
-            userCredential,
-            firstName,
-            lastName,
-            referalCode
-          ).then(async () => {
-            setUserInfo(userCredential);
-            navigate('/platform/questionnaire');
-          });
+          await createProfile(userCredential, firstName, lastName, referalCode);
+          succsessfulSignIn(userCredential);
         }
       })
       .catch((error) => {
@@ -351,6 +376,43 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         storage,
       }}
     >
+      <Modal show={openModel}>
+        <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white">
+          <div className="flex items-center justify-center p-5 rounded-t">
+            <h3 className="text-xl font-semibold">Le code de vérification</h3>
+            <button
+              className="flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2"
+              onClick={() => setOpenModel(false)}
+            >
+              ×
+            </button>
+
+            <form className="flex flex-col gap-4">
+              <div>
+                <>
+                  <div className="mb-2 block">
+                    <Label htmlFor="phone1" value="Le code de vérification" />
+                  </div>
+                  <TextInput
+                    className="text-center select-none"
+                    id="verifivation"
+                    required={true}
+                    onChange={(e) => {'j'}}
+                  />
+                </>
+              </div>
+              <div></div>
+              <Button id="two-factor-button" onClick={() => {
+                  setContinueSess(true)
+                  setOpenModel(false)
+                }}>
+                Submit
+              </Button>
+            </form>
+          </div>
+        </div>
+      </Modal>
+
       {children}
     </AppContext.Provider>
   );

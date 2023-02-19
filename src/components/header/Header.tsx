@@ -7,7 +7,8 @@ import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from 'flowbite-react';
-import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
+// import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
+import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg'
 
 interface HeaderItemProps {
   text: string;
@@ -139,6 +140,11 @@ export function Header() {
         <Navbar.Brand href="/">
           <Logo className="w-16 h-16" />
           <p className="text-2xl text-gray-900 opacity-100">Impôts Match</p>
+          {/* <img
+            src={require('../../images/logo/impot-match-logo.svg').default}
+            className="mr-3 py-0 h-24"
+            alt="Flowbite Logo"
+          /> */}
         </Navbar.Brand>
         <div className="flex md:order-2">
           {user && <ProfileDropdown user={user} displayModal={displayModal} />}
