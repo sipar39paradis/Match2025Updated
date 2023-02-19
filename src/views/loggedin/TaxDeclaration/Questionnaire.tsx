@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
@@ -26,6 +26,8 @@ export function Questionnaire() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { id } = useParams();
   const navigate = useNavigate();
+  const newAccount = useRef(true);
+
   const {
     register,
     handleSubmit,
@@ -42,14 +44,11 @@ export function Questionnaire() {
   const [clientTabs, setClientTabs] = useState([]);
 
   useEffect(() => {
-    console.log('search params change', questionnaires);
     if (user && id && questionnaires.size) {
-      // fetchUserAnswers();
-      console.log('Got', questionnaires.get(id));
       reset(questionnaires.get(id));
       generateTabs();
     }
-  }, [questionnaires, id]);
+  }, [id, questionnaires]);
 
   useEffect(() => {
     async function fetchQuestionnaires() {
@@ -67,19 +66,22 @@ export function Questionnaire() {
       });
       setQuestionnaires(map);
       console.log('map', map);
-      if (!map.size) {
+      if (!map.size && newAccount.current) {
+        console.log(newAccount);
+        newAccount.current = false;
         await addQuestionnaire();
       }
     }
     if (user) {
       fetchQuestionnaires();
     }
-  }, [user, id]);
+  }, [user?.uid]);
 
   async function addQuestionnaire(
     mainClient = true,
     civilStatus?: CivilStatus
   ) {
+    console.log('new');
     const defaultValues = {
       ...emptyQuestionnaire,
       mainClient,
@@ -230,11 +232,9 @@ export function Questionnaire() {
 
   function generateTabs() {
     const tabs = [];
-    console.log(questionnaires);
     questionnaires.forEach((value: Respondent, key: string) =>
       tabs.push({ value, key, active: key === id })
     );
-    console.log(tabs);
     setClientTabs(tabs);
   }
 
