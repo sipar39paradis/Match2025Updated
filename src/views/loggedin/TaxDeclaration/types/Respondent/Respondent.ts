@@ -12,6 +12,7 @@ export interface Respondent {
   personalInformations: PersonalInformations
   contactDetails: ContactDetails
   civilStatusChange?: CivilStatusChange
-  dependents?: Dependent
+  haveDependents: boolean
+  dependents?: Dependent []
   taxReport: TaxReport
 }

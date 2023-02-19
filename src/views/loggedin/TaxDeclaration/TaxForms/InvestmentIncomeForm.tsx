@@ -1,11 +1,9 @@
 import { Checkbox } from 'flowbite-react';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Controller } from 'react-hook-form';
-import { AppContext, AppContextType } from '../../../../context/AppContext';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
 export function InvestmentIncomeForm(props: RespondentFormProps) {
-  const { user } = useContext(AppContext) as AppContextType;
   const { register, formData, control } = props;
 
   return (
@@ -104,7 +102,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
                   />
                   <p>
                     T3 / Relevé 16 - État des revenus de fiducie (répartitions
-                    et attributions)f
+                    et attributions)
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
@@ -456,7 +454,6 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
             </>
           )}
         </div>
-        
       )}
     </>
   );

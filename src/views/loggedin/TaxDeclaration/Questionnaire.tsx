@@ -185,6 +185,7 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             setSearchParams={setSearchParams}
+            setValue={setValue}
           ></DependentsForm>
         );
       case TaxDeclarationStep.INCOMES:

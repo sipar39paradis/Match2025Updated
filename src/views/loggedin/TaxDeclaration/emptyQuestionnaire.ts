@@ -57,17 +57,8 @@ export const emptyQuestionnaire: Respondent ={
     civilStatusChangeDate: null,
     civilStatusChangeToSingleDate: null,
     socialAssistanceBenefitsAmount: null, },
-    dependents: {firstName: '',
-    lastName: '',
-    birthDate: null,
-    socialSecurityNumber: null,
-    relationship: null,
-    livedWithTaxPayer: null,
-    federalNetIncome: null,
-    provincialNetIncome: null,
-    adjustedNetIncome: null,
-    quebecChildrenSupport: null,
-    claimedOrReceivedAmountForDependent: null,},
+    haveDependents: null,
+    dependents: [],
     taxReport: emptyTaxReport
 }
 

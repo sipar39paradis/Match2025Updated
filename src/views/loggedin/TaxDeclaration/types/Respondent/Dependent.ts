@@ -1,9 +1,9 @@
-import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types'
+import { DateType } from 'react-tailwindcss-datepicker/dist/types'
 
 export interface Dependent {
   firstName: string
   lastName: string
-  birthDate: boolean
+  birthDate: DateType
   socialSecurityNumber: number
   relationship: DependentRelatationShipEnum
   livedWithTaxPayer: boolean
@@ -11,7 +11,7 @@ export interface Dependent {
   provincialNetIncome: number
   adjustedNetIncome: number
   quebecChildrenSupport: boolean
-  claimedOrReceivedAmountForDependent: DateRangeType
+  claimedOrReceivedAmountForDependent: DateType
 }
 
 export enum DependentRelatationShipEnum {

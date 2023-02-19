@@ -50,7 +50,7 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
     <div className="border-0 rounded-lg shadow-lg relative flex flex-col bg-white">
       {/*header*/}
       <div className="flex items-center justify-center p-5 mb-2">
-        <h3 className="text-xl font-semibold">Incription à Impôts Match</h3>
+        <h3 className="text-xl font-semibold">Inscription à Impôts Match</h3>
         <button
           className="flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2"
           onClick={() => closeModal(false)}
