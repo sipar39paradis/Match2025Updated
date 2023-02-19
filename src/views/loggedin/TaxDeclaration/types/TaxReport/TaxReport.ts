@@ -14,7 +14,7 @@ export interface TaxReport {
   soldHome: boolean
   homeAccessibilityTaxCredit: boolean
   losses?: Losses
-  isFirefighterOrSearchAndRescueVolunteer
+  isFirefighterOrSearchAndRescueVolunteer: boolean
   firefighterOrSearchAndRescueVolunteer: number
   isOtherDeductions: boolean
   otherDeductions: OtherDeductions

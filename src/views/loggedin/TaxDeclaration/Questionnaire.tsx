@@ -10,17 +10,12 @@ import { DependentsForm } from './ProfileForms/DependentsForm';
 import { IncomesForm } from './TaxForms/IncomesForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
-import {
-  getDoc,
-  doc,
-  setDoc,
-  addDoc,
-  collection,
-  getDocs,
-} from 'firebase/firestore';
+import { doc, setDoc, addDoc, collection, getDocs } from 'firebase/firestore';
 import { Respondent } from './types/Respondent/Respondent';
 import { useForm } from 'react-hook-form';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
+import { emptyQuestionnaire } from './emptyQuestionnaire';
+import { CivilStatus } from './types/Respondent/CivilStatus';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
@@ -40,79 +35,70 @@ export function Questionnaire() {
     setValue,
     reset,
   } = useForm<Respondent>();
-  let formData = watch();
+  const formData = watch();
   const [questionnaires, setQuestionnaires] = useState<Map<string, Respondent>>(
     new Map()
   );
-
-  function resetForm() {
-    const defaultValues = {
-      civilStatus: null,
-      personalInformations: null,
-      contactDetails: null,
-      civilStatusChange: null,
-      dependents: null,
-      taxReport: null,
-    };
-    reset({ ...defaultValues });
-  }
+  const [clientTabs, setClientTabs] = useState([]);
 
   useEffect(() => {
-    async function fetchUserAnswers() {
-      const docSnap = await getDoc(
-        doc(
+    console.log('search params change', questionnaires);
+    if (user && id && questionnaires.size) {
+      // fetchUserAnswers();
+      console.log('Got', questionnaires.get(id));
+      reset(questionnaires.get(id));
+      generateTabs();
+    }
+  }, [questionnaires, id]);
+
+  useEffect(() => {
+    async function fetchQuestionnaires() {
+      const querySnapshot = await getDocs(
+        collection(
           firestore,
           TAX_REPORT_COLLECTION,
           user.uid,
-          QUESTIONNAIRE_SUB_COLLECTTION,
-          id
+          QUESTIONNAIRE_SUB_COLLECTTION
         )
       );
-      if (docSnap.exists()) {
-        formData = docSnap.data() as Respondent;
-        reset({
-          mainClient: formData?.mainClient || null,
-          year: formData?.year || null,
-          civilStatus: formData?.civilStatus || null,
-          personalInformations: formData?.personalInformations || null,
-          contactDetails: formData?.contactDetails || null,
-          civilStatusChange: formData?.civilStatusChange || null,
-          dependents: formData?.dependents || null,
-          taxReport: formData?.taxReport || null,
-        });
-        console.log('fetch', formData);
-
-        const querySnapshot = await getDocs(
-          collection(
-            firestore,
-            TAX_REPORT_COLLECTION,
-            user.uid,
-            QUESTIONNAIRE_SUB_COLLECTTION
-          )
-        );
-        const map = new Map();
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          map.set(doc.id, doc.data());
-        });
-        setQuestionnaires(map);
-        console.log(questionnaires);
+      const map = new Map();
+      querySnapshot.forEach((doc) => {
+        map.set(doc.id, doc.data());
+      });
+      setQuestionnaires(map);
+      console.log('map', map);
+      if (!map.size) {
+        await addQuestionnaire();
       }
     }
-    console.log('search params change');
-    if (user && id) {
-      fetchUserAnswers();
-    } else if (!id) {
-      addQuestionnaire();
+    if (user) {
+      fetchQuestionnaires();
     }
   }, [user, id]);
 
-  async function addQuestionnaire(mainClient = true) {
-    console.log('new');
+  async function addQuestionnaire(
+    mainClient = true,
+    civilStatus?: CivilStatus
+  ) {
+    const defaultValues = {
+      ...emptyQuestionnaire,
+      mainClient,
+      year: new Date().getFullYear(),
+      personalInformations: { email: user.email },
+      civilStatus: civilStatus || null,
+    };
     await addDoc(
-      collection(firestore, 'taxReport', user.uid, 'questionnaires'),
-      { mainClient, year: new Date().getFullYear() }
+      collection(
+        firestore,
+        TAX_REPORT_COLLECTION,
+        user.uid,
+        QUESTIONNAIRE_SUB_COLLECTTION
+      ),
+      defaultValues
     ).then((docRef) => {
+      const map = new Map();
+      map.set(docRef.id, defaultValues);
+      setQuestionnaires(map);
       navigate(
         `/platform/questionnaire/${docRef.id}?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
       );
@@ -134,6 +120,10 @@ export function Questionnaire() {
         merge: true,
       }
     );
+  }
+
+  function resetForm() {
+    reset({ ...emptyQuestionnaire });
   }
 
   function renderTaxReportStep(step: string) {
@@ -192,7 +182,6 @@ export function Questionnaire() {
             formData={formData}
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
-            resetForm={resetForm}
             setSearchParams={setSearchParams}
           ></DependentsForm>
         );
@@ -205,7 +194,6 @@ export function Questionnaire() {
             handleSubmit={handleSubmit}
             saveFormAnswers={saveFormAnswers}
             setSearchParams={setSearchParams}
-            addQuestionnaire={addQuestionnaire}
           ></IncomesForm>
         );
       case TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT:
@@ -218,6 +206,7 @@ export function Questionnaire() {
             saveFormAnswers={saveFormAnswers}
             setSearchParams={setSearchParams}
             addQuestionnaire={addQuestionnaire}
+            resetForm={resetForm}
           ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
@@ -226,44 +215,49 @@ export function Questionnaire() {
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:
         return (
-          <CivilStatusForm
+          <PersonnalInformationsForm
             register={register}
             control={control}
             formData={formData}
             handleSubmit={handleSubmit}
-          ></CivilStatusForm>
+          ></PersonnalInformationsForm>
         );
     }
   }
 
   function generateTabs() {
     const tabs = [];
+    console.log(questionnaires);
     questionnaires.forEach((value: Respondent, key: string) =>
-      tabs.push({ value, key })
+      tabs.push({ value, key, active: key === id })
     );
-    return tabs;
+    console.log(tabs);
+    setClientTabs(tabs);
   }
 
   return (
     <div className="flex p-8 bg-orange-50 min-h-screen flex-col items-center">
       <div className="w-[800px] flex flex-row">
-        {generateTabs().map((tab) => (
-          <div
-            key={tab.key}
-            className="bg-white rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200"
-            onClick={() =>
-              navigate(
-                `/platform/questionnaire/${tab?.key}?step=${searchParams.get(
-                  TAX_DECLARATION_STEP
-                )}`
-              )
-            }
-          >
-            <p className="opacity-100">
-              {tab?.value?.personalInformations?.firstName || 'Client'}
-            </p>
-          </div>
-        ))}
+        {clientTabs.length > 1 &&
+          clientTabs.map((tab) => (
+            <div
+              key={tab.key}
+              className={` rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200 ${
+                tab.active ? 'bg-gray-200' : 'bg-white'
+              }`}
+              onClick={() =>
+                navigate(
+                  `/platform/questionnaire/${tab?.key}?step=${searchParams.get(
+                    TAX_DECLARATION_STEP
+                  )}`
+                )
+              }
+            >
+              <p className="opacity-100">
+                {tab?.value?.personalInformations?.firstName || 'Client'}
+              </p>
+            </div>
+          ))}
       </div>
       <div className="w-[800px] bg-white rounded-md p-8 h-fit">
         {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}

@@ -37,7 +37,11 @@ export function PersonnalInformationsForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
+    if (formData.mainClient) {
+      setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
+    } else {
+      setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS_CHANGE });
+    }
   }
 
   return (

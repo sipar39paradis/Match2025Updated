@@ -6,7 +6,6 @@ import { Dependent } from './Dependent';
 import { PersonalInformations } from './PersonnalInformations';
 
 export interface Respondent {
-  id: string
   mainClient: boolean
   year: number
   civilStatus?: CivilStatus

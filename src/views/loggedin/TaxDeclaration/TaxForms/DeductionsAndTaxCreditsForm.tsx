@@ -19,12 +19,14 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     control,
     setSearchParams,
     addQuestionnaire,
+    resetForm,
   } = props;
 
   function onSubmitButton() {
     saveFormAnswers();
+    resetForm();
     if (formData?.mainClient && formData?.civilStatus?.together) {
-      addQuestionnaire(false);
+      addQuestionnaire(false, formData.civilStatus);
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
     }
     setSearchParams({ step: TaxDeclarationStep.REVIEW });

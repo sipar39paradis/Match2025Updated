@@ -194,7 +194,13 @@ export function CivilStatusChangeForm(props: RespondentFormProps) {
               value="Précédant"
               onClick={() => {
                 saveFormAnswers;
-                setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
+                if (formData.mainClient) {
+                  setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
+                } else {
+                  setSearchParams({
+                    step: TaxDeclarationStep.PERSONAL_INFORMATIONS,
+                  });
+                }
               }}
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
