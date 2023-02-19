@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Controller } from 'react-hook-form';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
 export function VolunteerFirefighterForm(props: RespondentFormProps) {
-  const { register } = props;
-  const [showVolunteerFirefighterForm, setVolunteerFirefighterForm] =
-    useState(false);
+  const { register, control, formData } = props;
 
   return (
     <>
@@ -13,33 +12,40 @@ export function VolunteerFirefighterForm(props: RespondentFormProps) {
         volontaire à titre de premier répondant de services médicaux
         d&apos;urgence?
       </p>
-      <fieldset className="flex flex-row m-4">
-        <div className="flex items-center">
-          <input
-            type="radio"
-            onClick={() => setVolunteerFirefighterForm(true)}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            checked={showVolunteerFirefighterForm}
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Oui
-          </p>
-        </div>
-        <div className="flex items-center m-4">
-          <input
-            type="radio"
-            onClick={() => setVolunteerFirefighterForm(false)}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            checked={!showVolunteerFirefighterForm}
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Non
-          </p>
-        </div>
-      </fieldset>
-      {showVolunteerFirefighterForm && (
+      <Controller
+        control={control}
+        name="taxReport.isFirefighterOrSearchAndRescueVolunteer"
+        render={({ field: { onChange, value } }) => (
+          <fieldset className="flex flex-row m-4">
+            <div className="flex items-center">
+              <input
+                type="radio"
+                onChange={() => onChange(true)}
+                checked={value === true}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                Oui
+              </p>
+            </div>
+            <div className="flex items-center m-4">
+              <input
+                type="radio"
+                onChange={() => onChange(false)}
+                checked={value === false}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                Non
+              </p>
+            </div>
+          </fieldset>
+        )}
+      />
+
+      {formData?.taxReport?.isFirefighterOrSearchAndRescueVolunteer && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-          <p>
+          {/* <p>
             Avez-vous effectué 200 heures de services admissibles à titre de
             pompier volontaire auprès d&apos;un ou de plusieurs services
             d&apos;incendie au cours de l&apos;année?
@@ -87,7 +93,7 @@ export function VolunteerFirefighterForm(props: RespondentFormProps) {
                 Non
               </p>
             </div>
-          </fieldset>
+          </fieldset> */}
           <p>
             Entrez le nombre d&apos;heures travaillées en tant que pompier
             volontaire ou bénévole en recherche et sauvetage

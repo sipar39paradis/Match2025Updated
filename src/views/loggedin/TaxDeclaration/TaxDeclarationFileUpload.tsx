@@ -1,15 +1,10 @@
-import { collection, Firestore, query, where } from 'firebase/firestore';
+import { Firestore } from 'firebase/firestore';
 import { FirebaseStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useCallback, useContext, useState } from 'react';
 import { appendExistingFiles, getExistingFiles, getRequiredFiles, removeExistingfile, removeRequiredfile, writeRequiredFiles } from '../../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../../context/AppContext';
-import { ReactComponent as CheckMark } from '../../../icons/CheckMark.svg'
-import { useCollectionData } from  'react-firebase-hooks/firestore'
-import Dropzone from 'react-dropzone'
-import { FileListConverter } from '../../../interfaces/Files';
+import Dropzone from 'react-dropzone';
 
-const FIRESTORE_REQUIRED_FILES_COLLECTION = 'UserRequiredFiles';
-const FIRESTORE_EXISTING_FILES_COLLECTIONS = 'UserExistingFiles';
 const STORAGE_BASE_FOLDER = 'customerdata/';
 
 interface FileUploadProps{
@@ -148,4 +143,5 @@ export function TaxDeclarationFileUpload (){
           userExistingFiles[0][0]?.files.map(item => <ExistingFile userId={user?.uid} fileName={item} key={item}/>)
           } */}
     </>
+  );
 }

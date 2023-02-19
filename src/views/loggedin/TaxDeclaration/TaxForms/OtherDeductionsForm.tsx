@@ -1,11 +1,10 @@
 import { Checkbox } from 'flowbite-react';
-import React, { useState } from 'react';
+import React from 'react';
+import { Controller } from 'react-hook-form';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
 export function OtherDeductionsForm(props: RespondentFormProps) {
-  const { register } = props;
-  const [showOtherDeductionsForm, setShowOtherDeductionsForm] = useState(false);
-  const [showInstalmentPayments, setShowInstalmentPayments] = useState(false);
+  const { register, control, formData } = props;
   return (
     <>
       <p>
@@ -14,31 +13,38 @@ export function OtherDeductionsForm(props: RespondentFormProps) {
         cotisations syndicales ou professionnelles ou pension alimentaire
         payée)?
       </p>
-      <fieldset className="flex flex-row m-4">
-        <div className="flex items-center">
-          <input
-            type="radio"
-            onChange={() => setShowOtherDeductionsForm(true)}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            checked={showOtherDeductionsForm}
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Oui
-          </p>
-        </div>
-        <div className="flex items-center m-4">
-          <input
-            type="radio"
-            onChange={() => setShowOtherDeductionsForm(false)}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            checked={!showOtherDeductionsForm}
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Non
-          </p>
-        </div>
-      </fieldset>
-      {showOtherDeductionsForm && (
+      <Controller
+        control={control}
+        name="taxReport.isOtherDeductions"
+        render={({ field: { onChange, value } }) => (
+          <fieldset className="flex flex-row m-4">
+            <div className="flex items-center">
+              <input
+                type="radio"
+                onChange={() => onChange(true)}
+                checked={value === true}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                Oui
+              </p>
+            </div>
+            <div className="flex items-center m-4">
+              <input
+                type="radio"
+                onChange={() => onChange(false)}
+                checked={value === false}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                Non
+              </p>
+            </div>
+          </fieldset>
+        )}
+      />
+
+      {formData?.taxReport?.isOtherDeductions && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>Cochez TOUTES les cases qui s&apos;appliquent. </p>
           <div className="flex items-center gap-2 py-2">
@@ -148,31 +154,38 @@ export function OtherDeductionsForm(props: RespondentFormProps) {
         </div>
       )}
       <p>Avez-vous versé des acomptes provisionnels en 2022?</p>
-      <fieldset className="flex flex-row m-4">
-        <div className="flex items-center">
-          <input
-            type="radio"
-            onChange={() => setShowInstalmentPayments(true)}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            checked={showInstalmentPayments}
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Oui
-          </p>
-        </div>
-        <div className="flex items-center m-4">
-          <input
-            type="radio"
-            onChange={() => setShowInstalmentPayments(false)}
-            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-            checked={!showInstalmentPayments}
-          />
-          <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-            Non
-          </p>
-        </div>
-      </fieldset>
-      {showInstalmentPayments === true && (
+      <Controller
+        control={control}
+        name="taxReport.isInstalmentPayments"
+        render={({ field: { onChange, value } }) => (
+          <fieldset className="flex flex-row m-4">
+            <div className="flex items-center">
+              <input
+                type="radio"
+                onChange={() => onChange(true)}
+                checked={value === true}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                Oui
+              </p>
+            </div>
+            <div className="flex items-center m-4">
+              <input
+                type="radio"
+                onChange={() => onChange(false)}
+                checked={value === false}
+                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                Non
+              </p>
+            </div>
+          </fieldset>
+        )}
+      />
+
+      {formData?.taxReport?.isInstalmentPayments && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>
             Entrez les accomptes provisionnels trimestriels que vous avez versés

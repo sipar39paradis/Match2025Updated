@@ -1,8 +1,8 @@
 import { CivilStatusEnum } from './CivilStatusEnum';
 
 export interface CivilStatus {
-  civilStatus: CivilStatusEnum;
-  together: boolean;
+  civilStatus?: CivilStatusEnum;
+  together?: boolean;
 }
 
 

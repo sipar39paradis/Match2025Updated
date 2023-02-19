@@ -183,6 +183,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
   async function signIn(email: string, password: string) {
     let errorMessage = '';
+    console.log(email, password);
     await signInWithEmailAndPassword(auth, email, password)
       .then(() => navigate('/platform'))
       .catch((error) => {
@@ -199,8 +200,15 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     let resolver = null;
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider)
-      .then(async (userCredential) => {
+      .then(async (userCredential: UserCredential) => {
         // succsessfulSignIn(userCredential);
+        const accountCreationDate = new Date(
+          userCredential.user.metadata.creationTime
+        );
+        const todayDate = new Date();
+        if (accountCreationDate.getDate() === todayDate.getDate()) {
+          navigate('/platform/questionnaire');
+        }
         errorMessage = 'No Two Factor';
       })
       .catch((error) => {

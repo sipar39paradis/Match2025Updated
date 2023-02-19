@@ -5,7 +5,7 @@ export function Home() {
   return (
     <section
       id="home"
-      className="relative z-40 overflow-hidden pb-24 sm:pt-36 lg:pt-[170px] lg:pb-[240px]"
+      className="relative overflow-hidden pb-24 sm:pt-36 lg:pt-[170px] lg:pb-[240px]"
     >
       <div className="px-4 xl:container m-auto">
         <div className="-mx-4 flex flex-wrap items-center">

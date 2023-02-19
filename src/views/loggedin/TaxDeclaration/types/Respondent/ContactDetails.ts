@@ -6,17 +6,12 @@ export interface ContactDetails {
   street: string
   city: string
   postal: string
+  canadianRedisentStatusChange: boolean
   movedFromOtherProvince: DateType
   sameAddress: boolean
   isDifferentProvince: boolean
   differentProvince?: ProvinceEnum
   phoneNumber: string
-
-  canadianRedisentStatusChange: boolean
-  canadianIncomes: number
-  foreignIncomes: number
-  residentStatus: ResidentStatusEnum
-  nonResidentRevenues: number
 }
 
 export enum ProvinceEnum {

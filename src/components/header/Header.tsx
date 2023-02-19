@@ -134,7 +134,7 @@ export function Header() {
       <Navbar
         fluid={true}
         rounded={true}
-        className="header top-0 left-0 w-full z-[99] relative"
+        className="header top-0 left-0 w-full relative"
       >
         <Navbar.Brand href="/">
           <Logo className="w-16 h-16" />

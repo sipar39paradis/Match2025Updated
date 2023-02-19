@@ -93,7 +93,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
                     {...register('taxReport.taxDeductions.RRSPcontributions')}
                   />
                   <p>
-                    J&apos;ai versé des cotisations au REER entre mars 2022 et
+                    J&apos;ai versé des cotisations au REER entre mars 2023 et
                     février 2022
                   </p>
                 </div>
@@ -130,7 +130,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
                   />
                   <p>
                     J&apos;ai versé ou mon employeur a versé des cotisations au
-                    RPAC en mon nom, entre janvier 2022 et mars 2022
+                    RPAC en mon nom, entre janvier 2022 et mars 2023
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">

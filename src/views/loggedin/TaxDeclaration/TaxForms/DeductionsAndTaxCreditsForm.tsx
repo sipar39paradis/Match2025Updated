@@ -19,12 +19,14 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     control,
     setSearchParams,
     addQuestionnaire,
+    resetForm,
   } = props;
 
   function onSubmitButton() {
     saveFormAnswers();
+    resetForm();
     if (formData?.mainClient && formData?.civilStatus?.together) {
-      addQuestionnaire(false);
+      addQuestionnaire(false, formData.civilStatus);
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
     }
     setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
@@ -83,8 +85,11 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
               </fieldset>
             )}
           />
-          <BoughtHomeForm register={register} />
-          <SoldMainHomeForm></SoldMainHomeForm>
+          <BoughtHomeForm register={register} control={control} />
+          <SoldMainHomeForm
+            control={control}
+            formData={formData}
+          ></SoldMainHomeForm>
 
           <p>
             Avez-vous engagé des dépenses admissibles vous donnant droit au
