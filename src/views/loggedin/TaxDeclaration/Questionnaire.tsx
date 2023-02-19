@@ -84,7 +84,10 @@ export function Questionnaire() {
       ...emptyQuestionnaire,
       mainClient,
       year: new Date().getFullYear(),
-      personalInformations: { email: user.email },
+      personalInformations: {
+        ...emptyQuestionnaire?.personalInformations,
+        email: user.email,
+      },
       civilStatus: civilStatus || null,
     };
     await addDoc(
@@ -96,9 +99,8 @@ export function Questionnaire() {
       ),
       defaultValues
     ).then((docRef) => {
-      const map = new Map();
-      map.set(docRef.id, defaultValues);
-      setQuestionnaires(map);
+      questionnaires.set(docRef.id, defaultValues);
+      setQuestionnaires(questionnaires);
       navigate(
         `/platform/questionnaire/${docRef.id}?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
       );
