@@ -47,29 +47,7 @@ export function OtherDeductionsForm(props: RespondentFormProps) {
       {formData?.taxReport?.isOtherDeductions && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>Cochez TOUTES les cases qui s&apos;appliquent. </p>
-          <div className="flex items-center gap-2 py-2">
-            <Checkbox
-              {...register(
-                'taxReport.otherDeductions.digitalNewServicesSubscription'
-              )}
-            />
-            <p>
-              J&apos;ai acheté un abonnement à des services de nouvelles
-              numériques
-            </p>
-          </div>
-          <div className="flex items-center gap-2 py-2">
-            <Checkbox
-              {...register(
-                'taxReport.otherDeductions.boughtEligibleSchoolSupplies'
-              )}
-            />
-            <p>
-              Je suis un enseignant ou un éducateur de la petite enfance
-              admissible et j&apos;ai acheté des fournitures scolaires
-              admissibles au cours de l&apos;année
-            </p>
-          </div>
+
           <div className="flex items-center gap-2 py-2">
             <Checkbox
               {...register(
@@ -90,15 +68,6 @@ export function OtherDeductionsForm(props: RespondentFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox
-              {...register('taxReport.otherDeductions.unusedSpousalCredits')}
-            />
-            <p>
-              Mon conjoint a des crédits qu&apos;il n&apos;utilisera pas et qui
-              peuvent m&apos;être transférés
-            </p>
-          </div>
-          <div className="flex items-center gap-2 py-2">
-            <Checkbox
               {...register('taxReport.otherDeductions.paidForeignTaxes')}
             />
             <p>J&apos;ai payé de l&apos;impôt à un pays étranger</p>
@@ -112,37 +81,6 @@ export function OtherDeductionsForm(props: RespondentFormProps) {
             <p>
               Je vis dans une région désignée et je suis admissible à la
               déduction pour les habitants de régions éloignées
-            </p>
-          </div>
-          <div className="flex items-center gap-2 py-2">
-            <Checkbox
-              {...register(
-                'taxReport.otherDeductions.paidForestryOperationsTaxes'
-              )}
-            />
-            <p>J&apos;ai payé de l&apos;impôt sur les opérations forestières</p>
-          </div>
-          <div className="flex items-center gap-2 py-2">
-            <Checkbox
-              {...register(
-                'taxReport.otherDeductions.carryingForwardalternativeMinimumTaxPayments'
-              )}
-            />
-            <p>
-              Je reporte des paiements d&apos;impôt minimum de remplacement
-              d&apos;années passées
-            </p>
-          </div>
-          <div className="flex items-center gap-2 py-2">
-            <Checkbox
-              {...register(
-                'taxReport.otherDeductions.alternativeMinimumTaxRevision'
-              )}
-            />
-            <p>
-              Je veux réviser mon impôt minimum de remplacement (IMR) pour 2022.
-              Si vous ne cochez pas cette case et que l&apos;IMR vous concerne,
-              nous vous inviterons à réviser votre déclaration plus tard.
             </p>
           </div>
           <div className="flex items-center gap-2 py-2">
@@ -188,9 +126,9 @@ export function OtherDeductionsForm(props: RespondentFormProps) {
       {formData?.taxReport?.isInstalmentPayments && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>
-            Entrez les accomptes provisionnels trimestriels que vous avez versés
-            à l&apos;ARC en 2022. N&apos;incluez pas les paiments de votre impôt
-            de 2022.
+            Entrez les acomptes provisionnels trimestriels que vous avez versés
+            à l&apos;ARC en 2022. N&apos;incluez pas les paiements de votre
+            impôt de 2021.
           </p>
           <div className="relative z-0 mt-4 mb-6 group w-full">
             <input

@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
 import { emptyQuestionnaire } from './emptyQuestionnaire';
 import { CivilStatus } from './types/Respondent/CivilStatus';
+import { ContactDetails } from './types/Respondent/ContactDetails';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
@@ -79,7 +80,8 @@ export function Questionnaire() {
 
   async function addQuestionnaire(
     mainClient = true,
-    civilStatus?: CivilStatus
+    civilStatus?: CivilStatus,
+    contactDetails?: ContactDetails
   ) {
     console.log('new');
     const defaultValues = {
@@ -91,6 +93,7 @@ export function Questionnaire() {
         email: user.email,
       },
       civilStatus: civilStatus || null,
+      contactDetails: contactDetails || null,
     };
     await addDoc(
       collection(

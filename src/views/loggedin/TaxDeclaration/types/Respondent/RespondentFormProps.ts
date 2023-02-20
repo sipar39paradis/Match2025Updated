@@ -1,6 +1,7 @@
 import { Control, UseFormHandleSubmit, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { URLSearchParamsInit, NavigateOptions } from 'react-router-dom';
 import { CivilStatus } from './CivilStatus';
+import { ContactDetails } from './ContactDetails';
 import { Respondent } from './Respondent';
 
 export interface RespondentFormProps {
@@ -12,5 +13,5 @@ export interface RespondentFormProps {
   setValue?: UseFormSetValue<Respondent>
   resetForm?: () => void
   setSearchParams?: (nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), navigateOpts?: NavigateOptions) => void
-  addQuestionnaire?: (mainClient: boolean, civilStatus?: CivilStatus) => void
+  addQuestionnaire?: (mainClient: boolean, civilStatus?: CivilStatus, contactDetails?: ContactDetails) => void
 }

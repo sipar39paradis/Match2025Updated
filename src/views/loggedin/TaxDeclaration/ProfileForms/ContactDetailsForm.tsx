@@ -260,7 +260,10 @@ export function ContactDetailsForm(props: RespondentFormProps) {
             )}
           />
           {formData?.contactDetails?.canadianRedisentStatusChange === true && (
-            <p>Votre préparateur va entrer en contact avec vous.</p>
+            <p>
+              Votre préparateur entrera en contact avec vous pour obtenir plus
+              de renseignements.{' '}
+            </p>
           )}
 
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />

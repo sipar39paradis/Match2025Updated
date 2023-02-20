@@ -139,12 +139,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                       Est-ce que l&apos;une des situations suivantes vous
                       concerne?
                     </p>
-                    <div className="flex items-center gap-2 py-2">
-                      <Checkbox
-                        {...register('taxReport.workIncomes.clergyMember')}
-                      />
-                      <p>J&apos;étais un membre du clergé</p>
-                    </div>
+
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
                         {...register(
@@ -165,29 +160,6 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                       <p>
                         J&apos;ai reçu un revenu d&apos;un régime
                         d&apos;assurance-salaire
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 py-2">
-                      <Checkbox
-                        {...register(
-                          'taxReport.workIncomes.optionalCPPorQPPcontributions'
-                        )}
-                      />
-                      <p>
-                        Je veux verser des cotisations facultatives au RPC ou au
-                        RRQ
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 py-2">
-                      <Checkbox {...register('taxReport.workIncomes.stocks')} />
-                      <p>
-                        J&apos;ai des actions dans ma compagnie et j&apos;ai des
-                        avantages tirés d&apos;une option d&apos;achat
-                        d&apos;actions ou j&apos;ai payé de l&apos;impôt sur les
-                        excédents à un régime de participation des employés aux
-                        bénéfices ou je dois faire un choix pour reporter les
-                        avantages tirés d&apos;une option d&apos;achat
-                        d&apos;actions.
                       </p>
                     </div>
                     <hr className="py-2"></hr>

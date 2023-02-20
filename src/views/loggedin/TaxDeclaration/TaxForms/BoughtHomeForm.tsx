@@ -9,8 +9,7 @@ export function BoughtHomeForm(props: RespondentFormProps) {
     <>
       <p>
         Avez-vous acheté une maison, un condo, un appartement ou une maison
-        mobile cette année? Sélectionnez Oui pour déterminer si vous êtes
-        admissible au montant pour l&apos;achat d&apos;une première habitation ?
+        mobile cette année?
       </p>
       <Controller
         control={control}

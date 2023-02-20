@@ -10,8 +10,7 @@ export function RetirementIncomesForm(props: RespondentFormProps) {
     <>
       <p>
         Avez-vous reçu un revenu de pension ou de retraite, ou avez-vous retiré
-        de l&apos;argent d&apos;un REER ou d&apos;un FERR? Cela n&apos;inclut
-        pas les cotisations à un REER ni à un régime de retraite.
+        de l&apos;argent d&apos;un REER ou d&apos;un FERR?
       </p>
 
       <Controller

@@ -154,8 +154,8 @@ export function CivilStatusForm(props: RespondentFormProps) {
               />
               {formData.civilStatus.together && (
                 <p className="opacity-100">
-                  Le conjoint/marié aura son questionnaire à remplir après celui
-                  du client principal
+                  Le conjoint(e)/marié(e)aura son propre questionnaire à remplir
+                  après celui du client principal
                 </p>
               )}
             </div>

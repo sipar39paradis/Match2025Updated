@@ -26,7 +26,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     saveFormAnswers();
     resetForm();
     if (formData?.mainClient && formData?.civilStatus?.together) {
-      addQuestionnaire(false, formData.civilStatus);
+      addQuestionnaire(false, formData.civilStatus, formData.contactDetails);
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
     }
     setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
@@ -128,16 +128,11 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
           {formData?.taxReport?.homeAccessibilityTaxCredit && (
             <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
               <p className="opacity-100 pb-2">
-                Votre préparateur va entre en contact avec vous pour avoir plus
+                Votre préparateur entrera en contact avec vous pour obtenir plus
                 de renseignements.
               </p>
             </div>
           )}
-          <VolunteerFirefighterForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
           <OtherDeductionsForm
             control={control}
             formData={formData}

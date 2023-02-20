@@ -48,12 +48,6 @@ export function DependentsForm(props: RespondentFormProps) {
     <Fade>
       <section className="flex flex-col align-baseline items-start w-full">
         <h1>Avez-vous des enfants?</h1>
-        <p className="my-4">
-          Vos enfants valent leur pesant d&apos;or. Nous allons essayer
-          d&apos;obtenir un crédit d&apos;impôt pour chaque enfant que vous
-          soutenez
-        </p>
-
         <form
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start w-full"
