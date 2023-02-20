@@ -260,7 +260,7 @@ export function Questionnaire() {
                 )
               }
             >
-              <p className="opacity-100">
+              <p className="font-semibold">
                 {tab?.value?.personalInformations?.firstName || 'Client'}
               </p>
             </div>

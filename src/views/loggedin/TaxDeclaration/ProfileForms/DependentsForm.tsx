@@ -295,7 +295,7 @@ export function DependentsForm(props: RespondentFormProps) {
                     />
                     {formData?.dependents?.[index]?.needTaxReport && (
                       <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-                        <p className="opacity-100">
+                        <p className="font-semibold">
                           Un questionnaire pour cette enfant est donc nécessaire{' '}
                         </p>
                       </div>
@@ -341,7 +341,7 @@ export function DependentsForm(props: RespondentFormProps) {
                           {formData?.dependents?.[index]
                             ?.childcareToEarnIncome && (
                             <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-                              <p className="opacity-100">
+                              <p className="font-semibold">
                                 Vous pourrez déposer tous vos reçus pour frais
                                 de garde dans la boite de dépôt à la fin du
                                 questionnaire
@@ -386,7 +386,7 @@ export function DependentsForm(props: RespondentFormProps) {
                           {formData?.dependents?.[index]
                             ?.universalChildCareBenefit && (
                             <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-                              <p className="opacity-100">
+                              <p className="font-semibold">
                                 Vous pourrez déposer tous vos reçus pour frais
                                 de garde dans la boite de dépôt à la fin du
                                 questionnaire
