@@ -1,6 +1,7 @@
 import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
 import React from 'react';
 import { Controller } from 'react-hook-form';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 
 export function WorkIncomesForm(props: RespondentFormProps) {
@@ -163,7 +164,10 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                       </p>
                     </div>
                     <hr className="py-2"></hr>
-                    <p>Avez-vous des dépenses liées à votre emploi?</p>
+                    <p>
+                      Avez-vous des dépenses liées à votre emploi?
+                      <TooltipWithIcon text=" Si vous avez encouru des dépenses que vous avez payez personnellement afin d’obtenir un revenu de commission ou du salaire, il se peut que vous puissiez déduire ces dépenses. Si vous n’êtes pas certain cochez oui et votre préparateur va entrer en contact avec vous. "></TooltipWithIcon>
+                    </p>
                     <Controller
                       control={control}
                       name="taxReport.workIncomes.jobRelatedExpenses"

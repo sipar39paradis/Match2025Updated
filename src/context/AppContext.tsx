@@ -1,4 +1,10 @@
-import React, { createContext, ReactNode, useState, useEffect, useRef } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useState,
+  useEffect,
+  useRef,
+} from 'react';
 import { initializeApp } from 'firebase/app';
 import {
   Auth,
@@ -60,8 +66,10 @@ export interface AppContextType {
   user: User;
   loading: boolean;
   errors: Error;
-  signIn: (email: string, password: string) => Promise<
-  [Promise<string>, MultiFactorResolver, string]>;
+  signIn: (
+    email: string,
+    password: string
+  ) => Promise<[Promise<string>, MultiFactorResolver, string]>;
   signInWithGoogle: () => Promise<
     [Promise<string>, MultiFactorResolver, string]
   >;
@@ -100,16 +108,16 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const [userInfo, setUserInfo] = useState(null);
   const [user, loading, errors] = useAuthState(auth);
   const [openModel, setOpenModel] = useState(false);
-  const openRef = useRef(openModel)
+  const openRef = useRef(openModel);
   const [continueSess, setContinueSess] = useState(false);
-  const continueSessRef = useRef(continueSess)
-  continueSessRef.current= continueSess
+  const continueSessRef = useRef(continueSess);
+  continueSessRef.current = continueSess;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    
-    return () => signOut()
-  }, []);
+  // useEffect(() => {
+
+  //   return () => signOut()
+  // }, []);
 
   async function enrollTwoFactor(phoneNumber: string): Promise<string> {
     console.log(phoneNumber);
@@ -165,7 +173,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   };
 
   const succsessfulSignIn = async (userCredential: UserCredential) => {
-    if(userCredential.user.displayName !== null){
+    if (userCredential.user.displayName !== null) {
       const names = userCredential.user.displayName.split(' ');
       await createProfile(userCredential, names[0], names[1], '');
     }
@@ -174,25 +182,23 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   };
 
   const timedSignOut = async () => {
-    const FIVE_MINUTES_BEFORE_MODAL = 300000
-    const THIRTY_SECONDS_AFTER_MODAL = 30000
+    const FIVE_MINUTES_BEFORE_MODAL = 300000;
+    const THIRTY_SECONDS_AFTER_MODAL = 30000;
 
     setTimeout(() => {
-      console.log(userInfo, 'userInfo')
-      setOpenModel(true)
+      console.log(userInfo, 'userInfo');
+      setOpenModel(true);
       setTimeout(() => {
-
-          if(continueSessRef.current){
-            setContinueSess(false)
-            timedSignOut()
-          }
-          else{
-            setOpenModel(false)
-            signOut()
-          }
+        if (continueSessRef.current) {
+          setContinueSess(false);
+          timedSignOut();
+        } else {
+          setOpenModel(false);
+          signOut();
+        }
         // }
-      },30000000)
-    },  5000);
+      }, 30000000);
+    }, 5000);
   };
 
   const verifyTwoFactor = async (
@@ -218,18 +224,20 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await promise;
   };
 
-  const handleLogin = async (userCredentialsPromise: Promise<UserCredential>, signup = false): Promise<
-  [Promise<string>, MultiFactorResolver, string]> => {
+  const handleLogin = async (
+    userCredentialsPromise: Promise<UserCredential>,
+    signup = false
+  ): Promise<[Promise<string>, MultiFactorResolver, string]> => {
     let errorMessage: string = null;
     let promise = null;
     let resolver = null;
 
-    await userCredentialsPromise 
+    await userCredentialsPromise
       .then(async (userCredential) => {
         console.log('timeout', 'in signin');
         console.log(userCredential, 'user creds in signup');
         succsessfulSignIn(userCredential);
-        if (signup){
+        if (signup) {
           // navigate('/platform/questionnaire');
         }
         errorMessage = 'No Two Factor';
@@ -276,18 +284,20 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         errorMessage = error.message;
       });
     return [promise, resolver, errorMessage];
+  };
+
+  async function signIn(
+    email: string,
+    password: string
+  ): Promise<[Promise<string>, MultiFactorResolver, string]> {
+    return handleLogin(signInWithEmailAndPassword(auth, email, password));
   }
 
-  async function signIn(email: string, password: string): Promise<
-  [Promise<string>, MultiFactorResolver, string]> {
-    return handleLogin(signInWithEmailAndPassword(auth, email, password))
-  }
-
-  async function signInWithGoogle(signup = false): Promise<
-    [Promise<string>, MultiFactorResolver, string]
-  > {
+  async function signInWithGoogle(
+    signup = false
+  ): Promise<[Promise<string>, MultiFactorResolver, string]> {
     const provider = new GoogleAuthProvider();
-    return handleLogin(signInWithPopup(auth, provider))
+    return handleLogin(signInWithPopup(auth, provider));
   }
 
   async function signInWithFacebook() {
@@ -332,10 +342,10 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   }
 
   async function signUpWithGoogle(): Promise<
-  [Promise<string>, MultiFactorResolver, string]
-> {
-  return signUpWithGoogle()
-}
+    [Promise<string>, MultiFactorResolver, string]
+  > {
+    return signUpWithGoogle();
+  }
 
   function signOut() {
     setUserInfo(null);
@@ -388,8 +398,13 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       <Modal show={openModel}>
         <div className="flex border-0 rounded-lg shadow-lg relative bg-white flex-col">
           <div className="flex flex-col items-center justify-center p-5 rounded-t">
-            <h3 className="text-xl font-semibold pt-6">Êtes vous toujours la ?</h3>
-            <h4>Vous serez déconnecté pour assurer la sécurité de vos informations.</h4>
+            <h3 className="text-xl font-semibold pt-6">
+              Êtes vous toujours la ?
+            </h3>
+            <h4>
+              Vous serez déconnecté pour assurer la sécurité de vos
+              informations.
+            </h4>
             <button
               className="flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2"
               onClick={() => setOpenModel(false)}
@@ -398,10 +413,15 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
             </button>
 
             <form className="flex flex-col gap-4">
-              <Button color="warning" className=' m-6' id="two-factor-button" onClick={() => {
-                  setContinueSess(true)
-                  setOpenModel(false)
-                }}>
+              <Button
+                color="warning"
+                className=" m-6"
+                id="two-factor-button"
+                onClick={() => {
+                  setContinueSess(true);
+                  setOpenModel(false);
+                }}
+              >
                 je suis la, ne pas me déconnecter
               </Button>
             </form>

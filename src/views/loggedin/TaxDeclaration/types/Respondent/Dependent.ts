@@ -12,6 +12,17 @@ export interface Dependent {
   adjustedNetIncome: number
   quebecChildrenSupport: boolean
   claimedOrReceivedAmountForDependent: DateType
+  needTaxReport?: boolean
+  childcareToEarnIncome?: boolean
+  universalChildCareBenefit?: boolean
+  childcareExpensesReceivedForAdvancePayments?: boolean
+  eligibleDependentAmount?: boolean
+  tuitonsAndEducationAmountsTransferred?: boolean
+  childrenActivitiesTaxCredit?: boolean
+  disabilityAmountTransferredFromDependant?: boolean
+  canadianCaregiverAmount?: boolean
+  adoptionFees?: boolean
+  dependentChildAmount?: boolean
 }
 
 export enum DependentRelatationShipEnum {

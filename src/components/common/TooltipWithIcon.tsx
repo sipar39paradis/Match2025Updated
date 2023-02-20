@@ -18,7 +18,7 @@ export function TooltipWithIcon(props: TooltipWithIconProps) {
       ></QuestionMark>
       <Tooltip
         id="my-tooltip"
-        className="w-96 absolute bg-white z-10 p-4 rounded-lg  border-black border"
+        className="w-96 absolute bg-white z-10 p-4 rounded-lg  border-black border !opacity-100"
         place={place}
       />
     </span>
