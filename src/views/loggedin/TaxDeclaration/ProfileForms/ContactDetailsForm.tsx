@@ -6,6 +6,7 @@ import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 
 export function ContactDetailsForm(props: RespondentFormProps) {
   const {
@@ -124,6 +125,11 @@ export function ContactDetailsForm(props: RespondentFormProps) {
           <p>
             Si vous avez déménagé d&apos;une autre province ou d&apos;un autre
             territoire en 2022, entrez la date de votre déménagement
+            <TooltipWithIcon
+              text=" Si nous n’est pas certain de votre statut de résident canadien au
+              31 décembre 2022, veuillez cocher oui à cette question et votre
+              préparateur va entrer en contact avec vous."
+            ></TooltipWithIcon>
           </p>
           <Controller
             control={control}
