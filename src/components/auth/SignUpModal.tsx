@@ -4,6 +4,7 @@ import { AuthButton } from './AuthButton';
 import { ReactComponent as GoogleIcon } from '../../icons/GoogleIcon.svg';
 import { ReactComponent as EnvelopeIcon } from '../../icons/EnvelopeIcon.svg';
 import { AuthModalEnum } from './AuthModal';
+import { useNavigate } from 'react-router-dom';
 
 interface SignUpModalProps {
   closeModal: (show: boolean) => void;
@@ -12,6 +13,7 @@ interface SignUpModalProps {
 
 export function SignUpModal(props: SignUpModalProps) {
   const { signInWithGoogle } = useContext(AppContext) as AppContextType;
+  const navigate = useNavigate();
   const { closeModal, switchModal } = props;
   const [authError, setAuthError] = useState('');
 
@@ -33,7 +35,18 @@ export function SignUpModal(props: SignUpModalProps) {
           Icon={GoogleIcon}
           onClick={async () => {
             const [promise, resolver, err] = await signInWithGoogle();
-            err ? setAuthError(err) : closeModal(false);
+            if (err) {    
+              if(err === 'No Two Factor'){
+                switchModal(AuthModalEnum.TwoFactor)
+                navigate('/profile');
+              }else{
+                setAuthError(await promise);
+              }
+            }
+            else {
+              closeModal(false);
+              navigate('/profile');
+            }
           }}
           text="Continuez avec Google"
           id="google-signup"

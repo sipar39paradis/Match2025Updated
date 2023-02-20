@@ -5,6 +5,7 @@ import { ReactComponent as FacebookIcon } from '../../../icons/FacebookIcon.svg'
 import { AuthButton } from '../AuthButton';
 import { useForm } from 'react-hook-form';
 import { AuthModalEnum } from '../AuthModal';
+import { useNavigate } from 'react-router-dom';
 
 interface SignInModalBodyProps {
   closeModal: (show: boolean) => void;
@@ -27,6 +28,7 @@ export function SignInModalBody({
   const { signInWithGoogle, signInWithFacebook, signIn } = useContext(
     AppContext
   ) as AppContextType;
+  const navigate = useNavigate();
 
   const {
     register,
@@ -39,7 +41,6 @@ export function SignInModalBody({
 
     const [promise, resolver, err] = await signIn(data.email, data.password);
     const verificationId = await promise;
-    console.log(promise, 'promise');
 
     if (resolver) {
       setPromiseFromText(promise);
@@ -47,9 +48,15 @@ export function SignInModalBody({
     } else if (err) {
       if(err === 'No Two Factor'){
         switchModal(AuthModalEnum.TwoFactor)
+        navigate('/profile');
+      }else{
+        setAuthError(await promise);
       }
-      setAuthError(await promise);}
-    else closeModal(false);
+      }
+    else {
+      closeModal(false);
+      navigate('/profile');
+    }
   };
   const [authError, setAuthError] = useState('');
 
@@ -141,9 +148,13 @@ export function SignInModalBody({
             } else if (err) {
               if (err === 'No Two Factor') {
                 switchModal(AuthModalEnum.TwoFactor);
+                navigate('/profile');
               }
               setAuthError(await promise);
-            } else closeModal(false);
+            } else {
+              closeModal(false);
+              navigate('/profile');
+            }
           }}
           text="Continuez avec Google"
           id="google-login"

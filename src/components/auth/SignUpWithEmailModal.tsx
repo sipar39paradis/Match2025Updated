@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
 import { AuthModalEnum } from './AuthModal';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 interface SignUpWithEmailModalProps {
   closeModal: (show: boolean) => void;
@@ -18,6 +19,7 @@ type signUpWithEmailData = {
 };
 
 export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
+  const navigate = useNavigate();
   const { closeModal, switchModal } = props;
   const { signUpWithEmailAndPassword } = useContext(
     AppContext
@@ -42,7 +44,11 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
         data.lastName,
         data.referralCode
       );
-      res ? setAuthError(res) : closeModal(false);
+      if(res) {setAuthError(res)}
+      else {
+        closeModal(false);
+        navigate('/profile');
+      }
     }
   };
 

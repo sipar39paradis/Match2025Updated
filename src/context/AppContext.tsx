@@ -191,8 +191,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
             signOut()
           }
         // }
-      },THIRTY_SECONDS_AFTER_MODAL)
-    },  FIVE_MINUTES_BEFORE_MODAL);
+      },30000000)
+    },  5000);
   };
 
   const verifyTwoFactor = async (
@@ -218,7 +218,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await promise;
   };
 
-  const handleLogin = async (userCredentialsPromise: Promise<UserCredential>): Promise<
+  const handleLogin = async (userCredentialsPromise: Promise<UserCredential>, signup = false): Promise<
   [Promise<string>, MultiFactorResolver, string]> => {
     let errorMessage: string = null;
     let promise = null;
@@ -229,6 +229,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         console.log('timeout', 'in signin');
         console.log(userCredential, 'user creds in signup');
         succsessfulSignIn(userCredential);
+        if (signup){
+          // navigate('/platform/questionnaire');
+        }
         errorMessage = 'No Two Factor';
       })
       .catch((error) => {
@@ -280,7 +283,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     return handleLogin(signInWithEmailAndPassword(auth, email, password))
   }
 
-  async function signInWithGoogle(): Promise<
+  async function signInWithGoogle(signup = false): Promise<
     [Promise<string>, MultiFactorResolver, string]
   > {
     const provider = new GoogleAuthProvider();
@@ -327,6 +330,12 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       });
     return errorMessage;
   }
+
+  async function signUpWithGoogle(): Promise<
+  [Promise<string>, MultiFactorResolver, string]
+> {
+  return signUpWithGoogle()
+}
 
   function signOut() {
     setUserInfo(null);
@@ -377,9 +386,10 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       }}
     >
       <Modal show={openModel}>
-        <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white">
-          <div className="flex items-center justify-center p-5 rounded-t">
-            <h3 className="text-xl font-semibold">Le code de vérification</h3>
+        <div className="flex border-0 rounded-lg shadow-lg relative bg-white flex-col">
+          <div className="flex flex-col items-center justify-center p-5 rounded-t">
+            <h3 className="text-xl font-semibold pt-6">Êtes vous toujours la ?</h3>
+            <h4>Vous serez déconnecté pour assurer la sécurité de vos informations.</h4>
             <button
               className="flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2"
               onClick={() => setOpenModel(false)}
@@ -388,25 +398,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
             </button>
 
             <form className="flex flex-col gap-4">
-              <div>
-                <>
-                  <div className="mb-2 block">
-                    <Label htmlFor="phone1" value="Le code de vérification" />
-                  </div>
-                  <TextInput
-                    className="text-center select-none"
-                    id="verifivation"
-                    required={true}
-                    onChange={(e) => {'j'}}
-                  />
-                </>
-              </div>
-              <div></div>
-              <Button id="two-factor-button" onClick={() => {
+              <Button color="warning" className=' m-6' id="two-factor-button" onClick={() => {
                   setContinueSess(true)
                   setOpenModel(false)
                 }}>
-                Submit
+                je suis la, ne pas me déconnecter
               </Button>
             </form>
           </div>

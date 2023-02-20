@@ -167,71 +167,6 @@ export function Header() {
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
-          <>
-            {user ? (
-              <>
-                <a
-                  className={
-                    (hover === 'home' || activeLink === 'home'
-                      ? 'md:text-orange-500'
-                      : '') +
-                    ' cursor-pointer font-heading text-base text-dark-text'
-                  }
-                  onMouseEnter={() => {
-                    setHover('home');
-                  }}
-                  onMouseLeave={() => {
-                    setHover('');
-                  }}
-                  onClick={() => {
-                    setActiveLink('home');
-                    navigate('/');
-                  }}
-                >
-                  Maison
-                </a>
-                <a
-                  className={
-                    (hover === 'profile' || activeLink === 'profile'
-                      ? 'md:text-orange-500'
-                      : '') +
-                    ' cursor-pointer font-heading text-base text-dark-text'
-                  }
-                  onMouseEnter={() => {
-                    setHover('profile');
-                  }}
-                  onMouseLeave={() => {
-                    setHover('');
-                  }}
-                  onClick={() => {
-                    setActiveLink('profile');
-                    navigate('/platform');
-                  }}
-                >
-                  Profil
-                </a>
-                <a
-                  className={
-                    (hover === 'files' || activeLink === 'files'
-                      ? 'md:text-orange-500'
-                      : '') +
-                    ' cursor-pointer font-heading text-base text-dark-text'
-                  }
-                  onMouseEnter={() => {
-                    setHover('files');
-                  }}
-                  onMouseLeave={() => {
-                    setHover('');
-                  }}
-                  onClick={() => {
-                    setActiveLink('files');
-                    navigate('/files');
-                  }}
-                >
-                  Mes Dossiers
-                </a>
-              </>
-            ) : (
               <>
                 <HeaderItem text="Accueil" toLink="/#home" />
                 <HeaderItem text="Comment ça marche" toLink="/#features" />
@@ -239,9 +174,20 @@ export function Header() {
                 <HeaderItem text="À propos de nous" toLink="/#about" />
                 <HeaderItem text="Préparateur" toLink="/preparator" />
                 <HeaderItem text={'Nous joindre'} toLink="/#support" />
+
+                {user ? 
+                  
+                <a
+                  className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white cursor-pointer"
+                  onClick={() => {
+                    setActiveLink('files');
+                    navigate('/profile');
+                  }}
+                >
+                  Mon Compte
+                </a>
+                  : null }
               </>
-            )}
-          </>
         </Navbar.Collapse>
       </Navbar>
     </>
