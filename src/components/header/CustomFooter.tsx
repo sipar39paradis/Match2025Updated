@@ -14,12 +14,20 @@ export function CustomFooter() {
       <Footer.Copyright by="Impot Match" year={2023} />
       <Footer.LinkGroup>
         <a
-          className="cursor-pointer"
+          className="cursor-pointer pr-4"
           onClick={() => {
             navigate('/userConditions');
           }}
         >
           {"Conditions D'utilisation"}
+        </a>
+        <a
+          className="cursor-pointer"
+          onClick={() => {
+            navigate('/privacyPolicy');
+          }}
+        >
+          {'Politique de Confidentialité'}
         </a>
       </Footer.LinkGroup>
     </Footer>

@@ -18,6 +18,7 @@ import { CustomerService } from './views/loggedin/boxes/CustomerService';
 import { Questionaire } from './views/loggedin/boxes/questionaire';
 import { CustomFooter } from './components/header/CustomFooter';
 import { UserConditions } from './views/loggedout/UserConditions';
+import { PrivacyPolicy } from './views/loggedout/PrivacyPolicy';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
               <Route path="/customerService" element={<CustomerService />} />
               <Route path="/documents" element={<Files />} />
               <Route path="/userConditions" element={<UserConditions />} />
+              <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             </Routes>
           </div>
           <CustomFooter />

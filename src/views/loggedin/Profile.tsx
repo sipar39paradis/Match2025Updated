@@ -1,8 +1,12 @@
 import '../../i18n/config';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
-import { Button } from 'flowbite-react';
-import { getUserProfile, upsertUserProfile } from '../../client/firebaseClient';
+import { Alert, Button } from 'flowbite-react';
+import {
+  getAllQuestionaires,
+  getUserProfile,
+  upsertUserProfile,
+} from '../../client/firebaseClient';
 import { CustomCard } from '../../components/common/CustomCard';
 import { UserProfile } from '../../interfaces/User';
 
@@ -18,9 +22,10 @@ import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { EditButton } from '../../components/common/EditButtons';
 import { useNavigate } from 'react-router-dom';
 import { BreadcrumbWrapper } from '../../components/profile/BreadcrumbWrapper';
+import { userInfo } from 'os';
 
 interface FamillyProps {
-    switchTab: any
+  switchTab: any;
 }
 
 export function Profile() {
@@ -30,6 +35,7 @@ export function Profile() {
   const [profile, setProfile] = useState<UserProfile>(null);
   const [tempProfile, setTempProfile] = useState<UserProfile>(null);
   const [edit, setEdit] = useState(false);
+  const [madeQuestionaire, setMadeQuestionaire] = useState(true);
   const [loading, setLoading] = useState(true);
   const [inErr, setInErr] = useState({});
   const { width, height } = useWindowDimensions();
@@ -41,6 +47,13 @@ export function Profile() {
   useEffect(() => {
     console.log(id, 'id');
     console.log(user, 'user');
+    ('BR5shBSMwPSxBTd91Ly5zjjhfiH2');
+    getAllQuestionaires(user.uid).then((res) => {
+      console.log(res, 'res');
+      if (res.length === 0) {
+        setMadeQuestionaire(false);
+      }
+    });
 
     getUserProfile(id ? id : user.uid).then((res) => {
       console.log(res, 'res');
@@ -77,7 +90,7 @@ export function Profile() {
 
   const box = (endpoint: string, text: string) => {
     return (
-      <div 
+      <div
         className="h-[200px] w-[200px] border-solid border-2 border-orange-400 rounded-lg m-4 flex justify-center items-center"
         onClick={() => navigate(`/${endpoint}`)}
       >
@@ -89,47 +102,65 @@ export function Profile() {
   return (
     <main>
       <div className="flex justify-start flex-col w-screen p-10 sm:px-30 lg:px-40">
-      <BreadcrumbWrapper
-            breadcrumbEndpoint={['profile']}
-            breadcrumbName={['profil']}
-          >
-        <div className={width > 540 ? 'flex flex-row justify-center' : ''}>
-          <div className={width > 540 ? 'max-w-xs pr-64' : ''}>
-            <div
-              className={
-                width > 540
-                  ? 'sticky position-webstick top-38'
-                  : 'flex flex-row justify-center'
-              }
-            >
-              {width > 540 ? (
-                <CustomCard user={user} profile={tempProfile} />
-              ) : (
-                <img
-                  className="mb-3 h-32 w-32 rounded-full shadow-lg"
-                  src={user.photoURL}
+        <BreadcrumbWrapper
+          breadcrumbEndpoint={['profile']}
+          breadcrumbName={['profil']}
+        >
+          <div className={width > 540 ? 'flex flex-row justify-center' : ''}>
+            <div className={width > 540 ? 'max-w-xs pr-64' : ''}>
+              <div
+                className={
+                  width > 540
+                    ? 'sticky position-webstick top-38'
+                    : 'flex flex-row justify-center'
+                }
+              >
+                {width > 540 ? (
+                  <CustomCard user={user} profile={tempProfile} />
+                ) : (
+                  <img
+                    className="mb-3 h-32 w-32 rounded-full shadow-lg"
+                    src={user.photoURL}
+                  />
+                )}
+                <EditButton
+                  user={user}
+                  profile={tempProfile}
+                  edit={edit}
+                  ownProfile={ownProfile}
+                  inErr={inErr}
+                  setEdit={setEdit}
+                  setInErr={setInErr}
+                  updateProfile={updateProfile}
+                  setTempProfile={setTempProfile}
                 />
-              )}
-              <EditButton
-                user={user}
-                profile={tempProfile}
-                edit={edit}
-                ownProfile={ownProfile}
-                inErr={inErr}
-                setEdit={setEdit}
-                setInErr={setInErr}
-                updateProfile={updateProfile}
-                setTempProfile={setTempProfile}
-              />
+              </div>
+            </div>
+            <div className="flow flow-col">
+              {!madeQuestionaire ? (
+                <a
+                  className=" text-orange-400 cursor-pointer font-bold"
+                  onClick={() => navigate('/platform/questionnaire')}
+                >
+                  <Alert color="info">
+                    <p>
+                      {
+                        "Bonjour, il semblerait que vous n'ayez pas rempli votre déclaration d'impôts pour cette année."
+                      }
+                    </p>
+                    <p>{'Cliquez ici pour être rediriger vers le questionnaire'}</p>
+                  </Alert>
+                </a>
+              ) : null}
+
+              <div className="flex flex-wrap max-w-[700px] justify-center">
+                {Object.entries(boxes).map((entry) => {
+                  console.log('hi', 'test');
+                  return box(entry[0], entry[1]);
+                })}
+              </div>
             </div>
           </div>
-          <div className="flex flex-wrap max-w-[700px] justify-center">
-            {Object.entries(boxes).map((entry) => {
-              console.log('hi', 'test');
-              return box(entry[0], entry[1]);
-            })}
-          </div>
-        </div>
         </BreadcrumbWrapper>
       </div>
     </main>
