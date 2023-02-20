@@ -13,6 +13,7 @@ export interface Respondent {
   contactDetails: ContactDetails
   civilStatusChange?: CivilStatusChange
   haveDependents: boolean
+  parent?: string 
   dependents?: Dependent []
   taxReport: TaxReport
 }

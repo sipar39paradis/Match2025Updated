@@ -215,6 +215,7 @@ export function Questionnaire() {
             setSearchParams={setSearchParams}
             addQuestionnaire={addQuestionnaire}
             resetForm={resetForm}
+            questionnaires={questionnaires}
           ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:

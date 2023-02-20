@@ -7,7 +7,6 @@ import { DonationsForm } from './DonationsForm';
 import { MovingExpensesForm } from './MovingExpensesForm';
 import { OtherDeductionsForm } from './OtherDeductionsForm';
 import { SoldMainHomeForm } from './SoldMainHome';
-import { VolunteerFirefighterForm } from './VolunteerFirefighterForm';
 import Fade from 'react-reveal';
 
 export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
@@ -20,12 +19,17 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     setSearchParams,
     addQuestionnaire,
     resetForm,
+    questionnaires,
   } = props;
 
   function onSubmitButton() {
     saveFormAnswers();
     resetForm();
-    if (formData?.mainClient && formData?.civilStatus?.together) {
+    if (
+      formData?.mainClient &&
+      formData?.civilStatus?.together &&
+      questionnaires.size === 1
+    ) {
       addQuestionnaire(false, formData.civilStatus, formData.contactDetails);
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
     }
