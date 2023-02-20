@@ -4,8 +4,14 @@ import React, { useCallback, useContext, useState } from 'react';
 import { appendExistingFiles, getExistingFiles, getRequiredFiles, removeExistingfile, removeRequiredfile, writeRequiredFiles } from '../../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import Dropzone from 'react-dropzone';
+import { NavigateOptions, URLSearchParamsInit } from 'react-router-dom';
+import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 
 const STORAGE_BASE_FOLDER = 'customerdata/';
+
+interface TaxDeclarationFileUploadProps{
+    setSearchParams?: (nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), navigateOpts?: NavigateOptions) => void
+}
 
 interface FileUploadProps{
     fileName: string
@@ -42,7 +48,6 @@ function ExistingFileNameComponent(props: ExistingFileNameComponentProps){
         if(confirm('Are you sure you wish to delete this file?')){
             requiredFiles.push(fileName)
             removeExistingfile(fileName, userId, userEmail)
-            writeRequiredFiles(requiredFiles, userId)
             setReqFiles(requiredFiles)
         }else {
         }    
@@ -60,7 +65,6 @@ function FileNameComponent(props: FileNameComponentProps){
         if(confirm('Are you sure you wish to delete this file?')){
             requiredFiles.push(fileName)
             removeExistingfile(fileName, userId, userEmail)
-            writeRequiredFiles(requiredFiles, userId)
             setReqFiles(requiredFiles)
             setHidden(false)
         }else {
@@ -122,8 +126,9 @@ function IndividualFileUpload(props: FileUploadProps){
     )
 }
 
-export function TaxDeclarationFileUpload (){
+export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
     const { firestore, storage, user } = useContext(AppContext) as AppContextType
+    const { setSearchParams } = props;
     const [ reqFiles, setReqFiles ] = useState([]);
     const [ existingFiles, setExistingFiles ] = useState([]);
     const [fetchedReqFiles, setFetchedReqFiles] = useState(false);
@@ -169,6 +174,29 @@ export function TaxDeclarationFileUpload (){
                 />
                 )
         }
+        <div className="w-full flex justify-between mt-4">
+            <input
+              type="submit"
+              value="Précédant"
+              onClick={() => {
+                setSearchParams({ step: TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT });
+              }}
+              className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
+            />
+            <input
+              type="submit"
+              value="Suivant"
+              className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+              onClick={() => {
+                if(reqFiles && reqFiles?.length == 0){
+                    setSearchParams( {step: TaxDeclarationStep.REVIEW})
+                }else{
+                    console.log(reqFiles)
+                    alert('Assurez-vous de télécharger tous les fichiers requis.')
+                }
+              }}
+            />
+          </div>
     </>
   
 }
