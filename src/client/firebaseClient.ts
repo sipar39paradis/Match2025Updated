@@ -5,13 +5,9 @@ import {
   getDoc,
   getDocs,
   getFirestore,
-  query,
   setDoc,
-  where,
 } from 'firebase/firestore';
 import { deleteObject, FirebaseStorage, getStorage, listAll, ref } from 'firebase/storage';
-import { useContext } from 'react';
-import { AppContext } from '../context/AppContext';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
 
@@ -107,22 +103,23 @@ export const appendExistingFiles = async (
 
 export const removeExistingfile = async (
   fileName: string,
-  userId: string
+  userId: string,
+  userEmail: string
 ): Promise<void> => {
   getExistingFiles(userId).then((res) => {
     if(res != undefined){
       writeExistingFiles(res?.files?.filter(file => file != fileName), userId)
       appendRequiredFiles(fileName, userId)
-      removeUserFile(fileName, userId)
+      removeUserFile(fileName, userEmail)
     } 
   })
 }
 
 export const removeUserFile = async (
   fileName: string,
-  userId: string
+  userEmail: string
 ): Promise<void> => {
-  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + userId)
+  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + userEmail)
   listAll(filesListRef).then((res) => {
     const fileRefToRemove = res?.items?.filter((itemRef) => itemRef.name.includes(fileName))[0]
     deleteObject(fileRefToRemove).catch((err) => {
