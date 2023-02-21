@@ -139,7 +139,7 @@ export function Header() {
       >
         <Navbar.Brand href="/">
           <Logo className="w-16 h-16" />
-          <p className="text-2xl text-gray-900">Impôts Match</p>
+          <p className="text-2xl font-bold text-gray-900">Impôts Match</p>
           {/* <img
             src={require('../../images/logo/impot-match-logo.svg').default}
             className="mr-3 py-0 h-24"

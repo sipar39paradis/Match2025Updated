@@ -20,8 +20,8 @@ import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
-import { QuestionnaireList } from '../views/loggedin/TaxDeclaration/types/Questionnaire';
 import { Questionnaire } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
+import { QuestionnaireList } from '../views/loggedin/TaxDeclaration/types/QuestionnaireList';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
