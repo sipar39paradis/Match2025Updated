@@ -8,12 +8,20 @@ import { PersonalInformations } from './PersonnalInformations';
 export interface Questionnaire {
   mainClient: boolean
   year: number
+  state: QuestionnaireStateEnum
   civilStatus?: CivilStatus
   personalInformations: PersonalInformations
   contactDetails: ContactDetails
   civilStatusChange?: CivilStatusChange
+  isDependent: boolean
   haveDependents: boolean
   parent?: string 
   dependents?: Dependent []
   taxReport: TaxReport
+}
+
+export enum QuestionnaireStateEnum {
+  NEW = 'new',
+  IN_PROGRESS = 'inProgress',
+  COMPLETED = 'completed'
 }
