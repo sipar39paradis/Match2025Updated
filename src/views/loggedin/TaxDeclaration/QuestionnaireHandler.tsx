@@ -22,7 +22,7 @@ export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
 const QUESTIONNAIRE_SUB_COLLECTTION = 'questionnaires';
 
-export function Questionnaire() {
+export function QuestionnaireHandler() {
   const { firestore, user } = useContext(AppContext) as AppContextType;
   const [searchParams, setSearchParams] = useSearchParams();
   const { id } = useParams();
