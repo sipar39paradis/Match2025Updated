@@ -44,6 +44,11 @@ export function DependentsForm(props: RespondentFormProps) {
     setSearchParams({ step: TaxDeclarationStep.INCOMES });
   }
 
+  //TODO: finish this
+  function kidIsAtLeast14YearsOld(birthDate: Date) {
+    const date = new Date('2008-01-01').getFullYear();
+    return Math.abs(birthDate.getFullYear() - date) >= 14;
+  }
   return (
     <Fade>
       <section className="flex flex-col align-baseline items-start w-full">
@@ -56,7 +61,7 @@ export function DependentsForm(props: RespondentFormProps) {
             control={control}
             name="haveDependents"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
                   <input
                     type="radio"
@@ -80,7 +85,7 @@ export function DependentsForm(props: RespondentFormProps) {
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
-                    Oui
+                    Oui, j’ai des enfants nés avant le 31 décembre 2022
                   </p>
                 </div>
                 <div className="flex items-center m-4">
@@ -102,10 +107,11 @@ export function DependentsForm(props: RespondentFormProps) {
               </fieldset>
             )}
           />
+          <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
+
           {formData.haveDependents &&
             fields.map((dependent: Dependent, index: number) => (
               <div className="w-full" key={index}>
-                <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
                 <h2 className="mb-6">Formulaire dépendant</h2>
                 {formData?.haveDependents && (
                   <>
@@ -167,6 +173,7 @@ export function DependentsForm(props: RespondentFormProps) {
                           setBirthDayValue(birthDayValue);
                         }}
                         placeholder={'Date de naissance (JJ/MM/AAAA)'}
+                        maxDate={new Date('2022-12-31')}
                       />
                     </div>
                     <div id="select" className="w-48 mb-6 flex flex-col">
@@ -180,51 +187,6 @@ export function DependentsForm(props: RespondentFormProps) {
                         </option>
                         <option value={DependentRelatationShipEnum.DAUGHTER}>
                           Fille
-                        </option>
-                        <option value={DependentRelatationShipEnum.GRANDSON}>
-                          Petit-fils
-                        </option>
-                        <option
-                          value={DependentRelatationShipEnum.GRANDDAUGHTER}
-                        >
-                          Petite-fille
-                        </option>
-                        <option value={DependentRelatationShipEnum.NEPHEW}>
-                          Neveu
-                        </option>
-                        <option value={DependentRelatationShipEnum.NIECE}>
-                          Nièce
-                        </option>
-                        <option value={DependentRelatationShipEnum.BROTHER}>
-                          Frère
-                        </option>
-                        <option value={DependentRelatationShipEnum.SISTER}>
-                          Soeur
-                        </option>
-                        <option value={DependentRelatationShipEnum.UNCLE}>
-                          Oncle
-                        </option>
-                        <option value={DependentRelatationShipEnum.AUNT}>
-                          Tante
-                        </option>
-                        <option value={DependentRelatationShipEnum.FATHER}>
-                          Père
-                        </option>
-                        <option value={DependentRelatationShipEnum.MOTHER}>
-                          Mère
-                        </option>
-                        <option
-                          value={DependentRelatationShipEnum.GRAND_FATHER}
-                        >
-                          Grand-père
-                        </option>
-                        <option
-                          value={DependentRelatationShipEnum.GRAND_MOTHER}
-                        >
-                          Grand-mère
-                        </option>
-                        <option value={DependentRelatationShipEnum.OTHER}>
-                          Autre
                         </option>
                       </Select>
                     </div>
@@ -261,40 +223,49 @@ export function DependentsForm(props: RespondentFormProps) {
                         </fieldset>
                       )}
                     />
-                    <p className="font-semibold">
-                      Est-ce que vous voulez faire une déclaration de revenus
-                      pour cet enfant?
-                    </p>
-                    <Controller
-                      control={control}
-                      name={`dependents.${index}.hasTaxReport`}
-                      render={({ field: { onChange, value } }) => (
-                        <fieldset className="flex flex-row mx-4">
-                          <div className="flex items-center">
-                            <input
-                              type="radio"
-                              onChange={() => onChange(true)}
-                              checked={value === true}
-                              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
-                              Oui
-                            </p>
-                          </div>
-                          <div className="flex items-center m-4">
-                            <input
-                              type="radio"
-                              onChange={() => onChange(false)}
-                              checked={value === false}
-                              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                              Non
-                            </p>
-                          </div>
-                        </fieldset>
+                    {formData?.dependents?.[index]?.birthDate &&
+                      new Date(
+                        formData?.dependents?.[index]?.birthDate
+                      ).getFullYear() <
+                        new Date('2008-01-01').getFullYear() && (
+                        <>
+                          <p className="font-semibold">
+                            Est-ce que vous voulez faire une déclaration de
+                            revenus pour cet enfant?
+                          </p>
+                          <Controller
+                            control={control}
+                            name={`dependents.${index}.hasTaxReport`}
+                            render={({ field: { onChange, value } }) => (
+                              <fieldset className="flex flex-row mx-4">
+                                <div className="flex items-center">
+                                  <input
+                                    type="radio"
+                                    onChange={() => onChange(true)}
+                                    checked={value === true}
+                                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                                    Oui
+                                  </p>
+                                </div>
+                                <div className="flex items-center m-4">
+                                  <input
+                                    type="radio"
+                                    onChange={() => onChange(false)}
+                                    checked={value === false}
+                                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                                    Non
+                                  </p>
+                                </div>
+                              </fieldset>
+                            )}
+                          />
+                        </>
                       )}
-                    />
+
                     {formData?.dependents?.[index]?.hasTaxReport && (
                       <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
                         <p className="font-semibold">
