@@ -85,7 +85,7 @@ export function QuestionnaireHandler() {
     mainClient = true,
     civilStatus?: CivilStatus,
     contactDetails?: ContactDetails,
-    isDependant = false
+    isDependent = false
   ) {
     console.log('new');
     const defaultValues = {
@@ -93,7 +93,7 @@ export function QuestionnaireHandler() {
       mainClient,
       state: QuestionnaireStateEnum.IN_PROGRESS,
       year: new Date().getFullYear(),
-      isDependant,
+      isDependent,
       personalInformations: {
         ...EmptyQuestionnaire?.personalInformations,
         email: user.email,
@@ -120,6 +120,8 @@ export function QuestionnaireHandler() {
 
   async function saveFormAnswers() {
     console.log('save', formData);
+    questionnaires.set(id, formData);
+    console.log('questionnaire', questionnaires.get(id));
     await setDoc(
       doc(
         firestore,

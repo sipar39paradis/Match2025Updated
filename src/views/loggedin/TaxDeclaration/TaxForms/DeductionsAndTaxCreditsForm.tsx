@@ -33,10 +33,11 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
       addQuestionnaire(false, formData.civilStatus, formData.contactDetails);
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
     } else if (questionnaires.size < totalNumberOfQuestionnaires()) {
-      // addQuestionnaire(false, null, formData.contactDetails, true);
-      // setSearchParams({ step: TaxDeclarationStep.INCOMES });
+      addQuestionnaire(false, null, formData.contactDetails, true);
+      setSearchParams({ step: TaxDeclarationStep.INCOMES });
+    } else {
+      setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
     }
-    setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
   }
 
   function totalNumberOfQuestionnaires() {

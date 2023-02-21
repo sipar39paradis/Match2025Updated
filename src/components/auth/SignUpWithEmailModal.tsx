@@ -40,8 +40,8 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
       const res = await signUpWithEmailAndPassword(
         data.email,
         data.password,
-        data.firstName,
-        data.lastName,
+        'firstName',
+        'lastName',
         data.referralCode
       );
       if (res) {
