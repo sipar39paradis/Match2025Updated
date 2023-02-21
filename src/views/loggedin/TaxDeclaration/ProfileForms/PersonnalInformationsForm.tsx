@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
 import Fade from 'react-reveal';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { Controller } from 'react-hook-form';
 

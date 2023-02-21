@@ -11,12 +11,12 @@ import { IncomesForm } from './TaxForms/IncomesForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { doc, setDoc, addDoc, collection, getDocs } from 'firebase/firestore';
-import { Respondent } from './types/Respondent/Respondent';
+import { Questionnaire } from './types/Questionnaire/Questionnaire';
 import { useForm } from 'react-hook-form';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
-import { emptyQuestionnaire } from './emptyQuestionnaire';
-import { CivilStatus } from './types/Respondent/CivilStatus';
-import { ContactDetails } from './types/Respondent/ContactDetails';
+import { CivilStatus } from './types/Questionnaire/CivilStatus';
+import { ContactDetails } from './types/Questionnaire/ContactDetails';
+import { EmptyQuestionnaire } from './emptyQuestionnaire';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
@@ -37,11 +37,11 @@ export function Questionnaire() {
     control,
     setValue,
     reset,
-  } = useForm<Respondent>();
+  } = useForm<Questionnaire>();
   const formData = watch();
-  const [questionnaires, setQuestionnaires] = useState<Map<string, Respondent>>(
-    new Map()
-  );
+  const [questionnaires, setQuestionnaires] = useState<
+    Map<string, Questionnaire>
+  >(new Map());
   const [clientTabs, setClientTabs] = useState([]);
 
   useEffect(() => {
@@ -85,11 +85,11 @@ export function Questionnaire() {
   ) {
     console.log('new');
     const defaultValues = {
-      ...emptyQuestionnaire,
+      ...EmptyQuestionnaire,
       mainClient,
       year: new Date().getFullYear(),
       personalInformations: {
-        ...emptyQuestionnaire?.personalInformations,
+        ...EmptyQuestionnaire?.personalInformations,
         email: user.email,
       },
       civilStatus: civilStatus || null,
@@ -130,7 +130,7 @@ export function Questionnaire() {
   }
 
   function resetForm() {
-    reset({ ...emptyQuestionnaire });
+    reset({ ...EmptyQuestionnaire });
   }
 
   function renderTaxReportStep(step: string) {
@@ -236,7 +236,7 @@ export function Questionnaire() {
 
   function generateTabs() {
     const tabs = [];
-    questionnaires.forEach((value: Respondent, key: string) =>
+    questionnaires.forEach((value: Questionnaire, key: string) =>
       tabs.push({ value, key, active: key === id })
     );
     setClientTabs(tabs);

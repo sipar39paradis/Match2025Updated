@@ -2,17 +2,17 @@ import { Control, UseFormHandleSubmit, UseFormRegister, UseFormSetValue } from '
 import { URLSearchParamsInit, NavigateOptions } from 'react-router-dom';
 import { CivilStatus } from './CivilStatus';
 import { ContactDetails } from './ContactDetails';
-import { Respondent } from './Respondent';
+import { Questionnaire } from './Questionnaire';
 
 export interface RespondentFormProps {
-  control?: Control<Respondent>;
-  formData?: Respondent;
-  register?: UseFormRegister<Respondent>
-  handleSubmit?: UseFormHandleSubmit<Respondent>
+  control?: Control<Questionnaire>;
+  formData?: Questionnaire;
+  register?: UseFormRegister<Questionnaire>
+  handleSubmit?: UseFormHandleSubmit<Questionnaire>
   saveFormAnswers?: () => void
-  setValue?: UseFormSetValue<Respondent>
+  setValue?: UseFormSetValue<Questionnaire>
   resetForm?: () => void
   setSearchParams?: (nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), navigateOpts?: NavigateOptions) => void
   addQuestionnaire?: (mainClient: boolean, civilStatus?: CivilStatus, contactDetails?: ContactDetails) => void
-  questionnaires?: Map<string, Respondent>
+  questionnaires?: Map<string, Questionnaire>
 }

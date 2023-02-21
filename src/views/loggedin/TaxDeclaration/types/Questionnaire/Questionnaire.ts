@@ -5,7 +5,7 @@ import { ContactDetails } from './ContactDetails';
 import { Dependent } from './Dependent';
 import { PersonalInformations } from './PersonnalInformations';
 
-export interface Respondent {
+export interface Questionnaire {
   mainClient: boolean
   year: number
   civilStatus?: CivilStatus

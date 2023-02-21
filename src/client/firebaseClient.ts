@@ -21,7 +21,7 @@ import { AppContext } from '../context/AppContext';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
 import { Questionnaire } from '../views/loggedin/TaxDeclaration/types/Questionnaire';
-import { Respondent } from '../views/loggedin/TaxDeclaration/types/Respondent/Respondent';
+import { Questionnaire } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -64,13 +64,13 @@ export const getUserProfile = async (
 
 export const getAllQuestionaires = async (
   userId: string
-): Promise<Respondent[]> => {
+): Promise<Questionnaire[]> => {
   const querySnapshot = await getDocs(
     collection(db, 'taxReport', userId, 'questionnaires')
   );
 
   return querySnapshot.docs.map(
-    (questionaire) => <Respondent>questionaire.data()
+    (questionaire) => <Questionnaire>questionaire.data()
   );
 };
 

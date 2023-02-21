@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 // removed this one keeping in case we need it next year
 export function VolunteerFirefighterForm(props: RespondentFormProps) {
   const { register, control, formData } = props;

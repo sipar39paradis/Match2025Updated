@@ -5,8 +5,8 @@ import Datepicker from 'react-tailwindcss-datepicker';
 import {
   Dependent,
   DependentRelatationShipEnum,
-} from '../types/Respondent/Dependent';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+} from '../types/Questionnaire/Dependent';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';

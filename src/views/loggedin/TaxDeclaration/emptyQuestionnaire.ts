@@ -1,6 +1,6 @@
-import { Respondent } from './types/Respondent/Respondent';
+import { Questionnaire } from './types/Questionnaire/Questionnaire';
 
-const emptyTaxReport = {
+const EmptyTaxReport = {
   workIncomes: null,
   retirementIncomes: null,
   investmentIncomes: null,
@@ -23,7 +23,7 @@ const emptyTaxReport = {
   instalmentPayments: null
 }
 
-export const emptyQuestionnaire: Respondent ={
+export const EmptyQuestionnaire: Questionnaire ={
   mainClient: false,
   year: null,
   civilStatus: {
@@ -59,6 +59,6 @@ export const emptyQuestionnaire: Respondent ={
     socialAssistanceBenefitsAmount: null, },
     haveDependents: null,
     dependents: [],
-    taxReport: emptyTaxReport
+    taxReport: EmptyTaxReport
 }
 

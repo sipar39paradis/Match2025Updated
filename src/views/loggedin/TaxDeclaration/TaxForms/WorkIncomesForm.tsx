@@ -2,7 +2,7 @@ import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function WorkIncomesForm(props: RespondentFormProps) {
   const { control, formData, register } = props;

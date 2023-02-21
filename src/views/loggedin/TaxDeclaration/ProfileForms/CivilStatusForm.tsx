@@ -1,9 +1,9 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { CivilStatusEnum } from '../types/Respondent/CivilStatusEnum';
+import { CivilStatusEnum } from '../types/Questionnaire/CivilStatusEnum';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function CivilStatusForm(props: RespondentFormProps) {
   const {

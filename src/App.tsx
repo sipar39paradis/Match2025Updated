@@ -9,7 +9,7 @@ import { Messages } from './views/loggedin/Messages';
 import { Files } from './views/loggedin/Files';
 import { AppContextProvider } from './context/AppContext';
 import { Platform } from './views/loggedin/Platform';
-import { Questionnaire } from './views/loggedin/TaxDeclaration/Questionnaire';
+import { Questionnaire } from './views/loggedin/TaxDeclaration/QuestionnaireHandler';
 import { Preparator } from './views/loggedout/Preparator';
 import { Familly } from './views/loggedin/boxes/familly';
 import { Declaration } from './views/loggedin/boxes/declaration';

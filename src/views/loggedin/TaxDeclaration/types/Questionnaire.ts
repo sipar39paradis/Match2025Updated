@@ -1,5 +1,5 @@
-import { Respondent } from './Respondent/Respondent';
+import { Questionnaire } from './Questionnaire/Questionnaire';
 
 export interface Questionnaire {
-  respondent: Respondent[]
+  respondent: Questionnaire[]
 }

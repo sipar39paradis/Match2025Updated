@@ -8,7 +8,7 @@ import { SelfEmploymentRentalOtherIncomeForm } from './SelfEmploymentRentalOther
 import { StudentLastYearForm } from './StudentLastYearForm';
 import { TaxDeductionsForm } from './TaxDeductionsForm';
 import { ForeignAssetsForm } from './ForeignAssetsForm';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function IncomesForm(props: RespondentFormProps) {
   const {
