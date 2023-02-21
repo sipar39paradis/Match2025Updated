@@ -11,7 +11,10 @@ import { IncomesForm } from './TaxForms/IncomesForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { doc, setDoc, addDoc, collection, getDocs } from 'firebase/firestore';
-import { Questionnaire } from './types/Questionnaire/Questionnaire';
+import {
+  Questionnaire,
+  QuestionnaireStateEnum,
+} from './types/Questionnaire/Questionnaire';
 import { useForm } from 'react-hook-form';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
 import { CivilStatus } from './types/Questionnaire/CivilStatus';
@@ -81,13 +84,16 @@ export function QuestionnaireHandler() {
   async function addQuestionnaire(
     mainClient = true,
     civilStatus?: CivilStatus,
-    contactDetails?: ContactDetails
+    contactDetails?: ContactDetails,
+    isDependant = false
   ) {
     console.log('new');
     const defaultValues = {
       ...EmptyQuestionnaire,
       mainClient,
+      state: QuestionnaireStateEnum.IN_PROGRESS,
       year: new Date().getFullYear(),
+      isDependant,
       personalInformations: {
         ...EmptyQuestionnaire?.personalInformations,
         email: user.email,

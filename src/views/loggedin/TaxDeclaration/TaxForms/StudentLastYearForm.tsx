@@ -8,7 +8,7 @@ export function StudentLastYearForm(props: RespondentFormProps) {
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Étiez-vous aux études en 2022 ou avez-vous reporté des dépenses liées à
         vos études des années antérieures?
       </p>

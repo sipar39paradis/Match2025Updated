@@ -7,7 +7,7 @@ export function OtherDeductionsForm(props: RespondentFormProps) {
   const { register, control, formData } = props;
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Voulez-vous demander d&apos;autres déductions (abonnement à des services
         de nouvelles numériques, laissez-passer de transport en commun,
         cotisations syndicales ou professionnelles ou pension alimentaire
@@ -91,7 +91,9 @@ export function OtherDeductionsForm(props: RespondentFormProps) {
           </div>
         </div>
       )}
-      <p>Avez-vous versé des acomptes provisionnels en 2022?</p>
+      <p className="font-semibold">
+        Avez-vous versé des acomptes provisionnels en 2022?
+      </p>
       <Controller
         control={control}
         name="taxReport.isInstalmentPayments"

@@ -8,12 +8,12 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous un revenu provenant de placements? Le revenu de placement peut
         inclure les intérêts gagnés sur les placements, la vente d&apos;actions
         ou d&apos;options d&apos;achat d&apos;actions, les opérations en
         cryptomonnaie la vente de biens immobiliers et les frais de placement
-        connexes.
+        connexes?
       </p>
       <Controller
         control={control}
@@ -48,7 +48,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
 
       {formData?.taxReport?.investmentIncomes?.investmentIncomes && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-          <p>
+          <p className="font-semibold">
             Avez-vous eu un revenu provenant de placements qui est déclaré sur
             un feuillet (par exemple, un T5, T3, T5008, T5013)?
           </p>
@@ -170,7 +170,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
               </div>
             </>
           )}
-          <p>
+          <p className="font-semibold">
             Avez-vous eu un revenu en intérêts, de dividendes ou d&apos;une
             société de personnes qui n&apos;est PAS déclaré sur un feuillet?
           </p>
@@ -245,7 +245,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
               </div>
             </>
           )}
-          <p>
+          <p className="font-semibold">
             Avez-vous acheté des actions, des obligations, des fonds communs, de
             l&apos;immobilier ou d&apos;autres biens cette année?
           </p>
@@ -279,7 +279,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
               </fieldset>
             )}
           />
-          <p>
+          <p className="font-semibold">
             Avez-vous vendu des actions, des obligations, des fonds communs, de
             l&apos;immobilier ou d&apos;autres biens cette année?
           </p>
@@ -398,7 +398,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
             </>
           )}
 
-          <p>
+          <p className="font-semibold">
             Avez-vous acheté ou vendu de la cryptomonnaie, des jetons numériques
             ou d&apos;autres monnaies virtuelles?
           </p>

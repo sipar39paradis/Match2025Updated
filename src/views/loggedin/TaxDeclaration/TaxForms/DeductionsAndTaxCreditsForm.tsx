@@ -32,8 +32,25 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     ) {
       addQuestionnaire(false, formData.civilStatus, formData.contactDetails);
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
+    } else if (questionnaires.size < totalNumberOfQuestionnaires()) {
+      // addQuestionnaire(false, null, formData.contactDetails, true);
+      // setSearchParams({ step: TaxDeclarationStep.INCOMES });
     }
     setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
+  }
+
+  function totalNumberOfQuestionnaires() {
+    let total = questionnaires.size;
+    questionnaires.forEach((questionnaire) => {
+      console.log(questionnaire);
+      questionnaire.dependents.forEach((dependent) => {
+        if (dependent.hasTaxReport) {
+          total += 1;
+        }
+      });
+    });
+    console.log(total);
+    return total;
   }
 
   return (
@@ -55,7 +72,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
             register={register}
           />
 
-          <p>
+          <p className="font-semibold">
             Avez-vous engagé des frais médicaux pour vous-même, votre conjoint
             ou des personnes à charge?
           </p>
@@ -95,7 +112,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
             formData={formData}
           ></SoldMainHomeForm>
 
-          <p>
+          <p className="font-semibold">
             Avez-vous engagé des dépenses admissibles vous donnant droit au
             crédit d&apos;impôt pour l&apos;accessibilité domiciliaire?
           </p>

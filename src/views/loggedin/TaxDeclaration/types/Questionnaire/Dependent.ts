@@ -12,7 +12,7 @@ export interface Dependent {
   adjustedNetIncome: number
   quebecChildrenSupport: boolean
   claimedOrReceivedAmountForDependent: DateType
-  needTaxReport?: boolean
+  hasTaxReport?: boolean
   childcareToEarnIncome?: boolean
   universalChildCareBenefit?: boolean
   childcareExpensesReceivedForAdvancePayments?: boolean

@@ -170,7 +170,7 @@ export function DependentsForm(props: RespondentFormProps) {
                       />
                     </div>
                     <div id="select" className="w-48 mb-6 flex flex-col">
-                      <p className="pb-2">Lien de parenté</p>
+                      <p className="pb-2 font-semibold">Lien de parenté</p>
                       <Select {...register(`dependents.${index}.relationship`)}>
                         <option value="" disabled selected>
                           Veuillez sélectionner
@@ -228,7 +228,9 @@ export function DependentsForm(props: RespondentFormProps) {
                         </option>
                       </Select>
                     </div>
-                    <p>Est-ce que l&apos;enfant vivait avec vous en 2022 ?</p>
+                    <p className="font-semibold">
+                      Est-ce que l&apos;enfant vivait avec vous en 2022 ?
+                    </p>
                     <Controller
                       control={control}
                       name={`dependents.${index}.livedWithTaxPayer`}
@@ -259,13 +261,13 @@ export function DependentsForm(props: RespondentFormProps) {
                         </fieldset>
                       )}
                     />
-                    <p>
+                    <p className="font-semibold">
                       Est-ce que vous voulez faire une déclaration de revenus
                       pour cet enfant?
                     </p>
                     <Controller
                       control={control}
-                      name={`dependents.${index}.needTaxReport`}
+                      name={`dependents.${index}.hasTaxReport`}
                       render={({ field: { onChange, value } }) => (
                         <fieldset className="flex flex-row mx-4">
                           <div className="flex items-center">
@@ -293,14 +295,14 @@ export function DependentsForm(props: RespondentFormProps) {
                         </fieldset>
                       )}
                     />
-                    {formData?.dependents?.[index]?.needTaxReport && (
+                    {formData?.dependents?.[index]?.hasTaxReport && (
                       <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
                         <p className="font-semibold">
                           Un questionnaire pour cette enfant est donc nécessaire{' '}
                         </p>
                       </div>
                     )}
-                    {formData?.dependents?.[index]?.needTaxReport === false &&
+                    {formData?.dependents?.[index]?.hasTaxReport === false &&
                       formData?.dependents?.[index]?.livedWithTaxPayer && (
                         <>
                           <p>

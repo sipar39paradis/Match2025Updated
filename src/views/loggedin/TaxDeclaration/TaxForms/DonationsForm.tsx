@@ -8,7 +8,7 @@ export function DonationsForm(props: RespondentFormProps) {
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous fait des dons à un organisme de bienfaisance ou à un parti
         politique ?
       </p>

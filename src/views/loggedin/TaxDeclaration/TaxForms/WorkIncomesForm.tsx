@@ -9,7 +9,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
 
   return (
     <>
-      <p>Avez-vous travaillé en 2022?</p>
+      <p className=" font-semibold">Avez-vous travaillé en 2022?</p>
       <Controller
         control={control}
         name="taxReport.workIncomes.workedLastYear"
@@ -44,7 +44,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           {formData?.taxReport?.workIncomes?.workedLastYear === true ? (
             <>
-              <p>
+              <p className=" font-semibold">
                 Veuillez indiquer quel genre de travail vous faisiez (cochez
                 toutes les cases qui s&apos;appliquent)
               </p>
@@ -136,7 +136,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                       </p>
                     </div>
                     <hr className="py-2"></hr>
-                    <p>
+                    <p className=" font-semibold">
                       Est-ce que l&apos;une des situations suivantes vous
                       concerne?
                     </p>
@@ -164,7 +164,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                       </p>
                     </div>
                     <hr className="py-2"></hr>
-                    <p>
+                    <p className=" font-semibold">
                       Avez-vous des dépenses liées à votre emploi?
                       <TooltipWithIcon text=" Si vous avez encouru des dépenses que vous avez payez personnellement afin d’obtenir un revenu de commission ou du salaire, il se peut que vous puissiez déduire ces dépenses. Si vous n’êtes pas certain cochez oui et votre préparateur va entrer en contact avec vous. "></TooltipWithIcon>
                     </p>
@@ -337,7 +337,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
             </>
           ) : (
             <>
-              <p>
+              <p className=" font-semibold">
                 Il semble que vous n&apos;avez pas travaillé en 2022. Est-ce que
                 l&apos;une des situations suivantes vous concerne?
               </p>

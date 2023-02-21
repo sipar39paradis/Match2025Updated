@@ -44,8 +44,9 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
         data.lastName,
         data.referralCode
       );
-      if(res) {setAuthError(res)}
-      else {
+      if (res) {
+        setAuthError(res);
+      } else {
         closeModal(false);
         navigate('/profile');
       }
@@ -70,40 +71,7 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white rounded px-8 pt-6 pb-8"
         >
-          <div className="flex flex-col items-baseline mb-4">
-            <div className="flex flex-row mb-4">
-              <div className="flex flex-col items-baseline w-48  mr-8">
-                <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
-                  Prénom
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-                  type="text"
-                  placeholder="Prénom"
-                  {...register('firstName', { required: true })}
-                />
-                {errors.firstName && (
-                  <span className="text-red-500 ml-1">Prénom requis</span>
-                )}
-              </div>
-
-              <div className="flex flex-col items-baseline w-48">
-                <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
-                  Nom de famille
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-                  type="text"
-                  placeholder=" Nom de famille"
-                  {...register('lastName', { required: true })}
-                />
-                {errors.lastName && (
-                  <span className="text-red-500 ml-1">
-                    Nom de famille requis
-                  </span>
-                )}
-              </div>
-            </div>
+          <div className="flex flex-col items-baseline mb-4 w-96">
             <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
               Courriel
             </label>

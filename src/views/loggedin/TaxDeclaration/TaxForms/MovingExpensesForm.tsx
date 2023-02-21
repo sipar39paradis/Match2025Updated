@@ -6,7 +6,7 @@ export function MovingExpensesForm(props: RespondentFormProps) {
   const { control, formData } = props;
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous engagé des frais de déménagement? Dans l&apos;incertitude,
         répondez Oui. Nous verrons plus tard si vous êtes admissible.
       </p>

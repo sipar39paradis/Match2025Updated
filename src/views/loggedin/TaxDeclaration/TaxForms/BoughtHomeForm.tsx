@@ -7,7 +7,7 @@ export function BoughtHomeForm(props: RespondentFormProps) {
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous acheté une maison, un condo, un appartement ou une maison
         mobile cette année?
       </p>

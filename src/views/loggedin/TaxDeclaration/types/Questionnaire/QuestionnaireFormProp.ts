@@ -13,6 +13,6 @@ export interface RespondentFormProps {
   setValue?: UseFormSetValue<Questionnaire>
   resetForm?: () => void
   setSearchParams?: (nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), navigateOpts?: NavigateOptions) => void
-  addQuestionnaire?: (mainClient: boolean, civilStatus?: CivilStatus, contactDetails?: ContactDetails) => void
+  addQuestionnaire?: (mainClient: boolean, civilStatus?: CivilStatus, contactDetails?: ContactDetails, isDependent?: boolean) => void
   questionnaires?: Map<string, Questionnaire>
 }

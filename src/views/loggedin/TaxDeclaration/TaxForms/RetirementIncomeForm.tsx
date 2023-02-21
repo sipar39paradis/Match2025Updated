@@ -8,7 +8,7 @@ export function RetirementIncomesForm(props: RespondentFormProps) {
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous reçu un revenu de pension ou de retraite, ou avez-vous retiré
         de l&apos;argent d&apos;un REER ou d&apos;un FERR?
       </p>
@@ -139,7 +139,7 @@ export function RetirementIncomesForm(props: RespondentFormProps) {
               ou d&apos;un régime de pension agréé collectif (RPAC)
             </p>
           </div>
-          <p className="mt-4">
+          <p className="mt-4 font-semibold">
             Voulez-vous fractionner votre revenu de pension admissible avec
             votre époux ou conjoint de fait (s&apos;il y a lieu)?
           </p>
@@ -147,7 +147,7 @@ export function RetirementIncomesForm(props: RespondentFormProps) {
             control={control}
             name="taxReport.retirementIncomes.splitPensionIncome"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row m-x4">
                 <div className="flex items-center">
                   <input
                     type="radio"

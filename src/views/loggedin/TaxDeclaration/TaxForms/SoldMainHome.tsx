@@ -7,9 +7,9 @@ export function SoldMainHomeForm(props: RespondentFormProps) {
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous disposé d&apos;une propriété en 2022 qui était votre résidence
-        principale pendant la période où vous en étiez propriétaire ?
+        principale pendant la période où vous en étiez propriétaire?
       </p>
       <Controller
         control={control}

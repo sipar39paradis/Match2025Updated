@@ -10,7 +10,7 @@ export function SelfEmploymentRentalOtherIncomeForm(
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous un revenu de travailleur autonome, de location ou
         d&apos;autres revenus?
       </p>

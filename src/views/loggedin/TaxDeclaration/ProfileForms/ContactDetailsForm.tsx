@@ -122,9 +122,9 @@ export function ContactDetailsForm(props: RespondentFormProps) {
             </div>
           </div>
 
-          <p>
-            Si vous avez déménagé d&apos;une autre province ou d&apos;un autre
-            territoire en 2022, entrez la date de votre déménagement
+          <p className="font-semibold">
+            Avez-vous avez déménagé d&apos;une autre province ou d&apos;un autre
+            territoire en 2022?
             <TooltipWithIcon
               text=" Si nous n’est pas certain de votre statut de résident canadien au
               31 décembre 2022, veuillez cocher oui à cette question et votre
@@ -234,7 +234,9 @@ export function ContactDetailsForm(props: RespondentFormProps) {
 
           <h2 className="mb-0">Résidences </h2>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
-          <p>Est-ce que votre statut de résident canadien a changé en 2022?</p>
+          <p className="font-semibold">
+            Est-ce que votre statut de résident canadien a changé en 2022?
+          </p>
           <Controller
             control={control}
             name="contactDetails.canadianRedisentStatusChange"
