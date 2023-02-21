@@ -9,6 +9,7 @@ export interface TaxReport {
   donations: Donations
   movingExpenses: boolean
   medicalExpenses: boolean
+  healthAndDrugInsurance: boolean
   eligibleHomeBuyerTaxCredit: boolean
   boughHome: BoughtHome
   soldHome: boolean

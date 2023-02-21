@@ -8,6 +8,7 @@ import { MovingExpensesForm } from './MovingExpensesForm';
 import { OtherDeductionsForm } from './OtherDeductionsForm';
 import { SoldMainHomeForm } from './SoldMainHome';
 import Fade from 'react-reveal';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 
 export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   const {
@@ -76,10 +77,45 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
           <p className="font-semibold">
             Avez-vous engagé des frais médicaux pour vous-même, votre conjoint
             ou des personnes à charge?
+            <TooltipWithIcon text="Si vous avez eu des frais médicaux non remboursés par une assurance, vous êtes possiblement éligible pour avoir un crédit d’impôts pour les frais médicaux. Veuillez déposer dans la boite de dépôt tous les reçus pour frais médicaux que vous avez payés ainsi que le rapport de votre assureur (le cas échéant) afin que nous déterminions les dépenses qui peuvent vous permettre d’avoir une économie d’impôts. "></TooltipWithIcon>
           </p>
           <Controller
             control={control}
             name="taxReport.medicalExpenses"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
+          <p className="font-semibold">
+            Aviez-vous une assurance maladie et médicaments en 2022?
+            <TooltipWithIcon text="Si vous avez eu des frais médicaux non remboursés par une assurance, vous êtes possiblement éligible pour avoir un crédit d’impôts pour les frais médicaux. Veuillez déposer dans la boite de dépôt tous les reçus pour frais médicaux que vous avez payés ainsi que le rapport de votre assureur (le cas échéant) afin que nous déterminions les dépenses qui peuvent vous permettre d’avoir une économie d’impôts. "></TooltipWithIcon>
+          </p>
+          <Controller
+            control={control}
+            name="taxReport.healthAndDrugInsurance"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row m-4">
                 <div className="flex items-center">

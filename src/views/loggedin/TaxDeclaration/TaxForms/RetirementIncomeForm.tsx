@@ -1,6 +1,7 @@
 import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
 import React from 'react';
 import { Controller } from 'react-hook-form';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function RetirementIncomesForm(props: RespondentFormProps) {
@@ -142,6 +143,7 @@ export function RetirementIncomesForm(props: RespondentFormProps) {
           <p className="mt-4 font-semibold">
             Voulez-vous fractionner votre revenu de pension admissible avec
             votre époux ou conjoint de fait (s&apos;il y a lieu)?
+            <TooltipWithIcon text="Si vous êtes marié ou que vous vivez en union de fait, si l’un de vous reçoit un revenu de pensions ou si vous recevez tous les deux un revenu de pension, il est possible pour vous d’optimiser votre déclaration en fractionnant le revenu de façon 'à avoir une économie d’impôts pour le couple"></TooltipWithIcon>
           </p>
           <Controller
             control={control}

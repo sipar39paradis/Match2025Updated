@@ -1,6 +1,7 @@
 import { Checkbox } from 'flowbite-react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function InvestmentIncomeForm(props: RespondentFormProps) {
@@ -51,12 +52,13 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
           <p className="font-semibold">
             Avez-vous eu un revenu provenant de placements qui est déclaré sur
             un feuillet (par exemple, un T5, T3, T5008, T5013)?
+            <TooltipWithIcon text="Si vous avez des placements hors REER ou CELI, il est fort probable que vous ayez ce type de revenu. Vous pouvez communiquer avec votre conseiller en placements pour avoir votre trousse fiscale que vous pourrez nous transmette afin qu’on traite correctement ce type de revenu. "></TooltipWithIcon>
           </p>
           <Controller
             control={control}
             name="taxReport.investmentIncomes.reportedInvestmentIncome"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
                   <input
                     type="radio"
@@ -178,7 +180,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
             control={control}
             name="taxReport.investmentIncomes.nonDeclaredInterestDividendPartnershipIncome"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
                   <input
                     type="radio"
@@ -253,7 +255,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
             control={control}
             name="taxReport.investmentIncomes.boughtAssets"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
                   <input
                     type="radio"
@@ -287,7 +289,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
             control={control}
             name="taxReport.investmentIncomes.soldAssets"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
                   <input
                     type="radio"
@@ -406,7 +408,7 @@ export function InvestmentIncomeForm(props: RespondentFormProps) {
             control={control}
             name="taxReport.investmentIncomes.cryptoCurrency"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
                   <input
                     type="radio"

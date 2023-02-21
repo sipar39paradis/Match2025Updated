@@ -11,6 +11,7 @@ const EmptyTaxReport = {
   donations: null,
   movingExpenses: null,
   medicalExpenses: null,
+  healthAndDrugInsurance: null,
   eligibleHomeBuyerTaxCredit: null,
   boughHome: null,
   soldHome: null,
