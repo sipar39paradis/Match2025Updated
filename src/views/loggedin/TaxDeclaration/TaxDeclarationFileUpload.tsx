@@ -191,7 +191,6 @@ export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
                 if(reqFiles && reqFiles?.length == 0){
                     setSearchParams( {step: TaxDeclarationStep.REVIEW})
                 }else{
-                    console.log(reqFiles)
                     alert('Assurez-vous de télécharger tous les fichiers requis.')
                 }
               }}

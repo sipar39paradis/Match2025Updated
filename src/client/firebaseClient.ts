@@ -7,7 +7,7 @@ import {
   getFirestore,
   setDoc,
 } from 'firebase/firestore';
-import { deleteObject, FirebaseStorage, getStorage, listAll, ref } from 'firebase/storage';
+import { deleteObject, FirebaseStorage, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
 
@@ -136,6 +136,25 @@ export const removeRequiredfile = async (
     const newReqFiles = res?.files?.filter((file) => file != fileName)
     writeRequiredFiles(newReqFiles, userId)
   })
+}
+
+export const uploadTaxReportPdfToStorage = async (
+  bytes: ArrayBuffer,
+  userEmail: string
+): Promise<void> => {
+  return uploadFileToStorage('taxReport.pdf', bytes, userEmail);
+}
+
+export const uploadFileToStorage = async (
+  fileName: string,
+  bytes: ArrayBuffer,
+  userEmail: string
+): Promise<void> => {
+  const fileNameAndPath = STORAGE_BASE_FOLDER + userEmail + '/' + fileName;
+  const fileRef = ref(storage, fileNameAndPath)
+  uploadBytes(fileRef, bytes).then((snapsot) => {
+    console.log('Successfully generated taxReport.')
+  }).catch((err) => 'Something went wrong')
 }
 
 export const getExistingFiles = async (userId: string): Promise<FilesDoc> => {
