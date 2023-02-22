@@ -5,14 +5,15 @@ import { useNavigate } from 'react-router-dom';
 
 interface BoxElementProps {
     text: string
+    onClick?: any
 }
 
-export function BoxElement({text}: BoxElementProps) {
+export function BoxElement({text, onClick}: BoxElementProps) {
     const navigate = useNavigate();
 
   return (
 <>
-    <p className='pr-8'>
+    <p className='pr-8' onClick={onClick}>
         {text}
     </p>
 </>

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
 import { Alert, Button } from 'flowbite-react';
 import {
-  getAllQuestionaires,
+  getAllQuestionnaires,
   getUserProfile,
   upsertUserProfile,
 } from '../../client/firebaseClient';
@@ -48,7 +48,7 @@ export function Profile() {
     console.log(id, 'id');
     console.log(user, 'user');
     ('BR5shBSMwPSxBTd91Ly5zjjhfiH2');
-    getAllQuestionaires(user.uid).then((res) => {
+    getAllQuestionnaires(user.uid).then((res) => {
       console.log(res, 'res');
       if (res.length === 0) {
         setMadeQuestionaire(false);
@@ -69,7 +69,7 @@ export function Profile() {
   }, []);
 
   const boxes = {
-    familly: 'Famille',
+    viewQuestionnaire: 'Mes Questionnaires',
     questionaire: 'Questionaire',
     declaration: 'Ma Declaration',
     progression: 'Progression',

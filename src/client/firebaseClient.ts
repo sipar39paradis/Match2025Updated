@@ -20,8 +20,8 @@ import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
-import { Questionnaire } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 import { QuestionnaireList } from '../views/loggedin/TaxDeclaration/types/QuestionnaireList';
+import { Questionnaire } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -62,16 +62,26 @@ export const getUserProfile = async (
   );
 };
 
-export const getAllQuestionaires = async (
+export interface SnapshotQuestionnaire {
+  id: string;
+  questionnaire: Questionnaire;
+}
+
+export const getAllQuestionnaires = async (
   userId: string
-): Promise<QuestionnaireList[]> => {
+): Promise<SnapshotQuestionnaire[]> => {
   const querySnapshot = await getDocs(
     collection(db, 'taxReport', userId, 'questionnaires')
   );
 
-  return querySnapshot.docs.map(
-    (questionaire) => <QuestionnaireList>questionaire.data()
-  );
+  console.log(querySnapshot, 'snap');
+
+  return querySnapshot.docs.map((questionnaire) => {
+    return {
+      id: questionnaire.id,
+      questionnaire: <Questionnaire>questionnaire.data(),
+    };
+  });
 };
 
 export const writeRequiredFiles = async (
@@ -128,7 +138,6 @@ export const removeExistingfile = async (
 ): Promise<void> => {
   getExistingFiles(userId).then((res) => {
     if (res != undefined) {
-      console.log(res.files);
       writeExistingFiles(
         res?.files?.filter((file) => file != fileName),
         userId

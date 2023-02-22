@@ -114,10 +114,10 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   continueSessRef.current = continueSess;
   const navigate = useNavigate();
 
-  // useEffect(() => {
-
-  //   return () => signOut()
-  // }, []);
+  useEffect(() => {
+    
+    // return () => signOut()
+  }, []);
 
   async function enrollTwoFactor(phoneNumber: string): Promise<string> {
     console.log(phoneNumber);

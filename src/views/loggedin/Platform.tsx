@@ -3,7 +3,6 @@ import { Files } from './Files'
 import { Messages } from './Messages'
 import { Profile } from './Profile'
 import { Requests } from './Requests'
-import { Familly } from './boxes/familly'
 
 enum PlatformTabEnum {
   FILE = 'file',
@@ -30,8 +29,8 @@ export function Platform() {
         return <Requests></Requests>
       case PlatformTabEnum.FILE:
         return <Files></Files>
-      case PlatformTabEnum.FAMILLY:
-        return <Familly/>
+      // case PlatformTabEnum.FAMILLY:
+      //   return <Familly/>
       default:
         return <Profile></Profile>
     }
