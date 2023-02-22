@@ -11,19 +11,28 @@ import { IncomesForm } from './TaxForms/IncomesForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { doc, setDoc, addDoc, collection, getDocs } from 'firebase/firestore';
-import { Respondent } from './types/Respondent/Respondent';
+import {
+  Questionnaire,
+  QuestionnaireStateEnum,
+} from './types/Questionnaire/Questionnaire';
 import { useForm } from 'react-hook-form';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
+<<<<<<< HEAD:src/views/loggedin/TaxDeclaration/Questionnaire.tsx
 import { writeRequiredFiles } from '../../../client/firebaseClient';
 import mapFiles from '../../../utils/FileMapper';
 import { emptyQuestionnaire } from './emptyQuestionnaire';
 import { CivilStatus } from './types/Respondent/CivilStatus';
+=======
+import { CivilStatus } from './types/Questionnaire/CivilStatus';
+import { ContactDetails } from './types/Questionnaire/ContactDetails';
+import { EmptyQuestionnaire } from './emptyQuestionnaire';
+>>>>>>> 05395570d860e62aea2e225adb88781e304ae0fe:src/views/loggedin/TaxDeclaration/QuestionnaireHandler.tsx
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
 const QUESTIONNAIRE_SUB_COLLECTTION = 'questionnaires';
 
-export function Questionnaire() {
+export function QuestionnaireHandler() {
   const { firestore, user } = useContext(AppContext) as AppContextType;
   const [searchParams, setSearchParams] = useSearchParams();
   const { id } = useParams();
@@ -38,11 +47,11 @@ export function Questionnaire() {
     control,
     setValue,
     reset,
-  } = useForm<Respondent>();
+  } = useForm<Questionnaire>();
   const formData = watch();
-  const [questionnaires, setQuestionnaires] = useState<Map<string, Respondent>>(
-    new Map()
-  );
+  const [questionnaires, setQuestionnaires] = useState<
+    Map<string, Questionnaire>
+  >(new Map());
   const [clientTabs, setClientTabs] = useState([]);
 
   useEffect(() => {
@@ -81,18 +90,23 @@ export function Questionnaire() {
 
   async function addQuestionnaire(
     mainClient = true,
-    civilStatus?: CivilStatus
+    civilStatus?: CivilStatus,
+    contactDetails?: ContactDetails,
+    isDependent = false
   ) {
     console.log('new');
     const defaultValues = {
-      ...emptyQuestionnaire,
+      ...EmptyQuestionnaire,
       mainClient,
+      state: QuestionnaireStateEnum.IN_PROGRESS,
       year: new Date().getFullYear(),
+      isDependent,
       personalInformations: {
-        ...emptyQuestionnaire?.personalInformations,
+        ...EmptyQuestionnaire?.personalInformations,
         email: user.email,
       },
       civilStatus: civilStatus || null,
+      contactDetails: contactDetails || null,
     };
     await addDoc(
       collection(
@@ -113,6 +127,8 @@ export function Questionnaire() {
 
   async function saveFormAnswers() {
     console.log('save', formData);
+    questionnaires.set(id, formData);
+    console.log('questionnaire', questionnaires.get(id));
     await setDoc(
       doc(
         firestore,
@@ -132,7 +148,7 @@ export function Questionnaire() {
   }
 
   function resetForm() {
-    reset({ ...emptyQuestionnaire });
+    reset({ ...EmptyQuestionnaire });
   }
 
   function renderTaxReportStep(step: string) {
@@ -217,6 +233,7 @@ export function Questionnaire() {
             setSearchParams={setSearchParams}
             addQuestionnaire={addQuestionnaire}
             resetForm={resetForm}
+            questionnaires={questionnaires}
           ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
@@ -237,7 +254,7 @@ export function Questionnaire() {
 
   function generateTabs() {
     const tabs = [];
-    questionnaires.forEach((value: Respondent, key: string) =>
+    questionnaires.forEach((value: Questionnaire, key: string) =>
       tabs.push({ value, key, active: key === id })
     );
     setClientTabs(tabs);
@@ -261,7 +278,7 @@ export function Questionnaire() {
                 )
               }
             >
-              <p className="opacity-100">
+              <p className="font-semibold">
                 {tab?.value?.personalInformations?.firstName || 'Client'}
               </p>
             </div>

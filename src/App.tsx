@@ -9,7 +9,7 @@ import { Messages } from './views/loggedin/Messages';
 import { Files } from './views/loggedin/Files';
 import { AppContextProvider } from './context/AppContext';
 import { Platform } from './views/loggedin/Platform';
-import { Questionnaire } from './views/loggedin/TaxDeclaration/Questionnaire';
+import { QuestionnaireHandler } from './views/loggedin/TaxDeclaration/QuestionnaireHandler';
 import { Preparator } from './views/loggedout/Preparator';
 import { Familly } from './views/loggedin/boxes/familly';
 import { Declaration } from './views/loggedin/boxes/declaration';
@@ -18,6 +18,7 @@ import { CustomerService } from './views/loggedin/boxes/CustomerService';
 import { Questionaire } from './views/loggedin/boxes/questionaire';
 import { CustomFooter } from './components/header/CustomFooter';
 import { UserConditions } from './views/loggedout/UserConditions';
+import { PrivacyPolicy } from './views/loggedout/PrivacyPolicy';
 
 function App() {
   return (
@@ -35,11 +36,11 @@ function App() {
               <Route path="/platform" element={<Platform />} />
               <Route
                 path="/platform/questionnaire/:id"
-                element={<Questionnaire />}
+                element={<QuestionnaireHandler />}
               />{' '}
               <Route
                 path="/platform/questionnaire"
-                element={<Questionnaire />}
+                element={<QuestionnaireHandler />}
               />
               <Route path="/preparator" element={<Preparator />} />
               <Route path="/familly" element={<Familly />} />
@@ -49,6 +50,7 @@ function App() {
               <Route path="/customerService" element={<CustomerService />} />
               <Route path="/documents" element={<Files />} />
               <Route path="/userConditions" element={<UserConditions />} />
+              <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             </Routes>
           </div>
           <CustomFooter />

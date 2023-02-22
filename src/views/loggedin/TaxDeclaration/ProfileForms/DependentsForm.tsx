@@ -1,12 +1,12 @@
-import { Select } from 'flowbite-react';
+import { Checkbox, Select } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
 import { Controller, useFieldArray } from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import {
   Dependent,
   DependentRelatationShipEnum,
-} from '../types/Respondent/Dependent';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+} from '../types/Questionnaire/Dependent';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
@@ -30,7 +30,7 @@ export function DependentsForm(props: RespondentFormProps) {
 
   useEffect(() => {
     const dateList = [];
-    formData.dependents.forEach((dependent) => {
+    formData?.dependents?.forEach((dependent) => {
       dateList.push({
         startDate: dependent.birthDate,
         endDate: dependent.birthDate,
@@ -44,16 +44,15 @@ export function DependentsForm(props: RespondentFormProps) {
     setSearchParams({ step: TaxDeclarationStep.INCOMES });
   }
 
+  //TODO: finish this
+  function kidIsAtLeast14YearsOld(birthDate: Date) {
+    const date = new Date('2008-01-01').getFullYear();
+    return Math.abs(birthDate.getFullYear() - date) >= 14;
+  }
   return (
     <Fade>
       <section className="flex flex-col align-baseline items-start w-full">
         <h1>Avez-vous des enfants?</h1>
-        <p className="my-4">
-          Vos enfants valent leur pesant d&apos;or. Nous allons essayer
-          d&apos;obtenir un crédit d&apos;impôt pour chaque enfant que vous
-          soutenez
-        </p>
-
         <form
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start w-full"
@@ -62,7 +61,7 @@ export function DependentsForm(props: RespondentFormProps) {
             control={control}
             name="haveDependents"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
                   <input
                     type="radio"
@@ -86,7 +85,7 @@ export function DependentsForm(props: RespondentFormProps) {
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
-                    Oui
+                    Oui, j’ai des enfants nés avant le 31 décembre 2022
                   </p>
                 </div>
                 <div className="flex items-center m-4">
@@ -108,10 +107,11 @@ export function DependentsForm(props: RespondentFormProps) {
               </fieldset>
             )}
           />
+          <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
+
           {formData.haveDependents &&
             fields.map((dependent: Dependent, index: number) => (
               <div className="w-full" key={index}>
-                <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
                 <h2 className="mb-6">Formulaire dépendant</h2>
                 {formData?.haveDependents && (
                   <>
@@ -173,10 +173,11 @@ export function DependentsForm(props: RespondentFormProps) {
                           setBirthDayValue(birthDayValue);
                         }}
                         placeholder={'Date de naissance (JJ/MM/AAAA)'}
+                        maxDate={new Date('2022-12-31')}
                       />
                     </div>
-                    <div id="select" className="w-80 my-4">
-                      <p className="pb-2">Lien de parenté</p>
+                    <div id="select" className="w-48 mb-6 flex flex-col">
+                      <p className="pb-2 font-semibold">Lien de parenté</p>
                       <Select {...register(`dependents.${index}.relationship`)}>
                         <option value="" disabled selected>
                           Veuillez sélectionner
@@ -187,86 +188,300 @@ export function DependentsForm(props: RespondentFormProps) {
                         <option value={DependentRelatationShipEnum.DAUGHTER}>
                           Fille
                         </option>
-                        <option value={DependentRelatationShipEnum.GRANDSON}>
-                          Petit-fils
-                        </option>
-                        <option
-                          value={DependentRelatationShipEnum.GRANDDAUGHTER}
-                        >
-                          Petite-fille
-                        </option>
-                        <option value={DependentRelatationShipEnum.NEPHEW}>
-                          Neveu
-                        </option>
-                        <option value={DependentRelatationShipEnum.NIECE}>
-                          Nièce
-                        </option>
-                        <option value={DependentRelatationShipEnum.BROTHER}>
-                          Frère
-                        </option>
-                        <option value={DependentRelatationShipEnum.SISTER}>
-                          Soeur
-                        </option>
-                        <option value={DependentRelatationShipEnum.UNCLE}>
-                          Oncle
-                        </option>
-                        <option value={DependentRelatationShipEnum.AUNT}>
-                          Tante
-                        </option>
-                        <option value={DependentRelatationShipEnum.FATHER}>
-                          Père
-                        </option>
-                        <option value={DependentRelatationShipEnum.MOTHER}>
-                          Mère
-                        </option>
-                        <option
-                          value={DependentRelatationShipEnum.GRAND_FATHER}
-                        >
-                          Grand-père
-                        </option>
-                        <option
-                          value={DependentRelatationShipEnum.GRAND_MOTHER}
-                        >
-                          Grand-mère
-                        </option>
-                        <option value={DependentRelatationShipEnum.OTHER}>
-                          Autre
-                        </option>
                       </Select>
                     </div>
-                    <div className="my-4">
-                      <p>Est-ce que l&apos;enfant vivait avec vous en 2022 ?</p>
-                      <Controller
-                        control={control}
-                        name={`dependents.${index}.livedWithTaxPayer`}
-                        render={({ field: { onChange, value } }) => (
-                          <fieldset className="flex flex-row mx-4">
-                            <div className="flex items-center">
-                              <input
-                                type="radio"
-                                onChange={() => onChange(true)}
-                                checked={value === true}
-                                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                              />
-                              <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
-                                Oui
+                    <p className="font-semibold">
+                      Est-ce que l&apos;enfant vivait avec vous en 2022 ?
+                    </p>
+                    <Controller
+                      control={control}
+                      name={`dependents.${index}.livedWithTaxPayer`}
+                      render={({ field: { onChange, value } }) => (
+                        <fieldset className="flex flex-row mx-4">
+                          <div className="flex items-center">
+                            <input
+                              type="radio"
+                              onChange={() => onChange(true)}
+                              checked={value === true}
+                              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                              Oui
+                            </p>
+                          </div>
+                          <div className="flex items-center m-4">
+                            <input
+                              type="radio"
+                              onChange={() => onChange(false)}
+                              checked={value === false}
+                              className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                              Non
+                            </p>
+                          </div>
+                        </fieldset>
+                      )}
+                    />
+                    {formData?.dependents?.[index]?.birthDate &&
+                      new Date(
+                        formData?.dependents?.[index]?.birthDate
+                      ).getFullYear() <
+                        new Date('2008-01-01').getFullYear() && (
+                        <>
+                          <p className="font-semibold">
+                            Est-ce que vous voulez faire une déclaration de
+                            revenus pour cet enfant?
+                          </p>
+                          <Controller
+                            control={control}
+                            name={`dependents.${index}.hasTaxReport`}
+                            render={({ field: { onChange, value } }) => (
+                              <fieldset className="flex flex-row mx-4">
+                                <div className="flex items-center">
+                                  <input
+                                    type="radio"
+                                    onChange={() => onChange(true)}
+                                    checked={value === true}
+                                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                                    Oui
+                                  </p>
+                                </div>
+                                <div className="flex items-center m-4">
+                                  <input
+                                    type="radio"
+                                    onChange={() => onChange(false)}
+                                    checked={value === false}
+                                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                                    Non
+                                  </p>
+                                </div>
+                              </fieldset>
+                            )}
+                          />
+                        </>
+                      )}
+
+                    {formData?.dependents?.[index]?.hasTaxReport && (
+                      <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+                        <p className="font-semibold">
+                          Un questionnaire pour cette enfant est donc nécessaire{' '}
+                        </p>
+                      </div>
+                    )}
+                    {formData?.dependents?.[index]?.hasTaxReport === false &&
+                      formData?.dependents?.[index]?.livedWithTaxPayer && (
+                        <>
+                          <p>
+                            Avez-vous payé quelqu&apos;un pour s&apos;occuper de
+                            votre enfant afin de gagner un revenu, étudier ou
+                            faire de la recherche en 2022?
+                          </p>
+                          <Controller
+                            control={control}
+                            name={`dependents.${index}.childcareToEarnIncome`}
+                            render={({ field: { onChange, value } }) => (
+                              <fieldset className="flex flex-row mx-4">
+                                <div className="flex items-center">
+                                  <input
+                                    type="radio"
+                                    onChange={() => onChange(true)}
+                                    checked={value === true}
+                                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                                    Oui
+                                  </p>
+                                </div>
+                                <div className="flex items-center m-4">
+                                  <input
+                                    type="radio"
+                                    onChange={() => onChange(false)}
+                                    checked={value === false}
+                                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                                    Non
+                                  </p>
+                                </div>
+                              </fieldset>
+                            )}
+                          />
+                          {formData?.dependents?.[index]
+                            ?.childcareToEarnIncome && (
+                            <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+                              <p className="font-semibold">
+                                Vous pourrez déposer tous vos reçus pour frais
+                                de garde dans la boite de dépôt à la fin du
+                                questionnaire
                               </p>
                             </div>
-                            <div className="flex items-center m-4">
-                              <input
-                                type="radio"
-                                onChange={() => onChange(false)}
-                                checked={value === false}
-                                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                              />
-                              <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                                Non
+                          )}
+                          <p>
+                            En 2021, avez-vous reçu la prestation universelle
+                            pour la garde d&apos;enfants (PUGE)? Ce montant
+                            figure à la case 10 du feuillet RC62?
+                          </p>
+                          <Controller
+                            control={control}
+                            name={`dependents.${index}.universalChildCareBenefit`}
+                            render={({ field: { onChange, value } }) => (
+                              <fieldset className="flex flex-row mx-4">
+                                <div className="flex items-center">
+                                  <input
+                                    type="radio"
+                                    onChange={() => onChange(true)}
+                                    checked={value === true}
+                                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                                    Oui
+                                  </p>
+                                </div>
+                                <div className="flex items-center m-4">
+                                  <input
+                                    type="radio"
+                                    onChange={() => onChange(false)}
+                                    checked={value === false}
+                                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                                    Non
+                                  </p>
+                                </div>
+                              </fieldset>
+                            )}
+                          />
+                          {formData?.dependents?.[index]
+                            ?.universalChildCareBenefit && (
+                            <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+                              <p className="font-semibold">
+                                Vous pourrez déposer tous vos reçus pour frais
+                                de garde dans la boite de dépôt à la fin du
+                                questionnaire
                               </p>
                             </div>
-                          </fieldset>
-                        )}
-                      />
-                    </div>
+                          )}
+                          <p>
+                            Avez-vous reçu des versements anticipés pour les
+                            frais de garde d&apos;enfants?
+                          </p>
+                          <Controller
+                            control={control}
+                            name={`dependents.${index}.childcareExpensesReceivedForAdvancePayments`}
+                            render={({ field: { onChange, value } }) => (
+                              <fieldset className="flex flex-row mx-4">
+                                <div className="flex items-center">
+                                  <input
+                                    type="radio"
+                                    onChange={() => onChange(true)}
+                                    checked={value === true}
+                                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                                    Oui
+                                  </p>
+                                </div>
+                                <div className="flex items-center m-4">
+                                  <input
+                                    type="radio"
+                                    onChange={() => onChange(false)}
+                                    checked={value === false}
+                                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                                    Non
+                                  </p>
+                                </div>
+                              </fieldset>
+                            )}
+                          />
+                          <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+                            <p>
+                              Voulez-vous demander un des crédits suivants pour
+                              vos enfants :
+                            </p>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.eligibleDependentAmount`
+                                )}
+                              />
+                              <p>
+                                Montant pour une personne à charge admissible{' '}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.tuitonsAndEducationAmountsTransferred`
+                                )}
+                              />
+                              <p>
+                                Montants pour frais de scolarité et études
+                                transférés{' '}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.childrenActivitiesTaxCredit`
+                                )}
+                              />
+                              <p>
+                                Crédit d&apos;impôt pour les activités des
+                                enfants (résidents du Québec seulement){' '}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.disabilityAmountTransferredFromDependant`
+                                )}
+                              />
+                              <p>
+                                Montant pour personnes handicapées transféré
+                                d&apos;une personne à charge{' '}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.canadianCaregiverAmount`
+                                )}
+                              />
+                              <p>
+                                Montant canadien pour aidant naturel (incluant
+                                les montants pour aidants naturels et pour une
+                                personne à charge ayant une déficience){' '}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.adoptionFees`
+                                )}
+                              />
+                              <p>Frais d&apos;adoption </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.dependentChildAmount`
+                                )}
+                              />
+                              <p>
+                                Montant pour enfants à charge (résident du
+                                Québec)
+                              </p>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     {index === formData.dependents.length - 1 && (
                       <>
                         <div className="w-full flex justify-between mt-4 flex-row-reverse">

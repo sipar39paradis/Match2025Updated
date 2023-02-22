@@ -1,14 +1,14 @@
 import { Checkbox } from 'flowbite-react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function DonationsForm(props: RespondentFormProps) {
   const { register, formData, control } = props;
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous fait des dons à un organisme de bienfaisance ou à un parti
         politique ?
       </p>

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function SoldMainHomeForm(props: RespondentFormProps) {
   const { control, formData } = props;
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous disposé d&apos;une propriété en 2022 qui était votre résidence
-        principale pendant la période où vous en étiez propriétaire ?
+        principale pendant la période où vous en étiez propriétaire?
       </p>
       <Controller
         control={control}
@@ -44,8 +44,8 @@ export function SoldMainHomeForm(props: RespondentFormProps) {
 
       {formData?.taxReport?.soldHome && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
-          <p className="opacity-100 pb-2">
-            Votre préparateur va entre en contact avec vous pour avoir plus de
+          <p className="font-semibold pb-2">
+            Votre préparateur entrera en contact avec vous pour obtenir plus de
             renseignements.
           </p>
         </div>

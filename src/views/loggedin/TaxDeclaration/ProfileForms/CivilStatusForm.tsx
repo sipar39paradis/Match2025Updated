@@ -1,9 +1,9 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { CivilStatusEnum } from '../types/Respondent/CivilStatusEnum';
+import { CivilStatusEnum } from '../types/Questionnaire/CivilStatusEnum';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function CivilStatusForm(props: RespondentFormProps) {
   const {
@@ -153,9 +153,9 @@ export function CivilStatusForm(props: RespondentFormProps) {
                 )}
               />
               {formData.civilStatus.together && (
-                <p className="opacity-100">
-                  Le conjoint/marié aura son questionnaire à remplir après celui
-                  du client principal
+                <p className="font-semibold">
+                  Le conjoint(e)/marié(e)aura son propre questionnaire à remplir
+                  après celui du client principal
                 </p>
               )}
             </div>

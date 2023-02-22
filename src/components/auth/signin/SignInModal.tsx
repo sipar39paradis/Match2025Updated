@@ -9,6 +9,7 @@ import { AuthModalEnum } from '../AuthModal';
 import { SignInModalBody } from './SignInModalBody';
 import { MultiFactorResolver, UserCredential } from 'firebase/auth';
 import { Button, Label, TextInput } from 'flowbite-react';
+import { useNavigate } from 'react-router-dom';
 
 interface SignInModalProps {
   closeModal: (show: boolean) => void;
@@ -21,6 +22,7 @@ type signInData = {
 };
 
 export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
+  const navigate = useNavigate();
   const { verifyTwoFactor } = useContext(AppContext) as AppContextType;
 
   const [promiseFromText, setPromiseFromText] = useState<Promise<string>>(null)
@@ -93,6 +95,7 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
               console.log(resolver, 'resolver')
                 await verifyTwoFactor(promiseFromText, verificationCode, resolver)
                 closeModal(false)
+                navigate('/profile');
               }
             }>
               Submit

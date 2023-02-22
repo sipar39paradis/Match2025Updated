@@ -7,6 +7,7 @@ import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from 'flowbite-react';
+// import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
 import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
 
 interface HeaderItemProps {
@@ -138,7 +139,12 @@ export function Header() {
       >
         <Navbar.Brand href="/">
           <Logo className="w-16 h-16" />
-          <p className="text-2xl text-gray-900 opacity-100">Impôts Match</p>
+          <p className="text-2xl font-bold text-gray-900">Impôts Match</p>
+          {/* <img
+            src={require('../../images/logo/impot-match-logo.svg').default}
+            className="mr-3 py-0 h-24"
+            alt="Flowbite Logo"
+          /> */}
         </Navbar.Brand>
         <div className="flex md:order-2">
           {user && <ProfileDropdown user={user} displayModal={displayModal} />}
@@ -162,79 +168,24 @@ export function Header() {
         </div>
         <Navbar.Collapse>
           <>
+            <HeaderItem text="Accueil" toLink="/#home" />
+            <HeaderItem text="Comment ça marche" toLink="/#features" />
+            <HeaderItem text="Avantages" toLink="/#advantages" />
+            <HeaderItem text="À propos de nous" toLink="/#about" />
+            <HeaderItem text="Préparateur" toLink="/preparator" />
+            <HeaderItem text={'Nous joindre'} toLink="/#support" />
+
             {user ? (
-              <>
-                <a
-                  className={
-                    (hover === 'home' || activeLink === 'home'
-                      ? 'md:text-orange-500'
-                      : '') +
-                    ' cursor-pointer font-heading text-base text-dark-text'
-                  }
-                  onMouseEnter={() => {
-                    setHover('home');
-                  }}
-                  onMouseLeave={() => {
-                    setHover('');
-                  }}
-                  onClick={() => {
-                    setActiveLink('home');
-                    navigate('/');
-                  }}
-                >
-                  Maison
-                </a>
-                <a
-                  className={
-                    (hover === 'profile' || activeLink === 'profile'
-                      ? 'md:text-orange-500'
-                      : '') +
-                    ' cursor-pointer font-heading text-base text-dark-text'
-                  }
-                  onMouseEnter={() => {
-                    setHover('profile');
-                  }}
-                  onMouseLeave={() => {
-                    setHover('');
-                  }}
-                  onClick={() => {
-                    setActiveLink('profile');
-                    navigate('/platform');
-                  }}
-                >
-                  Profil
-                </a>
-                <a
-                  className={
-                    (hover === 'files' || activeLink === 'files'
-                      ? 'md:text-orange-500'
-                      : '') +
-                    ' cursor-pointer font-heading text-base text-dark-text'
-                  }
-                  onMouseEnter={() => {
-                    setHover('files');
-                  }}
-                  onMouseLeave={() => {
-                    setHover('');
-                  }}
-                  onClick={() => {
-                    setActiveLink('files');
-                    navigate('/files');
-                  }}
-                >
-                  Mes Dossiers
-                </a>
-              </>
-            ) : (
-              <>
-                <HeaderItem text="Accueil" toLink="/#home" />
-                <HeaderItem text="Comment ça marche" toLink="/#features" />
-                <HeaderItem text="Avantages" toLink="/#advantages" />
-                <HeaderItem text="À propos de nous" toLink="/#about" />
-                <HeaderItem text="Préparateur" toLink="/preparator" />
-                <HeaderItem text={'Nous joindre'} toLink="/#support" />
-              </>
-            )}
+              <a
+                className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white cursor-pointer"
+                onClick={() => {
+                  setActiveLink('files');
+                  navigate('/profile');
+                }}
+              >
+                Mon Compte
+              </a>
+            ) : null}
           </>
         </Navbar.Collapse>
       </Navbar>

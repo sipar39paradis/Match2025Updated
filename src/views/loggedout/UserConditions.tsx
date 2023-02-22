@@ -7,7 +7,7 @@ export function UserConditions() {
 
 <h2>Introduction</h2>
 <p className=' pb-5'>
-{"Les présentes conditions d'utilisation régissent l'utilisation du site web [nom du site] (ci-après dénommé \"le site\") et les services proposés sur celui-ci. En utilisant le site, vous acceptez d'être lié par les présentes conditions d'utilisation. Si vous n'êtes pas d'accord avec ces conditions, vous ne devez pas utiliser le site."}
+{"Les présentes conditions d'utilisation régissent l'utilisation du site web www.impotsmatch.com (ci-après dénommé \"le site\") et les services proposés sur celui-ci. En utilisant le site, vous acceptez d'être lié par les présentes conditions d'utilisation. Si vous n'êtes pas d'accord avec ces conditions, vous ne devez pas utiliser le site."}
 </p>
 
 <h2>Utilisation du site</h2>
@@ -22,7 +22,7 @@ export function UserConditions() {
 
 <h2>Protection des données et confidentialité</h2>
 <p className=' pb-5'>
-{"Vous reconnaissez que le site recueille et utilise vos données personnelles conformément à la politique de confidentialité du site, qui est disponible sur [lien vers la politique de confidentialité]. Vous vous engagez à ne pas fournir de données fausses ou inexactes lors de l'utilisation du site."}
+{"Vous reconnaissez que le site recueille et utilise vos données personnelles conformément à la politique de confidentialité du site, qui est disponible sur notre site web. Vous vous engagez à ne pas fournir de données fausses ou inexactes lors de l'utilisation du site."}
 </p>
 
 <h2>Responsabilité</h2>
@@ -42,7 +42,7 @@ export function UserConditions() {
 
 <h2>Contact</h2>
 <p className=' pb-5'>
-{"Pour toute question ou demande relative aux présentes conditions d'utilisation, veuillez nous contacter à l'adresse [email/numero"}
+{"Pour toute question ou demande relative aux présentes conditions d'utilisation, veuillez nous contacter à l'adresse courriel info@impotsmatch.com"}
 
   </p>
   </div>)

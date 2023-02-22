@@ -1,14 +1,15 @@
 import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function WorkIncomesForm(props: RespondentFormProps) {
   const { control, formData, register } = props;
 
   return (
     <>
-      <p>Avez-vous travaillé en 2022?</p>
+      <p className=" font-semibold">Avez-vous travaillé en 2022?</p>
       <Controller
         control={control}
         name="taxReport.workIncomes.workedLastYear"
@@ -43,7 +44,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           {formData?.taxReport?.workIncomes?.workedLastYear === true ? (
             <>
-              <p>
+              <p className=" font-semibold">
                 Veuillez indiquer quel genre de travail vous faisiez (cochez
                 toutes les cases qui s&apos;appliquent)
               </p>
@@ -135,16 +136,11 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                       </p>
                     </div>
                     <hr className="py-2"></hr>
-                    <p>
+                    <p className=" font-semibold">
                       Est-ce que l&apos;une des situations suivantes vous
                       concerne?
                     </p>
-                    <div className="flex items-center gap-2 py-2">
-                      <Checkbox
-                        {...register('taxReport.workIncomes.clergyMember')}
-                      />
-                      <p>J&apos;étais un membre du clergé</p>
-                    </div>
+
                     <div className="flex items-center gap-2 py-2">
                       <Checkbox
                         {...register(
@@ -167,31 +163,11 @@ export function WorkIncomesForm(props: RespondentFormProps) {
                         d&apos;assurance-salaire
                       </p>
                     </div>
-                    <div className="flex items-center gap-2 py-2">
-                      <Checkbox
-                        {...register(
-                          'taxReport.workIncomes.optionalCPPorQPPcontributions'
-                        )}
-                      />
-                      <p>
-                        Je veux verser des cotisations facultatives au RPC ou au
-                        RRQ
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 py-2">
-                      <Checkbox {...register('taxReport.workIncomes.stocks')} />
-                      <p>
-                        J&apos;ai des actions dans ma compagnie et j&apos;ai des
-                        avantages tirés d&apos;une option d&apos;achat
-                        d&apos;actions ou j&apos;ai payé de l&apos;impôt sur les
-                        excédents à un régime de participation des employés aux
-                        bénéfices ou je dois faire un choix pour reporter les
-                        avantages tirés d&apos;une option d&apos;achat
-                        d&apos;actions.
-                      </p>
-                    </div>
                     <hr className="py-2"></hr>
-                    <p>Avez-vous des dépenses liées à votre emploi?</p>
+                    <p className=" font-semibold">
+                      Avez-vous des dépenses liées à votre emploi?
+                      <TooltipWithIcon text=" Si vous avez encouru des dépenses que vous avez payez personnellement afin d’obtenir un revenu de commission ou du salaire, il se peut que vous puissiez déduire ces dépenses. Si vous n’êtes pas certain cochez oui et votre préparateur va entrer en contact avec vous. "></TooltipWithIcon>
+                    </p>
                     <Controller
                       control={control}
                       name="taxReport.workIncomes.jobRelatedExpenses"
@@ -361,7 +337,7 @@ export function WorkIncomesForm(props: RespondentFormProps) {
             </>
           ) : (
             <>
-              <p>
+              <p className=" font-semibold">
                 Il semble que vous n&apos;avez pas travaillé en 2022. Est-ce que
                 l&apos;une des situations suivantes vous concerne?
               </p>

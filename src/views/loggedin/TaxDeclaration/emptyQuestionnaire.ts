@@ -1,6 +1,6 @@
-import { Respondent } from './types/Respondent/Respondent';
+import { Questionnaire, QuestionnaireStateEnum } from './types/Questionnaire/Questionnaire';
 
-const emptyTaxReport = {
+const EmptyTaxReport = {
   workIncomes: null,
   retirementIncomes: null,
   investmentIncomes: null,
@@ -11,6 +11,7 @@ const emptyTaxReport = {
   donations: null,
   movingExpenses: null,
   medicalExpenses: null,
+  healthAndDrugInsurance: null,
   eligibleHomeBuyerTaxCredit: null,
   boughHome: null,
   soldHome: null,
@@ -23,9 +24,11 @@ const emptyTaxReport = {
   instalmentPayments: null
 }
 
-export const emptyQuestionnaire: Respondent ={
+export const EmptyQuestionnaire: Questionnaire ={
   mainClient: false,
   year: null,
+  isDependent: null,
+  state: QuestionnaireStateEnum.NEW,
   civilStatus: {
     civilStatus: null,
     together: null
@@ -59,6 +62,6 @@ export const emptyQuestionnaire: Respondent ={
     socialAssistanceBenefitsAmount: null, },
     haveDependents: null,
     dependents: [],
-    taxReport: emptyTaxReport
+    taxReport: EmptyTaxReport
 }
 

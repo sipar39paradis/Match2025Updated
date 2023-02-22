@@ -9,6 +9,7 @@ export interface TaxReport {
   donations: Donations
   movingExpenses: boolean
   medicalExpenses: boolean
+  healthAndDrugInsurance: boolean
   eligibleHomeBuyerTaxCredit: boolean
   boughHome: BoughtHome
   soldHome: boolean
@@ -42,16 +43,10 @@ export interface Losses {
 }
 
 export interface OtherDeductions {
-  digitalNewServicesSubscription?: boolean
-  boughtEligibleSchoolSupplies?: boolean
   paidUnionOrProfessionalDues?: boolean
   paidSpousalOrChildSupport?: boolean
-  unusedSpousalCredits?: boolean
   paidForeignTaxes?: boolean
   northernResidentsDeduction?: boolean
-  paidForestryOperationsTaxes?: boolean
-  carryingForwardalternativeMinimumTaxPayments?: boolean
-  alternativeMinimumTaxRevision?: boolean
   otherDeductions?: boolean
 }
 
@@ -73,11 +68,8 @@ export interface WorkIncomes {
   workerCompensationOrSocialAssistance?: boolean
   employmentInsuranceBenefits?: boolean
   employmentInsuranceOrParentalBenefits?: boolean
-  clergyMember?: boolean
   formT1198RetroactivePayment?: boolean
   wageLossReplacementPlan?: boolean
-  optionalCPPorQPPcontributions?: boolean
-  stocks?: boolean
   jobRelatedExpenses?: boolean
   taxRefund?: boolean
   mealsAndAccomodation?: boolean

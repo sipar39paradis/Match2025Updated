@@ -1,7 +1,8 @@
 import { Checkbox } from 'flowbite-react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function SelfEmploymentRentalOtherIncomeForm(
   props: RespondentFormProps
@@ -10,9 +11,10 @@ export function SelfEmploymentRentalOtherIncomeForm(
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous un revenu de travailleur autonome, de location ou
         d&apos;autres revenus?
+        <TooltipWithIcon text="Si vous avez un revenu d’appoint, sachez que ce type de revenu est imposable sous forme de travail autonome. Toutefois, selon le cas, il est possible de déduire des dépenses afin de réduire le revenu de travail autonome"></TooltipWithIcon>
       </p>
       <Controller
         control={control}

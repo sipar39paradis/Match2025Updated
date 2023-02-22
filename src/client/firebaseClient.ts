@@ -10,6 +10,7 @@ import {
 import { deleteObject, FirebaseStorage, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
+import { QuestionnaireList } from '../views/loggedin/TaxDeclaration/types/QuestionnaireList';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -29,7 +30,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage()
+const storage = getStorage();
 
 const PROFILE_DB_NAME = 'UserProfile';
 const STORAGE_BASE_FOLDER = 'customerdata/';
@@ -46,6 +47,18 @@ export const getUserProfile = async (
     data.type == 'accountant'
       ? docToProfile(<UserProfileDoc>data)
       : <UserProfile>data
+  );
+};
+
+export const getAllQuestionaires = async (
+  userId: string
+): Promise<QuestionnaireList[]> => {
+  const querySnapshot = await getDocs(
+    collection(db, 'taxReport', userId, 'questionnaires')
+  );
+
+  return querySnapshot.docs.map(
+    (questionaire) => <QuestionnaireList>questionaire.data()
   );
 };
 
@@ -77,29 +90,29 @@ export const appendRequiredFiles = async (
   fileName: string,
   userId: string
 ): Promise<void> => {
-  getRequiredFiles(userId).then((res) =>{
-    if(res == undefined){
-      writeRequiredFiles([fileName], userId)
-    }else{
-      res?.files?.push(fileName)
-      writeRequiredFiles(res?.files, userId)
+  getRequiredFiles(userId).then((res) => {
+    if (res == undefined) {
+      writeRequiredFiles([fileName], userId);
+    } else {
+      res?.files?.push(fileName);
+      writeRequiredFiles(res?.files, userId);
     }
-  })
-}
+  });
+};
 
 export const appendExistingFiles = async (
   fileName: string,
   userId: string
 ): Promise<void> => {
   getExistingFiles(userId).then((res) => {
-    if(res == undefined){
-      writeExistingFiles([fileName], userId)
-    }else{
-      res?.files.push(fileName)
-      writeExistingFiles(res?.files, userId)
-    } 
-  })
-}
+    if (res == undefined) {
+      writeExistingFiles([fileName], userId);
+    } else {
+      res?.files.push(fileName);
+      writeExistingFiles(res?.files, userId);
+    }
+  });
+};
 
 export const removeExistingfile = async (
   fileName: string,
@@ -121,22 +134,24 @@ export const removeUserFile = async (
 ): Promise<void> => {
   const filesListRef = ref(storage, STORAGE_BASE_FOLDER + userEmail)
   listAll(filesListRef).then((res) => {
-    const fileRefToRemove = res?.items?.filter((itemRef) => itemRef.name.includes(fileName))[0]
+    const fileRefToRemove = res?.items?.filter((itemRef) =>
+      itemRef.name.includes(fileName)
+    )[0];
     deleteObject(fileRefToRemove).catch((err) => {
-      console.log('There was an issue deleting the file ' + fileName)
-    })
-  })
-}
+      console.log('There was an issue deleting the file ' + fileName);
+    });
+  });
+};
 
 export const removeRequiredfile = async (
   fileName: string,
   userId: string
 ): Promise<void> => {
   getRequiredFiles(userId).then((res) => {
-    const newReqFiles = res?.files?.filter((file) => file != fileName)
-    writeRequiredFiles(newReqFiles, userId)
-  })
-}
+    const newReqFiles = res?.files?.filter((file) => file != fileName);
+    writeRequiredFiles(newReqFiles, userId);
+  });
+};
 
 export const uploadTaxReportPdfToStorage = async (
   bytes: ArrayBuffer,
@@ -158,12 +173,12 @@ export const uploadFileToStorage = async (
 }
 
 export const getExistingFiles = async (userId: string): Promise<FilesDoc> => {
-  return <FilesDoc>(await getDoc(doc(db, 'UserExistingFiles', userId))).data()
-}
+  return <FilesDoc>(await getDoc(doc(db, 'UserExistingFiles', userId))).data();
+};
 
-export const getRequiredFiles = async(userId: string): Promise<FilesDoc> => {
-  return <FilesDoc>(await getDoc(doc(db, 'UserRequiredFiles', userId))).data()
-}
+export const getRequiredFiles = async (userId: string): Promise<FilesDoc> => {
+  return <FilesDoc>(await getDoc(doc(db, 'UserRequiredFiles', userId))).data();
+};
 
 export const getClientProfile = async (
   userId: string

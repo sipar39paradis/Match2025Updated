@@ -1,13 +1,13 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function ForeignAssetsForm(props: RespondentFormProps) {
   const { control, formData } = props;
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Possédiez-vous ou déteniez-vous des biens étrangers déterminés, dont le
         coût total, à un moment donné durant l&apos;année 2022, s&apos;est élevé
         à plus de 100 000 $ CA?

@@ -1,7 +1,7 @@
 import { Checkbox } from 'flowbite-react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 // We removed this form from the questionnaire for now, keeping it case steph change his mind since it took quite some time to do.
 export function LossesForm(props: RespondentFormProps) {

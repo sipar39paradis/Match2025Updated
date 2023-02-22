@@ -2,7 +2,7 @@ import { exportToExcel } from '../components/ExcelExport';
 import { TaxReport } from '../views/loggedin/TaxDeclaration/types/TaxReport/TaxReport';
 import { jsPDF } from 'jspdf'
 import { getUserProfile } from '../client/firebaseClient';
-import { PersonalInformations } from '../views/loggedin/TaxDeclaration/types/Respondent/PersonnalInformations';
+import { PersonalInformations } from '../views/loggedin/TaxDeclaration/types/Questionnaire/PersonnalInformations';
 
 type TextData = [string, string];
 
@@ -223,8 +223,8 @@ export function getCsvMapFromTaxReport(taxReport: TaxReport,
     const doc = new jsPDF();
     doc.setFontSize(25);
     doc.text(`Rapport d'impots pour ${personalInformation?.firstName} ${personalInformation?.lastName}`, 10, 10)
-    const x = 15;
-    const y = 30;
+    const x = 10;
+    const y = 15;
     generatePDFContent(taxReport, getWorkIncomesText, doc, x, y, 'Revenus de travail');
     generatePDFContent(taxReport, getBoughtHomeText, doc, x, y, 'Achat d\'une maison');
     generatePDFContent(taxReport, getLossesText, doc, x, y, 'Pertes');
@@ -271,11 +271,8 @@ function getWorkIncomesText(taxReport: TaxReport): Array<TextData> {
     ['Indemnités de travailleur ou d\'assistance sociale', fromVal(workIncomes?.workerCompensationOrSocialAssistance)],
     ['Prestations d\'assurance-emploi', fromVal(workIncomes?.employmentInsuranceBenefits)],
     ['Prestations d\'assurance-emploi ou parentales', fromVal(workIncomes?.employmentInsuranceOrParentalBenefits)],
-    ['Membre du clergé', fromVal(workIncomes?.clergyMember)],
     ['Paiement rétroactif (T1198)', fromVal(workIncomes?.formT1198RetroactivePayment)],
     ['Plan de remplacement du revenu de travail', fromVal(workIncomes?.wageLossReplacementPlan)],
-    ['Contributions optionnelles au RPC ou au RRQ', fromVal(workIncomes?.optionalCPPorQPPcontributions)],
-    ['Actions', fromVal(workIncomes?.stocks)],
     ['Frais de travail liés à l\'emploi', fromVal(workIncomes?.jobRelatedExpenses)],
     ['Remboursement d\'impôt', fromVal(workIncomes?.taxRefund)],
     ['Repas et hébergement', fromVal(workIncomes?.mealsAndAccomodation)],
@@ -313,16 +310,10 @@ function getLossesText(taxReport: TaxReport): Array<TextData> {
 function getOtherDeductionsText(taxReport: TaxReport): Array<TextData> {
     const otherDeductions = taxReport?.otherDeductions;
     return [
-        ['Abonnement à de nouveaux services numériques admissibles', fromVal(otherDeductions?.digitalNewServicesSubscription)],
-        ['Achat de fournitures scolaires admissibles', fromVal(otherDeductions?.boughtEligibleSchoolSupplies)],
         ['Cotisations syndicales ou professionnelles payées', fromVal(otherDeductions?.paidUnionOrProfessionalDues)],
         ['Pension alimentaire versée à un conjoint ou à un enfant', fromVal(otherDeductions?.paidSpousalOrChildSupport)],
-        ['Crédits d\'impôt pour conjoint inutilisés', fromVal(otherDeductions?.unusedSpousalCredits)],
         ['Impôts étrangers payés', fromVal(otherDeductions?.paidForeignTaxes)],
         ['Déduction pour résidents du Nord', fromVal(otherDeductions?.northernResidentsDeduction)],
-        ['Impôts sur les opérations forestières payés', fromVal(otherDeductions?.paidForestryOperationsTaxes)],
-        ['Report des paiements minimums provisoires d\'impôt alternatif', fromVal(otherDeductions?.carryingForwardalternativeMinimumTaxPayments)],
-        ['Révision de l\'impôt minimum alternatif', fromVal(otherDeductions?.alternativeMinimumTaxRevision)],
         ['Autres déductions', fromVal(otherDeductions?.otherDeductions)]
       ];
 }

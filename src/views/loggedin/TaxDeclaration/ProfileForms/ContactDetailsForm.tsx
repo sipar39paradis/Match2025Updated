@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 
 export function ContactDetailsForm(props: RespondentFormProps) {
   const {
@@ -121,9 +122,14 @@ export function ContactDetailsForm(props: RespondentFormProps) {
             </div>
           </div>
 
-          <p>
-            Si vous avez déménagé d&apos;une autre province ou d&apos;un autre
-            territoire en 2022, entrez la date de votre déménagement
+          <p className="font-semibold">
+            Avez-vous avez déménagé d&apos;une autre province ou d&apos;un autre
+            territoire en 2022?
+            <TooltipWithIcon
+              text=" Si nous n’est pas certain de votre statut de résident canadien au
+              31 décembre 2022, veuillez cocher oui à cette question et votre
+              préparateur va entrer en contact avec vous."
+            ></TooltipWithIcon>
           </p>
           <Controller
             control={control}
@@ -228,7 +234,9 @@ export function ContactDetailsForm(props: RespondentFormProps) {
 
           <h2 className="mb-0">Résidences </h2>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
-          <p>Est-ce que votre statut de résident canadien a changé en 2022?</p>
+          <p className="font-semibold">
+            Est-ce que votre statut de résident canadien a changé en 2022?
+          </p>
           <Controller
             control={control}
             name="contactDetails.canadianRedisentStatusChange"
@@ -260,7 +268,10 @@ export function ContactDetailsForm(props: RespondentFormProps) {
             )}
           />
           {formData?.contactDetails?.canadianRedisentStatusChange === true && (
-            <p>Votre préparateur va entrer en contact avec vous.</p>
+            <p>
+              Votre préparateur entrera en contact avec vous pour obtenir plus
+              de renseignements.{' '}
+            </p>
           )}
 
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />

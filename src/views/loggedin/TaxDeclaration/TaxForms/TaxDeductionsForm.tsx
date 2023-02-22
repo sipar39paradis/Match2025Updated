@@ -1,14 +1,14 @@
 import { Checkbox } from 'flowbite-react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function TaxDeductionsForm(props: RespondentFormProps) {
   const { register, control, formData } = props;
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous des renseignements au sujet d&apos;un REER, d&apos;un RPAC,
         d&apos;un autre régime de pension, du régime d&apos;accession à la
         propriété (RAP), du régime d&apos;encouragement à l&apos;éducation
@@ -47,7 +47,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
 
       {formData?.taxReport?.taxDeductions?.taxDeductions && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-          <p>
+          <p className="font-semibold">
             Avez-vous versé des cotisations à un régime de pension comme un
             REER, un RPAC, un régime de pension agréé ou le régime de pension
             déterminé ?
@@ -93,8 +93,8 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
                     {...register('taxReport.taxDeductions.RRSPcontributions')}
                   />
                   <p>
-                    J&apos;ai versé des cotisations au REER entre mars 2023 et
-                    février 2022
+                    J&apos;ai versé des cotisations au REER entre mars 2022 et
+                    février 2023
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
@@ -146,7 +146,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
             </>
           )}
 
-          <p>
+          <p className="font-semibold">
             Avez-vous participé au régime d&apos;encouragement à
             l&apos;éducation permanente (REEP) ou au régime d&apos;accession à
             la propriété (RAP) dans le passé ?
@@ -297,7 +297,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
             </>
           )}
 
-          <p>
+          <p className="font-semibold">
             Avez-vous fait des placements dans une société à capital de risque
             de travailleurs (SCRT)?
           </p>
@@ -339,7 +339,7 @@ export function TaxDeductionsForm(props: RespondentFormProps) {
               <p>J&apos;ai reçu un T4RIF / Relevé 2</p>
             </div>
           </div> */}
-          <p>
+          <p className="font-semibold">
             Avez-vous versé des cotisations à un régime de retraite des É.-U. ou
             d&apos;un pays étranger offert par un employeur ou à un régime de
             retraite des É.-U. par un frontalier du Canada?

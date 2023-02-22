@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { HiHome } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { BreadcrumbWrapper } from '../../../components/profile/BreadcrumbWrapper';
+import { BoxBody } from '../../../components/boxComponents/BoxBody';
 
 export function Familly() {
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ export function Familly() {
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
                 Familly
             </h1>
+            <BoxBody/>
           </BreadcrumbWrapper>
 
         </div>

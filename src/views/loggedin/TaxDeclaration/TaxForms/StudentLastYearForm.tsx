@@ -1,14 +1,15 @@
 import { Checkbox } from 'flowbite-react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function StudentLastYearForm(props: RespondentFormProps) {
   const { register, control, formData } = props;
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Étiez-vous aux études en 2022 ou avez-vous reporté des dépenses liées à
         vos études des années antérieures?
       </p>
@@ -88,7 +89,10 @@ export function StudentLastYearForm(props: RespondentFormProps) {
           </div>
           <div className="flex items-center gap-2 py-2">
             <Checkbox {...register('taxReport.studentExpenses.RESPincomes')} />
-            <p>J&apos;ai retiré de l&apos;argent d&apos;un REER</p>
+            <p>
+              J&apos;ai retiré de l&apos;argent d&apos;un REER
+              <TooltipWithIcon text="Sachez que pour l’année 2022 aucun prêt étudiant n’a eu d’intérêt payable, alors, cochez oui uniquement si vous voulez déduire des intérêts reportables de 2021 ou avant"></TooltipWithIcon>
+            </p>
           </div>
 
           <div className="flex items-center gap-2 py-2">

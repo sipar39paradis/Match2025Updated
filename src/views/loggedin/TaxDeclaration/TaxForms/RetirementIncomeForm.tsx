@@ -1,17 +1,17 @@
 import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function RetirementIncomesForm(props: RespondentFormProps) {
   const { control, register, formData } = props;
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous reçu un revenu de pension ou de retraite, ou avez-vous retiré
-        de l&apos;argent d&apos;un REER ou d&apos;un FERR? Cela n&apos;inclut
-        pas les cotisations à un REER ni à un régime de retraite.
+        de l&apos;argent d&apos;un REER ou d&apos;un FERR?
       </p>
 
       <Controller
@@ -140,15 +140,16 @@ export function RetirementIncomesForm(props: RespondentFormProps) {
               ou d&apos;un régime de pension agréé collectif (RPAC)
             </p>
           </div>
-          <p className="mt-4">
+          <p className="mt-4 font-semibold">
             Voulez-vous fractionner votre revenu de pension admissible avec
             votre époux ou conjoint de fait (s&apos;il y a lieu)?
+            <TooltipWithIcon text="Si vous êtes marié ou que vous vivez en union de fait, si l’un de vous reçoit un revenu de pensions ou si vous recevez tous les deux un revenu de pension, il est possible pour vous d’optimiser votre déclaration en fractionnant le revenu de façon 'à avoir une économie d’impôts pour le couple"></TooltipWithIcon>
           </p>
           <Controller
             control={control}
             name="taxReport.retirementIncomes.splitPensionIncome"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row m-x4">
                 <div className="flex items-center">
                   <input
                     type="radio"

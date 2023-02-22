@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
 import Fade from 'react-reveal';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { Controller } from 'react-hook-form';
 
@@ -119,7 +119,7 @@ export function PersonnalInformationsForm(props: RespondentFormProps) {
           </div>
           <h2 className="mb-0">Autres renseignements personnels </h2>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
-          <p>
+          <p className="font-semibold">
             Avez-vous fait faillite en 2021 ou 2022, ou êtes-vous en faillite
             selon les dossiers de l&apos;Agence du revenu du Canada (ARC)?
           </p>
@@ -127,7 +127,7 @@ export function PersonnalInformationsForm(props: RespondentFormProps) {
             control={control}
             name="personalInformations.bankruptcy"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
                   <input
                     type="radio"
@@ -153,12 +153,12 @@ export function PersonnalInformationsForm(props: RespondentFormProps) {
               </fieldset>
             )}
           />
-          <p>Êtes-vous une personne handicapée?</p>
+          <p className="font-semibold">Êtes-vous une personne handicapée?</p>
           <Controller
             control={control}
             name="personalInformations.disabled"
             render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row m-4">
+              <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
                   <input
                     type="radio"

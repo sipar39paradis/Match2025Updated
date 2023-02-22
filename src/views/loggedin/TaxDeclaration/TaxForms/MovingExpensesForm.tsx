@@ -1,12 +1,12 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function MovingExpensesForm(props: RespondentFormProps) {
   const { control, formData } = props;
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous engagé des frais de déménagement? Dans l&apos;incertitude,
         répondez Oui. Nous verrons plus tard si vous êtes admissible.
       </p>
@@ -43,8 +43,8 @@ export function MovingExpensesForm(props: RespondentFormProps) {
 
       {formData?.taxReport?.movingExpenses && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-          <p className="opacity-100 pb-2">
-            Votre préparateur va entre en contact avec vous pour avoir plus de
+          <p className="font-semibold pb-2">
+            Votre préparateur entrera en contact avec vous pour obtenir plus de
             renseignements.
           </p>
         </div>

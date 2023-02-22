@@ -1,16 +1,17 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Respondent/RespondentFormProps';
+import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
+import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 
 export function BoughtHomeForm(props: RespondentFormProps) {
   const { control, formData } = props;
 
   return (
     <>
-      <p>
+      <p className="font-semibold">
         Avez-vous acheté une maison, un condo, un appartement ou une maison
-        mobile cette année? Sélectionnez Oui pour déterminer si vous êtes
-        admissible au montant pour l&apos;achat d&apos;une première habitation ?
+        mobile cette année?
+        <TooltipWithIcon text="Sachez que si vous ou votre conjoint (le cas échéant) n’avez jamais possédé une maison, un condo, un appartement ou une maison mobile, vous pourriez vous qualifier pour obtenir le montant pour l’achat d’une habitation qui pourrait représenter un remboursement d’impôts allant jusqu’à 3 000$. Si vous n’êtes pas certain de votre admissibilité, cochez oui et votre préparateur entrera en contact avec vous"></TooltipWithIcon>
       </p>
       <Controller
         control={control}
