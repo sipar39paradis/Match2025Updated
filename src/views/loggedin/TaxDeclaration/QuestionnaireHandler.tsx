@@ -17,9 +17,16 @@ import {
 } from './types/Questionnaire/Questionnaire';
 import { useForm } from 'react-hook-form';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
+<<<<<<< HEAD:src/views/loggedin/TaxDeclaration/Questionnaire.tsx
+import { writeRequiredFiles } from '../../../client/firebaseClient';
+import mapFiles from '../../../utils/FileMapper';
+import { emptyQuestionnaire } from './emptyQuestionnaire';
+import { CivilStatus } from './types/Respondent/CivilStatus';
+=======
 import { CivilStatus } from './types/Questionnaire/CivilStatus';
 import { ContactDetails } from './types/Questionnaire/ContactDetails';
 import { EmptyQuestionnaire } from './emptyQuestionnaire';
+>>>>>>> 05395570d860e62aea2e225adb88781e304ae0fe:src/views/loggedin/TaxDeclaration/QuestionnaireHandler.tsx
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
@@ -135,6 +142,9 @@ export function QuestionnaireHandler() {
         merge: true,
       }
     );
+    if(searchParams.get(TAX_DECLARATION_STEP) == TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT){
+      writeRequiredFiles(mapFiles(formData?.taxReport), user?.uid)
+    }
   }
 
   function resetForm() {
@@ -227,7 +237,7 @@ export function QuestionnaireHandler() {
           ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
-        return <TaxDeclarationFileUpload />;
+        return <TaxDeclarationFileUpload setSearchParams={setSearchParams}/>;
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:
