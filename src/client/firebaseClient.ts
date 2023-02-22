@@ -5,11 +5,22 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  query,
   setDoc,
+  where,
 } from 'firebase/firestore';
-import { deleteObject, FirebaseStorage, getStorage, listAll, ref, uploadBytes } from 'firebase/storage';
+import {
+  deleteObject,
+  FirebaseStorage,
+  getStorage,
+  listAll,
+  ref,
+} from 'firebase/storage';
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
+import { Questionnaire } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 import { QuestionnaireList } from '../views/loggedin/TaxDeclaration/types/QuestionnaireList';
 
 const firebaseConfig = {
@@ -43,6 +54,7 @@ export const getUserProfile = async (
   const returnedDoc = await getDoc(doc(db, PROFILE_DB_NAME, userEmail));
   const data = returnedDoc.data();
 
+  console.log(data, 'data');
   return addDefaultValues(
     data.type == 'accountant'
       ? docToProfile(<UserProfileDoc>data)
@@ -66,14 +78,10 @@ export const writeRequiredFiles = async (
   requiredFiles: Array<string>,
   userId: string
 ): Promise<void> => {
-  const nonDuplicateArr = requiredFiles.filter((item, index) => {
-    return requiredFiles.indexOf(item) === index;
-  })
-
   await setDoc(doc(db, 'UserRequiredFiles', userId), {
-    files: nonDuplicateArr,
+    files: requiredFiles,
     userId: userId,
-  }, {merge: true});
+  });
 };
 
 export const writeExistingFiles = async (
@@ -116,23 +124,26 @@ export const appendExistingFiles = async (
 
 export const removeExistingfile = async (
   fileName: string,
-  userId: string,
-  userEmail: string
+  userId: string
 ): Promise<void> => {
   getExistingFiles(userId).then((res) => {
-    if(res != undefined){
-      writeExistingFiles(res?.files?.filter(file => file != fileName), userId)
-      appendRequiredFiles(fileName, userId)
-      removeUserFile(fileName, userEmail)
-    } 
-  })
-}
+    if (res != undefined) {
+      console.log(res.files);
+      writeExistingFiles(
+        res?.files?.filter((file) => file != fileName),
+        userId
+      );
+      appendRequiredFiles(fileName, userId);
+      removeUserFile(fileName, userId);
+    }
+  });
+};
 
 export const removeUserFile = async (
   fileName: string,
-  userEmail: string
+  userId: string
 ): Promise<void> => {
-  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + userEmail)
+  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + userId);
   listAll(filesListRef).then((res) => {
     const fileRefToRemove = res?.items?.filter((itemRef) =>
       itemRef.name.includes(fileName)
@@ -152,25 +163,6 @@ export const removeRequiredfile = async (
     writeRequiredFiles(newReqFiles, userId);
   });
 };
-
-export const uploadTaxReportPdfToStorage = async (
-  bytes: ArrayBuffer,
-  userEmail: string
-): Promise<void> => {
-  return uploadFileToStorage('taxReport.pdf', bytes, userEmail);
-}
-
-export const uploadFileToStorage = async (
-  fileName: string,
-  bytes: ArrayBuffer,
-  userEmail: string
-): Promise<void> => {
-  const fileNameAndPath = STORAGE_BASE_FOLDER + userEmail + '/' + fileName;
-  const fileRef = ref(storage, fileNameAndPath)
-  uploadBytes(fileRef, bytes).then((snapsot) => {
-    console.log('Successfully generated taxReport.')
-  }).catch((err) => 'Something went wrong')
-}
 
 export const getExistingFiles = async (userId: string): Promise<FilesDoc> => {
   return <FilesDoc>(await getDoc(doc(db, 'UserExistingFiles', userId))).data();
@@ -192,6 +184,7 @@ export const getAllUserProfiles = async (): Promise<Array<UserProfile>> => {
   const returnedDocs = await getDocs(collection(db, PROFILE_DB_NAME));
   return returnedDocs.docs.map((returnedDoc) => {
     const data = returnedDoc.data();
+    console.log(data, 'data');
     return addDefaultValues(
       data.type == 'accountant'
         ? docToProfile(<UserProfileDoc>data)

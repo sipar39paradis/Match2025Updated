@@ -39,10 +39,6 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     } else {
       setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
     }
-<<<<<<< HEAD
-    
-    setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
-=======
   }
 
   function totalNumberOfQuestionnaires() {
@@ -57,7 +53,6 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     });
     console.log(total);
     return total;
->>>>>>> 05395570d860e62aea2e225adb88781e304ae0fe
   }
 
   return (
