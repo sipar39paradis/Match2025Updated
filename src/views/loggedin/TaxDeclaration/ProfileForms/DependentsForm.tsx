@@ -49,6 +49,7 @@ export function DependentsForm(props: RespondentFormProps) {
     const date = new Date('2008-01-01').getFullYear();
     return Math.abs(birthDate.getFullYear() - date) >= 14;
   }
+
   return (
     <Fade>
       <section className="flex flex-col align-baseline items-start w-full">
