@@ -9,8 +9,8 @@ import { OtherDeductionsForm } from './OtherDeductionsForm';
 import { SoldMainHomeForm } from './SoldMainHome';
 import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
-import { writeRequiredFiles } from '../../../../client/firebaseClient';
-import mapFiles from '../../../../utils/FileMapper';
+import { uploadTaxReportPdfToStorage, writeRequiredFiles } from '../../../../client/firebaseClient';
+import mapFiles, { getPDFTaxReport } from '../../../../utils/FileMapper';
 
 export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   const {
@@ -41,6 +41,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
       setSearchParams({ step: TaxDeclarationStep.INCOMES });
     } else {
       writeRequiredFiles(mapFiles(formData?.taxReport), user?.uid)
+      uploadTaxReportPdfToStorage(getPDFTaxReport(formData?.taxReport, formData?.personalInformations), formData?.personalInformations?.email)
       setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
     }
   }

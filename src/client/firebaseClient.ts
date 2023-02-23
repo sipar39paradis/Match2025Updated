@@ -205,6 +205,7 @@ export const uploadTaxReportPdfToStorage = async (
   bytes: ArrayBuffer,
   userEmail: string
 ): Promise<void> => {
+  console.log(userEmail)
   return uploadFileToStorage('taxReport.pdf', bytes, userEmail);
 }
 

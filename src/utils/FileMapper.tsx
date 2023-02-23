@@ -215,9 +215,9 @@ export default function mapFiles(taxReport: TaxReport): Array<string>{
     return filesArr;
 }
 
-export function getCsvMapFromTaxReport(taxReport: TaxReport,
+export function getPDFTaxReport(taxReport: TaxReport,
      personalInformation: PersonalInformations){
-    
+    console.log(personalInformation?.email)
     const doc = new jsPDF();
     doc.setFontSize(25);
     doc.text(`Rapport d'impots pour ${personalInformation?.firstName} ${personalInformation?.lastName}`, 10, 10)
