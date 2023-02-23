@@ -88,7 +88,8 @@ export function QuestionnaireHandler() {
     mainClient = true,
     civilStatus?: CivilStatus,
     contactDetails?: ContactDetails,
-    isDependent = false
+    isDependent = false,
+    stepToRedirect = TaxDeclarationStep.PERSONAL_INFORMATIONS
   ) {
     const defaultValues = {
       ...EmptyQuestionnaire,
@@ -114,9 +115,7 @@ export function QuestionnaireHandler() {
     ).then((docRef) => {
       questionnaires.set(docRef.id, defaultValues);
       setQuestionnaires(questionnaires);
-      navigate(
-        `/platform/questionnaire/${docRef.id}?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
-      );
+      navigate(`/platform/questionnaire/${docRef.id}?step=${stepToRedirect}`);
     });
   }
 
@@ -230,7 +229,7 @@ export function QuestionnaireHandler() {
           ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
-        return <TaxDeclarationFileUpload setSearchParams={setSearchParams}/>;
+        return <TaxDeclarationFileUpload setSearchParams={setSearchParams} />;
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:

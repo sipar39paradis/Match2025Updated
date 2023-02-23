@@ -1,6 +1,7 @@
 import { User } from 'firebase/auth';
 import { Control, UseFormHandleSubmit, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { URLSearchParamsInit, NavigateOptions } from 'react-router-dom';
+import { TaxDeclarationStep } from '../TaxReport/TaxDeclarationStep';
 import { CivilStatus } from './CivilStatus';
 import { ContactDetails } from './ContactDetails';
 import { Questionnaire } from './Questionnaire';
@@ -14,7 +15,7 @@ export interface RespondentFormProps {
   setValue?: UseFormSetValue<Questionnaire>
   resetForm?: () => void
   setSearchParams?: (nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), navigateOpts?: NavigateOptions) => void
-  addQuestionnaire?: (mainClient: boolean, civilStatus?: CivilStatus, contactDetails?: ContactDetails, isDependent?: boolean) => void
+  addQuestionnaire?: (mainClient: boolean, civilStatus?: CivilStatus, contactDetails?: ContactDetails, isDependent?: boolean, stepToRedirect?: TaxDeclarationStep) => void
   questionnaires?: Map<string, Questionnaire>
   user?: User;
 }
