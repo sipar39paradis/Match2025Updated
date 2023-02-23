@@ -48,7 +48,6 @@ function App() {
                 path="/viewQuestionnaire"
                 element={<ViewQuestionnaire />}
               />
-              <Route path="/questionaire" element={<Questionaire />} />
               <Route path="/declaration" element={<Declaration />} />
               <Route path="/progression" element={<Progression />} />
               <Route path="/customerService" element={<CustomerService />} />
@@ -56,6 +55,7 @@ function App() {
               <Route path="/userConditions" element={<UserConditions />} />
               <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/404" element={<NotFound />} />
             </Routes>
           </div>
           <CustomFooter />

@@ -20,6 +20,7 @@ import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsF
 import { CivilStatus } from './types/Questionnaire/CivilStatus';
 import { ContactDetails } from './types/Questionnaire/ContactDetails';
 import { EmptyQuestionnaire } from './emptyQuestionnaire';
+import { OctopusLoader } from '../../../components/common/OctopusLoader';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
@@ -31,6 +32,7 @@ export function QuestionnaireHandler() {
   const { id } = useParams();
   const navigate = useNavigate();
   const newAccount = useRef(true);
+  const [loadingQuestionnaires, setLoadingQuestionnaires] = useState(true);
 
   const {
     register,
@@ -69,15 +71,16 @@ export function QuestionnaireHandler() {
         map.set(doc.id, doc.data());
       });
       setQuestionnaires(map);
-      console.log('map', map);
       if (!map.size && newAccount.current) {
-        console.log(newAccount);
         newAccount.current = false;
         await addQuestionnaire();
+      } else if (!map.get(id)) {
+        navigate('/404');
       }
     }
     if (user) {
       fetchQuestionnaires();
+      setLoadingQuestionnaires(false);
     }
   }, [user?.uid]);
 
@@ -87,7 +90,6 @@ export function QuestionnaireHandler() {
     contactDetails?: ContactDetails,
     isDependent = false
   ) {
-    console.log('new');
     const defaultValues = {
       ...EmptyQuestionnaire,
       mainClient,
@@ -274,9 +276,15 @@ export function QuestionnaireHandler() {
             </div>
           ))}
       </div>
-      <div className="w-[800px] bg-white rounded-md p-8 h-fit">
-        {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}
-      </div>
+      {loadingQuestionnaires ? (
+        <div className="h-full pt-16">
+          <OctopusLoader />
+        </div>
+      ) : (
+        <div className="w-[800px] bg-white rounded-md p-8 h-fit">
+          {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}
+        </div>
+      )}
     </div>
   );
 }
