@@ -226,10 +226,11 @@ export function QuestionnaireHandler() {
             addQuestionnaire={addQuestionnaire}
             resetForm={resetForm}
             questionnaires={questionnaires}
+            user={user}
           ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
-        return <TaxDeclarationFileUpload />;
+        return <TaxDeclarationFileUpload setSearchParams={setSearchParams}/>;
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:

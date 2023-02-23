@@ -9,6 +9,8 @@ import { OtherDeductionsForm } from './OtherDeductionsForm';
 import { SoldMainHomeForm } from './SoldMainHome';
 import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
+import { writeRequiredFiles } from '../../../../client/firebaseClient';
+import mapFiles from '../../../../utils/FileMapper';
 
 export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   const {
@@ -21,6 +23,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     addQuestionnaire,
     resetForm,
     questionnaires,
+    user
   } = props;
 
   function onSubmitButton() {
@@ -37,15 +40,16 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
       addQuestionnaire(false, null, formData.contactDetails, true);
       setSearchParams({ step: TaxDeclarationStep.INCOMES });
     } else {
+      writeRequiredFiles(mapFiles(formData?.taxReport), user?.uid)
       setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
     }
   }
 
   function totalNumberOfQuestionnaires() {
     let total = questionnaires.size;
-    questionnaires.forEach((questionnaire) => {
+    questionnaires?.forEach((questionnaire) => {
       console.log(questionnaire);
-      questionnaire.dependents.forEach((dependent) => {
+      questionnaire?.dependents?.forEach((dependent) => {
         if (dependent.hasTaxReport) {
           total += 1;
         }
