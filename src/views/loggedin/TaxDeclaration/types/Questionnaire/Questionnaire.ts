@@ -6,7 +6,7 @@ import { Dependent } from './Dependent';
 import { PersonalInformations } from './PersonnalInformations';
 
 export interface Questionnaire {
-  mainClient: boolean
+  clientType: ClientTypeEnum
   year: number
   state: QuestionnaireStateEnum
   civilStatus?: CivilStatus
@@ -24,4 +24,10 @@ export enum QuestionnaireStateEnum {
   NEW = 'new',
   IN_PROGRESS = 'inProgress',
   COMPLETED = 'completed'
+}
+
+export enum ClientTypeEnum {
+  MAIN_CLIENT = 'mainClient',
+  PARTNER = 'partner',
+  dependent = 'dependent'
 }

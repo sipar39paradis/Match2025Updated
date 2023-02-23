@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BoxRow } from './BoxRow';
 import {
+  ClientTypeEnum,
   Questionnaire,
   QuestionnaireStateEnum,
 } from '../../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
@@ -31,7 +32,7 @@ export function BoxBody({ questionnaires }: BoxBodyProps) {
   let mainClient: SnapshotQuestionnaire;
 
   let secondaryClients: Info[] = questionnaires.map((questionnaire) => {
-    if (questionnaire.questionnaire.mainClient) {
+    if (questionnaire.questionnaire.clientType === ClientTypeEnum.MAIN_CLIENT) {
       mainClient = questionnaire;
     }
     return {
@@ -62,7 +63,10 @@ export function BoxBody({ questionnaires }: BoxBodyProps) {
   };
 
   secondaryClients = secondaryClients.filter((questionnaire) => {
-    return !questionnaire.questionnaire.questionnaire.mainClient;
+    return (
+      questionnaire.questionnaire.questionnaire.clientType ===
+      ClientTypeEnum.PARTNER
+    );
   });
 
   let dependants: Info[] = [];

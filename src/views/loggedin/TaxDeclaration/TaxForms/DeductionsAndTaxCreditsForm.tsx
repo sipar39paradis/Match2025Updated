@@ -11,6 +11,7 @@ import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 import { writeRequiredFiles } from '../../../../client/firebaseClient';
 import mapFiles from '../../../../utils/FileMapper';
+import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
 
 export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   const {
@@ -30,7 +31,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     saveFormAnswers();
     resetForm();
     if (
-      formData?.mainClient &&
+      formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
       formData?.civilStatus?.together &&
       questionnaires.size === 1
     ) {
