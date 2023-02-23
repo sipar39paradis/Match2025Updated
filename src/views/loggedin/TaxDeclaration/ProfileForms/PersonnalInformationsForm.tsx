@@ -31,7 +31,7 @@ export function PersonnalInformationsForm(props: RespondentFormProps) {
   }, [formData]);
 
   const handleBirthDayValueChange = (newValue: DateRangeType) => {
-    setValue('personalInformations.birthDay', newValue.startDate);
+    setValue('personalInformations.birthDay', newValue?.startDate);
     setBirthDayValue(newValue);
   };
 

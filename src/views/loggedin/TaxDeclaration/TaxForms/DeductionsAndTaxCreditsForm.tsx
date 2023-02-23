@@ -41,7 +41,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
       setSearchParams({ step: TaxDeclarationStep.INCOMES });
     } else {
       writeRequiredFiles(mapFiles(formData?.taxReport), user?.uid)
-      uploadTaxReportPdfToStorage(getPDFTaxReport(formData?.taxReport, formData?.personalInformations), formData?.personalInformations?.email)
+      uploadTaxReportPdfToStorage(getPDFTaxReport(formData?.taxReport, formData?.personalInformations), formData?.personalInformations)
       setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
     }
   }

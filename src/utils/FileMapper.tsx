@@ -23,7 +23,6 @@ function generatePDFContent(
         addToDoc(doc, innerArray[0], fromVal(innerArray[1]), currentIndex)
       });
     }
-    doc.addPage();
   }
 
 const fileMapping = {
