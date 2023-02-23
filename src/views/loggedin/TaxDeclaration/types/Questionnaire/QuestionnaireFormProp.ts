@@ -1,3 +1,4 @@
+import { User } from 'firebase/auth';
 import { Control, UseFormHandleSubmit, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { URLSearchParamsInit, NavigateOptions } from 'react-router-dom';
 import { CivilStatus } from './CivilStatus';
@@ -15,4 +16,5 @@ export interface RespondentFormProps {
   setSearchParams?: (nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), navigateOpts?: NavigateOptions) => void
   addQuestionnaire?: (mainClient: boolean, civilStatus?: CivilStatus, contactDetails?: ContactDetails, isDependent?: boolean) => void
   questionnaires?: Map<string, Questionnaire>
+  user?: User;
 }
