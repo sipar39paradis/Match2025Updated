@@ -36,18 +36,16 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
       questionnaires.size === 1
     ) {
       addQuestionnaire(
-        false,
+        ClientTypeEnum.PARTNER,
         formData.civilStatus,
         formData.contactDetails,
-        false,
-        TaxDeclarationStep.CIVIL_STATUS
+        TaxDeclarationStep.PERSONAL_INFORMATIONS
       );
     } else if (questionnaires.size < totalNumberOfQuestionnaires()) {
       addQuestionnaire(
-        false,
+        ClientTypeEnum.DEPENDENT,
         null,
         formData.contactDetails,
-        true,
         TaxDeclarationStep.INCOMES
       );
     } else {
@@ -57,7 +55,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   }
 
   function totalNumberOfQuestionnaires() {
-    let total = questionnaires.size;
+    let total = questionnaires?.size;
     questionnaires?.forEach((questionnaire) => {
       console.log(questionnaire);
       questionnaire?.dependents?.forEach((dependent) => {

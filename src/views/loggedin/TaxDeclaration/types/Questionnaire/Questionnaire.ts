@@ -29,5 +29,5 @@ export enum QuestionnaireStateEnum {
 export enum ClientTypeEnum {
   MAIN_CLIENT = 'mainClient',
   PARTNER = 'partner',
-  dependent = 'dependent'
+  DEPENDENT = 'dependent'
 }

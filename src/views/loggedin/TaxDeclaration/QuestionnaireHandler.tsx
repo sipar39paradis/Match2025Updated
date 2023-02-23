@@ -12,6 +12,7 @@ import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { doc, setDoc, addDoc, collection, getDocs } from 'firebase/firestore';
 import {
+  ClientTypeEnum,
   Questionnaire,
   QuestionnaireStateEnum,
 } from './types/Questionnaire/Questionnaire';
@@ -85,18 +86,16 @@ export function QuestionnaireHandler() {
   }, [user?.uid]);
 
   async function addQuestionnaire(
-    mainClient = true,
+    clientType = ClientTypeEnum.MAIN_CLIENT,
     civilStatus?: CivilStatus,
     contactDetails?: ContactDetails,
-    isDependent = false,
     stepToRedirect = TaxDeclarationStep.PERSONAL_INFORMATIONS
   ) {
     const defaultValues = {
       ...EmptyQuestionnaire,
-      mainClient,
+      clientType,
       state: QuestionnaireStateEnum.IN_PROGRESS,
       year: new Date().getFullYear(),
-      isDependent,
       personalInformations: {
         ...EmptyQuestionnaire?.personalInformations,
         email: user.email,
@@ -200,6 +199,7 @@ export function QuestionnaireHandler() {
             saveFormAnswers={saveFormAnswers}
             setSearchParams={setSearchParams}
             setValue={setValue}
+            questionnaires={questionnaires}
           ></DependentsForm>
         );
       case TaxDeclarationStep.INCOMES:
