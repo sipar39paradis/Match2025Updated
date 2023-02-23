@@ -6,9 +6,10 @@ import { AuthModal, AuthModalEnum } from '../auth/AuthModal';
 import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
 import { useNavigate } from 'react-router-dom';
-import { Navbar } from 'flowbite-react';
+import { Button, Navbar } from 'flowbite-react';
 // import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
 import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 interface HeaderItemProps {
   text: string;
@@ -16,21 +17,25 @@ interface HeaderItemProps {
 }
 
 function HeaderItem(props: HeaderItemProps) {
+  const navigate = useNavigate();
   return (
-    <li>
-      <Link
-        to={props.toLink}
-        className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white"
+
+      <a
+        onClick={() => {
+          navigate(props.toLink);
+        }}
+        className="sm:text-xs lg:text-base menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white"
       >
         {props.text}
-      </Link>
-    </li>
+      </a>
+
   );
 }
 
 export function Header() {
   const { user } = useContext(AppContext) as AppContextType;
   const navigate = useNavigate();
+  const { width, height } = useWindowDimensions();
 
   const [showModal, setShowModal] = React.useState(false);
   const [modalToDisplay, setModalToDisplay] =
@@ -139,30 +144,32 @@ export function Header() {
       >
         <Navbar.Brand href="/">
           <Logo className="w-16 h-16" />
-          <p className="text-2xl font-bold text-gray-900">Impôts Match</p>
-          {/* <img
-            src={require('../../images/logo/impot-match-logo.svg').default}
-            className="mr-3 py-0 h-24"
-            alt="Flowbite Logo"
-          /> */}
+          {width > 1200 ? (
+            <p className="text-2xl font-bold text-gray-900">Impôts Match</p>
+          ) : null}
+
+          {width < 740 ? <p className="text-xl font-bold text-gray-900">Impôts Match</p>:null}
+
         </Navbar.Brand>
         <div className="flex md:order-2">
           {user && <ProfileDropdown user={user} displayModal={displayModal} />}
-          {!user && (
-            <div className="absolute bottom-0 left-0 flex w-full items-center justify-between space-x-5 self-end p-5 lg:static lg:w-auto lg:self-center lg:p-0">
-              <button
-                onClick={() => displayModal(AuthModalEnum.SignIn)}
-                className="w-full whitespace-nowrap rounded bg-orange-500 py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto"
-              >
+          {!user && ( 
+            // <div className="absolute bottom-0 left-0 flex w-full items-center justify-between space-x-5 self-end p-5 lg:static lg:w-auto lg:self-center lg:p-0">
+              <>
+
+              <Button size="xs"
+              onClick={() => displayModal(AuthModalEnum.SignIn)}>
                 Se connecter
-              </button>
-              <button
-                onClick={() => displayModal(AuthModalEnum.SignUp)}
-                className="w-full whitespace-nowrap rounded bg-[#222C40] py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto"
-              >
+              </Button>
+              
+              <Button size="xs"
+              color={'dark'}
+              onClick={() => displayModal(AuthModalEnum.SignUp)}>
                 S&apos;inscrire
-              </button>
-            </div>
+              </Button>
+
+              </>
+            // </div>
           )}
           <Navbar.Toggle />
         </div>
@@ -174,17 +181,31 @@ export function Header() {
             <HeaderItem text="À propos de nous" toLink="/#about" />
             <HeaderItem text="Préparateur" toLink="/preparator" />
             <HeaderItem text={'Nous joindre'} toLink="/#support" />
+            {/* <button
+                onClick={() => displayModal(AuthModalEnum.SignIn)}
+                className=" w-auto whitespace-nowrap rounded bg-orange-500 py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto"
+              >
+                Se connecter
+              </button>
+              <button
+                onClick={() => displayModal(AuthModalEnum.SignUp)}
+                className="w-fit whitespace-nowrap rounded bg-[#222C40] py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto"
+              >
+                S&apos;inscrire
+              </button> */}
+            
 
             {user ? (
-              <a
-                className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white cursor-pointer"
-                onClick={() => {
-                  setActiveLink('files');
-                  navigate('/profile');
-                }}
-              >
-                Mon Compte
-              </a>
+              // <a
+              //   className="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white cursor-pointer"
+              //   onClick={() => {
+              //     setActiveLink('files');
+              //     navigate('/profile');
+              //   }}
+              // >
+              //   Mon Compte
+              // </a>
+              <HeaderItem text={'Mon Compte'} toLink="/profile" />
             ) : null}
           </>
         </Navbar.Collapse>

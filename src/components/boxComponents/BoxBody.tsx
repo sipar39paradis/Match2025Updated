@@ -116,13 +116,14 @@ export function BoxBody({ questionnaires }: BoxBodyProps) {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center  border-orange-400 rounded-lg shadow-xl">
       <>
         <BoxRow
           respondent={mainClientInfo}
           key={mainClient.questionnaire.personalInformations.firstName}
           onClick={() => addQuestionnaire()}
         />
+        
         {secondaryClients.map((respondent) => (
           <BoxRow
             respondent={respondent}
@@ -132,14 +133,10 @@ export function BoxBody({ questionnaires }: BoxBodyProps) {
             }
           />
         ))}
-        {dependants.map((respondent) => (
-          <BoxRow
-            respondent={respondent}
-            key={respondent.firstName}
-            onClick={() =>
-              navigate(`/platform/questionnaire/${respondent.questionnaire.id}`)
-            }
-          />
+        {dependants.map((respondent, i) => (
+          <BoxRow respondent={respondent} key={respondent.firstName} 
+          onClick={() =>  navigate(`/platform/questionnaire/${respondent.questionnaire.id}`)}
+          last={dependants.length-1 === i}/>
         ))}
       </>
     </div>
