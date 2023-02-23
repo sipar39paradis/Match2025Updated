@@ -6,6 +6,7 @@ import Fade from 'react-reveal';
 import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { Controller } from 'react-hook-form';
+import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
 
 export function PersonnalInformationsForm(props: RespondentFormProps) {
   const {
@@ -37,7 +38,7 @@ export function PersonnalInformationsForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    if (formData.mainClient) {
+    if (formData.clientType === ClientTypeEnum.MAIN_CLIENT) {
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
     } else {
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS_CHANGE });

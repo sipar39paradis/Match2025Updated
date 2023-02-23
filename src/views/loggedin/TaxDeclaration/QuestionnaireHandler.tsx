@@ -12,6 +12,7 @@ import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { doc, setDoc, addDoc, collection, getDocs } from 'firebase/firestore';
 import {
+  ClientTypeEnum,
   Questionnaire,
   QuestionnaireStateEnum,
 } from './types/Questionnaire/Questionnaire';
@@ -20,6 +21,7 @@ import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsF
 import { CivilStatus } from './types/Questionnaire/CivilStatus';
 import { ContactDetails } from './types/Questionnaire/ContactDetails';
 import { EmptyQuestionnaire } from './emptyQuestionnaire';
+import { OctopusLoader } from '../../../components/common/OctopusLoader';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
@@ -31,6 +33,7 @@ export function QuestionnaireHandler() {
   const { id } = useParams();
   const navigate = useNavigate();
   const newAccount = useRef(true);
+  const [loadingQuestionnaires, setLoadingQuestionnaires] = useState(true);
 
   const {
     register,
@@ -69,31 +72,30 @@ export function QuestionnaireHandler() {
         map.set(doc.id, doc.data());
       });
       setQuestionnaires(map);
-      console.log('map', map);
       if (!map.size && newAccount.current) {
-        console.log(newAccount);
         newAccount.current = false;
         await addQuestionnaire();
+      } else if (!map.get(id)) {
+        navigate('/404');
       }
     }
     if (user) {
       fetchQuestionnaires();
+      setLoadingQuestionnaires(false);
     }
   }, [user?.uid]);
 
   async function addQuestionnaire(
-    mainClient = true,
+    clientType = ClientTypeEnum.MAIN_CLIENT,
     civilStatus?: CivilStatus,
     contactDetails?: ContactDetails,
-    isDependent = false
+    stepToRedirect = TaxDeclarationStep.PERSONAL_INFORMATIONS
   ) {
-    console.log('new');
     const defaultValues = {
       ...EmptyQuestionnaire,
-      mainClient,
+      clientType,
       state: QuestionnaireStateEnum.IN_PROGRESS,
       year: new Date().getFullYear(),
-      isDependent,
       personalInformations: {
         ...EmptyQuestionnaire?.personalInformations,
         email: user.email,
@@ -112,9 +114,7 @@ export function QuestionnaireHandler() {
     ).then((docRef) => {
       questionnaires.set(docRef.id, defaultValues);
       setQuestionnaires(questionnaires);
-      navigate(
-        `/platform/questionnaire/${docRef.id}?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
-      );
+      navigate(`/platform/questionnaire/${docRef.id}?step=${stepToRedirect}`);
     });
   }
 
@@ -199,6 +199,7 @@ export function QuestionnaireHandler() {
             saveFormAnswers={saveFormAnswers}
             setSearchParams={setSearchParams}
             setValue={setValue}
+            questionnaires={questionnaires}
           ></DependentsForm>
         );
       case TaxDeclarationStep.INCOMES:
@@ -228,7 +229,7 @@ export function QuestionnaireHandler() {
           ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
-        return <TaxDeclarationFileUpload setSearchParams={setSearchParams}/>;
+        return <TaxDeclarationFileUpload setSearchParams={setSearchParams} />;
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:
@@ -275,9 +276,15 @@ export function QuestionnaireHandler() {
             </div>
           ))}
       </div>
-      <div className="w-[800px] bg-white rounded-md p-8 h-fit">
-        {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}
-      </div>
+      {loadingQuestionnaires ? (
+        <div className="h-full pt-16">
+          <OctopusLoader />
+        </div>
+      ) : (
+        <div className="w-[800px] bg-white rounded-md p-8 h-fit">
+          {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}
+        </div>
+      )}
     </div>
   );
 }

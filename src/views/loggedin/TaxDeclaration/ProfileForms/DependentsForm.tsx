@@ -10,6 +10,7 @@ import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormPro
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
+import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
 
 export function DependentsForm(props: RespondentFormProps) {
   const {
@@ -20,6 +21,7 @@ export function DependentsForm(props: RespondentFormProps) {
     setSearchParams,
     formData,
     setValue,
+    questionnaires,
   } = props;
   const { fields, append, remove } = useFieldArray({
     control,
@@ -49,10 +51,51 @@ export function DependentsForm(props: RespondentFormProps) {
     const date = new Date('2008-01-01').getFullYear();
     return Math.abs(birthDate.getFullYear() - date) >= 14;
   }
+
+  function findMainClientName() {
+    let mainClientName = '';
+    questionnaires?.forEach((questionnaire) => {
+      if (questionnaire?.clientType === ClientTypeEnum.MAIN_CLIENT) {
+        mainClientName = questionnaire?.personalInformations?.firstName;
+      }
+    });
+    return mainClientName;
+  }
+
+  function fillDependentsForm() {
+    if (formData?.clientType === ClientTypeEnum.MAIN_CLIENT) {
+      append({
+        firstName: '',
+        lastName: '',
+        birthDate: null,
+        socialSecurityNumber: null,
+        relationship: null,
+        livedWithTaxPayer: null,
+        federalNetIncome: null,
+        provincialNetIncome: null,
+        adjustedNetIncome: null,
+        quebecChildrenSupport: null,
+        claimedOrReceivedAmountForDependent: null,
+      });
+    } else if (formData?.clientType === ClientTypeEnum.PARTNER) {
+      let mainClientDependents: Dependent[] = [];
+      questionnaires.forEach((questionnaire) => {
+        if (questionnaire?.clientType === ClientTypeEnum.MAIN_CLIENT) {
+          mainClientDependents = questionnaire?.dependents;
+        }
+      });
+      setValue('dependents', mainClientDependents);
+    }
+  }
   return (
     <Fade>
       <section className="flex flex-col align-baseline items-start w-full">
-        <h1>Avez-vous des enfants?</h1>
+        {formData.clientType === ClientTypeEnum.PARTNER && (
+          <h1>Avez-vous des enfants avec {findMainClientName()}?</h1>
+        )}{' '}
+        {formData.clientType === ClientTypeEnum.MAIN_CLIENT && (
+          <h1>Avez-vous des enfants?</h1>
+        )}
         <form
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start w-full"
@@ -67,19 +110,7 @@ export function DependentsForm(props: RespondentFormProps) {
                     type="radio"
                     onChange={() => {
                       onChange(true);
-                      append({
-                        firstName: '',
-                        lastName: '',
-                        birthDate: null,
-                        socialSecurityNumber: null,
-                        relationship: null,
-                        livedWithTaxPayer: null,
-                        federalNetIncome: null,
-                        provincialNetIncome: null,
-                        adjustedNetIncome: null,
-                        quebecChildrenSupport: null,
-                        claimedOrReceivedAmountForDependent: null,
-                      });
+                      fillDependentsForm();
                     }}
                     checked={value === true}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"

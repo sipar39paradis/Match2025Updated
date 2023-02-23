@@ -1,4 +1,4 @@
-import { Questionnaire, QuestionnaireStateEnum } from './types/Questionnaire/Questionnaire';
+import { ClientTypeEnum, Questionnaire, QuestionnaireStateEnum } from './types/Questionnaire/Questionnaire';
 
 const EmptyTaxReport = {
   workIncomes: null,
@@ -25,7 +25,7 @@ const EmptyTaxReport = {
 }
 
 export const EmptyQuestionnaire: Questionnaire ={
-  mainClient: false,
+  clientType: ClientTypeEnum.MAIN_CLIENT,
   year: null,
   isDependent: null,
   state: QuestionnaireStateEnum.NEW,

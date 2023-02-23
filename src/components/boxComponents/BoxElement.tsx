@@ -13,7 +13,7 @@ export function BoxElement({text, onClick}: BoxElementProps) {
 
   return (
 <>
-    <p className='pr-8' onClick={onClick}>
+    <p className='pr-8 font-semibold' onClick={onClick}>
         {text}
     </p>
 </>

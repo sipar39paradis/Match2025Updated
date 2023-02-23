@@ -11,6 +11,7 @@ import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 import { uploadTaxReportPdfToStorage, writeRequiredFiles } from '../../../../client/firebaseClient';
 import mapFiles, { getPDFTaxReport } from '../../../../utils/FileMapper';
+import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
 
 export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   const {
@@ -23,22 +24,30 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     addQuestionnaire,
     resetForm,
     questionnaires,
-    user
+    user,
   } = props;
 
   function onSubmitButton() {
     saveFormAnswers();
     resetForm();
     if (
-      formData?.mainClient &&
+      formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
       formData?.civilStatus?.together &&
       questionnaires.size === 1
     ) {
-      addQuestionnaire(false, formData.civilStatus, formData.contactDetails);
-      setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
+      addQuestionnaire(
+        ClientTypeEnum.PARTNER,
+        formData.civilStatus,
+        formData.contactDetails,
+        TaxDeclarationStep.PERSONAL_INFORMATIONS
+      );
     } else if (questionnaires.size < totalNumberOfQuestionnaires()) {
-      addQuestionnaire(false, null, formData.contactDetails, true);
-      setSearchParams({ step: TaxDeclarationStep.INCOMES });
+      addQuestionnaire(
+        ClientTypeEnum.DEPENDENT,
+        null,
+        formData.contactDetails,
+        TaxDeclarationStep.INCOMES
+      );
     } else {
       writeRequiredFiles(mapFiles(formData?.taxReport), user?.uid)
       uploadTaxReportPdfToStorage(getPDFTaxReport(formData?.taxReport, formData?.personalInformations), formData?.personalInformations)
@@ -47,7 +56,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   }
 
   function totalNumberOfQuestionnaires() {
-    let total = questionnaires.size;
+    let total = questionnaires?.size;
     questionnaires?.forEach((questionnaire) => {
       console.log(questionnaire);
       questionnaire?.dependents?.forEach((dependent) => {

@@ -19,6 +19,7 @@ import { Questionaire } from './views/loggedin/boxes/questionaire';
 import { CustomFooter } from './components/header/CustomFooter';
 import { UserConditions } from './views/loggedout/UserConditions';
 import { PrivacyPolicy } from './views/loggedout/PrivacyPolicy';
+import { NotFound } from './views/NotFound';
 
 function App() {
   return (
@@ -43,14 +44,18 @@ function App() {
                 element={<QuestionnaireHandler />}
               />
               <Route path="/preparator" element={<Preparator />} />
-              <Route path="/viewQuestionnaire" element={<ViewQuestionnaire />} />
-              <Route path="/questionaire" element={<Questionaire />} />
+              <Route
+                path="/viewQuestionnaire"
+                element={<ViewQuestionnaire />}
+              />
               <Route path="/declaration" element={<Declaration />} />
               <Route path="/progression" element={<Progression />} />
               <Route path="/customerService" element={<CustomerService />} />
               <Route path="/documents" element={<Files />} />
               <Route path="/userConditions" element={<UserConditions />} />
               <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/404" element={<NotFound />} />
             </Routes>
           </div>
           <CustomFooter />

@@ -6,6 +6,7 @@ import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
+import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
 
 export function CivilStatusChangeForm(props: RespondentFormProps) {
   const {
@@ -194,7 +195,7 @@ export function CivilStatusChangeForm(props: RespondentFormProps) {
               value="Précédant"
               onClick={() => {
                 saveFormAnswers;
-                if (formData.mainClient) {
+                if (formData.clientType === ClientTypeEnum.MAIN_CLIENT) {
                   setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
                 } else {
                   setSearchParams({
