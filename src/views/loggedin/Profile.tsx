@@ -22,23 +22,17 @@ import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { EditButton } from '../../components/common/EditButtons';
 import { useNavigate } from 'react-router-dom';
 import { BreadcrumbWrapper } from '../../components/profile/BreadcrumbWrapper';
-import { userInfo } from 'os';
-
-interface FamillyProps {
-  switchTab: any;
-}
 
 export function Profile() {
-  const { t } = useTranslation();
   const { id } = useParams();
-  const { user } = useContext(AppContext) as AppContextType;
+  const { user, addQuestionnaire } = useContext(AppContext) as AppContextType;
   const [profile, setProfile] = useState<UserProfile>(null);
   const [tempProfile, setTempProfile] = useState<UserProfile>(null);
   const [edit, setEdit] = useState(false);
   const [madeQuestionaire, setMadeQuestionaire] = useState(true);
   const [loading, setLoading] = useState(true);
   const [inErr, setInErr] = useState({});
-  const { width, height } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const navigate = useNavigate();
 
   let ownProfile = false;
@@ -71,7 +65,7 @@ export function Profile() {
   const boxes = {
     foyer: 'Mon Foyer',
     viewQuestionnaire: 'Mes Questionnaires',
-    documents: 'Mes Documents'
+    documents: 'Mes Documents',
   };
 
   const updateProfile = async (id: string, profile: UserProfile) => {
@@ -137,7 +131,7 @@ export function Profile() {
               {!madeQuestionaire ? (
                 <a
                   className=" text-orange-400 cursor-pointer font-bold"
-                  onClick={() => navigate('/platform/questionnaire')}
+                  onClick={() => addQuestionnaire()}
                 >
                   <Alert color="info">
                     <p>
@@ -145,7 +139,9 @@ export function Profile() {
                         "Bonjour, il semblerait que vous n'ayez pas rempli votre déclaration d'impôts pour cette année."
                       }
                     </p>
-                    <p>{'Cliquez ici pour être rediriger vers le questionnaire'}</p>
+                    <p>
+                      {'Cliquez ici pour être rediriger vers le questionnaire'}
+                    </p>
                   </Alert>
                 </a>
               ) : null}

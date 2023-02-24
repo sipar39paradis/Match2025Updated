@@ -1,6 +1,5 @@
-import { Alert, Breadcrumb } from 'flowbite-react';
+import { Alert } from 'flowbite-react';
 import React, { useContext, useEffect, useState } from 'react';
-import { HiHome } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { BreadcrumbWrapper } from '../../../components/profile/BreadcrumbWrapper';
 import {
@@ -8,12 +7,11 @@ import {
   getAllQuestionnaires,
 } from '../../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../../context/AppContext';
-import { Questionnaire } from '../TaxDeclaration/types/Questionnaire/Questionnaire';
 import { BoxBody } from '../../../components/boxComponents/BoxBody';
 
 export function ViewQuestionnaire() {
   const navigate = useNavigate();
-  const { user } = useContext(AppContext) as AppContextType;
+  const { addQuestionnaire } = useContext(AppContext) as AppContextType;
   const [noQuestionaire, setNoQuestionaire] = useState(true);
   const [questionnaires, setQuestionnaires] =
     useState<SnapshotQuestionnaire[]>(null);
@@ -42,7 +40,7 @@ export function ViewQuestionnaire() {
           {noQuestionaire ? (
             <a
               className=" text-orange-400 cursor-pointer font-bold"
-              onClick={() => navigate('/platform/questionnaire')}
+              onClick={() => addQuestionnaire()}
             >
               <Alert color="info">
                 <p>

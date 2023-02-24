@@ -27,7 +27,6 @@ import {
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
   doc,
-  setDoc,
   getFirestore,
   getDoc,
   Firestore,
@@ -38,7 +37,14 @@ import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../interfaces/User';
 import { upsertUserProfile } from '../client/firebaseClient';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
-import { Button, Label, Modal, TextInput } from 'flowbite-react';
+import { Button, Modal } from 'flowbite-react';
+import { EmptyQuestionnaire } from '../views/loggedin/TaxDeclaration/emptyQuestionnaire';
+import {
+  ClientTypeEnum,
+  Questionnaire,
+  QuestionnaireStateEnum,
+} from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
+import { TaxDeclarationStep } from '../views/loggedin/TaxDeclaration/types/TaxReport/TaxDeclarationStep';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -95,6 +101,11 @@ export interface AppContextType {
   resetPassword: (email: string) => void;
   firestore: Firestore;
   storage: FirebaseStorage;
+  addQuestionnaire: (
+    clientType?: ClientTypeEnum,
+    questionnaire?: Questionnaire,
+    stepToRedirect?: TaxDeclarationStep
+  ) => void;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -115,7 +126,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
     // return () => signOut()
   }, []);
 
@@ -206,8 +216,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     verificationCode: string,
     resolver: MultiFactorResolver
   ) => {
-    await promise.then(function (verificationId) {
-        console.log('in first')
+    await promise
+      .then(function (verificationId) {
+        console.log('in first');
         // Ask user for the SMS verification code. Then:
         console.log(verificationCode);
         const cred = PhoneAuthProvider.credential(
@@ -221,7 +232,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       .then(function (userCredential) {
         succsessfulSignIn(userCredential);
       });
-    
   };
 
   const handleLogin = async (
@@ -376,6 +386,31 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await upsertUserProfile(userCredential.user.uid, profile, true);
   };
 
+  async function addQuestionnaire(
+    clientType = ClientTypeEnum.MAIN_CLIENT,
+    questionnaire = EmptyQuestionnaire,
+    stepToRedirect = TaxDeclarationStep.PERSONAL_INFORMATIONS
+  ) {
+    const defaultValues = {
+      ...EmptyQuestionnaire,
+      clientType,
+      state: QuestionnaireStateEnum.IN_PROGRESS,
+      year: new Date().getFullYear(),
+      personalInformations: {
+        ...EmptyQuestionnaire?.personalInformations,
+        email: user.email,
+      },
+      civilStatus: questionnaire?.civilStatus || null,
+      contactDetails: questionnaire?.contactDetails || null,
+    };
+    await addDoc(
+      collection(firestore, 'taxReport', user.uid, 'questionnaires'),
+      defaultValues
+    ).then((docRef) => {
+      navigate(`/platform/questionnaire/${docRef.id}?step=${stepToRedirect}`);
+    });
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -393,6 +428,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         resetPassword,
         firestore,
         storage,
+        addQuestionnaire,
       }}
     >
       <Modal show={openModel}>

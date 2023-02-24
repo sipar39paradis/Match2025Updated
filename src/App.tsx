@@ -38,10 +38,6 @@ function App() {
                 path="/platform/questionnaire/:id"
                 element={<QuestionnaireHandler />}
               />{' '}
-              <Route
-                path="/platform/questionnaire"
-                element={<QuestionnaireHandler />}
-              />
               <Route path="/preparator" element={<Preparator />} />
               <Route
                 path="/viewQuestionnaire"
