@@ -27,7 +27,6 @@ const EmptyTaxReport = {
 export const EmptyQuestionnaire: Questionnaire ={
   clientType: ClientTypeEnum.MAIN_CLIENT,
   year: null,
-  isDependent: null,
   state: QuestionnaireStateEnum.NEW,
   civilStatus: {
     civilStatus: null,

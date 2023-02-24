@@ -3,16 +3,20 @@ import React, { useContext, useEffect, useState } from 'react';
 import { HiHome } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { BreadcrumbWrapper } from '../../../components/profile/BreadcrumbWrapper';
-import { BoxBody } from '../../../components/boxComponents/BoxBody';
-import { SnapshotQuestionnaire, getAllQuestionnaires } from '../../../client/firebaseClient';
+import {
+  SnapshotQuestionnaire,
+  getAllQuestionnaires,
+} from '../../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { Questionnaire } from '../TaxDeclaration/types/Questionnaire/Questionnaire';
+import { BoxBody } from '../../../components/boxComponents/BoxBody';
 
 export function ViewQuestionnaire() {
   const navigate = useNavigate();
   const { user } = useContext(AppContext) as AppContextType;
   const [noQuestionaire, setNoQuestionaire] = useState(true);
-  const [questionnaires, setQuestionnaires] = useState<SnapshotQuestionnaire[]>(null)
+  const [questionnaires, setQuestionnaires] =
+    useState<SnapshotQuestionnaire[]>(null);
 
   useEffect(() => {
     ('BR5shBSMwPSxBTd91Ly5zjjhfiH2');
@@ -20,7 +24,7 @@ export function ViewQuestionnaire() {
       console.log(res, 'res');
       if (res.length !== 0) {
         setNoQuestionaire(false);
-        setQuestionnaires(res)
+        setQuestionnaires(res);
       }
     });
   }, []);
@@ -49,8 +53,7 @@ export function ViewQuestionnaire() {
               </Alert>
             </a>
           ) : (
-            <BoxBody 
-            questionnaires={questionnaires}/>
+            <BoxBody questionnaires={questionnaires} />
           )}
         </BreadcrumbWrapper>
       </div>

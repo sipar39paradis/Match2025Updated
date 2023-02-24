@@ -34,8 +34,8 @@ export function DependentsForm(props: RespondentFormProps) {
     const dateList = [];
     formData?.dependents?.forEach((dependent) => {
       dateList.push({
-        startDate: dependent.birthDate,
-        endDate: dependent.birthDate,
+        startDate: dependent.birthDay,
+        endDate: dependent.birthDay,
       });
     });
     setBirthDayValue(dateList);
@@ -67,7 +67,7 @@ export function DependentsForm(props: RespondentFormProps) {
       append({
         firstName: '',
         lastName: '',
-        birthDate: null,
+        birthDay: null,
         socialSecurityNumber: null,
         relationship: null,
         livedWithTaxPayer: null,
@@ -197,7 +197,7 @@ export function DependentsForm(props: RespondentFormProps) {
                         value={birthDayValue[index]}
                         onChange={(newValue: DateRangeType) => {
                           setValue(
-                            `dependents.${index}.birthDate`,
+                            `dependents.${index}.birthDay`,
                             newValue.startDate
                           );
                           birthDayValue[index] = newValue;
@@ -254,9 +254,9 @@ export function DependentsForm(props: RespondentFormProps) {
                         </fieldset>
                       )}
                     />
-                    {formData?.dependents?.[index]?.birthDate &&
+                    {formData?.dependents?.[index]?.birthDay &&
                       new Date(
-                        formData?.dependents?.[index]?.birthDate
+                        formData?.dependents?.[index]?.birthDay
                       ).getFullYear() <
                         new Date('2008-01-01').getFullYear() && (
                         <>
@@ -524,7 +524,7 @@ export function DependentsForm(props: RespondentFormProps) {
                               append({
                                 firstName: '',
                                 lastName: '',
-                                birthDate: null,
+                                birthDay: null,
                                 socialSecurityNumber: null,
                                 relationship: null,
                                 livedWithTaxPayer: null,
@@ -562,7 +562,7 @@ export function DependentsForm(props: RespondentFormProps) {
               value="Précédant"
               onClick={() =>
                 setSearchParams({
-                  step: TaxDeclarationStep.CIVIL_STATUS_CHANGE,
+                  step: TaxDeclarationStep.CONTACT_DETAILS,
                 })
               }
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"

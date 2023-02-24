@@ -18,10 +18,9 @@ import {
 } from './types/Questionnaire/Questionnaire';
 import { useForm } from 'react-hook-form';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
-import { CivilStatus } from './types/Questionnaire/CivilStatus';
-import { ContactDetails } from './types/Questionnaire/ContactDetails';
 import { EmptyQuestionnaire } from './emptyQuestionnaire';
 import { OctopusLoader } from '../../../components/common/OctopusLoader';
+import Fade from 'react-reveal';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
@@ -87,8 +86,7 @@ export function QuestionnaireHandler() {
 
   async function addQuestionnaire(
     clientType = ClientTypeEnum.MAIN_CLIENT,
-    civilStatus?: CivilStatus,
-    contactDetails?: ContactDetails,
+    questionnaire = EmptyQuestionnaire,
     stepToRedirect = TaxDeclarationStep.PERSONAL_INFORMATIONS
   ) {
     const defaultValues = {
@@ -100,8 +98,8 @@ export function QuestionnaireHandler() {
         ...EmptyQuestionnaire?.personalInformations,
         email: user.email,
       },
-      civilStatus: civilStatus || null,
-      contactDetails: contactDetails || null,
+      civilStatus: questionnaire?.civilStatus || null,
+      contactDetails: questionnaire?.contactDetails || null,
     };
     await addDoc(
       collection(
@@ -277,13 +275,17 @@ export function QuestionnaireHandler() {
           ))}
       </div>
       {loadingQuestionnaires ? (
-        <div className="h-full pt-16">
-          <OctopusLoader />
-        </div>
+        <Fade>
+          <div className="h-full pt-16">
+            <OctopusLoader />
+          </div>
+        </Fade>
       ) : (
-        <div className="w-[800px] bg-white rounded-md p-8 h-fit">
-          {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}
-        </div>
+        <Fade>
+          <div className="w-[800px] bg-white rounded-md p-8 h-fit">
+            {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}
+          </div>
+        </Fade>
       )}
     </div>
   );

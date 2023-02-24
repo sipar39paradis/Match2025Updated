@@ -3,8 +3,8 @@ import { DateType } from 'react-tailwindcss-datepicker/dist/types'
 export interface Dependent {
   firstName: string
   lastName: string
-  birthDate: DateType
-  socialSecurityNumber: number
+  birthDay: DateType
+  socialSecurityNumber: string
   relationship: DependentRelatationShipEnum
   livedWithTaxPayer: boolean
   federalNetIncome: number

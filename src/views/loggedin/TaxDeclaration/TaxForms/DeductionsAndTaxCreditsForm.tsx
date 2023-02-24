@@ -12,6 +12,8 @@ import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 import { writeRequiredFiles } from '../../../../client/firebaseClient';
 import mapFiles from '../../../../utils/FileMapper';
 import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
+import { Dependent } from '../types/Questionnaire/Dependent';
+import { EmptyQuestionnaire } from '../emptyQuestionnaire';
 
 export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   const {
@@ -33,19 +35,35 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     if (
       formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
       formData?.civilStatus?.together &&
-      questionnaires.size === 1
+      !partnerQuestionnaireExist()
     ) {
       addQuestionnaire(
         ClientTypeEnum.PARTNER,
-        formData.civilStatus,
-        formData.contactDetails,
+        {
+          ...EmptyQuestionnaire,
+          civilStatus: formData.civilStatus,
+          contactDetails: formData.contactDetails,
+        },
         TaxDeclarationStep.PERSONAL_INFORMATIONS
       );
-    } else if (questionnaires.size < totalNumberOfQuestionnaires()) {
+    }
+    const dependent = findDependentWhoNeedsQuestionnaire();
+    if (dependent) {
       addQuestionnaire(
         ClientTypeEnum.DEPENDENT,
-        null,
-        formData.contactDetails,
+        {
+          ...EmptyQuestionnaire,
+          contactDetails: formData.contactDetails,
+          personalInformations: {
+            firstName: dependent.firstName,
+            lastName: dependent.lastName,
+            birthDay: dependent.birthDay,
+            socialSecurityNumber: dependent.socialSecurityNumber,
+            email: null,
+            bankruptcy: null,
+            disabled: null,
+          },
+        },
         TaxDeclarationStep.INCOMES
       );
     } else {
@@ -54,18 +72,49 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     }
   }
 
-  function totalNumberOfQuestionnaires() {
-    let total = questionnaires?.size;
-    questionnaires?.forEach((questionnaire) => {
-      console.log(questionnaire);
-      questionnaire?.dependents?.forEach((dependent) => {
-        if (dependent.hasTaxReport) {
-          total += 1;
+  function findDependentWhoNeedsQuestionnaire(): Dependent | null {
+    let foundDependent = null;
+    questionnaires.forEach((questionnaire) => {
+      questionnaire.dependents.forEach((dependent) => {
+        if (
+          dependent.hasTaxReport &&
+          !dependentQuestionnaireAlreadyExist(
+            dependent.firstName,
+            dependent.lastName,
+            dependent.birthDay.toString()
+          )
+        ) {
+          foundDependent = dependent;
         }
       });
     });
-    console.log(total);
-    return total;
+    return foundDependent;
+  }
+
+  function dependentQuestionnaireAlreadyExist(
+    firstName: string,
+    lastName: string,
+    birthDay: string
+  ) {
+    questionnaires.forEach((questionnaire) => {
+      if (
+        questionnaire.clientType === ClientTypeEnum.DEPENDENT &&
+        `${questionnaire.personalInformations.firstName}-${questionnaire.personalInformations.lastName}-${questionnaire.personalInformations.birthDay}` ===
+          `${firstName}-${lastName}-${birthDay}`
+      ) {
+        return true;
+      }
+    });
+    return false;
+  }
+
+  function partnerQuestionnaireExist() {
+    questionnaires.forEach((questionnaire) => {
+      if (questionnaire.clientType === ClientTypeEnum.PARTNER) {
+        return true;
+      }
+    });
+    return false;
   }
 
   return (
