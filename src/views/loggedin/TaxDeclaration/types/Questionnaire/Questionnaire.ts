@@ -13,7 +13,6 @@ export interface Questionnaire {
   personalInformations: PersonalInformations
   contactDetails: ContactDetails
   civilStatusChange?: CivilStatusChange
-  isDependent: boolean
   haveDependents: boolean
   parent?: string 
   dependents?: Dependent []

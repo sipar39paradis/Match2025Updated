@@ -13,9 +13,8 @@ import { QuestionnaireHandler } from './views/loggedin/TaxDeclaration/Questionna
 import { Preparator } from './views/loggedout/Preparator';
 import { ViewQuestionnaire } from './views/loggedin/boxes/Questionnaire';
 import { Declaration } from './views/loggedin/boxes/declaration';
-import { Progression } from './views/loggedin/boxes/progression';
+import { Foyer } from './views/loggedin/boxes/foyer';
 import { CustomerService } from './views/loggedin/boxes/CustomerService';
-import { Questionaire } from './views/loggedin/boxes/questionaire';
 import { CustomFooter } from './components/header/CustomFooter';
 import { UserConditions } from './views/loggedout/UserConditions';
 import { PrivacyPolicy } from './views/loggedout/PrivacyPolicy';
@@ -49,7 +48,7 @@ function App() {
                 element={<ViewQuestionnaire />}
               />
               <Route path="/declaration" element={<Declaration />} />
-              <Route path="/progression" element={<Progression />} />
+              <Route path="/foyer" element={<Foyer />} />
               <Route path="/customerService" element={<CustomerService />} />
               <Route path="/documents" element={<Files />} />
               <Route path="/userConditions" element={<UserConditions />} />

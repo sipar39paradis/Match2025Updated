@@ -17,7 +17,8 @@ import { addDoc, collection } from 'firebase/firestore';
 import { TaxDeclarationStep } from '../../views/loggedin/TaxDeclaration/types/TaxReport/TaxDeclarationStep';
 
 interface BoxBodyProps {
-  questionnaires: SnapshotQuestionnaire[];
+  questionnaires?: SnapshotQuestionnaire[];
+  noQuestionaire?: boolean
 }
 
 export interface Info {
@@ -26,7 +27,7 @@ export interface Info {
   questionnaire?: SnapshotQuestionnaire;
 }
 
-export function BoxBody({ questionnaires }: BoxBodyProps) {
+export function BoxBody({ questionnaires, noQuestionaire = false }: BoxBodyProps) {
   const navigate = useNavigate();
   const { user, firestore } = useContext(AppContext) as AppContextType;
   let mainClient: SnapshotQuestionnaire;
@@ -76,9 +77,13 @@ export function BoxBody({ questionnaires }: BoxBodyProps) {
   });
 
   const mainClientInfo: Info = {
-    firstName: mainClient.questionnaire.personalInformations.firstName,
-    lastName: mainClient.questionnaire.personalInformations.lastName,
-    questionnaire: mainClient,
+    firstName: mainClient
+    ? mainClient.questionnaire.personalInformations.firstName
+    : user?.displayName?.split(' ')[0],
+    lastName: mainClient
+    ? mainClient.questionnaire.personalInformations.lastName
+    : user?.displayName?.split(' ')[1],
+    questionnaire: mainClient ? mainClient : null,
   };
 
   if (!mainClientInfo.firstName && !mainClientInfo.lastName) {
@@ -120,14 +125,18 @@ export function BoxBody({ questionnaires }: BoxBodyProps) {
       <>
         <BoxRow
           respondent={mainClientInfo}
-          key={mainClient.questionnaire.personalInformations.firstName}
-          onClick={() => addQuestionnaire()}
+          key={mainClientInfo.firstName}
+          noQuestionaire={noQuestionaire}
+          last={dependants.length === 0}
+          onClick={() => mainClient ?  addQuestionnaire(): null}
         />
         
         {secondaryClients.map((respondent) => (
           <BoxRow
             respondent={respondent}
             key={respondent.firstName}
+            noQuestionaire={noQuestionaire}
+            last={dependants.length === 0}
             onClick={() =>
               navigate(`/platform/questionnaire/${respondent.questionnaire.id}`)
             }
@@ -136,6 +145,7 @@ export function BoxBody({ questionnaires }: BoxBodyProps) {
         {dependants.map((respondent, i) => (
           <BoxRow respondent={respondent} key={respondent.firstName} 
           onClick={() =>  navigate(`/platform/questionnaire/${respondent.questionnaire.id}`)}
+          noQuestionaire={noQuestionaire}
           last={dependants.length-1 === i}/>
         ))}
       </>

@@ -69,12 +69,9 @@ export function Profile() {
   }, []);
 
   const boxes = {
+    foyer: 'Mon Foyer',
     viewQuestionnaire: 'Mes Questionnaires',
-    questionaire: 'Questionaire',
-    declaration: 'Ma Declaration',
-    progression: 'Progression',
-    documents: 'Mes Documents',
-    customerService: 'Service Clientelle',
+    documents: 'Mes Documents'
   };
 
   const updateProfile = async (id: string, profile: UserProfile) => {

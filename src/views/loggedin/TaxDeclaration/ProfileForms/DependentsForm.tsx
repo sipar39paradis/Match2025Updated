@@ -34,8 +34,8 @@ export function DependentsForm(props: RespondentFormProps) {
     const dateList = [];
     formData?.dependents?.forEach((dependent) => {
       dateList.push({
-        startDate: dependent.birthDate,
-        endDate: dependent.birthDate,
+        startDate: dependent.birthDay,
+        endDate: dependent.birthDay,
       });
     });
     setBirthDayValue(dateList);
@@ -67,7 +67,7 @@ export function DependentsForm(props: RespondentFormProps) {
       append({
         firstName: '',
         lastName: '',
-        birthDate: null,
+        birthDay: null,
         socialSecurityNumber: null,
         relationship: null,
         livedWithTaxPayer: null,
@@ -143,7 +143,7 @@ export function DependentsForm(props: RespondentFormProps) {
           {formData.haveDependents &&
             fields.map((dependent: Dependent, index: number) => (
               <div className="w-full" key={index}>
-                <h2 className="mb-6">Formulaire dépendant</h2>
+                <h2 className="mb-6">Formulaire enfant</h2>
                 {formData?.haveDependents && (
                   <>
                     <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
@@ -197,7 +197,7 @@ export function DependentsForm(props: RespondentFormProps) {
                         value={birthDayValue[index]}
                         onChange={(newValue: DateRangeType) => {
                           setValue(
-                            `dependents.${index}.birthDate`,
+                            `dependents.${index}.birthDay`,
                             newValue.startDate
                           );
                           birthDayValue[index] = newValue;
@@ -254,9 +254,9 @@ export function DependentsForm(props: RespondentFormProps) {
                         </fieldset>
                       )}
                     />
-                    {formData?.dependents?.[index]?.birthDate &&
+                    {formData?.dependents?.[index]?.birthDay &&
                       new Date(
-                        formData?.dependents?.[index]?.birthDate
+                        formData?.dependents?.[index]?.birthDay
                       ).getFullYear() <
                         new Date('2008-01-01').getFullYear() && (
                         <>
@@ -518,13 +518,13 @@ export function DependentsForm(props: RespondentFormProps) {
                         <div className="w-full flex justify-between mt-4 flex-row-reverse">
                           <input
                             type="submit"
-                            value="Ajouter un dépendant"
+                            value="Ajouter un enfant"
                             className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
                             onClick={() =>
                               append({
                                 firstName: '',
                                 lastName: '',
-                                birthDate: null,
+                                birthDay: null,
                                 socialSecurityNumber: null,
                                 relationship: null,
                                 livedWithTaxPayer: null,
@@ -545,7 +545,7 @@ export function DependentsForm(props: RespondentFormProps) {
                                 remove(fields.length - 1);
                               }}
                             >
-                              Enlever un dépendent
+                              Enlever un enfant
                             </button>
                           )}
                         </div>
@@ -562,7 +562,7 @@ export function DependentsForm(props: RespondentFormProps) {
               value="Précédant"
               onClick={() =>
                 setSearchParams({
-                  step: TaxDeclarationStep.CIVIL_STATUS_CHANGE,
+                  step: TaxDeclarationStep.CONTACT_DETAILS,
                 })
               }
               className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
