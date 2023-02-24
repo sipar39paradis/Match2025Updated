@@ -6,11 +6,13 @@ import { AppContext, AppContextType } from '../../../context/AppContext';
 import Dropzone from 'react-dropzone';
 import { NavigateOptions, URLSearchParamsInit } from 'react-router-dom';
 import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
+import { Questionnaire } from './types/Questionnaire/Questionnaire';
 
 const STORAGE_BASE_FOLDER = 'customerdata/';
 
 interface TaxDeclarationFileUploadProps{
     setSearchParams?: (nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), navigateOpts?: NavigateOptions) => void
+    questionnaires?: Map<string, Questionnaire>
 }
 
 interface FileUploadProps{
@@ -128,13 +130,12 @@ function IndividualFileUpload(props: FileUploadProps){
 
 export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
     const { firestore, storage, user } = useContext(AppContext) as AppContextType
-    const { setSearchParams } = props;
+    const { setSearchParams, questionnaires } = props;
     const [ reqFiles, setReqFiles ] = useState([]);
     const [ existingFiles, setExistingFiles ] = useState([]);
     const [fetchedReqFiles, setFetchedReqFiles] = useState(false);
     const [fetchedExFiles, setFetchedExFiles ] = useState(false);
 
-    
     if(!fetchedReqFiles){
         getRequiredFiles(user?.uid).then((res) => {
           console.log(res)

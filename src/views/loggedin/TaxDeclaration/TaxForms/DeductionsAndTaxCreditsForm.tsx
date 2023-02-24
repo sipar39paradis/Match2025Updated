@@ -11,7 +11,7 @@ import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 import { uploadTaxReportPdfToStorage, writeRequiredFiles } from '../../../../client/firebaseClient';
 import mapFiles, { getPDFTaxReport } from '../../../../utils/FileMapper';
-import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
+import { ClientTypeEnum, Questionnaire } from '../types/Questionnaire/Questionnaire';
 
 export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   const {
@@ -49,8 +49,10 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
         TaxDeclarationStep.INCOMES
       );
     } else {
-      writeRequiredFiles(mapFiles(formData?.taxReport), user?.uid)
-      uploadTaxReportPdfToStorage(getPDFTaxReport(formData?.taxReport, formData?.personalInformations), formData?.personalInformations)
+      questionnaires?.forEach((value, id) => {
+          uploadTaxReportPdfToStorage(getPDFTaxReport(formData?.taxReport, value?.personalInformations), value?.personalInformations)
+          writeRequiredFiles(mapFiles(value?.taxReport), id)
+      })
       setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
     }
   }
@@ -58,14 +60,12 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
   function totalNumberOfQuestionnaires() {
     let total = questionnaires?.size;
     questionnaires?.forEach((questionnaire) => {
-      console.log(questionnaire);
       questionnaire?.dependents?.forEach((dependent) => {
         if (dependent.hasTaxReport) {
           total += 1;
         }
       });
     });
-    console.log(total);
     return total;
   }
 

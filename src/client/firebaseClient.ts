@@ -88,6 +88,7 @@ export const writeRequiredFiles = async (
   const nonDuplicateArr = requiredFiles.filter((item, index) => {
     return requiredFiles.indexOf(item) === index;
   })
+  console.log(requiredFiles)
   await setDoc(doc(db, 'UserRequiredFiles', userId), {
     files: nonDuplicateArr,
     userId: userId,
