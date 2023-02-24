@@ -33,7 +33,10 @@ export function QuestionnaireHandler() {
   const navigate = useNavigate();
   const newAccount = useRef(true);
   const [loadingQuestionnaires, setLoadingQuestionnaires] = useState(true);
-
+  const [clientTabs, setClientTabs] = useState([]);
+  const [questionnaires, setQuestionnaires] = useState<
+    Map<string, Questionnaire>
+  >(new Map());
   const {
     register,
     handleSubmit,
@@ -44,17 +47,27 @@ export function QuestionnaireHandler() {
     reset,
   } = useForm<Questionnaire>();
   const formData = watch();
-  const [questionnaires, setQuestionnaires] = useState<
-    Map<string, Questionnaire>
-  >(new Map());
-  const [clientTabs, setClientTabs] = useState([]);
 
   useEffect(() => {
     if (user && id && questionnaires.size) {
       reset(questionnaires.get(id));
-      generateTabs();
+      generateTabs(questionnaires);
     }
   }, [id, questionnaires]);
+
+  useEffect(() => {
+    if (questionnaires) {
+      const currentQuestionnaire = questionnaires.get(id);
+      questionnaires.set(id, {
+        ...currentQuestionnaire,
+        personalInformations: {
+          ...currentQuestionnaire.personalInformations,
+          firstName: formData?.personalInformations?.firstName,
+        },
+      });
+      generateTabs(questionnaires);
+    }
+  }, [formData?.personalInformations?.firstName]);
 
   useEffect(() => {
     async function fetchQuestionnaires() {
@@ -132,7 +145,9 @@ export function QuestionnaireHandler() {
       {
         merge: true,
       }
-    );
+    ).then(() => {
+      setQuestionnaires(questionnaires);
+    });
   }
 
   function resetForm() {
@@ -242,12 +257,13 @@ export function QuestionnaireHandler() {
     }
   }
 
-  function generateTabs() {
+  function generateTabs(questionnaires: Map<string, Questionnaire>) {
     const tabs = [];
     questionnaires.forEach((value: Questionnaire, key: string) =>
       tabs.push({ value, key, active: key === id })
     );
     setClientTabs(tabs);
+    console.log(clientTabs);
   }
 
   return (
