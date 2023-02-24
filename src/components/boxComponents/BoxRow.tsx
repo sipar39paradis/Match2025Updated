@@ -12,15 +12,23 @@ import man from '../../images/depositphotos_356807506-stock-illustration-anonymo
 interface BoxRowProps {
   respondent: Info;
   onClick?: any;
-  last?: boolean
+  last?: boolean;
+  noQuestionaire?: boolean;
 }
 
-export function BoxRow({ respondent, onClick, last = false }: BoxRowProps) {
+export function BoxRow({
+  respondent,
+  onClick,
+  last = false,
+  noQuestionaire = false,
+}: BoxRowProps) {
   const navigate = useNavigate();
 
+  const justify = noQuestionaire? 'justify-start' : 'justify-between'
+
   const className = !respondent.questionnaire
-    ? 'flex flex-row w-full justify-between items-center rounded-lg '
-    : 'flex flex-row w-full justify-between items-center rounded-lg cursor-pointer ';
+    ? `flex flex-row w-full ${justify} items-center rounded-lg `
+    : `flex flex-row w-full ${justify} items-center rounded-lg cursor-pointer `;
 
   return (
     <div className="w-full flex flex-col justify-center items-center p-1">
@@ -28,30 +36,32 @@ export function BoxRow({ respondent, onClick, last = false }: BoxRowProps) {
         className={className}
         onClick={respondent.questionnaire ? onClick : null}
       >
-
         <img src={man} className="w-20 h-20" alt="Logo" />
         <BoxElement
-          text={`Questionaire de: ${respondent.firstName} ${respondent.lastName}`}
+          text={`${!noQuestionaire?'Questionaire de: ':'' }${respondent.firstName} ${respondent.lastName}`}
         />
-        {!respondent.questionnaire ? (
-                    <div className="group max-w-[200px] text-center flex justify-center items-center">
-                    <div className="mx-auto flex h-[30px] w-[30px] items-center justify-center rounded-full border-orange-500 border-4 bg-orange-500 bg-opacity-5 text-orange-500 md:h-[45px] md:w-[45px]">
-                      <ClipboardDocument className="h-10"></ClipboardDocument>
-                      <div className="h-1 w-[30px] md:w-[45px] bg-orange-500 rounded-lg absolute -rotate-45"></div>
-                    </div>
-                    <div></div>
-                  </div>
-        ) : (
-          <div className="group max-w-[200px] text-center flex justify-center items-center">
-          <div className="mx-auto flex h-[30px] w-[30px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:h-[45px] md:w-[45px]">
-            <ClipboardDocument className="h-10"></ClipboardDocument>
-          </div>
-          <div></div>
-          </div> 
-        )}
+        {!noQuestionaire ? (
+          !respondent.questionnaire ? (
+            <div className="group justify-self-end max-w-[200px] text-center flex justify-center items-center">
+              <div className="mx-auto flex h-[30px] w-[30px] items-center justify-center rounded-full border-orange-500 border-4 bg-orange-500 bg-opacity-5 text-orange-500 md:h-[45px] md:w-[45px]">
+                <ClipboardDocument className="h-10"></ClipboardDocument>
+                <div className="h-1 w-[30px] md:w-[45px] bg-orange-500 rounded-lg absolute -rotate-45"></div>
+              </div>
+              <div></div>
+            </div>
+          ) : (
+            <div className="group max-w-[200px] text-center flex justify-center items-center">
+              <div className="mx-auto flex h-[30px] w-[30px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:h-[45px] md:w-[45px]">
+                <ClipboardDocument className="h-10"></ClipboardDocument>
+              </div>
+              <div></div>
+            </div>
+          )
+        ) : null}
       </div>
-      {last ? null : <div className="h-0.5 w-full bg-gray-300 rounded-lg"></div>}
-      
+      {last ? null : (
+        <div className="h-0.5 w-full bg-gray-300 rounded-lg"></div>
+      )}
     </div>
   );
 }
