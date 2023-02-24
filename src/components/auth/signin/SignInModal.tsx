@@ -94,6 +94,7 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
               console.log(verificationCode, 'verification code')
               console.log(resolver, 'resolver')
                 await verifyTwoFactor(promiseFromText, verificationCode, resolver)
+                console.log('out of login')
                 closeModal(false)
                 navigate('/profile');
               }

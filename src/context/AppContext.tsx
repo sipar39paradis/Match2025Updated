@@ -206,8 +206,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     verificationCode: string,
     resolver: MultiFactorResolver
   ) => {
-    promise
-      .then(function (verificationId) {
+    await promise.then(function (verificationId) {
+        console.log('in first')
         // Ask user for the SMS verification code. Then:
         console.log(verificationCode);
         const cred = PhoneAuthProvider.credential(
@@ -221,7 +221,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       .then(function (userCredential) {
         succsessfulSignIn(userCredential);
       });
-    await promise;
+    
   };
 
   const handleLogin = async (
