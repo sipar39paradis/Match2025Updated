@@ -31,12 +31,12 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
 
   function onSubmitButton() {
     saveFormAnswers();
-    resetForm();
     if (
       formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
       formData?.civilStatus?.together &&
       !partnerQuestionnaireExist()
     ) {
+      resetForm();
       addQuestionnaire(
         ClientTypeEnum.PARTNER,
         {
@@ -49,6 +49,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     }
     const dependent = findDependentWhoNeedsQuestionnaire();
     if (dependent) {
+      resetForm();
       addQuestionnaire(
         ClientTypeEnum.DEPENDENT,
         {

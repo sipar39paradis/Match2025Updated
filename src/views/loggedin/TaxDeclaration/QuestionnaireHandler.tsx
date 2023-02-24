@@ -61,7 +61,7 @@ export function QuestionnaireHandler() {
       questionnaires.set(id, {
         ...currentQuestionnaire,
         personalInformations: {
-          ...currentQuestionnaire.personalInformations,
+          ...currentQuestionnaire?.personalInformations,
           firstName: formData?.personalInformations?.firstName,
         },
       });
