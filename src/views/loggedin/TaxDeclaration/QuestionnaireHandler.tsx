@@ -263,7 +263,6 @@ export function QuestionnaireHandler() {
       tabs.push({ value, key, active: key === id })
     );
     setClientTabs(tabs);
-    console.log(clientTabs);
   }
 
   return (
