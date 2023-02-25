@@ -6,9 +6,7 @@ import { ReactComponent as DollarSign } from '../../icons/DollarSign.svg';
 import { ReactComponent as DocumentArrowDown } from '../../icons/DocumentArrowDown.svg';
 import { ReactComponent as HandRaised } from '../../icons/HandRaised.svg';
 import { ReactComponent as Calculator } from '../../icons/Calculator.svg';
-import { ReactComponent as ArrowRight } from '../../icons/ArrowRight.svg';
-import { ReactComponent as ArrowLeft } from '../../icons/ArrowLeft.svg';
-import { ReactComponent as ArrowDown } from '../../icons/ArrowDown.svg';
+import { ReactComponent as Arrow } from '../../icons/Arrow.svg';
 
 export function Features() {
   return (
@@ -23,7 +21,7 @@ export function Features() {
           </div>
         </Fade>
         <Fade bottom cascade>
-          <div className="-mx-4 flex flex-wrap justify-center  items-center">
+          <div className="-mx-4 flex flex-wrap justify-center items-center">
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto max-w-[380px] text-center md:">
                 <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
@@ -40,7 +38,7 @@ export function Features() {
                 </div>
               </div>
             </div>
-            <ArrowRight className="h-16 w-1/5"></ArrowRight>
+            <Arrow className="h-16 lg:w-1/5 transform !rotate-90 my-6 md:!transform-none"></Arrow>
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto  max-w-[380px] text-center md:">
                 <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
@@ -57,7 +55,7 @@ export function Features() {
                 </div>
               </div>
             </div>
-            <ArrowRight className="h-16 w-1/5"></ArrowRight>
+            <Arrow className="h-16 lg:w-1/5 transform !rotate-90 my-6 md:!transform-none"></Arrow>
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto  max-w-[380px] text-center md:">
                 <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
@@ -75,8 +73,8 @@ export function Features() {
               </div>
             </div>
           </div>
-          <div className="flex items-end justify-end my-8">
-            <ArrowDown className="h-16 w-1/5 pl-6"></ArrowDown>
+          <div className="flex items-center justify-center md:items-end md:justify-end lg:my-8">
+            <Arrow className="h-16 transform !rotate-90 my-6 lg:w-1/5"></Arrow>
           </div>
           <div className="-mx-4 flex flex-wrap justify-center items-center">
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
@@ -95,7 +93,7 @@ export function Features() {
                 </div>
               </div>
             </div>
-            <ArrowLeft className="h-16 w-1/5"></ArrowLeft>
+            <Arrow className="h-16 lg:w-1/5 transform !rotate-90 my-6 md:!rotate-180"></Arrow>
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto  max-w-[380px] text-center md:">
                 <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
@@ -112,7 +110,7 @@ export function Features() {
                 </div>
               </div>
             </div>
-            <ArrowLeft className="h-16 w-1/5"></ArrowLeft>
+            <Arrow className="h-16 lg:w-1/5 transform !rotate-90 my-6 md:!rotate-180"></Arrow>
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto max-w-[380px] text-center md:">
                 <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
