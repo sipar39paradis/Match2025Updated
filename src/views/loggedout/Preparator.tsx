@@ -11,36 +11,47 @@ export function Preparator() {
         <Fade left cascade>
           <ul className="space-y-1 list-disc dark:text-gray-400 mt-12">
             <li className="py-2">
-              <p>Faire son propre horaire</p>
+              <p className="font-semibold">Faire votre propre horaire</p>
             </li>
             <li className="py-2">
-              <p>
-                Avoir une Quantité de dossiers variable et selon vos capacités
+              <p className="font-semibold">
+                Avoir une quantité de dossiers variable et selon vos capacités
               </p>
             </li>
             <li className="py-2">
-              <p>Accès à Ifirm Taxprep inclus</p>
+              <p className="font-semibold">Accès à Ifirm Taxprep inclus</p>
             </li>
             <li>
-              <p>Des dossiers sont clés en main</p>
+              <p className="font-semibold">Les dossiers sont clés en main</p>
             </li>
             <li className="py-2">
-              <p>
+              <p className="font-semibold">
                 Notre équipe administrative s’occupe de : création des fiches
                 clients, signature des procurations, importation des feuillets
                 des gouvernements et révision des dossiers
               </p>
             </li>
             <li className="py-2">
-              <p>
+              <p className="font-semibold">
                 Il ne vous reste qu’à rentrer les données non importables et à
                 réviser l’importation
               </p>
             </li>
             <li className="py-2">
-              <p>
+              <p className="font-semibold">
                 Taux horaire variable en fonction de la productivité et
-                efficacité mais varie entre 60$ et 80$ de l’heure
+                efficacité mais peut varier entre 60$ et 80$ de l’heure
+              </p>
+            </li>
+            <li className="py-2">
+              <p className="font-semibold">
+                Cela vous intéresse? Entrez en contact avec{' '}
+                <a
+                  className="hover:cursor-pointer text-orange-500"
+                  href="/#support"
+                >
+                  nous
+                </a>
               </p>
             </li>
           </ul>

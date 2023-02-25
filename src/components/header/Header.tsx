@@ -4,7 +4,6 @@ import { AppContext, AppContextType } from '../../context/AppContext';
 import { AuthModal, AuthModalEnum } from '../auth/AuthModal';
 import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
-import { useNavigate } from 'react-router-dom';
 import { Button, Navbar } from 'flowbite-react';
 import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
 
@@ -14,12 +13,9 @@ interface HeaderItemProps {
 }
 
 function HeaderItem(props: HeaderItemProps) {
-  const navigate = useNavigate();
   return (
     <a
-      onClick={() => {
-        navigate(props.toLink);
-      }}
+      href={props.toLink}
       className="sm:text-xs lg:text-base menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white hover:cursor-pointer"
     >
       {props.text}
@@ -102,9 +98,9 @@ export function Header() {
         <Navbar.Collapse>
           <>
             <HeaderItem text="Accueil" toLink="/#home" />
-            <HeaderItem text="Services" toLink="/#features" />
+            <HeaderItem text="Fonctionnement" toLink="/#features" />
             <HeaderItem text="Avantages" toLink="/#advantages" />
-            <HeaderItem text="À propos" toLink="/#about" />
+            <HeaderItem text="À propos" toLink="#about" />
             <HeaderItem text="Préparateur" toLink="/preparator" />
             <HeaderItem text={'Nous joindre'} toLink="/#support" />
             {user ? <HeaderItem text={'Mon Compte'} toLink="/profile" /> : null}

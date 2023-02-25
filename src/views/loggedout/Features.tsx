@@ -32,8 +32,8 @@ export function Features() {
                     Créer votre compte
                   </h3>
                   <p className="text-base text-dark-text">
-                    Aller via l’option s’inscrire pour créer votre compte
-                    d’impôts
+                    Aller via l’option ‘’s’inscrire’’ pour créer votre compte
+                    Impôts Match
                   </p>
                 </div>
               </div>
@@ -121,9 +121,9 @@ export function Features() {
                     Déposer les documents
                   </h3>
                   <p className="text-base text-dark-text">
-                    En fonction de votre dossier, vous pourrez déposer les
-                    documents nécessaires afin qu’on puisse préparer votre
-                    dossier
+                    Déposer vos documents ; En fonction de votre dossier, vous
+                    pourrez déposer vos documents qui nous seront nécessaires
+                    afin que l’on puisse préparer votre dossier
                   </p>
                 </div>
               </div>

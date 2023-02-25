@@ -12,7 +12,7 @@ export function About() {
           {/* <!-- Section Title --> */}
           <div className="relative mx-auto mb-12 pt-6 text-center lg:mb-20 lg:pt-16">
             <h2 className="mx-auto mb-5 max-w-[570px] font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]">
-              A propos de nous
+              À propos de nous
             </h2>
           </div>
 
