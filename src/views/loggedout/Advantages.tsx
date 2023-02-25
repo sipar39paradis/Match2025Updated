@@ -15,7 +15,7 @@ export function Advantages() {
       <Fade left big cascade>
         <div className="px-4 xl:container m-auto">
           <div className="relative mx-auto mb-12 pt-6 text-center lg:mb-20 lg:pt-16">
-            <h2 className="mx-auto mb-5 font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]">
+            <h2 className="mx-auto mb-5 font-heading text-3xl font-semibold sm:text-4xl md:text-[50px] md:leading-[60px]">
               Avantages Impôts match
             </h2>
           </div>

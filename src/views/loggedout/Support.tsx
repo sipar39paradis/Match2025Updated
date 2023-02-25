@@ -31,7 +31,7 @@ export function Support() {
           <div className="-mx-4 flex flex-wrap justify-center">
             <div className="w-full px-4 xl:w-10/12">
               <div className="flex flex-wrap items-center border-b pb-14 dark:border-[#2E333D] lg:pb-0">
-                <div className="w-full px-4 lg:w-1/2">
+                <div className="w-full px-4 mx-auto">
                   {/* <!-- Section Title --> */}
                   <div className="relative mb-12 max-w-[500px] pt-6 md:mb-14 lg:pt-16">
                     <span className="title !left-0 !translate-x-0">

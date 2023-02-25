@@ -21,7 +21,7 @@ export function Features() {
           </div>
         </Fade>
         <Fade bottom cascade>
-          <div className="-mx-4 flex flex-wrap justify-center items-center">
+          <div className="-mx-4 flex flex-wrap md:flex-nowrap lg:flex-wrap justify-center items-center">
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto max-w-[380px] text-center md:">
                 <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
@@ -76,7 +76,7 @@ export function Features() {
           <div className="flex items-center justify-center md:items-end md:justify-end lg:my-8">
             <Arrow className="h-16 transform !rotate-90 my-6 lg:w-1/5"></Arrow>
           </div>
-          <div className="-mx-4 flex flex-wrap justify-center items-center">
+          <div className="-mx-4 flex flex-wrap md:flex-nowrap lg:flex-wrap justify-center items-center">
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto  max-w-[380px] text-center md:">
                 <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
