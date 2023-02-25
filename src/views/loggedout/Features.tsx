@@ -74,7 +74,7 @@ export function Features() {
             </div>
           </div>
           <div className="flex items-center justify-center md:items-end md:justify-end lg:my-8">
-            <Arrow className="h-16 transform !rotate-90 my-6 lg:w-1/5"></Arrow>
+            <Arrow className="h-16 md:h-[48px] transform !rotate-90 my-6 lg:w-1/5 md:mr-[84px] lg:mr-0 lg:h-16"></Arrow>
           </div>
           <div className="-mx-4 flex flex-wrap md:flex-nowrap lg:flex-wrap justify-center items-center">
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
