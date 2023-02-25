@@ -1,18 +1,20 @@
+import { Button } from 'flowbite-react';
 import React from 'react';
+import { HiOutlineArrowRight } from 'react-icons/hi';
 import Fade from 'react-reveal';
 
 export function Home() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden pb-24 sm:pt-36 lg:pt-[170px] lg:pb-[240px]"
+      className="relative overflow-hidden pb-24 lg:pt-16 lg:pb-[240px]"
     >
       <div className="px-4 xl:container m-auto">
         <div className="-mx-4 flex flex-wrap items-center">
           <div className="w-full px-3 lg:w-1/2">
             <Fade bottom cascade>
               <div className="mx-auto mb-12 max-w-[530px] text-center lg:ml-0 lg:mb-0 lg:text-left">
-                <span className="mb-8 inline-block rounded-full bg-orange-500 bg-opacity-5 py-[10px] px-5 font-heading text-base text-orange-500 dark:bg-white dark:bg-opacity-10 dark:text-white">
+                <span className="mb-8 hidden lg:inline-block rounded-full bg-orange-500 bg-opacity-5 py-[10px] px-5 font-heading text-base text-orange-500 dark:bg-white dark:bg-opacity-10 dark:text-white">
                   <span className="mr-2 inline-block h-2 w-2 rounded-full bg-orange-500"></span>
                   La solution comptable en ligne
                 </span>
@@ -24,32 +26,16 @@ export function Home() {
                     data-words='["Startup", "SaaS", "Business", "Agency"]'
                   ></span>
                 </h1>
-                <p className="mb-12 text-base text-dark-text">
+                <p className="mb-12 text-base text-dark-text text-left px-8 md:px-0">
                   Impôts Match vous permet de trouver un préparateur d’impôts et
                   de lui donner la préparation de vos déclarations de revenus.
                   Le tout dans le confort de votre domicile.
                 </p>
-                <div className="flex flex-wrap items-center justify-center lg:justify-start">
-                  <a
-                    href="#features"
-                    className="inline-flex items-center rounded bg-orange-500 py-[10px] px-6 font-heading text-base text-white hover:bg-opacity-90 md:py-[14px] md:px-8"
-                  >
-                    Comment ça marche
-                    <span className="pl-3">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M12.172 7L6.808 1.636L8.222 0.222L16 8L8.222 15.778L6.808 14.364L12.172 9H0V7H12.172Z"
-                          fill="white"
-                        />
-                      </svg>
-                    </span>
-                  </a>
+                <div className="flex items-center justify-center lg:justify-start">
+                  <Button href="#features" className="!bg-orange-500">
+                    <span>Comment ça marche</span>
+                    <HiOutlineArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
                   <a
                     href="#about"
                     className="inline-flex items-center rounded py-[14px] px-8 font-heading text-base text-dark hover:text-orange-500 dark:text-white dark:hover:text-orange-500"
