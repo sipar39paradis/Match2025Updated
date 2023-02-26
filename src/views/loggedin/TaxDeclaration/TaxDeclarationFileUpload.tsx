@@ -1,16 +1,18 @@
 import { Firestore } from 'firebase/firestore';
 import { FirebaseStorage, ref, uploadBytes } from 'firebase/storage';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { appendExistingFiles, getExistingFiles, getRequiredFiles, removeExistingfile, removeRequiredfile, writeRequiredFiles } from '../../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import Dropzone from 'react-dropzone';
-import { NavigateOptions, URLSearchParamsInit } from 'react-router-dom';
+import { NavigateOptions, URLSearchParamsInit, useParams } from 'react-router-dom';
 import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
+import { Questionnaire } from './types/Questionnaire/Questionnaire';
 
 const STORAGE_BASE_FOLDER = 'customerdata/';
 
 interface TaxDeclarationFileUploadProps{
     setSearchParams?: (nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), navigateOpts?: NavigateOptions) => void
+    questionnaires?: Map<string, Questionnaire>
 }
 
 interface FileUploadProps{
@@ -128,34 +130,34 @@ function IndividualFileUpload(props: FileUploadProps){
 
 export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
     const { firestore, storage, user } = useContext(AppContext) as AppContextType
-    const { setSearchParams } = props;
+    const { setSearchParams, questionnaires } = props;
     const [ reqFiles, setReqFiles ] = useState([]);
     const [ existingFiles, setExistingFiles ] = useState([]);
     const [fetchedReqFiles, setFetchedReqFiles] = useState(false);
     const [fetchedExFiles, setFetchedExFiles ] = useState(false);
+    const { id } = useParams();
 
-    
-    if(!fetchedReqFiles){
-        getRequiredFiles(user?.uid).then((res) => {
-          console.log(res)
-            setReqFiles(res?.files);
-            setFetchedReqFiles(true);
-        }).catch((err) => console.log(err))
-    }
-
-    if(!fetchedExFiles){
-        getExistingFiles(user?.uid).then((res) => {
-            setExistingFiles(res?.files);
-            setFetchedExFiles(true);
-        })
-    }
+    useEffect(() => {
+        console.log()
+        if (user && id && questionnaires?.size) {
+                getRequiredFiles(id).then((res) => {
+                    setReqFiles(res?.files);
+                    setFetchedReqFiles(true);
+                }).catch((err) => console.log(err))
+        
+                getExistingFiles(id).then((res) => {
+                    setExistingFiles(res?.files);
+                    setFetchedExFiles(true);
+                })
+        }
+      }, [id, questionnaires]);
 
     return <>
         {
             reqFiles?.map(item => 
             <IndividualFileUpload 
                 requiredFiles={reqFiles} 
-                userId={user?.uid} 
+                userId={id} 
                 userEmail={user?.email} 
                 fileName={item} 
                 firestore={firestore} 
@@ -167,11 +169,11 @@ export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
         {
             existingFiles?.map(item => 
                 <ExistingFileNameComponent 
-                key={item + user?.uid} 
+                key={item + id} 
                 fileName={item} 
                 requiredFiles={reqFiles} 
                 setReqFiles={setReqFiles} 
-                userId={user?.uid}
+                userId={id}
                 userEmail={user?.email}
                 />
                 )
@@ -193,7 +195,6 @@ export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
                 if(reqFiles && reqFiles?.length == 0){
                     setSearchParams( {step: TaxDeclarationStep.REVIEW})
                 }else{
-                    console.log(reqFiles)
                     alert('Assurez-vous de télécharger tous les fichiers requis.')
                 }
               }}

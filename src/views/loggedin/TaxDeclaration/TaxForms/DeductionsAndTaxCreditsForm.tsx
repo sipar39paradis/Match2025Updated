@@ -9,8 +9,8 @@ import { OtherDeductionsForm } from './OtherDeductionsForm';
 import { SoldMainHomeForm } from './SoldMainHome';
 import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
-import { writeRequiredFiles } from '../../../../client/firebaseClient';
-import mapFiles from '../../../../utils/FileMapper';
+import { uploadTaxReportPdfToStorage, writeRequiredFiles } from '../../../../client/firebaseClient';
+import mapFiles, { getPDFTaxReport } from '../../../../utils/FileMapper';
 import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
 import { Dependent } from '../types/Questionnaire/Dependent';
 import { EmptyQuestionnaire } from '../emptyQuestionnaire';
@@ -68,7 +68,10 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
         TaxDeclarationStep.INCOMES
       );
     } else {
-      writeRequiredFiles(mapFiles(formData?.taxReport), user?.uid);
+      questionnaires?.forEach((value, id) => {
+          uploadTaxReportPdfToStorage(getPDFTaxReport(formData?.taxReport, value?.personalInformations), value?.personalInformations)
+          writeRequiredFiles(mapFiles(value?.taxReport), id)
+      })
       setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
     }
   }

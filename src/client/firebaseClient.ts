@@ -16,6 +16,7 @@ import {
 } from 'firebase/storage';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
+import { PersonalInformations } from '../views/loggedin/TaxDeclaration/types/Questionnaire/PersonnalInformations';
 import { Questionnaire } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 
 const firebaseConfig = {
@@ -87,6 +88,7 @@ export const writeRequiredFiles = async (
   const nonDuplicateArr = requiredFiles.filter((item, index) => {
     return requiredFiles.indexOf(item) === index;
   })
+  console.log(requiredFiles)
   await setDoc(doc(db, 'UserRequiredFiles', userId), {
     files: nonDuplicateArr,
     userId: userId,
@@ -203,17 +205,17 @@ export const getAllUserProfiles = async (): Promise<Array<UserProfile>> => {
 
 export const uploadTaxReportPdfToStorage = async (
   bytes: ArrayBuffer,
-  userEmail: string
+  personalInformations: PersonalInformations  
 ): Promise<void> => {
-  return uploadFileToStorage('taxReport.pdf', bytes, userEmail);
+  return uploadFileToStorage('taxReport.pdf', bytes, personalInformations);
 }
 
 export const uploadFileToStorage = async (
   fileName: string,
   bytes: ArrayBuffer,
-  userEmail: string
+  personalInformations: PersonalInformations
 ): Promise<void> => {
-  const fileNameAndPath = STORAGE_BASE_FOLDER + userEmail + '/' + fileName;
+  const fileNameAndPath = STORAGE_BASE_FOLDER + personalInformations?.email + '/' + personalInformations?.firstName + '_' + personalInformations?.lastName + '/' + fileName;
   const fileRef = ref(storage, fileNameAndPath)
   uploadBytes(fileRef, bytes).then((snapsot) => {
     console.log('Successfully generated taxReport.')

@@ -23,7 +23,6 @@ function generatePDFContent(
         addToDoc(doc, innerArray[0], fromVal(innerArray[1]), currentIndex)
       });
     }
-    doc.addPage();
   }
 
 const fileMapping = {
@@ -215,9 +214,9 @@ export default function mapFiles(taxReport: TaxReport): Array<string>{
     return filesArr;
 }
 
-export function getCsvMapFromTaxReport(taxReport: TaxReport,
+export function getPDFTaxReport(taxReport: TaxReport,
      personalInformation: PersonalInformations){
-    
+    console.log(personalInformation?.email)
     const doc = new jsPDF();
     doc.setFontSize(25);
     doc.text(`Rapport d'impots pour ${personalInformation?.firstName} ${personalInformation?.lastName}`, 10, 10)

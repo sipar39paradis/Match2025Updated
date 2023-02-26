@@ -242,7 +242,7 @@ export function QuestionnaireHandler() {
           ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
-        return <TaxDeclarationFileUpload setSearchParams={setSearchParams} />;
+        return <TaxDeclarationFileUpload setSearchParams={setSearchParams} questionnaires={questionnaires} />;
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:
@@ -263,7 +263,6 @@ export function QuestionnaireHandler() {
       tabs.push({ value, key, active: key === id })
     );
     setClientTabs(tabs);
-    console.log(clientTabs);
   }
 
   return (
