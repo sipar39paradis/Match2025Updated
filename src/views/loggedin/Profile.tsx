@@ -81,9 +81,9 @@ export function Profile() {
   }
 
   const iconMap = {
-    foyer: <UserCircle className="h-20"></UserCircle>,
-    questionnaire: <ClipboardDocument className="h-20"></ClipboardDocument>,
-    documents: <DocumentArrowDown className="h-20"></DocumentArrowDown>
+    foyer: <UserCircle className="h-24"></UserCircle>,
+    questionnaire: <ClipboardDocument className="h-24"></ClipboardDocument>,
+    documents: <DocumentArrowDown className="h-24"></DocumentArrowDown>
   }
 
   const groupsKeys = ['foyer', 'questionnaire', 'files']
