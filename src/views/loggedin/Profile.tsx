@@ -9,6 +9,9 @@ import {
 } from '../../client/firebaseClient';
 import { CustomCard } from '../../components/common/CustomCard';
 import { UserProfile } from '../../interfaces/User';
+import { ReactComponent as UserCircle } from '../../icons/UserCircle.svg';
+import { ReactComponent as ClipboardDocument } from '../../icons/ClipboardDocument.svg';
+import { ReactComponent as DocumentArrowDown } from '../../icons/DocumentArrowDown.svg';
 
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -68,6 +71,44 @@ export function Profile() {
     documents: 'Mes Documents',
   };
 
+
+
+  interface GroupInfo{
+    header: string
+    text: string
+    endpoint: string,
+    icon: string
+  }
+
+  const iconMap = {
+    foyer: <UserCircle className="h-20"></UserCircle>,
+    questionnaire: <ClipboardDocument className="h-20"></ClipboardDocument>,
+    documents: <DocumentArrowDown className="h-20"></DocumentArrowDown>
+  }
+
+  const groupsKeys = ['foyer', 'questionnaire', 'files']
+
+  const groups: Record<string, GroupInfo> = {
+    'foyer': {
+      header: 'Créer votre compte',
+      text: 'Aller via l\’option \‘\’s\’inscrire\’\’ pour créer votre compte \nImpôts Match',
+      endpoint: 'foyer',
+      icon: 'foyer'
+    },
+    'questionnaire': {
+      header: 'Mes Questionnaires',
+      text: 'Consulter mes questionnaires',
+      endpoint: 'viewQuestionnaire',
+      icon: 'questionnaire'
+    },
+    'files' : {
+      header: 'Mes Documents',
+      text: 'Révision des documents',
+      endpoint: 'documents',
+      icon: 'documents'
+    }
+  }
+
   const updateProfile = async (id: string, profile: UserProfile) => {
     await upsertUserProfile(id, profile);
     initializeProfile(profile);
@@ -89,6 +130,29 @@ export function Profile() {
       </div>
     );
   };
+
+  const makeLink = (header: string, text: string, endpoint: string, icon: string) => {
+    return (
+      <div className="w-[380px] px-12"
+      onClick={() => navigate(`/${endpoint}`)}>
+      <div className="group mx-auto w-[380px] text-center px-12">
+        <div className="mx-auto mb-6 flex h-[150px] w-[150px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100]">
+          {/* <UserCircle className="h-16"></UserCircle> */}
+          {iconMap[icon]}
+          
+        </div>
+        <div>
+          <h3 className="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5">
+            {header}
+          </h3>
+          <p className="text-base text-dark-text">
+            {text}
+          </p>
+        </div>
+      </div>
+    </div>
+    )
+  }
 
   return (
     <main>
@@ -145,12 +209,35 @@ export function Profile() {
                   </Alert>
                 </a>
               ) : null}
-
-              <div className="flex flex-wrap max-w-[700px] justify-center">
-                {Object.entries(boxes).map((entry) => {
+{/* max-w-[700px] */}
+              <div className="flex flex-wrap justify-center max-w-[1140px]">
+              {/* <div className="w-full px-4 md:w-1/2 lg:w-1/5">
+              <div className="group mx-auto max-w-[380px] text-center md:">
+                <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
+                  <UserCircle className="h-16"></UserCircle>
+                </div>
+                <div>
+                  <h3 className="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5">
+                    Créer votre compte
+                  </h3>
+                  <p className="text-base text-dark-text">
+                    Aller via l’option ‘’s’inscrire’’ pour créer votre compte
+                    Impôts Match
+                  </p>
+                </div>
+              </div>
+            </div> */}
+            <>
+                {groupsKeys.map((groupKey) => {
+                  const group = groups[groupKey]
+                  return makeLink(group.header, group.text, group.endpoint, group.icon)
+                })}
+                </>
+                {/* {makeLink('Créer votre compte', 'Aller via l\’option \‘\’s\’inscrire\’\’ pour créer votre compte \nImpôts Match', 'foyer', 'userCircle' )} */}
+                {/* {Object.entries(boxes).map((entry) => {
                   console.log('hi', 'test');
                   return box(entry[0], entry[1]);
-                })}
+                })} */}
               </div>
             </div>
           </div>
