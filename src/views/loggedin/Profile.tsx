@@ -65,12 +65,6 @@ export function Profile() {
     });
   }, []);
 
-  const boxes = {
-    foyer: 'Mon Foyer',
-    viewQuestionnaire: 'Mes Questionnaires',
-    documents: 'Mes Documents',
-  };
-
 
 
   interface GroupInfo{
@@ -90,20 +84,20 @@ export function Profile() {
 
   const groups: Record<string, GroupInfo> = {
     'foyer': {
-      header: 'Créer votre compte',
-      text: 'Aller via l\’option \‘\’s\’inscrire\’\’ pour créer votre compte \nImpôts Match',
+      header: 'Mon Foyer',
+      text: 'Vous trouverez ici le portrait de votre foyer',
       endpoint: 'foyer',
       icon: 'foyer'
     },
     'questionnaire': {
       header: 'Mes Questionnaires',
-      text: 'Consulter mes questionnaires',
+      text: 'Vous pouvez consulter ici vos questionnaires terminés ou en cours',
       endpoint: 'viewQuestionnaire',
       icon: 'questionnaire'
     },
     'files' : {
       header: 'Mes Documents',
-      text: 'Révision des documents',
+      text: ' Vous pouvez déposer les documents nécéssaire à la préparation de votre déclaration ici',
       endpoint: 'documents',
       icon: 'documents'
     }

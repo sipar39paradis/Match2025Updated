@@ -6,6 +6,8 @@ import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
 import { Button, Navbar } from 'flowbite-react';
 import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
+import { useNavigate } from 'react-router-dom';
+
 
 interface HeaderItemProps {
   text: string;
@@ -24,6 +26,7 @@ function HeaderItem(props: HeaderItemProps) {
 }
 
 export function Header() {
+  const navigate = useNavigate();
   const { user } = useContext(AppContext) as AppContextType;
 
   const [showModal, setShowModal] = React.useState(false);
@@ -103,7 +106,15 @@ export function Header() {
             <HeaderItem text="À propos" toLink="#about" />
             <HeaderItem text="Préparateur" toLink="/preparator" />
             <HeaderItem text={'Nous joindre'} toLink="/#support" />
-            {user ? <HeaderItem text={'Mon Compte'} toLink="/profile" /> : null}
+            {user ? (
+                  <a
+                  
+                  className="sm:text-xs lg:text-base menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white hover:cursor-pointer"
+                  onClick={() => navigate('/profile')}
+                >
+                  Mon Compte
+                </a>
+            ) : null}
           </>
         </Navbar.Collapse>
       </Navbar>

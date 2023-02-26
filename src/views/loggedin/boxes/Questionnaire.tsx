@@ -11,14 +11,14 @@ import { BoxBody } from '../../../components/boxComponents/BoxBody';
 
 export function ViewQuestionnaire() {
   const navigate = useNavigate();
-  const { addQuestionnaire } = useContext(AppContext) as AppContextType;
+  const { user, addQuestionnaire } = useContext(AppContext) as AppContextType;
   const [noQuestionaire, setNoQuestionaire] = useState(true);
   const [questionnaires, setQuestionnaires] =
     useState<SnapshotQuestionnaire[]>(null);
 
   useEffect(() => {
     ('BR5shBSMwPSxBTd91Ly5zjjhfiH2');
-    getAllQuestionnaires('BR5shBSMwPSxBTd91Ly5zjjhfiH2').then((res) => {
+    getAllQuestionnaires(user.uid).then((res) => {
       console.log(res, 'res');
       if (res.length !== 0) {
         setNoQuestionaire(false);
