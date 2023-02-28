@@ -9,7 +9,6 @@ import { Messages } from './views/loggedin/Messages';
 import { Files } from './views/loggedin/Files';
 import { AppContextProvider } from './context/AppContext';
 import { Platform } from './views/loggedin/Platform';
-import { QuestionnaireHandler } from './views/loggedin/TaxDeclaration/QuestionnaireHandler';
 import { Preparator } from './views/loggedout/Preparator';
 import { ViewQuestionnaire } from './views/loggedin/boxes/Questionnaire';
 import { Declaration } from './views/loggedin/boxes/declaration';
@@ -19,6 +18,7 @@ import { UserConditions } from './views/loggedout/UserConditions';
 import { PrivacyPolicy } from './views/loggedout/PrivacyPolicy';
 import { NotFound } from './views/NotFound';
 import { Foyer } from './views/loggedin/boxes/foyer';
+import { QuestionnaireWrapper } from './views/loggedin/TaxDeclaration/QuestionnaireWrapper';
 
 function App() {
   return (
@@ -36,7 +36,7 @@ function App() {
               <Route path="/platform" element={<Platform />} />
               <Route
                 path="/platform/questionnaire/:id"
-                element={<QuestionnaireHandler />}
+                element={<QuestionnaireWrapper />}
               />{' '}
               <Route path="/preparator" element={<Preparator />} />
               <Route

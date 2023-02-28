@@ -1,14 +1,17 @@
 import { Select } from 'flowbite-react/lib/esm/components/FormControls';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function CivilStatusChangeForm(props: RespondentFormProps) {
+export function CivilStatusChangeForm() {
   const {
     register,
     handleSubmit,
@@ -16,7 +19,7 @@ export function CivilStatusChangeForm(props: RespondentFormProps) {
     formData,
     control,
     setSearchParams,
-  } = props;
+  } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
   useEffect(() => {
     window.scroll({

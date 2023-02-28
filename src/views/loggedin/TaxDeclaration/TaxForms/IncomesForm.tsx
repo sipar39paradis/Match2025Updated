@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 import { WorkIncomesForm } from './WorkIncomesForm';
@@ -8,17 +8,15 @@ import { SelfEmploymentRentalOtherIncomeForm } from './SelfEmploymentRentalOther
 import { StudentLastYearForm } from './StudentLastYearForm';
 import { TaxDeductionsForm } from './TaxDeductionsForm';
 import { ForeignAssetsForm } from './ForeignAssetsForm';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function IncomesForm(props: RespondentFormProps) {
-  const {
-    register,
-    handleSubmit,
-    saveFormAnswers,
-    formData,
-    control,
-    setSearchParams,
-  } = props;
+export function IncomesForm() {
+  const { handleSubmit, saveFormAnswers, setSearchParams } = useContext(
+    QuestionnaireContext
+  ) as QuestionnaireContextType;
 
   function onSubmitButton() {
     saveFormAnswers();
@@ -33,41 +31,13 @@ export function IncomesForm(props: RespondentFormProps) {
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start mt-4 w-full"
         >
-          <WorkIncomesForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <RetirementIncomesForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <InvestmentIncomeForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <SelfEmploymentRentalOtherIncomeForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <StudentLastYearForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <TaxDeductionsForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <ForeignAssetsForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
+          <WorkIncomesForm />
+          <RetirementIncomesForm />
+          <InvestmentIncomeForm />
+          <SelfEmploymentRentalOtherIncomeForm />
+          <StudentLastYearForm />
+          <TaxDeductionsForm />
+          <ForeignAssetsForm />
 
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
           <div className="w-full flex justify-between mt-4">

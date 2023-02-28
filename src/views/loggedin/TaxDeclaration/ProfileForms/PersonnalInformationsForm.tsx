@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
 import Fade from 'react-reveal';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { Controller } from 'react-hook-form';
 import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function PersonnalInformationsForm(props: RespondentFormProps) {
+export function PersonnalInformationsForm() {
   const {
-    register,
-    handleSubmit,
-    saveFormAnswers,
-    setValue,
     formData,
+    setValue,
+    saveFormAnswers,
     setSearchParams,
+    handleSubmit,
+    register,
     control,
-  } = props;
+  } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
   const [birthDayValue, setBirthDayValue] = useState({
     startDate: null,
@@ -32,6 +35,7 @@ export function PersonnalInformationsForm(props: RespondentFormProps) {
   }, [formData]);
 
   const handleBirthDayValueChange = (newValue: DateRangeType) => {
+    console.log(setValue);
     setValue('personalInformations.birthDay', newValue?.startDate);
     setBirthDayValue(newValue);
   };

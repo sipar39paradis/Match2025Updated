@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function ForeignAssetsForm(props: RespondentFormProps) {
-  const { control, formData } = props;
+export function ForeignAssetsForm() {
+  const { control, formData } = useContext(
+    QuestionnaireContext
+  ) as QuestionnaireContextType;
 
   return (
     <>

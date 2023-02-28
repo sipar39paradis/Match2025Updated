@@ -1,18 +1,21 @@
 import { Checkbox, Select } from 'flowbite-react';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Controller, useFieldArray } from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import {
   Dependent,
   DependentRelatationShipEnum,
 } from '../types/Questionnaire/Dependent';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function DependentsForm(props: RespondentFormProps) {
+export function DependentsForm() {
   const {
     register,
     handleSubmit,
@@ -22,7 +25,8 @@ export function DependentsForm(props: RespondentFormProps) {
     formData,
     setValue,
     questionnaires,
-  } = props;
+  } = useContext(QuestionnaireContext) as QuestionnaireContextType;
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'dependents',

@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function BoughtHomeForm(props: RespondentFormProps) {
-  const { control, formData } = props;
+export function BoughtHomeForm() {
+  const { control, formData } = useContext(
+    QuestionnaireContext
+  ) as QuestionnaireContextType;
 
   return (
     <>

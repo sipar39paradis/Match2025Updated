@@ -9,255 +9,32 @@ import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import { DependentsForm } from './ProfileForms/DependentsForm';
 import { IncomesForm } from './TaxForms/IncomesForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
-import { AppContext, AppContextType } from '../../../context/AppContext';
-import { doc, setDoc, addDoc, collection, getDocs } from 'firebase/firestore';
-import {
-  ClientTypeEnum,
-  Questionnaire,
-  QuestionnaireStateEnum,
-} from './types/Questionnaire/Questionnaire';
-import { useForm } from 'react-hook-form';
+import { Questionnaire } from './types/Questionnaire/Questionnaire';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
-import { EmptyQuestionnaire } from './emptyQuestionnaire';
 import { OctopusLoader } from '../../../components/common/OctopusLoader';
 import Fade from 'react-reveal';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from './context/QuestionnaireContext';
 
 export const TAX_DECLARATION_STEP = 'step';
-const TAX_REPORT_COLLECTION = 'taxReport';
-const QUESTIONNAIRE_SUB_COLLECTTION = 'questionnaires';
 
 export function QuestionnaireHandler() {
-  const { firestore, user } = useContext(AppContext) as AppContextType;
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { user, questionnaires, resetForm, loadingQuestionnaires } = useContext(
+    QuestionnaireContext
+  ) as QuestionnaireContextType;
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [loadingQuestionnaires, setLoadingQuestionnaires] = useState(true);
   const [clientTabs, setClientTabs] = useState([]);
-  const [questionnaires, setQuestionnaires] = useState<
-    Map<string, Questionnaire>
-  >(new Map());
-  const {
-    register,
-    handleSubmit,
-    formState: {},
-    watch,
-    control,
-    setValue,
-    reset,
-  } = useForm<Questionnaire>();
-  const formData = watch();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     if (user && id && questionnaires.size) {
-      reset(questionnaires.get(id));
+      resetForm(questionnaires.get(id));
       generateTabs(questionnaires);
     }
   }, [id, questionnaires]);
-
-  useEffect(() => {
-    if (questionnaires.size) {
-      const currentQuestionnaire = questionnaires.get(id);
-      questionnaires.set(id, {
-        ...currentQuestionnaire,
-        personalInformations: {
-          ...currentQuestionnaire?.personalInformations,
-          firstName: formData?.personalInformations?.firstName,
-        },
-      });
-      generateTabs(questionnaires);
-    }
-  }, [formData?.personalInformations?.firstName]);
-
-  useEffect(() => {
-    async function fetchQuestionnaires() {
-      const querySnapshot = await getDocs(
-        collection(
-          firestore,
-          TAX_REPORT_COLLECTION,
-          user.uid,
-          QUESTIONNAIRE_SUB_COLLECTTION
-        )
-      );
-      const map = new Map();
-      querySnapshot.forEach((doc) => {
-        map.set(doc.id, doc.data());
-      });
-      setQuestionnaires(map);
-      if (!map.size) {
-      } else if (!map.get(id)) {
-        navigate('/404');
-      }
-    }
-    if (user) {
-      fetchQuestionnaires();
-      setLoadingQuestionnaires(false);
-    }
-  }, [user?.uid]);
-
-  async function addQuestionnaire(
-    clientType = ClientTypeEnum.MAIN_CLIENT,
-    questionnaire = EmptyQuestionnaire,
-    stepToRedirect = TaxDeclarationStep.PERSONAL_INFORMATIONS
-  ) {
-    const defaultValues = {
-      ...EmptyQuestionnaire,
-      clientType,
-      state: QuestionnaireStateEnum.IN_PROGRESS,
-      year: new Date().getFullYear(),
-      personalInformations: {
-        ...EmptyQuestionnaire?.personalInformations,
-        email: user.email,
-      },
-      civilStatus: questionnaire?.civilStatus || null,
-      contactDetails: questionnaire?.contactDetails || null,
-    };
-    await addDoc(
-      collection(
-        firestore,
-        TAX_REPORT_COLLECTION,
-        user.uid,
-        QUESTIONNAIRE_SUB_COLLECTTION
-      ),
-      defaultValues
-    ).then((docRef) => {
-      questionnaires.set(docRef.id, defaultValues);
-      setQuestionnaires(questionnaires);
-      navigate(`/platform/questionnaire/${docRef.id}?step=${stepToRedirect}`);
-    });
-  }
-
-  async function saveFormAnswers() {
-    console.log('save', formData);
-    questionnaires.set(id, formData);
-    console.log('questionnaire', questionnaires.get(id));
-    await setDoc(
-      doc(
-        firestore,
-        TAX_REPORT_COLLECTION,
-        user.uid,
-        QUESTIONNAIRE_SUB_COLLECTTION,
-        id
-      ),
-      formData,
-      {
-        merge: true,
-      }
-    ).then(() => {
-      setQuestionnaires(questionnaires);
-    });
-  }
-
-  function resetForm() {
-    reset({ ...EmptyQuestionnaire });
-  }
-
-  function renderTaxReportStep(step: string) {
-    switch (step) {
-      case TaxDeclarationStep.CIVIL_STATUS:
-        return (
-          <CivilStatusForm
-            register={register}
-            control={control}
-            formData={formData}
-            handleSubmit={handleSubmit}
-            saveFormAnswers={saveFormAnswers}
-            setSearchParams={setSearchParams}
-          ></CivilStatusForm>
-        );
-      case TaxDeclarationStep.PERSONAL_INFORMATIONS:
-        return (
-          <PersonnalInformationsForm
-            register={register}
-            control={control}
-            formData={formData}
-            handleSubmit={handleSubmit}
-            saveFormAnswers={saveFormAnswers}
-            setValue={setValue}
-            setSearchParams={setSearchParams}
-          ></PersonnalInformationsForm>
-        );
-      case TaxDeclarationStep.CIVIL_STATUS_CHANGE:
-        return (
-          <CivilStatusChangeForm
-            register={register}
-            control={control}
-            formData={formData}
-            handleSubmit={handleSubmit}
-            saveFormAnswers={saveFormAnswers}
-            setSearchParams={setSearchParams}
-          ></CivilStatusChangeForm>
-        );
-      case TaxDeclarationStep.CONTACT_DETAILS:
-        return (
-          <ContactDetailsForm
-            register={register}
-            control={control}
-            formData={formData}
-            handleSubmit={handleSubmit}
-            saveFormAnswers={saveFormAnswers}
-            setValue={setValue}
-            setSearchParams={setSearchParams}
-          ></ContactDetailsForm>
-        );
-      case TaxDeclarationStep.DEPENDENTS:
-        return (
-          <DependentsForm
-            register={register}
-            control={control}
-            formData={formData}
-            handleSubmit={handleSubmit}
-            saveFormAnswers={saveFormAnswers}
-            setSearchParams={setSearchParams}
-            setValue={setValue}
-            questionnaires={questionnaires}
-          ></DependentsForm>
-        );
-      case TaxDeclarationStep.INCOMES:
-        return (
-          <IncomesForm
-            register={register}
-            control={control}
-            formData={formData}
-            handleSubmit={handleSubmit}
-            saveFormAnswers={saveFormAnswers}
-            setSearchParams={setSearchParams}
-          ></IncomesForm>
-        );
-      case TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT:
-        return (
-          <DeductionsAndTaxCreditsForm
-            register={register}
-            control={control}
-            formData={formData}
-            handleSubmit={handleSubmit}
-            saveFormAnswers={saveFormAnswers}
-            setSearchParams={setSearchParams}
-            addQuestionnaire={addQuestionnaire}
-            resetForm={resetForm}
-            questionnaires={questionnaires}
-            user={user}
-          ></DeductionsAndTaxCreditsForm>
-        );
-      case TaxDeclarationStep.UPLOAD_FILES:
-        return (
-          <TaxDeclarationFileUpload
-            setSearchParams={setSearchParams}
-            questionnaires={questionnaires}
-          />
-        );
-      case TaxDeclarationStep.REVIEW:
-        return <TaxDeclarationReview></TaxDeclarationReview>;
-      default:
-        return (
-          <PersonnalInformationsForm
-            register={register}
-            control={control}
-            formData={formData}
-            handleSubmit={handleSubmit}
-          ></PersonnalInformationsForm>
-        );
-    }
-  }
 
   function generateTabs(questionnaires: Map<string, Questionnaire>) {
     const tabs = [];
@@ -265,6 +42,31 @@ export function QuestionnaireHandler() {
       tabs.push({ value, key, active: key === id })
     );
     setClientTabs(tabs);
+  }
+
+  function renderTaxReportStep(step: string) {
+    switch (step) {
+      case TaxDeclarationStep.CIVIL_STATUS:
+        return <CivilStatusForm></CivilStatusForm>;
+      case TaxDeclarationStep.PERSONAL_INFORMATIONS:
+        return <PersonnalInformationsForm></PersonnalInformationsForm>;
+      case TaxDeclarationStep.CIVIL_STATUS_CHANGE:
+        return <CivilStatusChangeForm></CivilStatusChangeForm>;
+      case TaxDeclarationStep.CONTACT_DETAILS:
+        return <ContactDetailsForm></ContactDetailsForm>;
+      case TaxDeclarationStep.DEPENDENTS:
+        return <DependentsForm></DependentsForm>;
+      case TaxDeclarationStep.INCOMES:
+        return <IncomesForm></IncomesForm>;
+      case TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT:
+        return <DeductionsAndTaxCreditsForm></DeductionsAndTaxCreditsForm>;
+      case TaxDeclarationStep.UPLOAD_FILES:
+        return <TaxDeclarationFileUpload />;
+      case TaxDeclarationStep.REVIEW:
+        return <TaxDeclarationReview></TaxDeclarationReview>;
+      default:
+        return <PersonnalInformationsForm></PersonnalInformationsForm>;
+    }
   }
 
   return (

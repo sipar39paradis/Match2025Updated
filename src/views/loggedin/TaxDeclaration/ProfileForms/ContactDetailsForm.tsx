@@ -1,14 +1,17 @@
 import { Select } from 'flowbite-react/lib/esm/components/FormControls';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function ContactDetailsForm(props: RespondentFormProps) {
+export function ContactDetailsForm() {
   const {
     register,
     handleSubmit,
@@ -17,7 +20,7 @@ export function ContactDetailsForm(props: RespondentFormProps) {
     control,
     setValue,
     setSearchParams,
-  } = props;
+  } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
   useEffect(() => {
     window.scroll({

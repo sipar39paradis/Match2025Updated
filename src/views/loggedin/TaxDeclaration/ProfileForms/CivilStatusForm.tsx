@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
 import { CivilStatusEnum } from '../types/Questionnaire/CivilStatusEnum';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Fade from 'react-reveal';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function CivilStatusForm(props: RespondentFormProps) {
+export function CivilStatusForm() {
   const {
     register,
     control,
@@ -13,7 +16,7 @@ export function CivilStatusForm(props: RespondentFormProps) {
     handleSubmit,
     saveFormAnswers,
     setSearchParams,
-  } = props;
+  } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
   function onSubmitButton() {
     saveFormAnswers();

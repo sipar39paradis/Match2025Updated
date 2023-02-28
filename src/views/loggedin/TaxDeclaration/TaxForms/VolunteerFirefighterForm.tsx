@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
+
 // removed this one keeping in case we need it next year
-export function VolunteerFirefighterForm(props: RespondentFormProps) {
-  const { register, control, formData } = props;
+export function VolunteerFirefighterForm() {
+  const { register, control, formData } = useContext(
+    QuestionnaireContext
+  ) as QuestionnaireContextType;
 
   return (
     <>

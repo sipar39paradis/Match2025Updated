@@ -1,11 +1,16 @@
 import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function WorkIncomesForm(props: RespondentFormProps) {
-  const { control, formData, register } = props;
+export function WorkIncomesForm() {
+  const { control, formData, register } = useContext(
+    QuestionnaireContext
+  ) as QuestionnaireContextType;
 
   return (
     <>

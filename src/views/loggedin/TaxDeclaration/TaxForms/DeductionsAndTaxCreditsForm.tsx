@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
+
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import { BoughtHomeForm } from './BoughtHomeForm';
 import { DonationsForm } from './DonationsForm';
@@ -9,13 +9,20 @@ import { OtherDeductionsForm } from './OtherDeductionsForm';
 import { SoldMainHomeForm } from './SoldMainHome';
 import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
-import { uploadTaxReportPdfToStorage, writeRequiredFiles } from '../../../../client/firebaseClient';
+import {
+  uploadTaxReportPdfToStorage,
+  writeRequiredFiles,
+} from '../../../../client/firebaseClient';
 import mapFiles, { getPDFTaxReport } from '../../../../utils/FileMapper';
 import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
 import { Dependent } from '../types/Questionnaire/Dependent';
 import { EmptyQuestionnaire } from '../emptyQuestionnaire';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
+export function DeductionsAndTaxCreditsForm() {
   const {
     register,
     handleSubmit,
@@ -26,8 +33,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
     addQuestionnaire,
     resetForm,
     questionnaires,
-    user,
-  } = props;
+  } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
   function onSubmitButton() {
     saveFormAnswers();
@@ -69,9 +75,12 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
       );
     } else {
       questionnaires?.forEach((value, id) => {
-          uploadTaxReportPdfToStorage(getPDFTaxReport(formData?.taxReport, value?.personalInformations), value?.personalInformations)
-          writeRequiredFiles(mapFiles(value?.taxReport), id)
-      })
+        uploadTaxReportPdfToStorage(
+          getPDFTaxReport(formData?.taxReport, value?.personalInformations),
+          value?.personalInformations
+        );
+        writeRequiredFiles(mapFiles(value?.taxReport), id);
+      });
       setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
     }
   }
@@ -129,17 +138,8 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start mt-4 w-full"
         >
-          <DonationsForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-          <MovingExpensesForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
-
+          <DonationsForm />
+          <MovingExpensesForm />
           <p className="font-semibold">
             Avez-vous engagé des frais médicaux pour vous-même, votre conjoint
             ou des personnes à charge?
@@ -209,11 +209,8 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
               </fieldset>
             )}
           />
-          <BoughtHomeForm register={register} control={control} />
-          <SoldMainHomeForm
-            control={control}
-            formData={formData}
-          ></SoldMainHomeForm>
+          <BoughtHomeForm />
+          <SoldMainHomeForm></SoldMainHomeForm>
 
           <p className="font-semibold">
             Avez-vous engagé des dépenses admissibles vous donnant droit au
@@ -257,11 +254,7 @@ export function DeductionsAndTaxCreditsForm(props: RespondentFormProps) {
               </p>
             </div>
           )}
-          <OtherDeductionsForm
-            control={control}
-            formData={formData}
-            register={register}
-          />
+          <OtherDeductionsForm />
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
           <div className="w-full flex justify-between mt-4">
             <input

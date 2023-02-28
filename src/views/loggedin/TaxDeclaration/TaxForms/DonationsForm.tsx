@@ -1,10 +1,15 @@
 import { Checkbox } from 'flowbite-react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
-export function DonationsForm(props: RespondentFormProps) {
-  const { register, formData, control } = props;
+export function DonationsForm() {
+  const { register, formData, control } = useContext(
+    QuestionnaireContext
+  ) as QuestionnaireContextType;
 
   return (
     <>

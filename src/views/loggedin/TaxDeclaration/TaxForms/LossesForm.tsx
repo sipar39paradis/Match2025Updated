@@ -1,11 +1,16 @@
 import { Checkbox } from 'flowbite-react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
-import { RespondentFormProps } from '../types/Questionnaire/QuestionnaireFormProp';
+import {
+  QuestionnaireContext,
+  QuestionnaireContextType,
+} from '../context/QuestionnaireContext';
 
 // We removed this form from the questionnaire for now, keeping it case steph change his mind since it took quite some time to do.
-export function LossesForm(props: RespondentFormProps) {
-  const { control, register, formData } = props;
+export function LossesForm() {
+  const { control, register, formData } = useContext(
+    QuestionnaireContext
+  ) as QuestionnaireContextType;
 
   return (
     <>
