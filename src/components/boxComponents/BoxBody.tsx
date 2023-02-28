@@ -1,20 +1,10 @@
-import { Breadcrumb } from 'flowbite-react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { BoxRow } from './BoxRow';
-import {
-  ClientTypeEnum,
-  Questionnaire,
-  QuestionnaireStateEnum,
-} from '../../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
+import { ClientTypeEnum } from '../../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 import { SnapshotQuestionnaire } from '../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../context/AppContext';
-import { EmptyQuestionnaire } from '../../views/loggedin/TaxDeclaration/emptyQuestionnaire';
-import { CivilStatus } from '../../views/loggedin/TaxDeclaration/types/Questionnaire/CivilStatus';
-import { ContactDetails } from '../../views/loggedin/TaxDeclaration/types/Questionnaire/ContactDetails';
-import { addDoc, collection } from 'firebase/firestore';
-import { TaxDeclarationStep } from '../../views/loggedin/TaxDeclaration/types/TaxReport/TaxDeclarationStep';
 
 interface BoxBodyProps {
   questionnaires?: SnapshotQuestionnaire[];
@@ -32,7 +22,7 @@ export function BoxBody({
   noQuestionaire = false,
 }: BoxBodyProps) {
   const navigate = useNavigate();
-  const { user, firestore } = useContext(AppContext) as AppContextType;
+  const { user } = useContext(AppContext) as AppContextType;
   let mainClient: SnapshotQuestionnaire;
 
   let secondaryClients: Info[] = questionnaires.map((questionnaire) => {
@@ -103,8 +93,6 @@ export function BoxBody({
           noQuestionaire={noQuestionaire}
           last={dependants.length === 0}
           onClick={() => {
-            console.log(user.uid);
-            console.log(mainClientInfo.questionnaire.id);
             navigate(
               `/platform/questionnaire/${mainClientInfo.questionnaire.id}`
             );
