@@ -3,11 +3,13 @@ import React from 'react';
 
 export function Preparator() {
   return (
-    <section className="relative z-40 overflow-hidden pb-24 sm:pt-36 lg:pt-[170px] lg:pb-[240px]  px-48">
+    <section className="relative z-40 overflow-hidden pb-24 sm:pt-36 lg:pt-[170px] lg:pb-[240px] lg:px-48  px-5">
       <Fade top>
-        <h1>Être un préparateur partenaire Impôts Match c’est...</h1>
+        <h1 className="text-3xl">
+          Être un préparateur partenaire Impôts Match c’est...
+        </h1>
       </Fade>
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 grid-cols-1 gap-8">
         <Fade left cascade>
           <ul className="space-y-1 list-disc dark:text-gray-400 mt-12">
             <li className="py-2">
@@ -58,7 +60,7 @@ export function Preparator() {
         </Fade>
         <Fade right>
           <img
-            className="h-[450px] object-cover w-[450px] ml-16"
+            className="h-[450px] object-cover w-[450px] ml-16 hidden lg:block"
             src={require('../../images/prepator/preparator-2.jpg')}
             alt="hero-image"
           />

@@ -11,8 +11,8 @@ export function LandingPage() {
   return (
     <div className="dark:bg-dark text-align: center pb-32">
       <Home />
-      <Features />
       <Advantages />
+      <Features />
       <About />
       <Contact />
       <Support />

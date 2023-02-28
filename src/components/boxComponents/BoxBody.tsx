@@ -18,7 +18,7 @@ import { TaxDeclarationStep } from '../../views/loggedin/TaxDeclaration/types/Ta
 
 interface BoxBodyProps {
   questionnaires?: SnapshotQuestionnaire[];
-  noQuestionaire?: boolean
+  noQuestionaire?: boolean;
 }
 
 export interface Info {
@@ -27,7 +27,10 @@ export interface Info {
   questionnaire?: SnapshotQuestionnaire;
 }
 
-export function BoxBody({ questionnaires, noQuestionaire = false }: BoxBodyProps) {
+export function BoxBody({
+  questionnaires,
+  noQuestionaire = false,
+}: BoxBodyProps) {
   const navigate = useNavigate();
   const { user, firestore } = useContext(AppContext) as AppContextType;
   let mainClient: SnapshotQuestionnaire;
@@ -78,11 +81,11 @@ export function BoxBody({ questionnaires, noQuestionaire = false }: BoxBodyProps
 
   const mainClientInfo: Info = {
     firstName: mainClient
-    ? mainClient.questionnaire.personalInformations.firstName
-    : user?.displayName?.split(' ')[0],
+      ? mainClient.questionnaire.personalInformations.firstName
+      : user?.displayName?.split(' ')[0],
     lastName: mainClient
-    ? mainClient.questionnaire.personalInformations.lastName
-    : user?.displayName?.split(' ')[1],
+      ? mainClient.questionnaire.personalInformations.lastName
+      : user?.displayName?.split(' ')[1],
     questionnaire: mainClient ? mainClient : null,
   };
 
@@ -121,16 +124,16 @@ export function BoxBody({ questionnaires, noQuestionaire = false }: BoxBodyProps
   }
 
   return (
-    <div className="flex flex-col justify-center items-center  border-orange-400 rounded-lg shadow-xl">
+    <div className="flex flex-col justify-center items-cente border-orange-400 rounded-lg shadow-xl">
       <>
         <BoxRow
           respondent={mainClientInfo}
           key={mainClientInfo.firstName}
           noQuestionaire={noQuestionaire}
           last={dependants.length === 0}
-          onClick={() => mainClient ?  addQuestionnaire(): null}
+          onClick={() => (mainClient ? addQuestionnaire() : null)}
         />
-        
+
         {secondaryClients.map((respondent) => (
           <BoxRow
             respondent={respondent}
@@ -143,10 +146,15 @@ export function BoxBody({ questionnaires, noQuestionaire = false }: BoxBodyProps
           />
         ))}
         {dependants.map((respondent, i) => (
-          <BoxRow respondent={respondent} key={respondent.firstName} 
-          onClick={() =>  navigate(`/platform/questionnaire/${respondent.questionnaire.id}`)}
-          noQuestionaire={noQuestionaire}
-          last={dependants.length-1 === i}/>
+          <BoxRow
+            respondent={respondent}
+            key={respondent.firstName}
+            onClick={() =>
+              navigate(`/platform/questionnaire/${respondent.questionnaire.id}`)
+            }
+            noQuestionaire={noQuestionaire}
+            last={dependants.length - 1 === i}
+          />
         ))}
       </>
     </div>

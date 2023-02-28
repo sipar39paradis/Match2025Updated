@@ -242,7 +242,12 @@ export function QuestionnaireHandler() {
           ></DeductionsAndTaxCreditsForm>
         );
       case TaxDeclarationStep.UPLOAD_FILES:
-        return <TaxDeclarationFileUpload setSearchParams={setSearchParams} questionnaires={questionnaires} />;
+        return (
+          <TaxDeclarationFileUpload
+            setSearchParams={setSearchParams}
+            questionnaires={questionnaires}
+          />
+        );
       case TaxDeclarationStep.REVIEW:
         return <TaxDeclarationReview></TaxDeclarationReview>;
       default:
