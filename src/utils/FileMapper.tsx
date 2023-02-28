@@ -4,6 +4,11 @@ import { PersonalInformations } from '../views/loggedin/TaxDeclaration/types/Que
 
 type TextData = [string, string];
 
+const MANDATORY_FILES = [
+    'Avis de Cotisation - QC',
+    'Avis de cotisation - Fed'
+]
+
 function generatePDFContent(
     taxReport: any,
     getText: (taxReport: any) => TextData[],
@@ -24,27 +29,6 @@ function generatePDFContent(
       });
     }
   }
-
-const fileMapping = {
-    'T5': 'Revenus de placements',
-    'T3': 'État des revenus de fiducie (répartitions et attributions)',
-    'T5008': 'Opérations sur titres',
-    'T5013': 'Revenus d\'une société de personnes',
-    'T101': 'Frais d\'exploration et d\'actions accréditives',
-    'Relevé 7': 'Placements dans un regime d\'investissement',
-    'Relevé 10': 'Crédit d\'impôt relatif à un fonds de travailleurs',
-    'Relevé 26': 'Capital régional et coopératif Desjardins',
-    'T4A(OAS)': 'Securite de la vieillesse',
-    'T4A(P)': ' Prestations du Régime de pensions du Canada ou du Régime de rentes du Québec',
-    'T5007': 'Prestations d\'assistance sociale ou de la CAT, supplément pour personnes âgées',
-    'T4A': 'Pension, retraite, rente et autres revenus',
-    'Relevé 2': 'Pension, retraite, rente et autres revenus',
-    'Relevé 1': 'Pension, retraite, rente et autres revenus',
-    'T4A-RCA': 'État des montants distribués d\'une convention de retraite',
-    'T4RSP': 'Revenus d\'un régime enregistré d\'épargne-retraite',
-    'T4RIF': 'Fonds enregistré de revenu de retraite',
-
-}
 
 export default function mapFiles(taxReport: TaxReport): Array<string>{
     const filesArr = []
@@ -210,6 +194,7 @@ export default function mapFiles(taxReport: TaxReport): Array<string>{
             }        }
     }
 
+    MANDATORY_FILES?.forEach((file) => {filesArr.push(file)});
 
     return filesArr;
 }
