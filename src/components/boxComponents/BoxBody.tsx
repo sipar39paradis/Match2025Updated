@@ -94,35 +94,6 @@ export function BoxBody({
     mainClientInfo.lastName = user?.displayName?.split(' ')[1];
   }
 
-  async function addQuestionnaire(
-    mainClient = true,
-    civilStatus?: CivilStatus,
-    contactDetails?: ContactDetails,
-    isDependent = false
-  ) {
-    const defaultValues = {
-      ...EmptyQuestionnaire,
-      mainClient,
-      state: QuestionnaireStateEnum.IN_PROGRESS,
-      year: new Date().getFullYear(),
-      isDependent,
-      personalInformations: {
-        ...EmptyQuestionnaire?.personalInformations,
-        email: user.email,
-      },
-      civilStatus: civilStatus || null,
-      contactDetails: contactDetails || null,
-    };
-    await addDoc(
-      collection(firestore, 'taxReport', user.uid, 'questionnaires'),
-      defaultValues
-    ).then((docRef) => {
-      navigate(
-        `/platform/questionnaire/${docRef.id}?step=${TaxDeclarationStep.PERSONAL_INFORMATIONS}`
-      );
-    });
-  }
-
   return (
     <div className="flex flex-col justify-center items-cente border-orange-400 rounded-lg shadow-xl">
       <>
@@ -131,7 +102,13 @@ export function BoxBody({
           key={mainClientInfo.firstName}
           noQuestionaire={noQuestionaire}
           last={dependants.length === 0}
-          onClick={() => (mainClient ? addQuestionnaire() : null)}
+          onClick={() => {
+            console.log(user.uid);
+            console.log(mainClientInfo.questionnaire.id);
+            navigate(
+              `/platform/questionnaire/${mainClientInfo.questionnaire.id}`
+            );
+          }}
         />
 
         {secondaryClients.map((respondent) => (

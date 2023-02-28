@@ -17,20 +17,22 @@ export function BreadcrumbWrapper({
   const navigate = useNavigate();
   return (
     <>
-      <Breadcrumb aria-label="Default breadcrumb example"
-        className='pb-2'>
+      <Breadcrumb aria-label="Default breadcrumb example" className="pb-2">
         <Breadcrumb.Item href="/home" icon={HiHome}>
           Home
         </Breadcrumb.Item>
         <>
-            {breadcrumbName.map((name, i) => {
-            return( 
-            <Breadcrumb.Item 
-            onClick={() => navigate(`/${breadcrumbEndpoint[i]}`)}
-            key={`breadcrumb${i}`}>
+          {breadcrumbName.map((name, i) => {
+            return (
+              <Breadcrumb.Item
+                className="cursor-pointe"
+                onClick={() => navigate(`/${breadcrumbEndpoint[i]}`)}
+                key={`breadcrumb${i}`}
+              >
                 {name}
-            </Breadcrumb.Item>)
-            })}
+              </Breadcrumb.Item>
+            );
+          })}
         </>
       </Breadcrumb>
       {children}

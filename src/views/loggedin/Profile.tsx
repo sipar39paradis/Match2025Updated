@@ -1,7 +1,7 @@
 import '../../i18n/config';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
-import { Alert, Button } from 'flowbite-react';
+import { Alert } from 'flowbite-react';
 import {
   getAllQuestionnaires,
   getUserProfile,
@@ -15,11 +15,6 @@ import { ReactComponent as DocumentArrowDown } from '../../icons/DocumentArrowDo
 
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import { ExperienceTimeline } from '../../components/profile/ExperienceTimeline';
-import { EducationTimeline } from '../../components/profile/EducationTimeline';
-import { useTranslation } from 'react-i18next';
-import { ProfileAbout } from '../../components/profile/ProfileAbout';
-import { Skeleton } from '../../components/common/Skeleton';
 import { useParams } from 'react-router';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { EditButton } from '../../components/common/EditButtons';
@@ -65,43 +60,41 @@ export function Profile() {
     });
   }, []);
 
-
-
-  interface GroupInfo{
-    header: string
-    text: string
-    endpoint: string,
-    icon: string
+  interface GroupInfo {
+    header: string;
+    text: string;
+    endpoint: string;
+    icon: string;
   }
 
   const iconMap = {
     foyer: <UserCircle className="h-24"></UserCircle>,
     questionnaire: <ClipboardDocument className="h-24"></ClipboardDocument>,
-    documents: <DocumentArrowDown className="h-24"></DocumentArrowDown>
-  }
+    documents: <DocumentArrowDown className="h-24"></DocumentArrowDown>,
+  };
 
-  const groupsKeys = ['foyer', 'questionnaire', 'files']
+  const groupsKeys = ['foyer', 'questionnaire', 'files'];
 
   const groups: Record<string, GroupInfo> = {
-    'foyer': {
+    foyer: {
       header: 'Mon Foyer',
       text: 'Vous trouverez ici le portrait de votre foyer',
       endpoint: 'foyer',
-      icon: 'foyer'
+      icon: 'foyer',
     },
-    'questionnaire': {
+    questionnaire: {
       header: 'Mes Questionnaires',
       text: 'Vous pouvez consulter ici vos questionnaires terminés ou en cours',
       endpoint: 'viewQuestionnaire',
-      icon: 'questionnaire'
+      icon: 'questionnaire',
     },
-    'files' : {
+    files: {
       header: 'Mes Documents',
       text: ' Vous pouvez déposer les documents nécéssaire à la préparation de votre déclaration ici',
       endpoint: 'documents',
-      icon: 'documents'
-    }
-  }
+      icon: 'documents',
+    },
+  };
 
   const updateProfile = async (id: string, profile: UserProfile) => {
     await upsertUserProfile(id, profile);
@@ -125,35 +118,39 @@ export function Profile() {
     );
   };
 
-  const makeLink = (header: string, text: string, endpoint: string, icon: string) => {
+  const makeLink = (
+    header: string,
+    text: string,
+    endpoint: string,
+    icon: string
+  ) => {
     return (
-      <div className="w-[380px] px-12"
-      onClick={() => navigate(`/${endpoint}`)}>
-      <div className="group mx-auto w-[380px] text-center px-12">
-        <div className="mx-auto mb-6 flex h-[150px] w-[150px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100]">
-          {/* <UserCircle className="h-16"></UserCircle> */}
-          {iconMap[icon]}
-          
-        </div>
-        <div>
-          <h3 className="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5">
-            {header}
-          </h3>
-          <p className="text-base text-dark-text">
-            {text}
-          </p>
+      <div
+        className="w-[380px] px-12 cursor-pointer"
+        onClick={() => navigate(`/${endpoint}`)}
+      >
+        <div className="group mx-auto w-[380px] text-center px-12">
+          <div className="mx-auto mb-6 flex h-[150px] w-[150px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100]">
+            {/* <UserCircle className="h-16"></UserCircle> */}
+            {iconMap[icon]}
+          </div>
+          <div>
+            <h3 className="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5">
+              {header}
+            </h3>
+            <p className="text-base text-dark-text">{text}</p>
+          </div>
         </div>
       </div>
-    </div>
-    )
-  }
+    );
+  };
 
   return (
     <main>
       <div className="flex justify-start flex-col w-screen p-10 sm:px-30 lg:px-40">
         <BreadcrumbWrapper
           breadcrumbEndpoint={['profile']}
-          breadcrumbName={['profil']}
+          breadcrumbName={['Mon compte']}
         >
           <div className={width > 540 ? 'flex flex-row justify-center' : ''}>
             <div className={width > 540 ? 'max-w-xs pr-64' : ''}>
@@ -172,17 +169,6 @@ export function Profile() {
                     src={user.photoURL}
                   />
                 )}
-                <EditButton
-                  user={user}
-                  profile={tempProfile}
-                  edit={edit}
-                  ownProfile={ownProfile}
-                  inErr={inErr}
-                  setEdit={setEdit}
-                  setInErr={setInErr}
-                  updateProfile={updateProfile}
-                  setTempProfile={setTempProfile}
-                />
               </div>
             </div>
             <div className="flow flow-col">
@@ -203,9 +189,9 @@ export function Profile() {
                   </Alert>
                 </a>
               ) : null}
-{/* max-w-[700px] */}
+              {/* max-w-[700px] */}
               <div className="flex flex-wrap justify-center max-w-[1140px]">
-              {/* <div className="w-full px-4 md:w-1/2 lg:w-1/5">
+                {/* <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto max-w-[380px] text-center md:">
                 <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
                   <UserCircle className="h-16"></UserCircle>
@@ -221,11 +207,16 @@ export function Profile() {
                 </div>
               </div>
             </div> */}
-            <>
-                {groupsKeys.map((groupKey) => {
-                  const group = groups[groupKey]
-                  return makeLink(group.header, group.text, group.endpoint, group.icon)
-                })}
+                <>
+                  {groupsKeys.map((groupKey) => {
+                    const group = groups[groupKey];
+                    return makeLink(
+                      group.header,
+                      group.text,
+                      group.endpoint,
+                      group.icon
+                    );
+                  })}
                 </>
                 {/* {makeLink('Créer votre compte', 'Aller via l\’option \‘\’s\’inscrire\’\’ pour créer votre compte \nImpôts Match', 'foyer', 'userCircle' )} */}
                 {/* {Object.entries(boxes).map((entry) => {
