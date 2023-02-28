@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { CivilStatusForm } from './ProfileForms/CivilStatusForm';
 import { PersonnalInformationsForm } from './ProfileForms/PersonnalInformationsForm';
@@ -31,7 +31,6 @@ export function QuestionnaireHandler() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { id } = useParams();
   const navigate = useNavigate();
-  const newAccount = useRef(true);
   const [loadingQuestionnaires, setLoadingQuestionnaires] = useState(true);
   const [clientTabs, setClientTabs] = useState([]);
   const [questionnaires, setQuestionnaires] = useState<
@@ -56,7 +55,7 @@ export function QuestionnaireHandler() {
   }, [id, questionnaires]);
 
   useEffect(() => {
-    if (questionnaires) {
+    if (questionnaires.size) {
       const currentQuestionnaire = questionnaires.get(id);
       questionnaires.set(id, {
         ...currentQuestionnaire,
@@ -84,9 +83,7 @@ export function QuestionnaireHandler() {
         map.set(doc.id, doc.data());
       });
       setQuestionnaires(map);
-      if (!map.size && newAccount.current) {
-        newAccount.current = false;
-        await addQuestionnaire();
+      if (!map.size) {
       } else if (!map.get(id)) {
         navigate('/404');
       }

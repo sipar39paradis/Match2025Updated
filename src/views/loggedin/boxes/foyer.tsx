@@ -1,7 +1,4 @@
-import { Breadcrumb } from 'flowbite-react';
 import React, { useContext, useEffect, useState } from 'react';
-import { HiHome } from 'react-icons/hi';
-import { useNavigate } from 'react-router-dom';
 import { BreadcrumbWrapper } from '../../../components/profile/BreadcrumbWrapper';
 import {
   SnapshotQuestionnaire,
@@ -11,7 +8,6 @@ import { BoxBody } from '../../../components/boxComponents/BoxBody';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 
 export function Foyer() {
-  const navigate = useNavigate();
   const { user } = useContext(AppContext) as AppContextType;
 
   const [noQuestionaire, setNoQuestionaire] = useState(true);
@@ -40,12 +36,9 @@ export function Foyer() {
             Mon Foyer
           </h1>
           {noQuestionaire ? (
-              <BoxBody 
-              questionnaires={[]}
-              noQuestionaire={true} />
+            <BoxBody questionnaires={[]} noQuestionaire={true} />
           ) : (
-            <BoxBody questionnaires={questionnaires}
-            noQuestionaire={true} />
+            <BoxBody questionnaires={questionnaires} noQuestionaire={true} />
           )}
         </BreadcrumbWrapper>
       </div>

@@ -13,12 +13,12 @@ import { QuestionnaireHandler } from './views/loggedin/TaxDeclaration/Questionna
 import { Preparator } from './views/loggedout/Preparator';
 import { ViewQuestionnaire } from './views/loggedin/boxes/Questionnaire';
 import { Declaration } from './views/loggedin/boxes/declaration';
-import { Foyer } from './views/loggedin/boxes/foyer';
 import { CustomerService } from './views/loggedin/boxes/CustomerService';
 import { CustomFooter } from './components/header/CustomFooter';
 import { UserConditions } from './views/loggedout/UserConditions';
 import { PrivacyPolicy } from './views/loggedout/PrivacyPolicy';
 import { NotFound } from './views/NotFound';
+import { Foyer } from './views/loggedin/boxes/foyer';
 
 function App() {
   return (
