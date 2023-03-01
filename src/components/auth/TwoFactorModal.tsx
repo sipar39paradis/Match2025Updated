@@ -30,13 +30,17 @@ export function TwoFactorModal(props: TwoFactorModalProps) {
     <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-[28rem] bg-white p-8">
       {/*header*/}
       <div className="flex items-center justify-center p-5 mb-5">
-        <h3 className="text-xl font-semibold">Authentification à deux facteurs</h3>
-        <button
+        <div className='flex flex-col'>
+          <h3 className="text-xl font-semibold">Authentification à deux facteurs</h3>
+          <p>{"Veuillez activer l'authentification à deux facteurs pour commencer à utiliser Impots Match."}</p>
+        </div>
+        
+        {/* <button
           className="flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2"
           onClick={() => closeModal(false)}
         >
           ×
-        </button>
+        </button> */}
       </div>
       {/*body*/}
       <form className="flex flex-col gap-4">

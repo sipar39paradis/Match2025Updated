@@ -207,8 +207,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
           signOut();
         }
         // }
-      }, 30000000);
-    }, 5000);
+      }, THIRTY_SECONDS_AFTER_MODAL);
+    }, FIVE_MINUTES_BEFORE_MODAL);
   };
 
   const verifyTwoFactor = async (

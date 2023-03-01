@@ -24,7 +24,8 @@ export function AuthModal(props: AuthModalProps) {
   const { closeModal, authModalToDisplay, switchModal } = props
 
   return (
-    <Modal closeModalCallBack={closeModal}>
+    <Modal closeModalCallBack={closeModal}
+    is2fa={authModalToDisplay === AuthModalEnum.TwoFactor}>
       {authModalToDisplay === AuthModalEnum.SignUp && (
         <SignUpModal
           closeModal={closeModal}
