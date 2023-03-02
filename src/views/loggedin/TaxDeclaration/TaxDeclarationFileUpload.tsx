@@ -1,12 +1,13 @@
 import { Firestore } from 'firebase/firestore';
 import { FirebaseStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { appendExistingFiles, getExistingFiles, getRequiredFiles, removeExistingfile, removeRequiredfile, writeRequiredFiles } from '../../../client/firebaseClient';
+import { appendExistingFiles, getExistingFiles, getRequiredFiles, removeExistingfile, removeRequiredfile, uploadFileToStorage, writeRequiredFiles } from '../../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import Dropzone from 'react-dropzone';
 import { NavigateOptions, URLSearchParamsInit, useParams } from 'react-router-dom';
 import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import { Questionnaire } from './types/Questionnaire/Questionnaire';
+import { QuestionnaireContext, QuestionnaireContextType } from './context/QuestionnaireContext';
 
 const STORAGE_BASE_FOLDER = 'customerdata/';
 
@@ -80,20 +81,19 @@ function FileNameComponent(props: FileNameComponentProps){
 }
 
 function IndividualFileUpload(props: FileUploadProps){
-    const { storage, userId, fileName, setReqFiles, requiredFiles, userEmail } = props
+    const { storage, userId, fileName, setReqFiles, requiredFiles, userEmail } = props;
+    const { formData } = useContext(QuestionnaireContext) as QuestionnaireContextType;
     const [hidden, setHidden] = useState(false)
     
     const handleFileUpload = useCallback( (acceptedFiles) => {
-        const constructedFileName = userEmail + '/' + fileName + '_' + acceptedFiles[0]?.name
-        const fileRef = ref(storage, STORAGE_BASE_FOLDER + constructedFileName)
         const file = acceptedFiles[0]
-        uploadBytes(fileRef, file).then((snapshot) => {
+        uploadFileToStorage(file?.name, acceptedFiles[0], formData?.personalInformations)
+        .then((res) => {
             removeRequiredfile(fileName, userId)
             appendExistingFiles(fileName, userId)
             setHidden(!hidden)
-        }).catch((err) => {
-            console.log(err)
-        })
+        });
+
     }, [])
 
     return (
@@ -130,7 +130,7 @@ function IndividualFileUpload(props: FileUploadProps){
 
 export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
     const { firestore, storage, user } = useContext(AppContext) as AppContextType
-    const { setSearchParams, questionnaires } = props;
+    const { setSearchParams, questionnaires } = useContext(QuestionnaireContext) as QuestionnaireContextType;
     const [ reqFiles, setReqFiles ] = useState([]);
     const [ existingFiles, setExistingFiles ] = useState([]);
     const [fetchedReqFiles, setFetchedReqFiles] = useState(false);
@@ -149,6 +149,10 @@ export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
                     setExistingFiles(res?.files);
                     setFetchedExFiles(true);
                 })
+
+                setReqFiles(reqFiles.filter((item,index) => {
+                    return existingFiles?.indexOf(item) === index;
+                }))
         }
       }, [id, questionnaires]);
 
