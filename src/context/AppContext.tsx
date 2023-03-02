@@ -235,8 +235,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   };
 
   const handleLogin = async (
-    userCredentialsPromise: Promise<UserCredential>,
-    signup = false
+    userCredentialsPromise: Promise<UserCredential>
   ): Promise<[Promise<string>, MultiFactorResolver, string]> => {
     let errorMessage: string = null;
     let promise = null;
@@ -247,9 +246,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         console.log('timeout', 'in signin');
         console.log(userCredential, 'user creds in signup');
         succsessfulSignIn(userCredential);
-        if (signup) {
-          // navigate('/platform/questionnaire');
-        }
         errorMessage = 'No Two Factor';
       })
       .catch((error) => {
@@ -407,7 +403,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       collection(firestore, 'taxReport', user.uid, 'questionnaires'),
       defaultValues
     ).then((docRef) => {
-      navigate(`/platform/questionnaire/${docRef.id}?step=${stepToRedirect}`);
+      navigate(`/questionnaire/${docRef.id}?step=${stepToRedirect}`);
     });
   }
 

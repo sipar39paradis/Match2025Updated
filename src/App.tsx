@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Header } from './components/header/Header';
@@ -19,6 +19,7 @@ import { PrivacyPolicy } from './views/loggedout/PrivacyPolicy';
 import { NotFound } from './views/NotFound';
 import { Foyer } from './views/loggedin/boxes/foyer';
 import { QuestionnaireWrapper } from './views/loggedin/TaxDeclaration/QuestionnaireWrapper';
+import { AppRoutes } from './AppRoutes';
 
 function App() {
   return (
@@ -27,31 +28,7 @@ function App() {
         <AppContextProvider>
           <Header />
           <div className=" min-h-[84vh]">
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/profile/:id" element={<Profile />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/requests" element={<Requests />} />
-              <Route path="/messages" element={<Messages />} />
-              <Route path="/platform" element={<Platform />} />
-              <Route
-                path="/platform/questionnaire/:id"
-                element={<QuestionnaireWrapper />}
-              />{' '}
-              <Route path="/preparator" element={<Preparator />} />
-              <Route
-                path="/viewQuestionnaire"
-                element={<ViewQuestionnaire />}
-              />
-              <Route path="/declaration" element={<Declaration />} />
-              <Route path="/foyer" element={<Foyer />} />
-              <Route path="/customerService" element={<CustomerService />} />
-              <Route path="/documents" element={<Files />} />
-              <Route path="/userConditions" element={<UserConditions />} />
-              <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-              <Route path="*" element={<NotFound />} />
-              <Route path="/404" element={<NotFound />} />
-            </Routes>
+            <AppRoutes />
           </div>
           <CustomFooter />
         </AppContextProvider>

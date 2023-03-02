@@ -5,7 +5,6 @@ import { Alert } from 'flowbite-react';
 import {
   getAllQuestionnaires,
   getUserProfile,
-  upsertUserProfile,
 } from '../../client/firebaseClient';
 import { CustomCard } from '../../components/common/CustomCard';
 import { UserProfile } from '../../interfaces/User';
@@ -17,24 +16,16 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { useParams } from 'react-router';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
-import { EditButton } from '../../components/common/EditButtons';
 import { useNavigate } from 'react-router-dom';
 import { BreadcrumbWrapper } from '../../components/profile/BreadcrumbWrapper';
 
 export function Profile() {
   const { id } = useParams();
   const { user, addQuestionnaire } = useContext(AppContext) as AppContextType;
-  const [profile, setProfile] = useState<UserProfile>(null);
   const [tempProfile, setTempProfile] = useState<UserProfile>(null);
-  const [edit, setEdit] = useState(false);
   const [madeQuestionaire, setMadeQuestionaire] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [inErr, setInErr] = useState({});
   const { width } = useWindowDimensions();
   const navigate = useNavigate();
-
-  let ownProfile = false;
-  ownProfile = profile && profile.email === user.email;
 
   useEffect(() => {
     console.log(id, 'id');
@@ -96,26 +87,8 @@ export function Profile() {
     },
   };
 
-  const updateProfile = async (id: string, profile: UserProfile) => {
-    await upsertUserProfile(id, profile);
-    initializeProfile(profile);
-  };
-
   const initializeProfile = (profile: UserProfile) => {
-    setProfile(structuredClone(profile));
     setTempProfile(structuredClone(profile));
-    setLoading(false);
-  };
-
-  const box = (endpoint: string, text: string) => {
-    return (
-      <div
-        className="h-[200px] w-[200px] border-solid border-2 border-orange-400 rounded-lg m-4 flex justify-center items-center"
-        onClick={() => navigate(`/${endpoint}`)}
-      >
-        <p>{text}</p>
-      </div>
-    );
   };
 
   const makeLink = (
@@ -173,40 +146,27 @@ export function Profile() {
             </div>
             <div className="flow flow-col">
               {!madeQuestionaire ? (
-                <a
-                  className=" text-orange-400 cursor-pointer font-bold"
-                  onClick={() => addQuestionnaire()}
-                >
-                  <Alert color="info">
-                    <p>
-                      {
-                        "Bonjour, il semblerait que vous n'ayez pas rempli votre déclaration d'impôts pour cette année."
-                      }
-                    </p>
-                    <p>
-                      {'Cliquez ici pour être rediriger vers le questionnaire'}
-                    </p>
-                  </Alert>
-                </a>
+                <div className="mb-6">
+                  <a
+                    className=" text-orange-400 cursor-pointer font-bold"
+                    onClick={() => addQuestionnaire()}
+                  >
+                    <Alert color="info">
+                      <p>
+                        {
+                          "Bonjour, il semblerait que vous n'ayez pas rempli votre déclaration d'impôts pour cette année."
+                        }
+                      </p>
+                      <p>
+                        {
+                          'Cliquez ici pour être rediriger vers le questionnaire'
+                        }
+                      </p>
+                    </Alert>
+                  </a>
+                </div>
               ) : null}
-              {/* max-w-[700px] */}
               <div className="flex flex-wrap justify-center max-w-[1140px]">
-                {/* <div className="w-full px-4 md:w-1/2 lg:w-1/5">
-              <div className="group mx-auto max-w-[380px] text-center md:">
-                <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
-                  <UserCircle className="h-16"></UserCircle>
-                </div>
-                <div>
-                  <h3 className="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5">
-                    Créer votre compte
-                  </h3>
-                  <p className="text-base text-dark-text">
-                    Aller via l’option ‘’s’inscrire’’ pour créer votre compte
-                    Impôts Match
-                  </p>
-                </div>
-              </div>
-            </div> */}
                 <>
                   {groupsKeys.map((groupKey) => {
                     const group = groups[groupKey];
@@ -218,11 +178,6 @@ export function Profile() {
                     );
                   })}
                 </>
-                {/* {makeLink('Créer votre compte', 'Aller via l\’option \‘\’s\’inscrire\’\’ pour créer votre compte \nImpôts Match', 'foyer', 'userCircle' )} */}
-                {/* {Object.entries(boxes).map((entry) => {
-                  console.log('hi', 'test');
-                  return box(entry[0], entry[1]);
-                })} */}
               </div>
             </div>
           </div>

@@ -24,7 +24,6 @@ import {
 
 export function DeductionsAndTaxCreditsForm() {
   const {
-    register,
     handleSubmit,
     saveFormAnswers,
     formData,

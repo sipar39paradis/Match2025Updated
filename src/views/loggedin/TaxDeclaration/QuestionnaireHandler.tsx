@@ -81,7 +81,7 @@ export function QuestionnaireHandler() {
               }`}
               onClick={() =>
                 navigate(
-                  `/platform/questionnaire/${tab?.key}?step=${searchParams.get(
+                  `/questionnaire/${tab?.key}?step=${searchParams.get(
                     TAX_DECLARATION_STEP
                   )}`
                 )

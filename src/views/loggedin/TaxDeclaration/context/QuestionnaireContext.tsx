@@ -138,7 +138,7 @@ export function QuestionnaireContextProvider({
     ).then((docRef) => {
       questionnaires.set(docRef.id, defaultValues);
       setQuestionnaires(questionnaires);
-      navigate(`/platform/questionnaire/${docRef.id}?step=${stepToRedirect}`);
+      navigate(`/questionnaire/${docRef.id}?step=${stepToRedirect}`);
     });
   }
 
