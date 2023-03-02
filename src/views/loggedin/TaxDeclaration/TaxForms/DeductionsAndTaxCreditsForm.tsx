@@ -40,7 +40,7 @@ export function DeductionsAndTaxCreditsForm() {
     if (
       formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
       formData?.civilStatus?.together &&
-      partnerQuestionnaireExist()
+      !partnerQuestionnaireExist()
     ) {
       resetForm();
       addQuestionnaire(

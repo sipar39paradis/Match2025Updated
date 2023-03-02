@@ -46,11 +46,12 @@ interface ExistingFileNameComponentProps {
 
 function ExistingFileNameComponent(props: ExistingFileNameComponentProps){
     const { fileName, requiredFiles, setReqFiles, userId, userEmail } = props;
+    const { formData } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
     const onClickHandle = () => {
         if(confirm('Are you sure you wish to delete this file?')){
             requiredFiles.push(fileName)
-            removeExistingfile(fileName, userId, userEmail)
+            removeExistingfile(fileName, userId, formData?.personalInformations)
             setReqFiles(requiredFiles)
         }else {
         }    
@@ -62,12 +63,13 @@ function ExistingFileNameComponent(props: ExistingFileNameComponentProps){
 }
 
 function FileNameComponent(props: FileNameComponentProps){
-    const { fileName,  hidden, requiredFiles, setReqFiles, userId, setHidden, userEmail } = props;
+    const { fileName,  hidden, requiredFiles, setReqFiles, userId, setHidden } = props;
+    const { formData } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
     const onClickHandle = () => {
         if(confirm('Are you sure you wish to delete this file?')){
             requiredFiles.push(fileName)
-            removeExistingfile(fileName, userId, userEmail)
+            removeExistingfile(fileName, userId, formData?.personalInformations)
             setReqFiles(requiredFiles)
             setHidden(false)
         }else {
@@ -87,8 +89,7 @@ function IndividualFileUpload(props: FileUploadProps){
     
     const handleFileUpload = useCallback( (acceptedFiles) => {
         const file = acceptedFiles[0]
-        uploadFileToStorage(file?.name, acceptedFiles[0], formData?.personalInformations)
-        .then((res) => {
+        uploadFileToStorage( fileName + '_' + file?.name, acceptedFiles[0], formData?.personalInformations).then((res) => {
             removeRequiredfile(fileName, userId)
             appendExistingFiles(fileName, userId)
             setHidden(!hidden)
@@ -137,9 +138,7 @@ export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
     const [fetchedExFiles, setFetchedExFiles ] = useState(false);
     const { id } = useParams();
 
-    useEffect(() => {
-        console.log()
-        if (user && id && questionnaires?.size) {
+    if (user && id && questionnaires?.size && !fetchedExFiles) {
                 getRequiredFiles(id).then((res) => {
                     setReqFiles(res?.files);
                     setFetchedReqFiles(true);
@@ -153,8 +152,8 @@ export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
                 setReqFiles(reqFiles.filter((item,index) => {
                     return existingFiles?.indexOf(item) === index;
                 }))
-        }
-      }, [id, questionnaires]);
+                setFetchedExFiles(true)
+    }
 
     return <>
         {

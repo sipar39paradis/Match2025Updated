@@ -50,7 +50,6 @@ export const getUserProfile = async (
   const returnedDoc = await getDoc(doc(db, PROFILE_DB_NAME, userEmail));
   const data = returnedDoc.data();
 
-  console.log(data, 'data');
   return addDefaultValues(
     data.type == 'accountant'
       ? docToProfile(<UserProfileDoc>data)
@@ -70,8 +69,6 @@ export const getAllQuestionnaires = async (
     collection(db, 'taxReport', userId, 'questionnaires')
   );
 
-  console.log(querySnapshot, 'snap');
-
   return querySnapshot.docs.map((questionnaire) => {
     return {
       id: questionnaire.id,
@@ -85,10 +82,13 @@ export const writeRequiredFiles = async (
   requiredFiles: Array<string>,
   userId: string
 ): Promise<void> => {
+  const existingFiles = (await getExistingFiles(userId))?.files
+
   const nonDuplicateArr = requiredFiles.filter((item, index) => {
-    return requiredFiles.indexOf(item) === index;
+    return requiredFiles.indexOf(item) === index && !existingFiles?.includes(item);
   })
-  console.log(requiredFiles)
+
+  
   await setDoc(doc(db, 'UserRequiredFiles', userId), {
     files: nonDuplicateArr,
     userId: userId,
@@ -99,10 +99,12 @@ export const writeExistingFiles = async (
   existingFiles: Array<string>,
   userId: string
 ): Promise<void> => {
-  await setDoc(doc(db, 'UserExistingFiles', userId), {
-    files: existingFiles,
-    userId: userId,
-  });
+  if(existingFiles){
+    await setDoc(doc(db, 'UserExistingFiles', userId), {
+      files: existingFiles,
+      userId: userId,
+    });
+  }
 };
 
 export const appendRequiredFiles = async (
@@ -110,7 +112,7 @@ export const appendRequiredFiles = async (
   userId: string
 ): Promise<void> => {
   getRequiredFiles(userId).then((res) => {
-    if (res == undefined) {
+    if (res?.files == undefined) { 
       writeRequiredFiles([fileName], userId);
     } else {
       res?.files?.push(fileName);
@@ -124,10 +126,10 @@ export const appendExistingFiles = async (
   userId: string
 ): Promise<void> => {
   getExistingFiles(userId).then((res) => {
-    if (res == undefined) {
+    if (res?.files == undefined) {
       writeExistingFiles([fileName], userId);
     } else {
-      res?.files.push(fileName);
+      res?.files?.push(fileName);
       writeExistingFiles(res?.files, userId);
     }
   });
@@ -136,32 +138,16 @@ export const appendExistingFiles = async (
 export const removeExistingfile = async (
   fileName: string,
   userId: string,
-  userEmail: string
-): Promise<void> => {
+  personalInformations: PersonalInformations
+  ): Promise<void> => {
   getExistingFiles(userId).then((res) => {
     if(res != undefined){
       writeExistingFiles(res?.files?.filter(file => file != fileName), userId)
       appendRequiredFiles(fileName, userId)
-      removeUserFile(fileName, userEmail)
+      removeFileFromStorage(fileName, personalInformations)
     } 
   })
 }
-
-
-export const removeUserFile = async (
-  fileName: string,
-  userEmail: string
-): Promise<void> => {
-  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + userEmail)
-  listAll(filesListRef).then((res) => {
-    const fileRefToRemove = res?.items?.filter((itemRef) =>
-      itemRef.name.includes(fileName)
-    )[0];
-    deleteObject(fileRefToRemove).catch((err) => {
-      console.log('There was an issue deleting the file ' + fileName);
-    });
-  });
-};
 
 export const removeRequiredfile = async (
   fileName: string,
@@ -194,7 +180,6 @@ export const getAllUserProfiles = async (): Promise<Array<UserProfile>> => {
   const returnedDocs = await getDocs(collection(db, PROFILE_DB_NAME));
   return returnedDocs.docs.map((returnedDoc) => {
     const data = returnedDoc.data();
-    console.log(data, 'data');
     return addDefaultValues(
       data.type == 'accountant'
         ? docToProfile(<UserProfileDoc>data)
@@ -220,6 +205,21 @@ export const uploadFileToStorage = async (
   uploadBytes(fileRef, bytes).then((snapsot) => {
     console.log('Successfully generated taxReport.')
   }).catch((err) => 'Something went wrong')
+}
+
+export const removeFileFromStorage = async (
+  fileName: string,
+  personalInformations: PersonalInformations
+): Promise<void> => {
+  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + personalInformations?.email + '/' + personalInformations?.firstName + '_' + personalInformations?.lastName)
+  listAll(filesListRef).then((res) => {
+    const fileRefToRemove = res?.items?.filter((itemRef) =>
+        itemRef.name.includes(fileName)
+      )[0];
+    deleteObject(fileRefToRemove).catch((err) => {
+      console.log('There was an issue deleting the file ' + fileName);
+    });
+  });
 }
 
 export const upsertUserProfile = async (
