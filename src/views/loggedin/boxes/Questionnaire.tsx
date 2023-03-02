@@ -45,7 +45,7 @@ export function ViewQuestionnaire() {
               <Alert color="info">
                 <p>
                   {
-                    "Bonjour, il semblerait que vous n'ayez pas rempli votre déclaration d'impôts pour cette année. Cliquez ici pour être rediriger vers le questionnaire"
+                    'Bonjour, la première étape une fois connecté est de remplir votre questionnaire qui établira votre profil fiscal. Cliquez ici pour être rediriger vers le questionnaire'
                   }
                 </p>
               </Alert>

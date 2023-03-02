@@ -93,7 +93,7 @@ export function BoxBody({
           noQuestionaire={noQuestionaire}
           last={dependants.length === 0}
           onClick={() => {
-            navigate(`questionnaire/${mainClientInfo.questionnaire.id}`);
+            navigate(`/questionnaire/${mainClientInfo.questionnaire.id}`);
           }}
         />
 

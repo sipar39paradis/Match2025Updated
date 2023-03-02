@@ -9,7 +9,10 @@ import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import { DependentsForm } from './ProfileForms/DependentsForm';
 import { IncomesForm } from './TaxForms/IncomesForm';
 import { TaxDeclarationFileUpload } from './TaxDeclarationFileUpload';
-import { Questionnaire } from './types/Questionnaire/Questionnaire';
+import {
+  ClientTypeEnum,
+  Questionnaire,
+} from './types/Questionnaire/Questionnaire';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
 import { OctopusLoader } from '../../../components/common/OctopusLoader';
 import Fade from 'react-reveal';
@@ -54,6 +57,20 @@ export function QuestionnaireHandler() {
       tabs.push({ value, key, active: key === id })
     );
     setClientTabs(tabs);
+  }
+
+  function disableTab() {
+    const currentStep = searchParams.get(TAX_DECLARATION_STEP);
+    if (
+      formData.clientType === ClientTypeEnum.PARTNER &&
+      currentStep === TaxDeclarationStep.CIVIL_STATUS
+    ) {
+      return true;
+    } else if (
+      formData.clientType === ClientTypeEnum.DEPENDENT &&
+      searchParams.get(TAX_DECLARATION_STEP) !== TaxDeclarationStep.INCOMES
+    )
+      return false;
   }
 
   function renderTaxReportStep(step: string) {

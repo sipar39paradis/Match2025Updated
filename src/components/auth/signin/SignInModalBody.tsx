@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { ReactComponent as GoogleIcon } from '../../../icons/GoogleIcon.svg';
-import { ReactComponent as FacebookIcon } from '../../../icons/FacebookIcon.svg';
 import { AuthButton } from '../AuthButton';
 import { useForm } from 'react-hook-form';
 import { AuthModalEnum } from '../AuthModal';
@@ -25,9 +24,7 @@ export function SignInModalBody({
   setPromiseFromText,
   setResolver,
 }: SignInModalBodyProps) {
-  const { signInWithGoogle, signInWithFacebook, signIn } = useContext(
-    AppContext
-  ) as AppContextType;
+  const { signInWithGoogle, signIn } = useContext(AppContext) as AppContextType;
   const navigate = useNavigate();
 
   const {
@@ -40,20 +37,18 @@ export function SignInModalBody({
     // res ? setAuthError(res) : closeModal(false);
 
     const [promise, resolver, err] = await signIn(data.email, data.password);
-    const verificationId = await promise;
 
     if (resolver) {
       setPromiseFromText(promise);
       setResolver(resolver);
     } else if (err) {
-      if(err === 'No Two Factor'){
-        switchModal(AuthModalEnum.TwoFactor)
+      if (err === 'No Two Factor') {
+        switchModal(AuthModalEnum.TwoFactor);
         navigate('/profile');
-      }else{
+      } else {
         setAuthError(await promise);
       }
-      }
-    else {
+    } else {
       closeModal(false);
       navigate('/profile');
     }
@@ -139,7 +134,6 @@ export function SignInModalBody({
           Icon={GoogleIcon}
           onClick={async () => {
             const [promise, resolver, err] = await signInWithGoogle();
-            const verificationId = await promise;
             console.log(promise, 'promise');
 
             if (resolver) {
@@ -159,7 +153,7 @@ export function SignInModalBody({
           text="Continuez avec Google"
           id="google-login"
         ></AuthButton>
-        <AuthButton
+        {/* <AuthButton
           Icon={FacebookIcon}
           onClick={async () => {
             const res = await signInWithFacebook();
@@ -167,7 +161,7 @@ export function SignInModalBody({
           }}
           text="Continue with Facebook"
           id="facebook-login"
-        ></AuthButton>
+        ></AuthButton> */}
       </div>
 
       <div className="flex flex-row items-center justify-center mb-8">

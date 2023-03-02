@@ -24,11 +24,7 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/profile/:id" element={<Profile />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/requests" element={<Requests />} />
-      <Route path="/messages" element={<Messages />} />
-      <Route path="/platform" element={user ? <Platform /> : <LandingPage />} />
+      <Route path="/profile" element={user ? <Profile /> : <LandingPage />} />
       <Route
         path="/questionnaire/:id"
         element={user ? <QuestionnaireWrapper /> : <LandingPage />}
@@ -40,7 +36,6 @@ export function AppRoutes() {
       />
       <Route path="/declaration" element={<Declaration />} />
       <Route path="/foyer" element={user ? <Foyer /> : <LandingPage />} />
-      <Route path="/customerService" element={<CustomerService />} />
       <Route path="/documents" element={<Files />} />
       <Route path="/userConditions" element={<UserConditions />} />
       <Route path="/privacyPolicy" element={<PrivacyPolicy />} />

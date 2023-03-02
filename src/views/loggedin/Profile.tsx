@@ -154,12 +154,12 @@ export function Profile() {
                     <Alert color="info">
                       <p>
                         {
-                          "Bonjour, il semblerait que vous n'ayez pas rempli votre déclaration d'impôts pour cette année."
+                          'Bonjour, la première étape une fois connecté est de remplir votre questionnaire qui établira votre profil fiscal.'
                         }
                       </p>
                       <p>
                         {
-                          'Cliquez ici pour être rediriger vers le questionnaire'
+                          'Cliquez ici pour être rediriger vers le questionnaire.'
                         }
                       </p>
                     </Alert>

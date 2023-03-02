@@ -93,7 +93,7 @@ export function Support() {
                       htmlFor="phone"
                       className="mb-3 block font-heading text-base text-dark dark:text-white"
                     >
-                      Téléphone (Optional)
+                      Téléphone (Optionnel)
                     </label>
                     <input
                       type="text"
@@ -179,7 +179,7 @@ export function Support() {
                   <input
                     type="submit"
                     value="Envoyez votre message"
-                    className="flex w-full items-center justify-center rounded bg-orange-500 py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"
+                    className="flex w-full items-center justify-center rounded bg-orange-500 py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90 cursor-pointer"
                   />
                 </div>
               </div>

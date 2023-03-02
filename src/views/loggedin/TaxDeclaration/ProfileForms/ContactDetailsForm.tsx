@@ -126,7 +126,7 @@ export function ContactDetailsForm() {
           </div>
 
           <p className="font-semibold">
-            Avez-vous avez déménagé d&apos;une autre province ou d&apos;un autre
+            Avez-vous déménagé d&apos;une autre province ou d&apos;un autre
             territoire en 2022?
             <TooltipWithIcon
               text=" Si nous n’est pas certain de votre statut de résident canadien au
