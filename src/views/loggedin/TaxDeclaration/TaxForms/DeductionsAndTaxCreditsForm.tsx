@@ -39,7 +39,7 @@ export function DeductionsAndTaxCreditsForm() {
     if (
       formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
       formData?.civilStatus?.together &&
-      partnerQuestionnaireExist()
+      !partnerQuestionnaireExist()
     ) {
       resetForm();
       addQuestionnaire(
@@ -123,7 +123,7 @@ export function DeductionsAndTaxCreditsForm() {
   function partnerQuestionnaireExist() {
     questionnaires.forEach((questionnaire) => {
       if (questionnaire.clientType === ClientTypeEnum.PARTNER) {
-        console.log('inside')
+        console.log('inside');
         return true;
       }
     });

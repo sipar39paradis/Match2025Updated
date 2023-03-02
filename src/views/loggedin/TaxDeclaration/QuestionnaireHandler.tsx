@@ -21,9 +21,8 @@ import {
 export const TAX_DECLARATION_STEP = 'step';
 
 export function QuestionnaireHandler() {
-  const { user, questionnaires, resetForm, loadingQuestionnaires } = useContext(
-    QuestionnaireContext
-  ) as QuestionnaireContextType;
+  const { user, questionnaires, resetForm, loadingQuestionnaires, formData } =
+    useContext(QuestionnaireContext) as QuestionnaireContextType;
   const { id } = useParams();
   const [clientTabs, setClientTabs] = useState([]);
   const navigate = useNavigate();
@@ -32,9 +31,22 @@ export function QuestionnaireHandler() {
   useEffect(() => {
     if (user && id && questionnaires.size) {
       resetForm(questionnaires.get(id));
-      generateTabs(questionnaires);
     }
   }, [id, questionnaires]);
+
+  useEffect(() => {
+    if (questionnaires.size) {
+      const currentQuestionnaire = questionnaires.get(id);
+      questionnaires.set(id, {
+        ...currentQuestionnaire,
+        personalInformations: {
+          ...currentQuestionnaire?.personalInformations,
+          firstName: formData?.personalInformations?.firstName,
+        },
+      });
+      generateTabs(questionnaires);
+    }
+  }, [formData?.personalInformations?.firstName]);
 
   function generateTabs(questionnaires: Map<string, Questionnaire>) {
     const tabs = [];
