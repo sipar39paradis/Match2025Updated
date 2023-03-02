@@ -1,5 +1,9 @@
 import React from 'react';
 
 export function TaxDeclarationReview() {
-  return <div>Review</div>;
+  return (
+    <div>
+      <h1>Conclusion</h1>
+    </div>
+  );
 }

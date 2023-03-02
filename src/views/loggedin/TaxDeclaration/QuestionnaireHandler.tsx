@@ -30,6 +30,7 @@ export function QuestionnaireHandler() {
   const [clientTabs, setClientTabs] = useState([]);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const currentStep = searchParams.get(TAX_DECLARATION_STEP);
 
   useEffect(() => {
     if (user && id && questionnaires.size) {
@@ -49,28 +50,41 @@ export function QuestionnaireHandler() {
       });
       generateTabs(questionnaires);
     }
-  }, [formData?.personalInformations?.firstName]);
+  }, [formData?.personalInformations?.firstName, currentStep]);
 
   function generateTabs(questionnaires: Map<string, Questionnaire>) {
     const tabs = [];
     questionnaires.forEach((value: Questionnaire, key: string) =>
-      tabs.push({ value, key, active: key === id })
+      tabs.push({
+        value,
+        key,
+        active: key === id,
+        disabled: disableTab(value.clientType),
+      })
     );
     setClientTabs(tabs);
   }
 
-  function disableTab() {
-    const currentStep = searchParams.get(TAX_DECLARATION_STEP);
+  function disableTab(clientType: ClientTypeEnum) {
     if (
-      formData.clientType === ClientTypeEnum.PARTNER &&
+      clientType === ClientTypeEnum.PARTNER &&
       currentStep === TaxDeclarationStep.CIVIL_STATUS
     ) {
+      console.log('1');
       return true;
     } else if (
-      formData.clientType === ClientTypeEnum.DEPENDENT &&
-      searchParams.get(TAX_DECLARATION_STEP) !== TaxDeclarationStep.INCOMES
-    )
-      return false;
+      clientType === ClientTypeEnum.DEPENDENT &&
+      currentStep !== TaxDeclarationStep.INCOMES &&
+      currentStep !== TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT &&
+      currentStep !== TaxDeclarationStep.UPLOAD_FILES
+    ) {
+      console.log('2');
+
+      return true;
+    }
+    console.log('3');
+
+    return false;
   }
 
   function renderTaxReportStep(step: string) {
@@ -101,26 +115,25 @@ export function QuestionnaireHandler() {
   return (
     <div className="flex p-8 bg-orange-50 min-h-screen flex-col items-center">
       <div className="w-[800px] flex flex-row">
-        {clientTabs.length > 1 &&
-          clientTabs.map((tab) => (
-            <div
-              key={tab.key}
-              className={` rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200 ${
-                tab.active ? 'bg-gray-200' : 'bg-white'
-              }`}
-              onClick={() =>
-                navigate(
-                  `/questionnaire/${tab?.key}?step=${searchParams.get(
-                    TAX_DECLARATION_STEP
-                  )}`
-                )
-              }
-            >
-              <p className="font-semibold">
-                {tab?.value?.personalInformations?.firstName || 'Client'}
-              </p>
-            </div>
-          ))}
+        {clientTabs.map((tab) => (
+          <div
+            key={tab.key}
+            className={` rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200 ${
+              tab.active ? 'bg-gray-200 cursor-default' : 'bg-white'
+            } ${tab.disabled ? 'pointer-events-none' : ''}`}
+            onClick={() =>
+              navigate(
+                `/questionnaire/${tab?.key}?step=${searchParams.get(
+                  TAX_DECLARATION_STEP
+                )}`
+              )
+            }
+          >
+            <p className="font-semibold">
+              {tab?.value?.personalInformations?.firstName || 'Client'}
+            </p>
+          </div>
+        ))}
       </div>
       {loadingQuestionnaires ? (
         <Fade>
@@ -131,7 +144,7 @@ export function QuestionnaireHandler() {
       ) : (
         <Fade>
           <div className="w-[800px] bg-white rounded-md p-8 h-fit">
-            {renderTaxReportStep(searchParams.get(TAX_DECLARATION_STEP))}
+            {renderTaxReportStep(currentStep)}
           </div>
         </Fade>
       )}

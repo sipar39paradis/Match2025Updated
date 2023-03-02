@@ -13,7 +13,8 @@ export interface Questionnaire {
   personalInformations: PersonalInformations
   contactDetails: ContactDetails
   civilStatusChange?: CivilStatusChange
-  haveDependents: boolean
+  hasDependents: boolean
+  hasDependentsWithPartner: boolean
   parent?: string 
   dependents?: Dependent []
   taxReport: TaxReport

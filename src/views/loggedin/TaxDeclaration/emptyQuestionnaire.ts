@@ -58,8 +58,10 @@ export const EmptyQuestionnaire: Questionnaire ={
     lastYearCivilStatus: null,
     civilStatusChangeDate: null,
     civilStatusChangeToSingleDate: null,
-    socialAssistanceBenefitsAmount: null, },
-    haveDependents: null,
+    socialAssistanceBenefitsAmount: null, 
+  },
+    hasDependents: null,
+    hasDependentsWithPartner: null,
     dependents: [],
     taxReport: EmptyTaxReport
 }

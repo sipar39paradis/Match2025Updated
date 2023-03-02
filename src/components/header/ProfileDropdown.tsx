@@ -56,7 +56,7 @@ export function ProfileDropdown({ user, displayModal }: ProfileDropdownProps) {
                 )}
                 onClick={() => signOut()}
               >
-                Sign out
+                Se déconnecter
               </span>
             )}
           </Menu.Item>

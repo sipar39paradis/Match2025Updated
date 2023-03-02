@@ -2,15 +2,11 @@ import React, { useContext } from 'react';
 
 import { Routes, Route } from 'react-router-dom';
 import { AppContext, AppContextType } from './context/AppContext';
-import { CustomerService } from './views/loggedin/boxes/CustomerService';
 import { Declaration } from './views/loggedin/boxes/declaration';
 import { Foyer } from './views/loggedin/boxes/foyer';
 import { ViewQuestionnaire } from './views/loggedin/boxes/Questionnaire';
 import { Files } from './views/loggedin/Files';
-import { Messages } from './views/loggedin/Messages';
-import { Platform } from './views/loggedin/Platform';
 import { Profile } from './views/loggedin/Profile';
-import { Requests } from './views/loggedin/Requests';
 import { QuestionnaireWrapper } from './views/loggedin/TaxDeclaration/QuestionnaireWrapper';
 import { LandingPage } from './views/loggedout/LandingPage';
 import { Preparator } from './views/loggedout/Preparator';

@@ -115,6 +115,7 @@ export function QuestionnaireContextProvider({
     questionnaire = EmptyQuestionnaire,
     stepToRedirect = TaxDeclarationStep.PERSONAL_INFORMATIONS
   ) {
+    console.log('questionnaire before', questionnaires);
     const defaultValues = {
       ...EmptyQuestionnaire,
       clientType,
@@ -137,6 +138,7 @@ export function QuestionnaireContextProvider({
       defaultValues
     ).then((docRef) => {
       questionnaires.set(docRef.id, defaultValues);
+      console.log('questionnaires', questionnaires);
       setQuestionnaires(questionnaires);
       navigate(`/questionnaire/${docRef.id}?step=${stepToRedirect}`);
     });
@@ -145,7 +147,6 @@ export function QuestionnaireContextProvider({
   async function saveFormAnswers() {
     console.log('save', formData);
     questionnaires.set(id, formData);
-    console.log('questionnaire', questionnaires.get(id));
     await setDoc(
       doc(
         firestore,

@@ -1,6 +1,5 @@
 import { Alert } from 'flowbite-react';
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { BreadcrumbWrapper } from '../../../components/profile/BreadcrumbWrapper';
 import {
   SnapshotQuestionnaire,
@@ -10,7 +9,6 @@ import { AppContext, AppContextType } from '../../../context/AppContext';
 import { BoxBody } from '../../../components/boxComponents/BoxBody';
 
 export function ViewQuestionnaire() {
-  const navigate = useNavigate();
   const { user, addQuestionnaire } = useContext(AppContext) as AppContextType;
   const [noQuestionaire, setNoQuestionaire] = useState(true);
   const [questionnaires, setQuestionnaires] =

@@ -30,7 +30,6 @@ export function DeductionsAndTaxCreditsForm() {
     control,
     setSearchParams,
     addQuestionnaire,
-    resetForm,
     questionnaires,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
@@ -39,9 +38,8 @@ export function DeductionsAndTaxCreditsForm() {
     if (
       formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
       formData?.civilStatus?.together &&
-      !partnerQuestionnaireExist()
+      partnerQuestionnaireAlreadyExists()
     ) {
-      resetForm();
       addQuestionnaire(
         ClientTypeEnum.PARTNER,
         {
@@ -54,7 +52,6 @@ export function DeductionsAndTaxCreditsForm() {
     }
     const dependent = findDependentWhoNeedsQuestionnaire();
     if (dependent) {
-      resetForm();
       addQuestionnaire(
         ClientTypeEnum.DEPENDENT,
         {
@@ -80,7 +77,7 @@ export function DeductionsAndTaxCreditsForm() {
         );
         writeRequiredFiles(mapFiles(value?.taxReport), id);
       });
-      setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
+      setSearchParams({ step: TaxDeclarationStep.REVIEW });
     }
   }
 
@@ -120,8 +117,9 @@ export function DeductionsAndTaxCreditsForm() {
     return false;
   }
 
-  function partnerQuestionnaireExist() {
+  function partnerQuestionnaireAlreadyExists() {
     questionnaires.forEach((questionnaire) => {
+      console.log(questionnaire);
       if (questionnaire.clientType === ClientTypeEnum.PARTNER) {
         console.log('inside');
         return true;
