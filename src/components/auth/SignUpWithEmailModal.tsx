@@ -7,6 +7,11 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const formSchema = Yup.object().shape({
+  firstName: Yup.string().required('Le prénom est requis'),
+  lastName: Yup.string().required('Le nom de famille est requis'),
+  email: Yup.string()
+    .email()
+    .min(6, "L'adresse courriel doit être au moins 6 caractères"),
   password: Yup.string()
     .required('Mot de passe requis')
     .min(12, 'Le mot de passe doit être au moins 12 caractères')
@@ -54,23 +59,20 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<signUpWithEmailData>({ resolver: yupResolver(formSchema) });
+
   const onSubmit = async (data: signUpWithEmailData) => {
-    if (data.password !== data.confirmationPassword) {
-      errors.confirmationPassword;
+    const res = await signUpWithEmailAndPassword(
+      data.email,
+      data.password,
+      data.firstName,
+      data.lastName,
+      data.referralCode
+    );
+    if (res) {
+      setAuthError(res);
     } else {
-      const res = await signUpWithEmailAndPassword(
-        data.email,
-        data.password,
-        'firstName',
-        'lastName',
-        data.referralCode
-      );
-      if (res) {
-        setAuthError(res);
-      } else {
-        closeModal(false);
-        navigate('/profile');
-      }
+      closeModal(false);
+      navigate('/profile');
     }
   };
 
@@ -87,12 +89,44 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
         </button>
       </div>
       {/*body*/}
-      <div className="flex flex-col space-y-3.5 bg-white rounded pt-2 pb-8 mb-2">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="bg-white rounded px-8 pt-6 pb-8"
-        >
+      <div className="flex flex-col space-y-3.5 bg-white rounded p-8 mb-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded">
           <div className="flex flex-col items-baseline mb-4 w-96">
+            <div className="flex flex-row mb-4 gap-2">
+              <div className="flex flex-col items-baseline w-full">
+                <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
+                  Prénom
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+                  type="text"
+                  placeholder="Prénom"
+                  {...register('firstName')}
+                />
+                {errors.firstName && (
+                  <span className="text-red-500 ml-1">
+                    {errors.firstName?.message}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex flex-col items-baseline w-full">
+                <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
+                  Nom de famille
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+                  type="text"
+                  placeholder=" Nom de famille"
+                  {...register('lastName')}
+                />
+                {errors?.lastName && (
+                  <span className="text-red-500 ml-1">
+                    {errors.lastName?.message}
+                  </span>
+                )}
+              </div>
+            </div>
             <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
               Courriel
             </label>
@@ -100,10 +134,13 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
               type="text"
               placeholder="Courriel"
-              {...register('email', { required: true, minLength: 6 })}
+              {...register('email')}
             />
-            {errors.email && (
-              <span className="text-red-500 ml-1">Courriel requis</span>
+            {errors?.email && (
+              <span className="text-red-500 ml-1">
+                {' '}
+                {errors.email?.message}
+              </span>
             )}
             {authError && (
               <span className="text-red-500 ml-1">
@@ -129,7 +166,7 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
           </div>
           <div className="flex flex-col items-baseline mb-6">
             <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
-              Ressaisir le mot de passe
+              Confirmation du mot de passe
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
