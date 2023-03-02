@@ -93,9 +93,7 @@ export function BoxBody({
           noQuestionaire={noQuestionaire}
           last={dependants.length === 0}
           onClick={() => {
-            navigate(
-              `/platform/questionnaire/${mainClientInfo.questionnaire.id}`
-            );
+            navigate(`questionnaire/${mainClientInfo.questionnaire.id}`);
           }}
         />
 
@@ -106,7 +104,7 @@ export function BoxBody({
             noQuestionaire={noQuestionaire}
             last={dependants.length === 0}
             onClick={() =>
-              navigate(`/platform/questionnaire/${respondent.questionnaire.id}`)
+              navigate(`/questionnaire/${respondent.questionnaire.id}`)
             }
           />
         ))}
@@ -115,7 +113,7 @@ export function BoxBody({
             respondent={respondent}
             key={respondent.firstName}
             onClick={() =>
-              navigate(`/platform/questionnaire/${respondent.questionnaire.id}`)
+              navigate(`/questionnaire/${respondent.questionnaire.id}`)
             }
             noQuestionaire={noQuestionaire}
             last={dependants.length - 1 === i}
