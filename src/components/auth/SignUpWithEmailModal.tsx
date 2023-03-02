@@ -3,6 +3,28 @@ import { AppContext, AppContextType } from '../../context/AppContext';
 import { AuthModalEnum } from './AuthModal';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const formSchema = Yup.object().shape({
+  password: Yup.string()
+    .required('Mot de passe requis')
+    .min(12, 'Le mot de passe doit être au moins 12 caractères')
+    .matches(
+      /[a-z]/,
+      'Le mot de passe doit contenir au moins une lettre minuscule'
+    )
+    .matches(
+      /[A-Z]/,
+      'Le mot de passe doit contenir au moins une lettre majuscule'
+    )
+    .matches(/[0-9]/, 'Le mot de passe doit contenir au moins un numéro')
+    .matches(/[^\w]/, 'Le mot de passe doit contenir au moins un symbole'),
+
+  confirmationPassword: Yup.string()
+    .required('Confirmation du mot de passe requis')
+    .oneOf([Yup.ref('password')], 'Les mots de passe doivent être identique'),
+});
 
 interface SignUpWithEmailModalProps {
   closeModal: (show: boolean) => void;
@@ -14,7 +36,7 @@ type signUpWithEmailData = {
   lastName: string;
   email: string;
   password: string;
-  passwordVerification: string;
+  confirmationPassword: string;
   referralCode: string;
 };
 
@@ -30,12 +52,11 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<signUpWithEmailData>();
+  } = useForm<signUpWithEmailData>({ resolver: yupResolver(formSchema) });
   const onSubmit = async (data: signUpWithEmailData) => {
-    if (data.password !== data.passwordVerification) {
-      errors.passwordVerification;
+    if (data.password !== data.confirmationPassword) {
+      errors.confirmationPassword;
     } else {
       const res = await signUpWithEmailAndPassword(
         data.email,
@@ -85,7 +106,9 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               <span className="text-red-500 ml-1">Courriel requis</span>
             )}
             {authError && (
-              <span className="text-red-500 ml-1">{authError}</span>
+              <span className="text-red-500 ml-1">
+                Adresse courriel déjà utilisé
+              </span>
             )}
           </div>
           <div className="flex flex-col items-baseline mb-6">
@@ -96,11 +119,11 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
               type="password"
               placeholder="******************"
-              {...register('password', { required: true, minLength: 7 })}
+              {...register('password')}
             />
-            {errors.password && (
+            {errors?.password && (
               <span className="text-red-500 ml-1">
-                Le mot de passe doit être au moins 7 charactères
+                {errors.password?.message}
               </span>
             )}
           </div>
@@ -112,19 +135,11 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
               type="password"
               placeholder="******************"
-              {...register('passwordVerification', {
-                required: true,
-                minLength: 7,
-                validate: (val: string) => {
-                  if (watch('password') != val) {
-                    return 'Les mots de passe doivent être identique';
-                  }
-                },
-              })}
+              {...register('confirmationPassword')}
             />
-            {errors.passwordVerification && (
+            {errors.confirmationPassword && (
               <span className="text-red-500 ml-1">
-                {errors.passwordVerification.message}
+                {errors.confirmationPassword.message}
               </span>
             )}
           </div>
