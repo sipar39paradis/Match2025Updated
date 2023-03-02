@@ -103,17 +103,18 @@ export function TwoFactorModal(props: TwoFactorModalProps) {
         </div>
         <Button type="submit"
         id='two-factor-button'
-        onClick={() => {
+        onClick={async () => {
           if(!promiseFromText){ 
             setPromiseFromText(enrollTwoFactor(phoneNumber))
           }
           else{
-            verifyEnrollingTwoFactor(promiseFromText, verificationCode)
-            closeModal(true)
+            await verifyEnrollingTwoFactor(promiseFromText, verificationCode)
+            closeModal(false)
           }
         }}>
-          Submit
+          Soumettre
         </Button>
+        
       </form>
 
     </div>
