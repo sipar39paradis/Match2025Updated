@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 interface SignInModalBodyProps {
   closeModal: (show: boolean) => void;
   switchModal: (modal: AuthModalEnum) => void;
-  setPromiseFromText: any;
+  setVerificationId: any;
   setResolver: any;
 }
 
@@ -21,7 +21,7 @@ type signInData = {
 export function SignInModalBody({
   closeModal,
   switchModal,
-  setPromiseFromText,
+  setVerificationId,
   setResolver,
 }: SignInModalBodyProps) {
   const { signInWithGoogle, signIn } = useContext(AppContext) as AppContextType;
@@ -36,17 +36,17 @@ export function SignInModalBody({
     // const res = await signIn(data.email, data.password);
     // res ? setAuthError(res) : closeModal(false);
 
-    const [promise, resolver, err] = await signIn(data.email, data.password);
+    const [resolvedId, resolver, err] = await signIn(data.email, data.password);
 
     if (resolver) {
-      setPromiseFromText(promise);
+      setVerificationId(resolvedId)
       setResolver(resolver);
     } else if (err) {
       if (err === 'No Two Factor') {
         switchModal(AuthModalEnum.TwoFactor);
         navigate('/profile');
       } else {
-        setAuthError(await promise);
+        setAuthError(err);
       }
     } else {
       closeModal(false);
@@ -110,6 +110,7 @@ export function SignInModalBody({
         </div>
         <div className="flex items-center justify-between">
           <input
+            id='connect-button'
             type="submit"
             value="Se connecter"
             className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
@@ -133,18 +134,19 @@ export function SignInModalBody({
         <AuthButton
           Icon={GoogleIcon}
           onClick={async () => {
-            const [promise, resolver, err] = await signInWithGoogle();
-            console.log(promise, 'promise');
+            const [resolvedId, resolver, err] = await signInWithGoogle();
+
+
 
             if (resolver) {
-              setPromiseFromText(promise);
+              setVerificationId(resolvedId);
               setResolver(resolver);
             } else if (err) {
               if (err === 'No Two Factor') {
                 switchModal(AuthModalEnum.TwoFactor);
                 navigate('/profile');
               }
-              setAuthError(await promise);
+              setAuthError(err);
             } else {
               closeModal(false);
               navigate('/profile');

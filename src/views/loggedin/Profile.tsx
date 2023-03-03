@@ -27,6 +27,10 @@ export function Profile() {
   const { width } = useWindowDimensions();
   const navigate = useNavigate();
 
+  if(!user){
+    navigate('/')
+  }
+
   useEffect(() => {
     console.log(id, 'id');
     console.log(user, 'user');

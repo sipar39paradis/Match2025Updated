@@ -23,6 +23,7 @@ import {
   multiFactor,
   MultiFactorResolver,
   User,
+  sendEmailVerification,
 } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
@@ -86,7 +87,7 @@ export interface AppContextType {
     verificationCode: string
   ): Promise<void>;
   verifyTwoFactor(
-    promise: Promise<string>,
+    promise: string,
     verificationCode: string,
     resolver: MultiFactorResolver
   ): Promise<void>;
@@ -126,7 +127,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // return () => signOut()
+    return () => {
+      if (window.performance.navigation.type !== 1) {
+        signOut();
+      }
+    };
   }, []);
 
   async function enrollTwoFactor(phoneNumber: string): Promise<string> {
@@ -212,30 +217,26 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   };
 
   const verifyTwoFactor = async (
-    promise: Promise<string>,
+    verificationId: string,
     verificationCode: string,
     resolver: MultiFactorResolver
   ) => {
-    await promise
-      .then(function (verificationId) {
-        console.log('in first');
-        // Ask user for the SMS verification code. Then:
-        console.log(verificationCode);
-        const cred = PhoneAuthProvider.credential(
-          verificationId,
-          verificationCode
-        );
-        const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
-        // Complete sign-in.
-        return resolver.resolveSignIn(multiFactorAssertion);
-      })
+    console.log('in first');
+    // Ask user for the SMS verification code. Then:
+    console.log(verificationCode);
+    const cred = PhoneAuthProvider.credential(verificationId, verificationCode);
+    const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
+    // Complete sign-in.
+    return resolver
+      .resolveSignIn(multiFactorAssertion)
       .then(function (userCredential) {
         succsessfulSignIn(userCredential);
       });
   };
 
   const handleLogin = async (
-    userCredentialsPromise: Promise<UserCredential>
+    userCredentialsPromise: Promise<UserCredential>,
+    buttonId: string
   ): Promise<[Promise<string>, MultiFactorResolver, string]> => {
     let errorMessage: string = null;
     let promise = null;
@@ -248,11 +249,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         succsessfulSignIn(userCredential);
         errorMessage = 'No Two Factor';
       })
-      .catch((error) => {
+      .catch(async (error) => {
         console.log(error);
         if (error.code == 'auth/multi-factor-auth-required') {
           const recaptchaVerifier = new RecaptchaVerifier(
-            'google-login',
+            buttonId,
             {
               size: 'invisible',
               callback: function (response) {
@@ -264,6 +265,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
           resolver = getMultiFactorResolver(auth, error);
           // Ask user which second factor to use.
+          console.log(resolver.hints);
           const selectedIndex = 0;
           if (
             resolver.hints[selectedIndex].factorId ===
@@ -275,7 +277,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
             };
             const phoneAuthProvider = new PhoneAuthProvider(auth);
             // Send SMS verification code
-            promise = phoneAuthProvider.verifyPhoneNumber(
+            promise = await phoneAuthProvider.verifyPhoneNumber(
               phoneInfoOptions,
               recaptchaVerifier
             );
@@ -296,14 +298,17 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     email: string,
     password: string
   ): Promise<[Promise<string>, MultiFactorResolver, string]> {
-    return handleLogin(signInWithEmailAndPassword(auth, email, password));
+    return handleLogin(
+      signInWithEmailAndPassword(auth, email, password),
+      'connect-button'
+    );
   }
 
   async function signInWithGoogle(
     signup = false
   ): Promise<[Promise<string>, MultiFactorResolver, string]> {
     const provider = new GoogleAuthProvider();
-    return handleLogin(signInWithPopup(auth, provider));
+    return handleLogin(signInWithPopup(auth, provider), 'google-login');
   }
 
   async function signInWithFacebook() {
@@ -338,6 +343,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
           await createProfile(userCredential, firstName, lastName, referalCode);
+          await sendEmailVerification(userCredential.user);
           succsessfulSignIn(userCredential);
         }
       })
