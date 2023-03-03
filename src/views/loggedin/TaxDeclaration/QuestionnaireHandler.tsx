@@ -33,6 +33,13 @@ export function QuestionnaireHandler() {
   const currentStep = searchParams.get(TAX_DECLARATION_STEP);
 
   useEffect(() => {
+    window.scroll({
+      top: 0,
+      left: 0,
+    });
+  }, [currentStep]);
+
+  useEffect(() => {
     if (user && id && questionnaires.size) {
       resetForm(questionnaires.get(id));
     }
@@ -70,7 +77,6 @@ export function QuestionnaireHandler() {
       clientType === ClientTypeEnum.PARTNER &&
       currentStep === TaxDeclarationStep.CIVIL_STATUS
     ) {
-      console.log('1');
       return true;
     } else if (
       clientType === ClientTypeEnum.DEPENDENT &&
@@ -78,11 +84,8 @@ export function QuestionnaireHandler() {
       currentStep !== TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT &&
       currentStep !== TaxDeclarationStep.UPLOAD_FILES
     ) {
-      console.log('2');
-
       return true;
     }
-    console.log('3');
 
     return false;
   }

@@ -21,13 +21,6 @@ export function CivilStatusChangeForm() {
     setSearchParams,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
-  useEffect(() => {
-    window.scroll({
-      top: 0,
-      left: 0,
-    });
-  }, []);
-
   function onSubmitButton() {
     saveFormAnswers();
     setSearchParams({ step: TaxDeclarationStep.CONTACT_DETAILS });

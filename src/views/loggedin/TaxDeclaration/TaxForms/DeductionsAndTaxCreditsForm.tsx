@@ -57,7 +57,7 @@ export function DeductionsAndTaxCreditsForm() {
             firstName: dependent.firstName,
             lastName: dependent.lastName,
             birthDay: dependent.birthDay,
-            socialSecurityNumber: dependent.socialSecurityNumber,
+            socialInsuranceNumber: dependent.socialInsuranceNumber,
             email: null,
             bankruptcy: null,
             disabled: null,

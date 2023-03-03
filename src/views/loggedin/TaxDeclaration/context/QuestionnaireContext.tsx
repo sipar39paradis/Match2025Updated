@@ -8,6 +8,7 @@ import {
   UseFormHandleSubmit,
   UseFormSetValue,
   useForm,
+  FieldErrorsImpl,
 } from 'react-hook-form';
 import {
   URLSearchParamsInit,
@@ -25,6 +26,8 @@ import {
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import { addDoc, collection, setDoc, doc, getDocs } from 'firebase/firestore';
 import { EmptyQuestionnaire } from '../emptyQuestionnaire';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { formSchema } from './schema';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
@@ -53,6 +56,7 @@ export interface QuestionnaireContextType {
   questionnaires: Map<string, Questionnaire>;
   user: User;
   loadingQuestionnaires: boolean;
+  errors: Partial<FieldErrorsImpl<Questionnaire>>;
 }
 
 export const QuestionnaireContext =
@@ -69,12 +73,12 @@ export function QuestionnaireContextProvider({
   const {
     register,
     handleSubmit,
-    formState: {},
+    formState: { errors },
     watch,
     control,
     setValue,
     reset,
-  } = useForm<Questionnaire>();
+  } = useForm<Questionnaire>({ resolver: yupResolver(formSchema) });
   const formData = watch();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -182,6 +186,7 @@ export function QuestionnaireContextProvider({
         questionnaires,
         user,
         loadingQuestionnaires,
+        errors,
       }}
     >
       {children}

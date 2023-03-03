@@ -20,14 +20,8 @@ export function ContactDetailsForm() {
     control,
     setValue,
     setSearchParams,
+    errors,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
-
-  useEffect(() => {
-    window.scroll({
-      top: 0,
-      left: 0,
-    });
-  }, []);
 
   function onSubmitButton() {
     saveFormAnswers();
@@ -65,7 +59,7 @@ export function ContactDetailsForm() {
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('contactDetails.address', { required: true })}
+                {...register('contactDetails.address')}
                 type="text"
                 className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -73,6 +67,11 @@ export function ContactDetailsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Adresse/Adresse municipale
               </label>
+              {errors?.contactDetails?.address && (
+                <span className="text-red-500 ml-1">
+                  {errors.contactDetails.address?.message}
+                </span>
+              )}
             </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
@@ -89,7 +88,7 @@ export function ContactDetailsForm() {
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('contactDetails.city', { required: true })}
+                {...register('contactDetails.city')}
                 type="text"
                 className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -97,10 +96,15 @@ export function ContactDetailsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Ville
               </label>
+              {errors?.contactDetails?.city && (
+                <span className="text-red-500 ml-1">
+                  {errors.contactDetails.city?.message}
+                </span>
+              )}
             </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('contactDetails.postal', { required: true })}
+                {...register('contactDetails.postal')}
                 type="postal"
                 className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -108,20 +112,29 @@ export function ContactDetailsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Code postal
               </label>
+              {errors?.contactDetails?.postal && (
+                <span className="text-red-500 ml-1">
+                  {errors.contactDetails.postal?.message}
+                </span>
+              )}
             </div>
           </div>
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('contactDetails.phoneNumber', { required: true })}
+                {...register('contactDetails.phoneNumber')}
                 type="tel"
                 className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
-                pattern="[0-9]{10}"
               />
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Numéro de téléphone principale
               </label>
+              {errors?.contactDetails?.phoneNumber && (
+                <span className="text-red-500 ml-1">
+                  {errors.contactDetails.phoneNumber?.message}
+                </span>
+              )}
             </div>
           </div>
 

@@ -20,6 +20,7 @@ export function PersonnalInformationsForm() {
     handleSubmit,
     register,
     control,
+    errors,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
   const [birthDayValue, setBirthDayValue] = useState({
@@ -35,7 +36,6 @@ export function PersonnalInformationsForm() {
   }, [formData]);
 
   const handleBirthDayValueChange = (newValue: DateRangeType) => {
-    console.log(setValue);
     setValue('personalInformations.birthDay', newValue?.startDate);
     setBirthDayValue(newValue);
   };
@@ -59,7 +59,7 @@ export function PersonnalInformationsForm() {
         >
           <div className="relative z-0 w-full my-4 group">
             <input
-              {...register('personalInformations.email', { required: true })}
+              {...register('personalInformations.email')}
               type="email"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -67,6 +67,11 @@ export function PersonnalInformationsForm() {
             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Courriel
             </label>
+            {errors?.personalInformations?.email && (
+              <span className="text-red-500 ml-1">
+                {errors.personalInformations.email?.message}
+              </span>
+            )}
           </div>
 
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
@@ -82,12 +87,15 @@ export function PersonnalInformationsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Prénom
               </label>
+              {errors?.personalInformations?.firstName && (
+                <span className="text-red-500 ml-1">
+                  {errors.personalInformations.firstName?.message}
+                </span>
+              )}
             </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('personalInformations.lastName', {
-                  required: true,
-                })}
+                {...register('personalInformations.lastName')}
                 type="text"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -95,14 +103,17 @@ export function PersonnalInformationsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Nom de famille
               </label>
+              {errors?.personalInformations?.lastName && (
+                <span className="text-red-500 ml-1">
+                  {errors.personalInformations.lastName?.message}
+                </span>
+              )}
             </div>
           </div>
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('personalInformations.socialSecurityNumber', {
-                  required: true,
-                })}
+                {...register('personalInformations.socialInsuranceNumber')}
                 type="text"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -110,17 +121,29 @@ export function PersonnalInformationsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Numéro d&apos;assurance sociale
               </label>
+              {errors?.personalInformations?.socialInsuranceNumber && (
+                <span className="text-red-500 ml-1">
+                  {errors.personalInformations.socialInsuranceNumber?.message}
+                </span>
+              )}
             </div>
-            <Datepicker
-              i18n={'fr'}
-              primaryColor={'orange'}
-              containerClassName="h-fit"
-              useRange={false}
-              asSingle={true}
-              value={birthDayValue}
-              onChange={handleBirthDayValueChange}
-              placeholder={'Date de naissance (JJ/MM/AAAA)'}
-            />
+            <div>
+              <Datepicker
+                i18n={'fr'}
+                primaryColor={'orange'}
+                containerClassName="h-fit"
+                useRange={false}
+                asSingle={true}
+                value={birthDayValue}
+                onChange={handleBirthDayValueChange}
+                placeholder={'Date de naissance (JJ/MM/AAAA)'}
+              />
+              {errors?.personalInformations?.birthDay && (
+                <span className="text-red-500 ml-1">
+                  {errors.personalInformations.birthDay?.message}
+                </span>
+              )}
+            </div>
           </div>
           <h2 className="mb-0">Autres renseignements personnels </h2>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />

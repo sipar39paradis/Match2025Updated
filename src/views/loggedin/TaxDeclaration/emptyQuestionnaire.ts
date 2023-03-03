@@ -36,7 +36,7 @@ export const EmptyQuestionnaire: Questionnaire ={
     firstName: '',
     lastName: '',
     birthDay: null,
-    socialSecurityNumber: '',
+    socialInsuranceNumber: '',
     email: '',
     bankruptcy: null,
     disabled: null},
