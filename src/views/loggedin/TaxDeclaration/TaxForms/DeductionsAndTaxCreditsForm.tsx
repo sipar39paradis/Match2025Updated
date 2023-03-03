@@ -31,6 +31,7 @@ export function DeductionsAndTaxCreditsForm() {
     setSearchParams,
     addQuestionnaire,
     questionnaires,
+    register,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
   function onSubmitButton() {
@@ -257,6 +258,14 @@ export function DeductionsAndTaxCreditsForm() {
             </div>
           )}
           <OtherDeductionsForm />
+          <p className="font-semibold mb-2">
+            Autre chose que vous aimeriez mentionnez qui n&apos;a pas été
+            demandé dans le questionnaire ?
+          </p>
+          <textarea
+            className="w-full"
+            {...register('taxReport.userFreeText')}
+          ></textarea>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
           <div className="w-full flex justify-between mt-4">
             <input

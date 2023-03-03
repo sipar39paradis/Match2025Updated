@@ -4,7 +4,9 @@ const EmptyTaxReport = {
   workIncomes: null,
   retirementIncomes: null,
   investmentIncomes: null,
-  selfEmploymentRentalOtherIncomes: null,
+  elfEmploymentIncomes: null,
+  rentalPropertyIncomes: null,
+  otherIncomes: null,
   foreignAssets: null,
   studentExpenses: null,
   taxDeductions: null,
@@ -21,7 +23,9 @@ const EmptyTaxReport = {
   isOtherDeductions: null,
   otherDeductions: null,
   isInstalmentPayments: null,
-  instalmentPayments: null
+  instalmentPayments: null,
+  userFreeText: ''
+
 }
 
 export const EmptyQuestionnaire: Questionnaire ={
@@ -63,6 +67,6 @@ export const EmptyQuestionnaire: Questionnaire ={
     hasDependents: null,
     hasDependentsWithPartner: null,
     dependents: [],
-    taxReport: EmptyTaxReport
+    taxReport: EmptyTaxReport,
 }
 

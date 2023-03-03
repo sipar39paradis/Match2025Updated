@@ -20,7 +20,7 @@ export function Features() {
             </h2>
             <iframe
               className="h-96 w-full md:w-1/2"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              src="https://www.youtube.com/embed/ZYNy9C85Db4"
             ></iframe>
           </div>
         </Fade>

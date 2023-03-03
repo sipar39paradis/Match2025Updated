@@ -2,7 +2,9 @@ export interface TaxReport {
   workIncomes: WorkIncomes
   retirementIncomes: RetirementIncomes
   investmentIncomes: InvestmentIncomes
-  selfEmploymentRentalOtherIncomes?: SelfEmploymentRentalOtherIncomes
+  selfEmploymentIncomes?: SelfEmployedIncomes
+  rentalPropertyIncomes?: boolean
+  otherIncomes: OtherIncomes
   foreignAssets: boolean
   studentExpenses: StudentExpenses
   taxDeductions: TaxDeductions
@@ -21,6 +23,7 @@ export interface TaxReport {
   otherDeductions: OtherDeductions
   isInstalmentPayments: boolean
   instalmentPayments: number
+  userFreeText: string
 }
 
 export interface BoughtHome {
@@ -94,10 +97,15 @@ interface RetirementIncomes {
   statementOfDistribution?: boolean
 }
 
-interface SelfEmploymentRentalOtherIncomes {
-  selfEmploymentRentalOtherIncomes: boolean
-  selfEmployed?: SelfEmployedIncomes
-  rentalPropertyIncomes?: boolean
+interface SelfEmployedIncomes {
+  selfEmployedIncomes?: boolean
+  liberalProfession?: boolean
+  commission?: boolean
+  other?: boolean
+}
+
+interface OtherIncomes {
+  otherIncomes: boolean
   homeOwnershipPlan?: boolean
   continuingEducationIncentivePlan?: boolean 
   schoolIncome?: boolean
@@ -113,14 +121,8 @@ interface SelfEmploymentRentalOtherIncomes {
   RRSPorRRIFdeductions?: boolean
   canadaPensionPlanOrQuebecPensionPlanBenefits?: boolean
   registeredRetirementSavingsPlanIncome?: boolean
-  otherRevenues?: boolean
+  otherIncomesNonIncluded?: boolean
 }
-
-interface SelfEmployedIncomes {
-  selfEmployedIncomes?: boolean
-  liberalProfession?: boolean
-  commission?: boolean
-  other?: boolean}
 
 interface StudentExpenses {
   studentExpenses: boolean
