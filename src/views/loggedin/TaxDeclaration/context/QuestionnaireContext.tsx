@@ -115,14 +115,13 @@ export function QuestionnaireContextProvider({
     questionnaire = EmptyQuestionnaire,
     stepToRedirect = TaxDeclarationStep.PERSONAL_INFORMATIONS
   ) {
-    console.log('questionnaire before', questionnaires);
     const defaultValues = {
       ...EmptyQuestionnaire,
       clientType,
       state: QuestionnaireStateEnum.IN_PROGRESS,
       year: new Date().getFullYear(),
       personalInformations: {
-        ...EmptyQuestionnaire?.personalInformations,
+        ...questionnaire?.personalInformations,
         email: user.email,
       },
       civilStatus: questionnaire?.civilStatus || null,
@@ -138,7 +137,6 @@ export function QuestionnaireContextProvider({
       defaultValues
     ).then((docRef) => {
       questionnaires.set(docRef.id, defaultValues);
-      console.log('questionnaires', questionnaires);
       setQuestionnaires(questionnaires);
       navigate(`/questionnaire/${docRef.id}?step=${stepToRedirect}`);
     });

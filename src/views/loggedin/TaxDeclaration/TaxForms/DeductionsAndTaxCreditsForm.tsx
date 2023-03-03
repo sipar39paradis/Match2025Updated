@@ -35,11 +35,9 @@ export function DeductionsAndTaxCreditsForm() {
 
   function onSubmitButton() {
     saveFormAnswers();
-    if (
-      formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
-      formData?.civilStatus?.together &&
-      partnerQuestionnaireAlreadyExists()
-    ) {
+    const dependent = findDependentWhoNeedsQuestionnaire();
+
+    if (partnerNeedsQuestionnaire()) {
       addQuestionnaire(
         ClientTypeEnum.PARTNER,
         {
@@ -49,9 +47,7 @@ export function DeductionsAndTaxCreditsForm() {
         },
         TaxDeclarationStep.PERSONAL_INFORMATIONS
       );
-    }
-    const dependent = findDependentWhoNeedsQuestionnaire();
-    if (dependent) {
+    } else if (dependent) {
       addQuestionnaire(
         ClientTypeEnum.DEPENDENT,
         {
@@ -105,27 +101,35 @@ export function DeductionsAndTaxCreditsForm() {
     lastName: string,
     birthDay: string
   ) {
+    let exist = false;
     questionnaires.forEach((questionnaire) => {
       if (
         questionnaire.clientType === ClientTypeEnum.DEPENDENT &&
         `${questionnaire.personalInformations.firstName}-${questionnaire.personalInformations.lastName}-${questionnaire.personalInformations.birthDay}` ===
           `${firstName}-${lastName}-${birthDay}`
       ) {
-        return true;
+        exist = true;
       }
     });
-    return false;
+    return exist;
+  }
+
+  function partnerNeedsQuestionnaire() {
+    return (
+      formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
+      formData?.civilStatus?.together &&
+      !partnerQuestionnaireAlreadyExists()
+    );
   }
 
   function partnerQuestionnaireAlreadyExists() {
+    let exist = false;
     questionnaires.forEach((questionnaire) => {
-      console.log(questionnaire);
       if (questionnaire.clientType === ClientTypeEnum.PARTNER) {
-        console.log('inside');
-        return true;
+        exist = true;
       }
     });
-    return false;
+    return exist;
   }
 
   return (
@@ -266,7 +270,12 @@ export function DeductionsAndTaxCreditsForm() {
             />
             <input
               type="submit"
-              value="Suivant"
+              value={
+                partnerNeedsQuestionnaire() ||
+                !!findDependentWhoNeedsQuestionnaire()
+                  ? 'Prochain questionnaire'
+                  : 'Suivant'
+              }
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
           </div>
