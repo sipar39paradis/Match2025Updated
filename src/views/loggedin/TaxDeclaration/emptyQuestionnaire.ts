@@ -4,7 +4,7 @@ const EmptyTaxReport = {
   workIncomes: null,
   retirementIncomes: null,
   investmentIncomes: null,
-  elfEmploymentIncomes: null,
+  selfEmploymentIncomes: null,
   rentalPropertyIncomes: null,
   otherIncomes: null,
   foreignAssets: null,

@@ -24,13 +24,19 @@ import {
 export const TAX_DECLARATION_STEP = 'step';
 
 export function QuestionnaireHandler() {
-  const { user, questionnaires, resetForm, loadingQuestionnaires, formData } =
-    useContext(QuestionnaireContext) as QuestionnaireContextType;
+  const {
+    user,
+    questionnaires,
+    resetForm,
+    loadingQuestionnaires,
+    personalInformationsForm,
+  } = useContext(QuestionnaireContext) as QuestionnaireContextType;
   const { id } = useParams();
   const [clientTabs, setClientTabs] = useState([]);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const currentStep = searchParams.get(TAX_DECLARATION_STEP);
+  const personnalInformationsFormData = personalInformationsForm.watch();
 
   useEffect(() => {
     window.scroll({
@@ -52,12 +58,12 @@ export function QuestionnaireHandler() {
         ...currentQuestionnaire,
         personalInformations: {
           ...currentQuestionnaire?.personalInformations,
-          firstName: formData?.personalInformations?.firstName,
+          firstName: personnalInformationsFormData?.firstName,
         },
       });
       generateTabs(questionnaires);
     }
-  }, [formData?.personalInformations?.firstName, currentStep]);
+  }, [personnalInformationsFormData?.firstName, currentStep]);
 
   function generateTabs(questionnaires: Map<string, Questionnaire>) {
     const tabs = [];

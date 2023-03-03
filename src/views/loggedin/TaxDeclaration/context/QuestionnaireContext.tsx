@@ -9,6 +9,8 @@ import {
   UseFormSetValue,
   useForm,
   FieldErrorsImpl,
+  UseFormReset,
+  UseFormWatch,
 } from 'react-hook-form';
 import {
   URLSearchParamsInit,
@@ -27,18 +29,40 @@ import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import { addDoc, collection, setDoc, doc, getDocs } from 'firebase/firestore';
 import { EmptyQuestionnaire } from '../emptyQuestionnaire';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { formSchema } from './schema';
+import { contactDetailsSchema, personalInformationsSchema } from './schema';
+import { PersonalInformations } from '../types/Questionnaire/PersonnalInformations';
+import { ContactDetails } from '../types/Questionnaire/ContactDetails';
 
 export const TAX_DECLARATION_STEP = 'step';
 const TAX_REPORT_COLLECTION = 'taxReport';
 const QUESTIONNAIRE_SUB_COLLECTTION = 'questionnaires';
+
+interface PersonalInformationsForm {
+  register: UseFormRegister<PersonalInformations>;
+  handleSubmit: UseFormHandleSubmit<PersonalInformations>;
+  errors: Partial<FieldErrorsImpl<PersonalInformations>>;
+  control: Control<PersonalInformations>;
+  setValue: UseFormSetValue<PersonalInformations>;
+  reset: UseFormReset<PersonalInformations>;
+  watch: UseFormWatch<PersonalInformations>;
+}
+
+interface ContactDetailsForm {
+  register: UseFormRegister<ContactDetails>;
+  handleSubmit: UseFormHandleSubmit<ContactDetails>;
+  errors: Partial<FieldErrorsImpl<ContactDetails>>;
+  control: Control<ContactDetails>;
+  setValue: UseFormSetValue<ContactDetails>;
+  reset: UseFormReset<ContactDetails>;
+  watch: UseFormWatch<ContactDetails>;
+}
 
 export interface QuestionnaireContextType {
   control: Control<Questionnaire>;
   formData: Questionnaire;
   register: UseFormRegister<Questionnaire>;
   handleSubmit: UseFormHandleSubmit<Questionnaire>;
-  saveFormAnswers: () => void;
+  saveFormAnswers: (formAnswers?: Questionnaire) => void;
   setValue: UseFormSetValue<Questionnaire>;
   resetForm: (newValues?: Questionnaire) => void;
   searchParams: URLSearchParams;
@@ -57,6 +81,8 @@ export interface QuestionnaireContextType {
   user: User;
   loadingQuestionnaires: boolean;
   errors: Partial<FieldErrorsImpl<Questionnaire>>;
+  personalInformationsForm: PersonalInformationsForm;
+  contactDetailsForm: ContactDetailsForm;
 }
 
 export const QuestionnaireContext =
@@ -78,7 +104,51 @@ export function QuestionnaireContextProvider({
     control,
     setValue,
     reset,
-  } = useForm<Questionnaire>({ resolver: yupResolver(formSchema) });
+  } = useForm<Questionnaire>();
+  const {
+    register: personalInformationsRegister,
+    handleSubmit: personalInformationsHandleSubmit,
+    formState: { errors: personalInformationsErrors },
+    watch: watchPersonalInformations,
+    control: personnalInformationsControl,
+    setValue: setValuePersonnalInformations,
+    reset: resetPersonnalInformations,
+  } = useForm<PersonalInformations>({
+    resolver: yupResolver(personalInformationsSchema),
+  });
+
+  const personalInformationsForm: PersonalInformationsForm = {
+    register: personalInformationsRegister,
+    handleSubmit: personalInformationsHandleSubmit,
+    errors: personalInformationsErrors,
+    watch: watchPersonalInformations,
+    control: personnalInformationsControl,
+    setValue: setValuePersonnalInformations,
+    reset: resetPersonnalInformations,
+  };
+
+  const {
+    register: contaxtDetailsRegister,
+    handleSubmit: contaxtDetailsHandleSubmit,
+    formState: { errors: contaxtDetailsErrors },
+    watch: watchContactDetails,
+    control: contactDetailsControl,
+    setValue: setValueContactDetails,
+    reset: resetContactDetails,
+  } = useForm<ContactDetails>({
+    resolver: yupResolver(contactDetailsSchema),
+  });
+
+  const contactDetailsForm: ContactDetailsForm = {
+    register: contaxtDetailsRegister,
+    handleSubmit: contaxtDetailsHandleSubmit,
+    errors: contaxtDetailsErrors,
+    watch: watchContactDetails,
+    control: contactDetailsControl,
+    setValue: setValueContactDetails,
+    reset: resetContactDetails,
+  };
+
   const formData = watch();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -146,9 +216,9 @@ export function QuestionnaireContextProvider({
     });
   }
 
-  async function saveFormAnswers() {
-    console.log('save', formData);
-    questionnaires.set(id, formData);
+  async function saveFormAnswers(formAnswers = formData) {
+    console.log('save', formAnswers);
+    questionnaires.set(id, formAnswers);
     await setDoc(
       doc(
         firestore,
@@ -157,7 +227,7 @@ export function QuestionnaireContextProvider({
         QUESTIONNAIRE_SUB_COLLECTTION,
         id
       ),
-      formData,
+      formAnswers,
       {
         merge: true,
       }
@@ -187,6 +257,8 @@ export function QuestionnaireContextProvider({
         user,
         loadingQuestionnaires,
         errors,
+        personalInformationsForm,
+        contactDetailsForm,
       }}
     >
       {children}

@@ -2,8 +2,8 @@ export interface TaxReport {
   workIncomes: WorkIncomes
   retirementIncomes: RetirementIncomes
   investmentIncomes: InvestmentIncomes
-  selfEmploymentIncomes?: SelfEmployedIncomes
-  rentalPropertyIncomes?: boolean
+  selfEmploymentIncomes: SelfEmployedIncomes
+  rentalPropertyIncomes: boolean
   otherIncomes: OtherIncomes
   foreignAssets: boolean
   studentExpenses: StudentExpenses

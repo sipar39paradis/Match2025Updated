@@ -10,30 +10,41 @@ import {
   QuestionnaireContext,
   QuestionnaireContextType,
 } from '../context/QuestionnaireContext';
+import { useParams } from 'react-router-dom';
 
 export function ContactDetailsForm() {
   const {
-    register,
-    handleSubmit,
     saveFormAnswers,
-    formData,
-    control,
-    setValue,
     setSearchParams,
-    errors,
+    contactDetailsForm,
+    questionnaires,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
+  const contactDetailsFormData = contactDetailsForm.watch();
+  const { id } = useParams();
 
   function onSubmitButton() {
-    saveFormAnswers();
+    saveContactDetails();
     setSearchParams({ step: TaxDeclarationStep.DEPENDENTS });
   }
 
+  function saveContactDetails() {
+    const currentQuestionnaire = questionnaires.get(id);
+    saveFormAnswers({
+      ...currentQuestionnaire,
+      contactDetails: contactDetailsFormData,
+    });
+  }
+
+  useEffect(() => {
+    contactDetailsForm.reset(questionnaires.get(id)?.contactDetails);
+  }, [questionnaires]);
+
   useEffect(() => {
     setMovedFromOtherProvince({
-      startDate: formData?.contactDetails?.movedFromOtherProvince,
-      endDate: formData?.contactDetails?.movedFromOtherProvince,
+      startDate: contactDetailsFormData?.movedFromOtherProvince,
+      endDate: contactDetailsFormData?.movedFromOtherProvince,
     });
-  }, [formData]);
+  }, [contactDetailsFormData?.movedFromOtherProvince]);
 
   const [movedFromOtherProvince, setMovedFromOtherProvince] = useState({
     startDate: null,
@@ -41,7 +52,7 @@ export function ContactDetailsForm() {
   });
 
   const handleMovedFromOtherProvinceChange = (newValue: DateRangeType) => {
-    setValue('contactDetails.movedFromOtherProvince', newValue.startDate);
+    contactDetailsForm.setValue('movedFromOtherProvince', newValue.startDate);
     setMovedFromOtherProvince(newValue);
   };
 
@@ -51,7 +62,7 @@ export function ContactDetailsForm() {
         <h1>Vos coordonnées</h1>
 
         <form
-          onSubmit={handleSubmit(onSubmitButton)}
+          onSubmit={contactDetailsForm.handleSubmit(onSubmitButton)}
           className="flex flex-col items-start mt-4 w-full"
         >
           <h2 className="mb-0">Adresse postale </h2>
@@ -59,7 +70,7 @@ export function ContactDetailsForm() {
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('contactDetails.address')}
+                {...contactDetailsForm.register('address')}
                 type="text"
                 className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -67,15 +78,15 @@ export function ContactDetailsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Adresse/Adresse municipale
               </label>
-              {errors?.contactDetails?.address && (
+              {contactDetailsForm.errors?.address && (
                 <span className="text-red-500 ml-1">
-                  {errors.contactDetails.address?.message}
+                  {contactDetailsForm.errors.address?.message}
                 </span>
               )}
             </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('contactDetails.appartment')}
+                {...contactDetailsForm.register('appartment')}
                 type="text"
                 className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -88,7 +99,7 @@ export function ContactDetailsForm() {
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('contactDetails.city')}
+                {...contactDetailsForm.register('city')}
                 type="text"
                 className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -96,15 +107,15 @@ export function ContactDetailsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Ville
               </label>
-              {errors?.contactDetails?.city && (
+              {contactDetailsForm.errors?.city && (
                 <span className="text-red-500 ml-1">
-                  {errors.contactDetails.city?.message}
+                  {contactDetailsForm.errors.city?.message}
                 </span>
               )}
             </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('contactDetails.postal')}
+                {...contactDetailsForm.register('postal')}
                 type="postal"
                 className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -112,9 +123,9 @@ export function ContactDetailsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Code postal
               </label>
-              {errors?.contactDetails?.postal && (
+              {contactDetailsForm.errors?.postal && (
                 <span className="text-red-500 ml-1">
-                  {errors.contactDetails.postal?.message}
+                  {contactDetailsForm.errors.postal?.message}
                 </span>
               )}
             </div>
@@ -122,7 +133,7 @@ export function ContactDetailsForm() {
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('contactDetails.phoneNumber')}
+                {...contactDetailsForm.register('phoneNumber')}
                 type="tel"
                 className="block w-full py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -130,9 +141,9 @@ export function ContactDetailsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Numéro de téléphone principale
               </label>
-              {errors?.contactDetails?.phoneNumber && (
+              {contactDetailsForm.errors?.phoneNumber && (
                 <span className="text-red-500 ml-1">
-                  {errors.contactDetails.phoneNumber?.message}
+                  {contactDetailsForm.errors.phoneNumber?.message}
                 </span>
               )}
             </div>
@@ -143,8 +154,8 @@ export function ContactDetailsForm() {
             territoire en 2022?
           </p>
           <Controller
-            control={control}
-            name="contactDetails.isDifferentProvince"
+            control={contactDetailsForm.control}
+            name="isDifferentProvince"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row m-4">
                 <div className="flex items-center">
@@ -172,7 +183,7 @@ export function ContactDetailsForm() {
               </fieldset>
             )}
           />
-          {formData?.contactDetails?.isDifferentProvince && (
+          {contactDetailsFormData?.isDifferentProvince && (
             <>
               <p>Veuillez sélectionner la date à laquelle vous avez déménagé</p>
               <Datepicker
@@ -190,8 +201,8 @@ export function ContactDetailsForm() {
                 postale ?
               </p>
               <Controller
-                control={control}
-                name="contactDetails.sameAddress"
+                control={contactDetailsForm.control}
+                name="sameAddress"
                 render={({ field: { onChange, value } }) => (
                   <fieldset className="flex flex-row m-4">
                     <div className="flex items-center">
@@ -224,7 +235,7 @@ export function ContactDetailsForm() {
                 n&apos;est pas la(le) même que dans votre adresse postale
               </p>
               <div id="select" className="my-4 w-80">
-                <Select {...register('contactDetails.differentProvince')}>
+                <Select {...contactDetailsForm.register('differentProvince')}>
                   <option>Je réside dans la même province</option>
                   <option>Alberta</option>
                   <option>Colombie-Britanique</option>
@@ -254,8 +265,8 @@ export function ContactDetailsForm() {
             ></TooltipWithIcon>
           </p>
           <Controller
-            control={control}
-            name="contactDetails.canadianRedisentStatusChange"
+            control={contactDetailsForm.control}
+            name="canadianRedisentStatusChange"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row m-4">
                 <div className="flex items-center">
@@ -283,7 +294,7 @@ export function ContactDetailsForm() {
               </fieldset>
             )}
           />
-          {formData?.contactDetails?.canadianRedisentStatusChange === true && (
+          {contactDetailsFormData?.canadianRedisentStatusChange === true && (
             <p>
               Votre préparateur entrera en contact avec vous pour obtenir plus
               de renseignements.{' '}
@@ -296,7 +307,7 @@ export function ContactDetailsForm() {
               type="submit"
               value="Précédant"
               onClick={() => {
-                saveFormAnswers();
+                saveContactDetails();
                 setSearchParams({
                   step: TaxDeclarationStep.CIVIL_STATUS_CHANGE,
                 });
