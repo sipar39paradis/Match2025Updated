@@ -69,6 +69,9 @@ export function TwoFactorModal(props: TwoFactorModalProps) {
               "Veuillez activer l'authentification à deux facteurs pour commencer à utiliser Impots Match."
             }
           </p>
+          <p className='pt-4'>
+            Ceci est important pour protéger vos informations personnelles
+          </p>
         </div>
 
       </div>
