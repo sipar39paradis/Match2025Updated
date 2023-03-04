@@ -140,7 +140,6 @@ export default function mapFiles(taxReport: TaxReport): Array<string> {
     if (retirementIncomes?.advancePayments) {
       filesArr.push('Relevé 19');
     }
-    doc.addPage();
   }
 
   // Work incomes
