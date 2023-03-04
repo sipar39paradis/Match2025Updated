@@ -14,10 +14,14 @@ export function Features() {
       <div className="px-4 xl:container m-auto">
         {/* <!-- Section Title --> */}
         <Fade top>
-          <div className="relative mx-auto mb-12 max-w-[620px] pt-6 text-center md:mb-20 lg:pt-16">
-            <h2 className="mb-5 font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]">
+          <div className="relative flex flex-col gap-2 w-full mb-12 pt-6 text-center md:mb-20 lg:pt-16 items-center">
+            <h2 className="mb-5 font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px] w-full">
               Découvrez comment utiliser notre service
             </h2>
+            <iframe
+              className="h-96 w-full md:w-1/2"
+              src="https://www.youtube.com/embed/ZYNy9C85Db4"
+            ></iframe>
           </div>
         </Fade>
         <Fade bottom cascade>

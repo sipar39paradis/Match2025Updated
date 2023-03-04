@@ -23,6 +23,7 @@ import {
   multiFactor,
   MultiFactorResolver,
   User,
+  sendEmailVerification,
 } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
@@ -45,6 +46,7 @@ import {
   QuestionnaireStateEnum,
 } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 import { TaxDeclarationStep } from '../views/loggedin/TaxDeclaration/types/TaxReport/TaxDeclarationStep';
+import { signUpWithEmailData } from '../components/auth/SignUpWithEmailModal';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -86,7 +88,7 @@ export interface AppContextType {
     verificationCode: string
   ): Promise<void>;
   verifyTwoFactor(
-    promise: Promise<string>,
+    promise: string,
     verificationCode: string,
     resolver: MultiFactorResolver
   ): Promise<void>;
@@ -106,6 +108,9 @@ export interface AppContextType {
     questionnaire?: Questionnaire,
     stepToRedirect?: TaxDeclarationStep
   ) => void;
+  sendEmail:() => Promise<void>;
+  createUserParams: signUpWithEmailData;
+  setCreateUserParams: any;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -120,13 +125,18 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const [user, loading, errors] = useAuthState(auth);
   const [openModel, setOpenModel] = useState(false);
   const openRef = useRef(openModel);
+  const [createUserParams, setCreateUserParams] = useState<signUpWithEmailData>(null)
   const [continueSess, setContinueSess] = useState(false);
   const continueSessRef = useRef(continueSess);
   continueSessRef.current = continueSess;
   const navigate = useNavigate();
 
   useEffect(() => {
-    // return () => signOut()
+    return () => {
+      if (window.performance.navigation.type !== 1) {
+        signOut();
+      }
+    };
   }, []);
 
   async function enrollTwoFactor(phoneNumber: string): Promise<string> {
@@ -212,23 +222,18 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   };
 
   const verifyTwoFactor = async (
-    promise: Promise<string>,
+    verificationId: string,
     verificationCode: string,
     resolver: MultiFactorResolver
   ) => {
-    await promise
-      .then(function (verificationId) {
-        console.log('in first');
-        // Ask user for the SMS verification code. Then:
-        console.log(verificationCode);
-        const cred = PhoneAuthProvider.credential(
-          verificationId,
-          verificationCode
-        );
-        const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
-        // Complete sign-in.
-        return resolver.resolveSignIn(multiFactorAssertion);
-      })
+    console.log('in first');
+    // Ask user for the SMS verification code. Then:
+    console.log(verificationCode);
+    const cred = PhoneAuthProvider.credential(verificationId, verificationCode);
+    const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
+    // Complete sign-in.
+    return resolver
+      .resolveSignIn(multiFactorAssertion)
       .then(function (userCredential) {
         succsessfulSignIn(userCredential);
       });
@@ -236,7 +241,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
   const handleLogin = async (
     userCredentialsPromise: Promise<UserCredential>,
-    signup = false
+    buttonId: string
   ): Promise<[Promise<string>, MultiFactorResolver, string]> => {
     let errorMessage: string = null;
     let promise = null;
@@ -247,16 +252,13 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         console.log('timeout', 'in signin');
         console.log(userCredential, 'user creds in signup');
         succsessfulSignIn(userCredential);
-        if (signup) {
-          // navigate('/platform/questionnaire');
-        }
         errorMessage = 'No Two Factor';
       })
-      .catch((error) => {
+      .catch(async (error) => {
         console.log(error);
         if (error.code == 'auth/multi-factor-auth-required') {
           const recaptchaVerifier = new RecaptchaVerifier(
-            'google-login',
+            buttonId,
             {
               size: 'invisible',
               callback: function (response) {
@@ -268,6 +270,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
           resolver = getMultiFactorResolver(auth, error);
           // Ask user which second factor to use.
+          console.log(resolver.hints);
           const selectedIndex = 0;
           if (
             resolver.hints[selectedIndex].factorId ===
@@ -279,7 +282,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
             };
             const phoneAuthProvider = new PhoneAuthProvider(auth);
             // Send SMS verification code
-            promise = phoneAuthProvider.verifyPhoneNumber(
+            promise = await phoneAuthProvider.verifyPhoneNumber(
               phoneInfoOptions,
               recaptchaVerifier
             );
@@ -300,14 +303,17 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     email: string,
     password: string
   ): Promise<[Promise<string>, MultiFactorResolver, string]> {
-    return handleLogin(signInWithEmailAndPassword(auth, email, password));
+    return handleLogin(
+      signInWithEmailAndPassword(auth, email, password),
+      'connect-button'
+    );
   }
 
   async function signInWithGoogle(
     signup = false
   ): Promise<[Promise<string>, MultiFactorResolver, string]> {
     const provider = new GoogleAuthProvider();
-    return handleLogin(signInWithPopup(auth, provider));
+    return handleLogin(signInWithPopup(auth, provider), 'google-login');
   }
 
   async function signInWithFacebook() {
@@ -342,6 +348,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
           await createProfile(userCredential, firstName, lastName, referalCode);
+          await sendEmailVerification(userCredential.user);
           succsessfulSignIn(userCredential);
         }
       })
@@ -349,6 +356,10 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         errorMessage = error.message;
       });
     return errorMessage;
+  }
+
+  async function sendEmail(): Promise<void> {
+    await sendEmailVerification(user);
   }
 
   async function signUpWithGoogle(): Promise<
@@ -407,7 +418,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       collection(firestore, 'taxReport', user.uid, 'questionnaires'),
       defaultValues
     ).then((docRef) => {
-      navigate(`/platform/questionnaire/${docRef.id}?step=${stepToRedirect}`);
+      navigate(`/questionnaire/${docRef.id}?step=${stepToRedirect}`);
     });
   }
 
@@ -429,6 +440,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         firestore,
         storage,
         addQuestionnaire,
+        sendEmail,
+        createUserParams,
+        setCreateUserParams
       }}
     >
       <Modal show={openModel}>

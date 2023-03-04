@@ -4,7 +4,7 @@ export interface PersonalInformations {
 firstName: string
 lastName: string
 birthDay: DateType
-socialSecurityNumber: string
+socialInsuranceNumber: string
 email: string
 bankruptcy: boolean
 disabled: boolean

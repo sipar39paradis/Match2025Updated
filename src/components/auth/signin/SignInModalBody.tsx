@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import { ReactComponent as GoogleIcon } from '../../../icons/GoogleIcon.svg';
-import { ReactComponent as FacebookIcon } from '../../../icons/FacebookIcon.svg';
 import { AuthButton } from '../AuthButton';
 import { useForm } from 'react-hook-form';
 import { AuthModalEnum } from '../AuthModal';
@@ -10,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 interface SignInModalBodyProps {
   closeModal: (show: boolean) => void;
   switchModal: (modal: AuthModalEnum) => void;
-  setPromiseFromText: any;
+  setVerificationId: any;
   setResolver: any;
 }
 
@@ -22,12 +21,10 @@ type signInData = {
 export function SignInModalBody({
   closeModal,
   switchModal,
-  setPromiseFromText,
+  setVerificationId,
   setResolver,
 }: SignInModalBodyProps) {
-  const { signInWithGoogle, signInWithFacebook, signIn } = useContext(
-    AppContext
-  ) as AppContextType;
+  const { signInWithGoogle, signIn } = useContext(AppContext) as AppContextType;
   const navigate = useNavigate();
 
   const {
@@ -39,21 +36,19 @@ export function SignInModalBody({
     // const res = await signIn(data.email, data.password);
     // res ? setAuthError(res) : closeModal(false);
 
-    const [promise, resolver, err] = await signIn(data.email, data.password);
-    const verificationId = await promise;
+    const [resolvedId, resolver, err] = await signIn(data.email, data.password);
 
     if (resolver) {
-      setPromiseFromText(promise);
+      setVerificationId(resolvedId)
       setResolver(resolver);
     } else if (err) {
-      if(err === 'No Two Factor'){
-        switchModal(AuthModalEnum.TwoFactor)
+      if (err === 'No Two Factor') {
+        switchModal(AuthModalEnum.TwoFactor);
         navigate('/profile');
-      }else{
-        setAuthError(await promise);
+      } else {
+        setAuthError(err);
       }
-      }
-    else {
+    } else {
       closeModal(false);
       navigate('/profile');
     }
@@ -115,6 +110,7 @@ export function SignInModalBody({
         </div>
         <div className="flex items-center justify-between">
           <input
+            id='connect-button'
             type="submit"
             value="Se connecter"
             className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
@@ -138,19 +134,19 @@ export function SignInModalBody({
         <AuthButton
           Icon={GoogleIcon}
           onClick={async () => {
-            const [promise, resolver, err] = await signInWithGoogle();
-            const verificationId = await promise;
-            console.log(promise, 'promise');
+            const [resolvedId, resolver, err] = await signInWithGoogle();
+
+
 
             if (resolver) {
-              setPromiseFromText(promise);
+              setVerificationId(resolvedId);
               setResolver(resolver);
             } else if (err) {
               if (err === 'No Two Factor') {
                 switchModal(AuthModalEnum.TwoFactor);
                 navigate('/profile');
               }
-              setAuthError(await promise);
+              setAuthError(err);
             } else {
               closeModal(false);
               navigate('/profile');
@@ -159,7 +155,7 @@ export function SignInModalBody({
           text="Continuez avec Google"
           id="google-login"
         ></AuthButton>
-        <AuthButton
+        {/* <AuthButton
           Icon={FacebookIcon}
           onClick={async () => {
             const res = await signInWithFacebook();
@@ -167,7 +163,7 @@ export function SignInModalBody({
           }}
           text="Continue with Facebook"
           id="facebook-login"
-        ></AuthButton>
+        ></AuthButton> */}
       </div>
 
       <div className="flex flex-row items-center justify-center mb-8">

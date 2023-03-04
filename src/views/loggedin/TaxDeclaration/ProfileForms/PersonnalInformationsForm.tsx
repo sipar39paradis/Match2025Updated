@@ -11,37 +11,47 @@ import {
   QuestionnaireContextType,
 } from '../context/QuestionnaireContext';
 
+import { useParams } from 'react-router-dom';
+
 export function PersonnalInformationsForm() {
   const {
-    formData,
-    setValue,
     saveFormAnswers,
     setSearchParams,
-    handleSubmit,
-    register,
-    control,
+    questionnaires,
+    formData,
+    personalInformationsForm,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
-
+  const personnalInformationsFormData = personalInformationsForm.watch();
+  const { id } = useParams();
   const [birthDayValue, setBirthDayValue] = useState({
     startDate: null,
     endDate: null,
   });
 
   useEffect(() => {
+    personalInformationsForm.reset(
+      questionnaires.get(id)?.personalInformations
+    );
+  }, [questionnaires]);
+
+  useEffect(() => {
     setBirthDayValue({
-      startDate: formData?.personalInformations?.birthDay,
-      endDate: formData?.personalInformations?.birthDay,
+      startDate: personnalInformationsFormData?.birthDay,
+      endDate: personnalInformationsFormData?.birthDay,
     });
-  }, [formData]);
+  }, [personnalInformationsFormData?.birthDay]);
 
   const handleBirthDayValueChange = (newValue: DateRangeType) => {
-    console.log(setValue);
-    setValue('personalInformations.birthDay', newValue?.startDate);
+    personalInformationsForm.setValue('birthDay', newValue?.startDate);
     setBirthDayValue(newValue);
   };
 
   function onSubmitButton() {
-    saveFormAnswers();
+    const currentQuestionnaire = questionnaires.get(id);
+    saveFormAnswers({
+      ...currentQuestionnaire,
+      personalInformations: personnalInformationsFormData,
+    });
     if (formData.clientType === ClientTypeEnum.MAIN_CLIENT) {
       setSearchParams({ step: TaxDeclarationStep.CIVIL_STATUS });
     } else {
@@ -54,12 +64,12 @@ export function PersonnalInformationsForm() {
       <section className="flex flex-col align-baseline items-start w-full">
         <h1>Renseignements personnels</h1>
         <form
-          onSubmit={handleSubmit(onSubmitButton)}
+          onSubmit={personalInformationsForm.handleSubmit(onSubmitButton)}
           className="flex flex-col items-start mt-4 w-full"
         >
           <div className="relative z-0 w-full my-4 group">
             <input
-              {...register('personalInformations.email', { required: true })}
+              {...personalInformationsForm.register('email')}
               type="email"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
@@ -67,12 +77,17 @@ export function PersonnalInformationsForm() {
             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Courriel
             </label>
+            {personalInformationsForm.errors?.email && (
+              <span className="text-red-500 ml-1">
+                {personalInformationsForm.errors.email?.message}
+              </span>
+            )}
           </div>
 
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('personalInformations.firstName', {
+                {...personalInformationsForm.register('firstName', {
                   required: true,
                 })}
                 type="text"
@@ -82,12 +97,15 @@ export function PersonnalInformationsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Prénom
               </label>
+              {personalInformationsForm.errors?.firstName && (
+                <span className="text-red-500 ml-1">
+                  {personalInformationsForm.errors.firstName?.message}
+                </span>
+              )}
             </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('personalInformations.lastName', {
-                  required: true,
-                })}
+                {...personalInformationsForm.register('lastName')}
                 type="text"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -95,14 +113,17 @@ export function PersonnalInformationsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Nom de famille
               </label>
+              {personalInformationsForm.errors?.lastName && (
+                <span className="text-red-500 ml-1">
+                  {personalInformationsForm.errors.lastName?.message}
+                </span>
+              )}
             </div>
           </div>
           <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                {...register('personalInformations.socialSecurityNumber', {
-                  required: true,
-                })}
+                {...personalInformationsForm.register('socialInsuranceNumber')}
                 type="text"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                 placeholder=" "
@@ -110,17 +131,32 @@ export function PersonnalInformationsForm() {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Numéro d&apos;assurance sociale
               </label>
+              {personalInformationsForm.errors?.socialInsuranceNumber && (
+                <span className="text-red-500 ml-1">
+                  {
+                    personalInformationsForm.errors.socialInsuranceNumber
+                      ?.message
+                  }
+                </span>
+              )}
             </div>
-            <Datepicker
-              i18n={'fr'}
-              primaryColor={'orange'}
-              containerClassName="h-fit"
-              useRange={false}
-              asSingle={true}
-              value={birthDayValue}
-              onChange={handleBirthDayValueChange}
-              placeholder={'Date de naissance (JJ/MM/AAAA)'}
-            />
+            <div>
+              <Datepicker
+                i18n={'fr'}
+                primaryColor={'orange'}
+                containerClassName="h-fit"
+                useRange={false}
+                asSingle={true}
+                value={birthDayValue}
+                onChange={handleBirthDayValueChange}
+                placeholder={'Date de naissance (JJ/MM/AAAA)'}
+              />
+              {personalInformationsForm.errors?.birthDay && (
+                <span className="text-red-500 ml-1">
+                  {personalInformationsForm.errors.birthDay?.message}
+                </span>
+              )}
+            </div>
           </div>
           <h2 className="mb-0">Autres renseignements personnels </h2>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
@@ -129,8 +165,8 @@ export function PersonnalInformationsForm() {
             selon les dossiers de l&apos;Agence du revenu du Canada (ARC)?
           </p>
           <Controller
-            control={control}
-            name="personalInformations.bankruptcy"
+            control={personalInformationsForm.control}
+            name="bankruptcy"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">
@@ -160,8 +196,8 @@ export function PersonnalInformationsForm() {
           />
           <p className="font-semibold">Êtes-vous une personne handicapée?</p>
           <Controller
-            control={control}
-            name="personalInformations.disabled"
+            control={personalInformationsForm.control}
+            name="disabled"
             render={({ field: { onChange, value } }) => (
               <fieldset className="flex flex-row mx-4">
                 <div className="flex items-center">

@@ -3,25 +3,52 @@ import { AppContext, AppContextType } from '../../context/AppContext';
 import { AuthModalEnum } from './AuthModal';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const formSchema = Yup.object().shape({
+  firstName: Yup.string().required('Le prénom est requis'),
+  lastName: Yup.string().required('Le nom de famille est requis'),
+  email: Yup.string()
+    .email()
+    .min(6, "L'adresse courriel doit être au moins 6 caractères"),
+  password: Yup.string()
+    .required('Mot de passe requis')
+    .min(12, 'Le mot de passe doit être au moins 12 caractères')
+    .matches(
+      /[a-z]/,
+      'Le mot de passe doit contenir au moins une lettre minuscule'
+    )
+    .matches(
+      /[A-Z]/,
+      'Le mot de passe doit contenir au moins une lettre majuscule'
+    )
+    .matches(/[0-9]/, 'Le mot de passe doit contenir au moins un numéro')
+    .matches(/[^\w]/, 'Le mot de passe doit contenir au moins un symbole'),
+
+  confirmationPassword: Yup.string()
+    .required('Confirmation du mot de passe requis')
+    .oneOf([Yup.ref('password')], 'Les mots de passe doivent être identique'),
+});
 
 interface SignUpWithEmailModalProps {
   closeModal: (show: boolean) => void;
   switchModal: (modal: AuthModalEnum) => void;
 }
 
-type signUpWithEmailData = {
+export type signUpWithEmailData = {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  passwordVerification: string;
+  confirmationPassword: string;
   referralCode: string;
 };
 
 export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
   const navigate = useNavigate();
   const { closeModal, switchModal } = props;
-  const { signUpWithEmailAndPassword } = useContext(
+  const { signUpWithEmailAndPassword, setCreateUserParams } = useContext(
     AppContext
   ) as AppContextType;
 
@@ -30,27 +57,27 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<signUpWithEmailData>();
+  } = useForm<signUpWithEmailData>({ resolver: yupResolver(formSchema) });
+
   const onSubmit = async (data: signUpWithEmailData) => {
-    if (data.password !== data.passwordVerification) {
-      errors.passwordVerification;
-    } else {
-      const res = await signUpWithEmailAndPassword(
-        data.email,
-        data.password,
-        'firstName',
-        'lastName',
-        data.referralCode
-      );
-      if (res) {
-        setAuthError(res);
-      } else {
-        closeModal(false);
-        navigate('/profile');
-      }
-    }
+    // const res = await signUpWithEmailAndPassword(
+    //   data.email,
+    //   data.password,
+    //   data.firstName,
+    //   data.lastName,
+    //   data.referralCode
+    // );
+    // if (res) {
+    //   setAuthError(res);
+    // } else {
+    //   closeModal(false);
+    //   navigate('/profile');
+    // }
+    closeModal(false);
+    setCreateUserParams(data)
+    navigate({pathname:'/userConditions', search:'?signup=true&type=email'})
+
   };
 
   return (
@@ -66,12 +93,44 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
         </button>
       </div>
       {/*body*/}
-      <div className="flex flex-col space-y-3.5 bg-white rounded pt-2 pb-8 mb-2">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="bg-white rounded px-8 pt-6 pb-8"
-        >
+      <div className="flex flex-col space-y-3.5 bg-white rounded p-8 mb-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded">
           <div className="flex flex-col items-baseline mb-4 w-96">
+            <div className="flex flex-row mb-4 gap-2">
+              <div className="flex flex-col items-baseline w-full">
+                <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
+                  Prénom
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+                  type="text"
+                  placeholder="Prénom"
+                  {...register('firstName')}
+                />
+                {errors.firstName && (
+                  <span className="text-red-500 ml-1">
+                    {errors.firstName?.message}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex flex-col items-baseline w-full">
+                <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
+                  Nom de famille
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+                  type="text"
+                  placeholder=" Nom de famille"
+                  {...register('lastName')}
+                />
+                {errors?.lastName && (
+                  <span className="text-red-500 ml-1">
+                    {errors.lastName?.message}
+                  </span>
+                )}
+              </div>
+            </div>
             <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
               Courriel
             </label>
@@ -79,13 +138,18 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
               type="text"
               placeholder="Courriel"
-              {...register('email', { required: true, minLength: 6 })}
+              {...register('email')}
             />
-            {errors.email && (
-              <span className="text-red-500 ml-1">Courriel requis</span>
+            {errors?.email && (
+              <span className="text-red-500 ml-1">
+                {' '}
+                {errors.email?.message}
+              </span>
             )}
             {authError && (
-              <span className="text-red-500 ml-1">{authError}</span>
+              <span className="text-red-500 ml-1">
+                Adresse courriel déjà utilisé
+              </span>
             )}
           </div>
           <div className="flex flex-col items-baseline mb-6">
@@ -96,35 +160,27 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
               type="password"
               placeholder="******************"
-              {...register('password', { required: true, minLength: 7 })}
+              {...register('password')}
             />
-            {errors.password && (
+            {errors?.password && (
               <span className="text-red-500 ml-1">
-                Le mot de passe doit être au moins 7 charactères
+                {errors.password?.message}
               </span>
             )}
           </div>
           <div className="flex flex-col items-baseline mb-6">
             <label className="block text-gray-700 text-sm font-bold mb-2 ml-1">
-              Ressaisir le mot de passe
+              Confirmation du mot de passe
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
               type="password"
               placeholder="******************"
-              {...register('passwordVerification', {
-                required: true,
-                minLength: 7,
-                validate: (val: string) => {
-                  if (watch('password') != val) {
-                    return 'Les mots de passe doivent être identique';
-                  }
-                },
-              })}
+              {...register('confirmationPassword')}
             />
-            {errors.passwordVerification && (
+            {errors.confirmationPassword && (
               <span className="text-red-500 ml-1">
-                {errors.passwordVerification.message}
+                {errors.confirmationPassword.message}
               </span>
             )}
           </div>

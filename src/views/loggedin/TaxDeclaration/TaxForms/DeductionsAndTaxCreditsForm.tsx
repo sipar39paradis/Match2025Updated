@@ -24,25 +24,21 @@ import {
 
 export function DeductionsAndTaxCreditsForm() {
   const {
-    register,
     handleSubmit,
     saveFormAnswers,
     formData,
     control,
     setSearchParams,
     addQuestionnaire,
-    resetForm,
     questionnaires,
+    register,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
   function onSubmitButton() {
     saveFormAnswers();
-    if (
-      formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
-      formData?.civilStatus?.together &&
-      !partnerQuestionnaireExist()
-    ) {
-      resetForm();
+    const dependent = findDependentWhoNeedsQuestionnaire();
+
+    if (partnerNeedsQuestionnaire()) {
       addQuestionnaire(
         ClientTypeEnum.PARTNER,
         {
@@ -52,10 +48,7 @@ export function DeductionsAndTaxCreditsForm() {
         },
         TaxDeclarationStep.PERSONAL_INFORMATIONS
       );
-    }
-    const dependent = findDependentWhoNeedsQuestionnaire();
-    if (dependent) {
-      resetForm();
+    } else if (dependent) {
       addQuestionnaire(
         ClientTypeEnum.DEPENDENT,
         {
@@ -65,7 +58,7 @@ export function DeductionsAndTaxCreditsForm() {
             firstName: dependent.firstName,
             lastName: dependent.lastName,
             birthDay: dependent.birthDay,
-            socialSecurityNumber: dependent.socialSecurityNumber,
+            socialInsuranceNumber: dependent.socialInsuranceNumber,
             email: null,
             bankruptcy: null,
             disabled: null,
@@ -81,7 +74,7 @@ export function DeductionsAndTaxCreditsForm() {
         );
         writeRequiredFiles(mapFiles(value?.taxReport), id);
       });
-      setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
+      setSearchParams({ step: TaxDeclarationStep.REVIEW });
     }
   }
 
@@ -109,26 +102,35 @@ export function DeductionsAndTaxCreditsForm() {
     lastName: string,
     birthDay: string
   ) {
+    let exist = false;
     questionnaires.forEach((questionnaire) => {
       if (
         questionnaire.clientType === ClientTypeEnum.DEPENDENT &&
         `${questionnaire.personalInformations.firstName}-${questionnaire.personalInformations.lastName}-${questionnaire.personalInformations.birthDay}` ===
           `${firstName}-${lastName}-${birthDay}`
       ) {
-        return true;
+        exist = true;
       }
     });
-    return false;
+    return exist;
   }
 
-  function partnerQuestionnaireExist() {
+  function partnerNeedsQuestionnaire() {
+    return (
+      formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
+      formData?.civilStatus?.together &&
+      !partnerQuestionnaireAlreadyExists()
+    );
+  }
+
+  function partnerQuestionnaireAlreadyExists() {
+    let exist = false;
     questionnaires.forEach((questionnaire) => {
       if (questionnaire.clientType === ClientTypeEnum.PARTNER) {
-        console.log('inside')
-        return true;
+        exist = true;
       }
     });
-    return false;
+    return exist;
   }
 
   return (
@@ -256,6 +258,14 @@ export function DeductionsAndTaxCreditsForm() {
             </div>
           )}
           <OtherDeductionsForm />
+          <p className="font-semibold mb-2">
+            Autre chose que vous aimeriez mentionnez qui n&apos;a pas été
+            demandé dans le questionnaire ?
+          </p>
+          <textarea
+            className="w-full"
+            {...register('taxReport.userFreeText')}
+          ></textarea>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
           <div className="w-full flex justify-between mt-4">
             <input
@@ -269,7 +279,12 @@ export function DeductionsAndTaxCreditsForm() {
             />
             <input
               type="submit"
-              value="Suivant"
+              value={
+                partnerNeedsQuestionnaire() ||
+                !!findDependentWhoNeedsQuestionnaire()
+                  ? 'Prochain questionnaire'
+                  : 'Suivant'
+              }
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
           </div>

@@ -25,7 +25,7 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
   const navigate = useNavigate();
   const { verifyTwoFactor } = useContext(AppContext) as AppContextType;
 
-  const [promiseFromText, setPromiseFromText] = useState<Promise<string>>(null)
+  const [verificationId, setVerificationId] = useState<string>(null)
   const [resolver, setResolver] = useState<MultiFactorResolver>(null)
   const [verificationCode, setVerificationCode] = useState<string>('')
 
@@ -47,11 +47,11 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
       <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white">
 
 
-        {!promiseFromText?
+        {!verificationId?
           <SignInModalBody
             closeModal={closeModal}
             switchModal={switchModal}
-            setPromiseFromText={setPromiseFromText}
+            setVerificationId={setVerificationId}
             setResolver={setResolver}
           />:
           <div className="flex items-center justify-center p-5 rounded-t">
@@ -90,10 +90,10 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
             <Button
             id='two-factor-button'
             onClick={async () => {
-              console.log(promiseFromText, 'promisefromtext')
+              console.log(verificationId, 'promisefromtext')
               console.log(verificationCode, 'verification code')
               console.log(resolver, 'resolver')
-                await verifyTwoFactor(promiseFromText, verificationCode, resolver)
+                await verifyTwoFactor(verificationId, verificationCode, resolver)
                 console.log('out of login')
                 closeModal(false)
                 navigate('/profile');

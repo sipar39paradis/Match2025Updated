@@ -41,7 +41,7 @@ export function ProfileDropdown({ user, displayModal }: ProfileDropdownProps) {
                   active ? 'bg-gray-100' : '',
                   'block px-4 py-2 text-sm text-gray-700 hover:cursor-pointer'
                 )}
-                onClick={() => navigate('/platform')}
+                onClick={() => navigate('/profile')}
               >
                 Profile
               </span>
@@ -56,7 +56,7 @@ export function ProfileDropdown({ user, displayModal }: ProfileDropdownProps) {
                 )}
                 onClick={() => signOut()}
               >
-                Sign out
+                Se déconnecter
               </span>
             )}
           </Menu.Item>

@@ -12,7 +12,7 @@ export function TooltipWithIcon(props: TooltipWithIconProps) {
   return (
     <span className="relative inline-block ml-2 h-4">
       <QuestionMark
-        className="cursor-pointer w-5 fill-orange-500"
+        className="cursor-pointer w-5 fill-gray-500"
         data-tooltip-id="my-tooltip"
         data-tooltip-content={text}
       ></QuestionMark>

@@ -34,20 +34,10 @@ export function SignUpModal(props: SignUpModalProps) {
         <AuthButton
           Icon={GoogleIcon}
           onClick={async () => {
-            const [promise, resolver, err] = await signInWithGoogle();
-            if (err) {    
-              if(err === 'No Two Factor'){
-                switchModal(AuthModalEnum.TwoFactor)
-                navigate('/profile');
-              }else{
-                setAuthError(await promise);
-              }
-            }
-            else {
-              closeModal(false);
-              navigate('/profile');
-            }
-          }}
+            closeModal(false);
+            navigate({pathname:'/userConditions', search:'?signup=true&type=google'})
+          }
+        }
           text="Continuez avec Google"
           id="google-signup"
         ></AuthButton>

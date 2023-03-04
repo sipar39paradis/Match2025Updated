@@ -138,23 +138,6 @@ export function TaxDeclarationFileUpload (props: TaxDeclarationFileUploadProps){
     const [fetchedExFiles, setFetchedExFiles ] = useState(false);
     const { id } = useParams();
 
-    if (user && id && questionnaires?.size && !fetchedExFiles) {
-                getRequiredFiles(id).then((res) => {
-                    setReqFiles(res?.files);
-                    setFetchedReqFiles(true);
-                }).catch((err) => console.log(err))
-        
-                getExistingFiles(id).then((res) => {
-                    setExistingFiles(res?.files);
-                    setFetchedExFiles(true);
-                })
-
-                setReqFiles(reqFiles.filter((item,index) => {
-                    return existingFiles?.indexOf(item) === index;
-                }))
-                setFetchedExFiles(true)
-    }
-
     return <>
         {
             reqFiles?.map(item => 

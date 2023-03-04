@@ -4,7 +4,9 @@ const EmptyTaxReport = {
   workIncomes: null,
   retirementIncomes: null,
   investmentIncomes: null,
-  selfEmploymentRentalOtherIncomes: null,
+  selfEmploymentIncomes: null,
+  rentalPropertyIncomes: null,
+  otherIncomes: null,
   foreignAssets: null,
   studentExpenses: null,
   taxDeductions: null,
@@ -21,7 +23,9 @@ const EmptyTaxReport = {
   isOtherDeductions: null,
   otherDeductions: null,
   isInstalmentPayments: null,
-  instalmentPayments: null
+  instalmentPayments: null,
+  userFreeText: ''
+
 }
 
 export const EmptyQuestionnaire: Questionnaire ={
@@ -36,7 +40,7 @@ export const EmptyQuestionnaire: Questionnaire ={
     firstName: '',
     lastName: '',
     birthDay: null,
-    socialSecurityNumber: '',
+    socialInsuranceNumber: '',
     email: '',
     bankruptcy: null,
     disabled: null},
@@ -58,9 +62,11 @@ export const EmptyQuestionnaire: Questionnaire ={
     lastYearCivilStatus: null,
     civilStatusChangeDate: null,
     civilStatusChangeToSingleDate: null,
-    socialAssistanceBenefitsAmount: null, },
-    haveDependents: null,
+    socialAssistanceBenefitsAmount: null, 
+  },
+    hasDependents: null,
+    hasDependentsWithPartner: null,
     dependents: [],
-    taxReport: EmptyTaxReport
+    taxReport: EmptyTaxReport,
 }
 
