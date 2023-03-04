@@ -127,7 +127,7 @@ export function Profile() {
       <div className="flex justify-start flex-col w-screen p-10 sm:px-30 lg:px-40">
         <BreadcrumbWrapper
           breadcrumbEndpoint={['profile']}
-          breadcrumbName={['Mon compte']}
+          breadcrumbName={['Mon Compte']}
         >
           <div className={width > 540 ? 'flex flex-row justify-center' : ''}>
             <div className={width > 540 ? 'max-w-xs pr-64' : ''}>
