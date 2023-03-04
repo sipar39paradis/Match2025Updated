@@ -25,7 +25,7 @@ const fillWithX = (phone: string) => {
 };
 
 export function TwoFactorModal(props: TwoFactorModalProps) {
-  const { user, signOut } = useContext(AppContext) as AppContextType;
+  const { user, sendEmail } = useContext(AppContext) as AppContextType;
   const { enrollTwoFactor, verifyEnrollingTwoFactor } = useContext(
     AppContext
   ) as AppContextType;
@@ -158,6 +158,7 @@ export function TwoFactorModal(props: TwoFactorModalProps) {
               Regardez dans votre e-mail pour un lien de vérification, 
                <span
               className=' text-orange-500 font-semibold cursor-pointer'
+              onClick={()=> sendEmail()}
               > cliquez ici</span> pour renvoyer
             
           </p>

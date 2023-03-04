@@ -46,6 +46,7 @@ import {
   QuestionnaireStateEnum,
 } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 import { TaxDeclarationStep } from '../views/loggedin/TaxDeclaration/types/TaxReport/TaxDeclarationStep';
+import { signUpWithEmailData } from '../components/auth/SignUpWithEmailModal';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -107,6 +108,9 @@ export interface AppContextType {
     questionnaire?: Questionnaire,
     stepToRedirect?: TaxDeclarationStep
   ) => void;
+  sendEmail:() => Promise<void>;
+  createUserParams: signUpWithEmailData;
+  setCreateUserParams: any;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -121,6 +125,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const [user, loading, errors] = useAuthState(auth);
   const [openModel, setOpenModel] = useState(false);
   const openRef = useRef(openModel);
+  const [createUserParams, setCreateUserParams] = useState<signUpWithEmailData>(null)
   const [continueSess, setContinueSess] = useState(false);
   const continueSessRef = useRef(continueSess);
   continueSessRef.current = continueSess;
@@ -353,6 +358,10 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     return errorMessage;
   }
 
+  async function sendEmail(): Promise<void> {
+    await sendEmailVerification(user);
+  }
+
   async function signUpWithGoogle(): Promise<
     [Promise<string>, MultiFactorResolver, string]
   > {
@@ -431,6 +440,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         firestore,
         storage,
         addQuestionnaire,
+        sendEmail,
+        createUserParams,
+        setCreateUserParams
       }}
     >
       <Modal show={openModel}>

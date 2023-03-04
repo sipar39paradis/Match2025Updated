@@ -36,7 +36,7 @@ interface SignUpWithEmailModalProps {
   switchModal: (modal: AuthModalEnum) => void;
 }
 
-type signUpWithEmailData = {
+export type signUpWithEmailData = {
   firstName: string;
   lastName: string;
   email: string;
@@ -48,7 +48,7 @@ type signUpWithEmailData = {
 export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
   const navigate = useNavigate();
   const { closeModal, switchModal } = props;
-  const { signUpWithEmailAndPassword } = useContext(
+  const { signUpWithEmailAndPassword, setCreateUserParams } = useContext(
     AppContext
   ) as AppContextType;
 
@@ -61,19 +61,23 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
   } = useForm<signUpWithEmailData>({ resolver: yupResolver(formSchema) });
 
   const onSubmit = async (data: signUpWithEmailData) => {
-    const res = await signUpWithEmailAndPassword(
-      data.email,
-      data.password,
-      data.firstName,
-      data.lastName,
-      data.referralCode
-    );
-    if (res) {
-      setAuthError(res);
-    } else {
-      closeModal(false);
-      navigate('/profile');
-    }
+    // const res = await signUpWithEmailAndPassword(
+    //   data.email,
+    //   data.password,
+    //   data.firstName,
+    //   data.lastName,
+    //   data.referralCode
+    // );
+    // if (res) {
+    //   setAuthError(res);
+    // } else {
+    //   closeModal(false);
+    //   navigate('/profile');
+    // }
+    closeModal(false);
+    setCreateUserParams(data)
+    navigate({pathname:'/userConditions', search:'?signup=true&type=email'})
+
   };
 
   return (
