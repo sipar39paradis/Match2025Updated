@@ -24,8 +24,8 @@ function generatePDFContent(
       currentIndex += 10;
       addToDoc(doc, innerArray[0], fromVal(innerArray[1]), currentIndex);
     });
+    doc.addPage();
   }
-  doc.addPage();
 }
 
 export default function mapFiles(taxReport: TaxReport): Array<string> {
