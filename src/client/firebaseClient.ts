@@ -223,7 +223,7 @@ export const removeFileFromStorage = async (
   });
 }
 
-export const fetchAllUserFiles = async (
+export const fetchFilesPerUserFromGivenEmail = async (
   personalInformations: PersonalInformations
 ): Promise<Map<string, Array<string>>> => {
   const map = new Map<string, Array<string>>();
