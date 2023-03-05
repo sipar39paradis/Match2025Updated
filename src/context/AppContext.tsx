@@ -24,6 +24,7 @@ import {
   MultiFactorResolver,
   User,
   sendEmailVerification,
+  updateProfile,
 } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
@@ -348,6 +349,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       .then(async (userCredential) => {
         if (userCredential?.user.email) {
           await createProfile(userCredential, firstName, lastName, referalCode);
+          await updateProfile(userCredential.user, {
+            displayName: `${firstName} ${lastName}`
+          }).catch((error) => {
+            errorMessage = error.message;
+          });
           await sendEmailVerification(userCredential.user);
           succsessfulSignIn(userCredential);
         }

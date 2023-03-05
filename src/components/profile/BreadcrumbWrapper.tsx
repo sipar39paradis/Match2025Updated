@@ -18,14 +18,11 @@ export function BreadcrumbWrapper({
   return (
     <>
       <Breadcrumb aria-label="Default breadcrumb example" className="pb-2">
-        <Breadcrumb.Item href="/home" icon={HiHome}>
-          Home
-        </Breadcrumb.Item>
         <>
           {breadcrumbName.map((name, i) => {
             return (
               <Breadcrumb.Item
-                className="cursor-pointe"
+                className="cursor-pointer"
                 onClick={() => navigate(`/${breadcrumbEndpoint[i]}`)}
                 key={`breadcrumb${i}`}
               >

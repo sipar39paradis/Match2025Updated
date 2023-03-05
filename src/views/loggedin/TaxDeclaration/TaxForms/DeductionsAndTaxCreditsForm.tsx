@@ -10,14 +10,6 @@ import { SoldMainHomeForm } from './SoldMainHome';
 import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 import {
-  uploadTaxReportPdfToStorage,
-  writeRequiredFiles,
-} from '../../../../client/firebaseClient';
-import mapFiles, { getPDFTaxReport } from '../../../../utils/FileMapper';
-import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
-import { Dependent } from '../types/Questionnaire/Dependent';
-import { EmptyQuestionnaire } from '../emptyQuestionnaire';
-import {
   QuestionnaireContext,
   QuestionnaireContextType,
 } from '../context/QuestionnaireContext';
@@ -29,108 +21,12 @@ export function DeductionsAndTaxCreditsForm() {
     formData,
     control,
     setSearchParams,
-    addQuestionnaire,
-    questionnaires,
     register,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
   function onSubmitButton() {
     saveFormAnswers();
-    const dependent = findDependentWhoNeedsQuestionnaire();
-
-    if (partnerNeedsQuestionnaire()) {
-      addQuestionnaire(
-        ClientTypeEnum.PARTNER,
-        {
-          ...EmptyQuestionnaire,
-          civilStatus: formData.civilStatus,
-          contactDetails: formData.contactDetails,
-        },
-        TaxDeclarationStep.PERSONAL_INFORMATIONS
-      );
-    } else if (dependent) {
-      addQuestionnaire(
-        ClientTypeEnum.DEPENDENT,
-        {
-          ...EmptyQuestionnaire,
-          contactDetails: formData.contactDetails,
-          personalInformations: {
-            firstName: dependent.firstName,
-            lastName: dependent.lastName,
-            birthDay: dependent.birthDay,
-            socialInsuranceNumber: dependent.socialInsuranceNumber,
-            email: null,
-            bankruptcy: null,
-            disabled: null,
-          },
-        },
-        TaxDeclarationStep.INCOMES
-      );
-    } else {
-      questionnaires?.forEach((value, id) => {
-        uploadTaxReportPdfToStorage(
-          getPDFTaxReport(formData?.taxReport, value?.personalInformations),
-          value?.personalInformations
-        );
-        writeRequiredFiles(mapFiles(value?.taxReport), id);
-      });
-      setSearchParams({ step: TaxDeclarationStep.REVIEW });
-    }
-  }
-
-  function findDependentWhoNeedsQuestionnaire(): Dependent | null {
-    let foundDependent = null;
-    questionnaires.forEach((questionnaire) => {
-      questionnaire.dependents.forEach((dependent) => {
-        if (
-          dependent.hasTaxReport &&
-          !dependentQuestionnaireAlreadyExist(
-            dependent.firstName,
-            dependent.lastName,
-            dependent.birthDay.toString()
-          )
-        ) {
-          foundDependent = dependent;
-        }
-      });
-    });
-    return foundDependent;
-  }
-
-  function dependentQuestionnaireAlreadyExist(
-    firstName: string,
-    lastName: string,
-    birthDay: string
-  ) {
-    let exist = false;
-    questionnaires.forEach((questionnaire) => {
-      if (
-        questionnaire.clientType === ClientTypeEnum.DEPENDENT &&
-        `${questionnaire.personalInformations.firstName}-${questionnaire.personalInformations.lastName}-${questionnaire.personalInformations.birthDay}` ===
-          `${firstName}-${lastName}-${birthDay}`
-      ) {
-        exist = true;
-      }
-    });
-    return exist;
-  }
-
-  function partnerNeedsQuestionnaire() {
-    return (
-      formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
-      formData?.civilStatus?.together &&
-      !partnerQuestionnaireAlreadyExists()
-    );
-  }
-
-  function partnerQuestionnaireAlreadyExists() {
-    let exist = false;
-    questionnaires.forEach((questionnaire) => {
-      if (questionnaire.clientType === ClientTypeEnum.PARTNER) {
-        exist = true;
-      }
-    });
-    return exist;
+    setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
   }
 
   return (
@@ -279,12 +175,7 @@ export function DeductionsAndTaxCreditsForm() {
             />
             <input
               type="submit"
-              value={
-                partnerNeedsQuestionnaire() ||
-                !!findDependentWhoNeedsQuestionnaire()
-                  ? 'Prochain questionnaire'
-                  : 'Suivant'
-              }
+              value="Suivant"
               className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             />
           </div>

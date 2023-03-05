@@ -18,6 +18,7 @@ export function ContactDetailsForm() {
     setSearchParams,
     contactDetailsForm,
     questionnaires,
+    setValue,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
   const contactDetailsFormData = contactDetailsForm.watch();
   const { id } = useParams();
@@ -29,6 +30,7 @@ export function ContactDetailsForm() {
 
   function saveContactDetails() {
     const currentQuestionnaire = questionnaires.get(id);
+    setValue('contactDetails', contactDetailsFormData);
     saveFormAnswers({
       ...currentQuestionnaire,
       contactDetails: contactDetailsFormData,
@@ -259,9 +261,9 @@ export function ContactDetailsForm() {
           <p className="font-semibold">
             Est-ce que votre statut de résident canadien a changé en 2022?
             <TooltipWithIcon
-              text=" Si nous n’est pas certain de votre statut de résident canadien au
-              31 décembre 2022, veuillez cocher oui à cette question et votre
-              préparateur va entrer en contact avec vous."
+              text=" Si vous n’êtes pas certain de votre statut de résident canadien au
+              31 décembre 2022, veuillez cocher «oui» à cette question et votre
+              préparateur entrera en contact avec vous."
             ></TooltipWithIcon>
           </p>
           <Controller

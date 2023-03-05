@@ -3,7 +3,6 @@ import {  DateType } from 'react-tailwindcss-datepicker/dist/types'
 export interface ContactDetails {
   address: string
   appartment?: number
-  street: string
   city: string
   postal: string
   canadianRedisentStatusChange: boolean

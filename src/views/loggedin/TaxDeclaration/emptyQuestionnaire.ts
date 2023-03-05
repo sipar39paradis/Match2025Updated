@@ -47,7 +47,6 @@ export const EmptyQuestionnaire: Questionnaire ={
   contactDetails: {
     address: '',
     appartment: null,
-    street: '',
     city: '',
     postal: '',
     movedFromOtherProvince: null,

@@ -14,6 +14,7 @@ import {
   ref,
   uploadBytes,
 } from 'firebase/storage';
+import { personalInformationAsExcel } from '../components/ExcelExport';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
 import { PersonalInformations } from '../views/loggedin/TaxDeclaration/types/Questionnaire/PersonnalInformations';
@@ -220,6 +221,28 @@ export const removeFileFromStorage = async (
       console.log('There was an issue deleting the file ' + fileName);
     });
   });
+}
+
+export const fetchAllUserFiles = async (
+  personalInformations: PersonalInformations
+): Promise<Map<string, Array<string>>> => {
+  const map = new Map<string, Array<string>>();
+  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + personalInformations?.email)
+  const prefixes = (await listAll(filesListRef))?.prefixes
+  const listAllpromises = prefixes?.map((item) => listAll(item));
+  const results = await Promise.all(listAllpromises);
+
+  results?.forEach((res, index) => {
+    const item = prefixes[index];
+    map?.set(item?.name, res?.items?.map((val) => val?.fullPath))
+  } )
+
+  console.log(map)
+  map?.forEach((val, key) => {
+    console.log(key, val)
+  })
+
+  return map;
 }
 
 export const upsertUserProfile = async (
