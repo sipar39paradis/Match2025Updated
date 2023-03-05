@@ -73,6 +73,11 @@ export function QuestionnaireHandler() {
     }
   }, [personnalInformationsFormData?.firstName]);
 
+  useEffect(() => {
+    console.log('changed tabs');
+    generateTabs(questionnaires);
+  }, [currentStep]);
+
   function generateTabs(questionnaires: Map<string, Questionnaire>) {
     const tabs = [];
     questionnaires.forEach((value: Questionnaire, key: string) =>
