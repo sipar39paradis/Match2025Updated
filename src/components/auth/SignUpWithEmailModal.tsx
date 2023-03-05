@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
 import { AuthModalEnum } from './AuthModal';
 import { useForm } from 'react-hook-form';
@@ -53,13 +53,14 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
   ) as AppContextType;
 
   const [authError, setAuthError] = useState('');
-
+  const [showPassWordPolicy, setShowPasswordPolicy] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<signUpWithEmailData>({ resolver: yupResolver(formSchema) });
-
+  const formData = watch();
   const onSubmit = async (data: signUpWithEmailData) => {
     // const res = await signUpWithEmailAndPassword(
     //   data.email,
@@ -75,10 +76,16 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
     //   navigate('/profile');
     // }
     closeModal(false);
-    setCreateUserParams(data)
-    navigate({pathname:'/userConditions', search:'?signup=true&type=email'})
-
+    setCreateUserParams(data);
+    navigate({
+      pathname: '/userConditions',
+      search: '?signup=true&type=email',
+    });
   };
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   return (
     <div className="border-0 rounded-lg shadow-lg relative flex flex-col bg-white">
@@ -141,10 +148,7 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               {...register('email')}
             />
             {errors?.email && (
-              <span className="text-red-500 ml-1">
-                {' '}
-                {errors.email?.message}
-              </span>
+              <span className="text-red-500 ml-1">{errors.email?.message}</span>
             )}
             {authError && (
               <span className="text-red-500 ml-1">
@@ -161,11 +165,68 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               type="password"
               placeholder="******************"
               {...register('password')}
+              onFocus={() => {
+                setShowPasswordPolicy(true);
+              }}
+              onBlur={() => {
+                setShowPasswordPolicy(false);
+              }}
             />
             {errors?.password && (
               <span className="text-red-500 ml-1">
                 {errors.password?.message}
               </span>
+            )}
+            {showPassWordPolicy && (
+              <div className="bg-gray-100 rounded-sm mt-2 p-2 w-full">
+                <ul>
+                  <li
+                    className={`${
+                      formData.password.length >= 12
+                        ? 'text-green-500'
+                        : 'text-red-500'
+                    }`}
+                  >
+                    Au moins 12 caractères
+                  </li>
+                  <li
+                    className={`${
+                      /[A-Z]/.test(formData.password)
+                        ? 'text-green-500'
+                        : 'text-red-500'
+                    }`}
+                  >
+                    Au moins une majuscule
+                  </li>
+                  <li
+                    className={`${
+                      /[a-z]/.test(formData.password)
+                        ? 'text-green-500'
+                        : 'text-red-500'
+                    }`}
+                  >
+                    Au moins une minuscule
+                  </li>
+                  <li
+                    className={`${
+                      /[0-9]/.test(formData.password)
+                        ? 'text-green-500'
+                        : 'text-red-500'
+                    }`}
+                  >
+                    Au moins un chiffre
+                  </li>
+                  <li
+                    className={`${
+                      /[^\w]/.test(formData.password)
+                        ? 'text-green-500'
+                        : 'text-red-500'
+                    }`}
+                  >
+                    Au moins caractères spécial (!@#$%^&*)(+=_-)
+                  </li>
+                </ul>
+              </div>
             )}
           </div>
           <div className="flex flex-col items-baseline mb-6">
