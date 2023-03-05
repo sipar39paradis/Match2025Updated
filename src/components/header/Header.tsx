@@ -71,7 +71,7 @@ export function Header() {
         className="header top-0 left-0 w-full relative lg:px-32"
       >
         <Navbar.Brand href="/">
-          <Logo className="w-16 h-16" />
+          <Logo className="w-12 h-12 mr-2" />
           <p className="text-2xl hidden 2xl:inline font-bold text-gray-900">
             Impôts Match
           </p>
