@@ -18,6 +18,7 @@ export function ContactDetailsForm() {
     setSearchParams,
     contactDetailsForm,
     questionnaires,
+    setValue,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
   const contactDetailsFormData = contactDetailsForm.watch();
   const { id } = useParams();
@@ -29,6 +30,7 @@ export function ContactDetailsForm() {
 
   function saveContactDetails() {
     const currentQuestionnaire = questionnaires.get(id);
+    setValue('contactDetails', contactDetailsFormData);
     saveFormAnswers({
       ...currentQuestionnaire,
       contactDetails: contactDetailsFormData,

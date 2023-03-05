@@ -47,12 +47,20 @@ export function QuestionnaireHandler() {
 
   useEffect(() => {
     if (user && id && questionnaires.size) {
-      resetForm(questionnaires.get(id));
+      console.log('switched to:', questionnaires.get(id));
+      const currentQuestionnaire = questionnaires.get(id);
+      resetForm(currentQuestionnaire);
+      personalInformationsForm.setValue(
+        'firstName',
+        currentQuestionnaire?.personalInformations?.firstName
+      );
     }
+    generateTabs(questionnaires);
   }, [id, questionnaires]);
 
   useEffect(() => {
     if (questionnaires.size) {
+      console.log('generate tabs for:', questionnaires);
       const currentQuestionnaire = questionnaires.get(id);
       questionnaires.set(id, {
         ...currentQuestionnaire,
@@ -63,7 +71,7 @@ export function QuestionnaireHandler() {
       });
       generateTabs(questionnaires);
     }
-  }, [personnalInformationsFormData?.firstName, currentStep]);
+  }, [personnalInformationsFormData?.firstName]);
 
   function generateTabs(questionnaires: Map<string, Questionnaire>) {
     const tabs = [];
@@ -75,6 +83,7 @@ export function QuestionnaireHandler() {
         disabled: disableTab(value.clientType),
       })
     );
+    console.log('tabs :', tabs);
     setClientTabs(tabs);
   }
 
@@ -130,13 +139,15 @@ export function QuestionnaireHandler() {
             className={` rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200 ${
               tab.active ? 'bg-gray-200 cursor-default' : 'bg-white'
             } ${tab.disabled ? 'pointer-events-none' : ''}`}
-            onClick={() =>
-              navigate(
-                `/questionnaire/${tab?.key}?step=${searchParams.get(
-                  TAX_DECLARATION_STEP
-                )}`
-              )
-            }
+            onClick={() => {
+              if (!tab.disabled) {
+                navigate(
+                  `/questionnaire/${tab?.key}?step=${searchParams.get(
+                    TAX_DECLARATION_STEP
+                  )}`
+                );
+              }
+            }}
           >
             <p className="font-semibold">
               {tab?.value?.personalInformations?.firstName || 'Client'}

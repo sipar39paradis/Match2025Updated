@@ -20,6 +20,7 @@ export function PersonnalInformationsForm() {
     questionnaires,
     formData,
     personalInformationsForm,
+    setValue,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
   const personnalInformationsFormData = personalInformationsForm.watch();
   const { id } = useParams();
@@ -29,10 +30,14 @@ export function PersonnalInformationsForm() {
   });
 
   useEffect(() => {
+    console.log(
+      'personnal informations',
+      questionnaires.get(id)?.personalInformations
+    );
     personalInformationsForm.reset(
       questionnaires.get(id)?.personalInformations
     );
-  }, [questionnaires]);
+  }, [questionnaires, id]);
 
   useEffect(() => {
     setBirthDayValue({
@@ -48,6 +53,7 @@ export function PersonnalInformationsForm() {
 
   function onSubmitButton() {
     const currentQuestionnaire = questionnaires.get(id);
+    setValue('personalInformations', personnalInformationsFormData);
     saveFormAnswers({
       ...currentQuestionnaire,
       personalInformations: personnalInformationsFormData,

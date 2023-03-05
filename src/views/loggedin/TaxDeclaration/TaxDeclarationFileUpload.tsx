@@ -400,11 +400,11 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
           }
           className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
           onClick={() => {
-            if (reqFiles && reqFiles?.length == 0) {
-              onSubmitButton();
-            } else {
-              alert('Assurez-vous de télécharger tous les fichiers requis.');
-            }
+            // if (reqFiles && reqFiles?.length == 0) {
+            onSubmitButton();
+            // } else {
+            //   alert('Assurez-vous de télécharger tous les fichiers requis.');
+            // }
           }}
         />
       </div>

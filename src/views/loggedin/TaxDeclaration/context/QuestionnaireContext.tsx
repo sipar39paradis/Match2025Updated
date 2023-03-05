@@ -211,6 +211,7 @@ export function QuestionnaireContextProvider({
       defaultValues
     ).then((docRef) => {
       questionnaires.set(docRef.id, defaultValues);
+      console.log('added', defaultValues);
       setQuestionnaires(questionnaires);
       navigate(`/questionnaire/${docRef.id}?step=${stepToRedirect}`);
     });
@@ -231,9 +232,7 @@ export function QuestionnaireContextProvider({
       {
         merge: true,
       }
-    ).then(() => {
-      setQuestionnaires(questionnaires);
-    });
+    );
   }
 
   function resetForm(resetValues = EmptyQuestionnaire) {

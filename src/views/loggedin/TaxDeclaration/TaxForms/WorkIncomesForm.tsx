@@ -171,7 +171,7 @@ export function WorkIncomesForm() {
                     <hr className="py-2"></hr>
                     <p className=" font-semibold">
                       Avez-vous des dépenses liées à votre emploi?
-                      <TooltipWithIcon text=" Si vous avez encouru des dépenses que vous avez payez personnellement afin d’obtenir un revenu de commission ou du salaire, il se peut que vous puissiez déduire ces dépenses. Si vous n’êtes pas certain cochez oui et votre préparateur va entrer en contact avec vous. "></TooltipWithIcon>
+                      <TooltipWithIcon text="Si vous avez encouru des dépenses que vous avez payé personnellement afin d’obtenir un revenu de commission ou du salaire, il se peut que vous puissiez déduire ces dépenses. Si vous n’êtes pas certain cochez «Oui» et votre préparateur va entrer en contact avec vous."></TooltipWithIcon>
                     </p>
                     <Controller
                       control={control}
