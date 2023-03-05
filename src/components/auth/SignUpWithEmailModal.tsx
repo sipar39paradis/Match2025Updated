@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ReactComponent as CheckMark } from '../../icons/CheckMark.svg';
 
 const formSchema = Yup.object().shape({
   firstName: Yup.string().required('Le prénom est requis'),
@@ -180,50 +181,75 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
             {showPassWordPolicy && (
               <div className="bg-gray-100 rounded-sm mt-2 p-2 w-full">
                 <ul>
-                  <li
-                    className={`${
-                      formData.password.length >= 12
-                        ? 'text-green-500'
-                        : 'text-red-500'
-                    }`}
-                  >
-                    Au moins 12 caractères
+                  <li className="flex flex-row gap-2 items-center">
+                    {formData.password.length >= 12 && (
+                      <CheckMark className="text-green-500 h-5" />
+                    )}
+                    <p
+                      className={`${
+                        formData.password.length >= 12
+                          ? 'text-green-500'
+                          : 'text-red-500'
+                      }`}
+                    >
+                      Au moins 12 caractères
+                    </p>
                   </li>
-                  <li
-                    className={`${
-                      /[A-Z]/.test(formData.password)
-                        ? 'text-green-500'
-                        : 'text-red-500'
-                    }`}
-                  >
-                    Au moins une majuscule
+                  <li className="flex flex-row gap-2 items-center">
+                    {/[A-Z]/.test(formData.password) && (
+                      <CheckMark className="text-green-500 h-5" />
+                    )}
+                    <p
+                      className={`${
+                        /[A-Z]/.test(formData.password)
+                          ? 'text-green-500'
+                          : 'text-red-500'
+                      }`}
+                    >
+                      Au moins une majuscule
+                    </p>
                   </li>
-                  <li
-                    className={`${
-                      /[a-z]/.test(formData.password)
-                        ? 'text-green-500'
-                        : 'text-red-500'
-                    }`}
-                  >
-                    Au moins une minuscule
+                  <li className="flex flex-row gap-2 items-center">
+                    {/[a-z]/.test(formData.password) && (
+                      <CheckMark className="text-green-500 h-5" />
+                    )}
+                    <p
+                      className={`${
+                        /[a-z]/.test(formData.password)
+                          ? 'text-green-500'
+                          : 'text-red-500'
+                      }`}
+                    >
+                      Au moins une minuscule
+                    </p>
                   </li>
-                  <li
-                    className={`${
-                      /[0-9]/.test(formData.password)
-                        ? 'text-green-500'
-                        : 'text-red-500'
-                    }`}
-                  >
-                    Au moins un chiffre
+                  <li className="flex flex-row gap-2 items-center">
+                    {/[0-9]/.test(formData.password) && (
+                      <CheckMark className="text-green-500 h-5" />
+                    )}
+                    <p
+                      className={`${
+                        /[0-9]/.test(formData.password)
+                          ? 'text-green-500'
+                          : 'text-red-500'
+                      }`}
+                    >
+                      Au moins un chiffre
+                    </p>
                   </li>
-                  <li
-                    className={`${
-                      /[^\w]/.test(formData.password)
-                        ? 'text-green-500'
-                        : 'text-red-500'
-                    }`}
-                  >
-                    Au moins caractères spécial (!@#$%^&*)(+=_-)
+                  <li className="flex flex-row gap-2 items-center">
+                    {/[^\w]/.test(formData.password) && (
+                      <CheckMark className="text-green-500 h-5" />
+                    )}
+                    <p
+                      className={`${
+                        /[^\w]/.test(formData.password)
+                          ? 'text-green-500'
+                          : 'text-red-500'
+                      }`}
+                    >
+                      Au moins caractères spécial (!@#$%^&*)(+=_-)
+                    </p>
                   </li>
                 </ul>
               </div>
