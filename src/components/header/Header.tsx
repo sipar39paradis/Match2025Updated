@@ -72,7 +72,7 @@ export function Header() {
       >
         <Navbar.Brand href="/">
           <Logo className="w-16 h-16" />
-          <p className="text-2xl hidden lg:inline font-bold text-gray-900">
+          <p className="text-2xl hidden 2xl:inline font-bold text-gray-900">
             Impôts Match
           </p>
         </Navbar.Brand>
@@ -84,7 +84,7 @@ export function Header() {
                 onClick={() => displayModal(AuthModalEnum.SignIn)}
                 className="mr-2"
               >
-                <span className="text-xs lg:text-base">Se connecter</span>
+                <span className="text-xs 2xl:text-base">Se connecter</span>
               </Button>
 
               <Button
@@ -92,9 +92,7 @@ export function Header() {
                 onClick={() => displayModal(AuthModalEnum.SignUp)}
                 className="mr-2"
               >
-                <span className="text-xs text- lg:text-base">
-                  S&apos;inscrire
-                </span>
+                <span className="text-xs 2xl:text-base">S&apos;inscrire</span>
               </Button>
             </>
           )}
@@ -110,7 +108,7 @@ export function Header() {
             <HeaderItem text={'Nous joindre'} toLink="/#support" />
             {user ? (
               <a
-                className="sm:text-xs lg:text-base menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 dark:hover:text-white hover:cursor-pointer"
+                className="sm:text-xs 2xl:text-base menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-orange-500 [&.active]:text-orange-500 hover:cursor-pointer"
                 onClick={() => navigate('/profile')}
               >
                 Mon Compte

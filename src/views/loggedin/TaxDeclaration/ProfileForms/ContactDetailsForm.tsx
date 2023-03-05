@@ -259,9 +259,9 @@ export function ContactDetailsForm() {
           <p className="font-semibold">
             Est-ce que votre statut de résident canadien a changé en 2022?
             <TooltipWithIcon
-              text=" Si nous n’est pas certain de votre statut de résident canadien au
-              31 décembre 2022, veuillez cocher oui à cette question et votre
-              préparateur va entrer en contact avec vous."
+              text=" Si vous n’êtes pas certain de votre statut de résident canadien au
+              31 décembre 2022, veuillez cocher «oui» à cette question et votre
+              préparateur entrera en contact avec vous."
             ></TooltipWithIcon>
           </p>
           <Controller

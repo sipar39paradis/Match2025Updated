@@ -157,8 +157,8 @@ export function CivilStatusForm() {
               />
               {formData.civilStatus.together && (
                 <p className="font-semibold">
-                  Le conjoint(e)/marié(e)aura son propre questionnaire à remplir
-                  après celui du client principal
+                  Le conjoint(e) ou marié(e) aura son propre questionnaire à
+                  remplir après celui du client principal
                 </p>
               )}
             </div>

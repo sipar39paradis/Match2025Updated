@@ -18,10 +18,6 @@ export function Features() {
             <h2 className="mb-5 font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px] w-full">
               Découvrez comment utiliser notre service
             </h2>
-            <iframe
-              className="h-96 w-full md:w-1/2"
-              src="https://www.youtube.com/embed/ZYNy9C85Db4"
-            ></iframe>
           </div>
         </Fade>
         <Fade bottom cascade>

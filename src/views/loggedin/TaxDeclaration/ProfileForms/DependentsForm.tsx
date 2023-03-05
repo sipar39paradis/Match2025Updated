@@ -199,12 +199,12 @@ export function DependentsForm() {
               </fieldset>
             )}
           />
-          <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
 
           {(formData?.hasDependents || formData?.hasDependentsWithPartner) &&
             fields.map((dependent: Dependent, index: number) => (
               <div className="w-full" key={index}>
-                <h2 className="mb-6">Formulaire enfant</h2>
+                <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
+                <h2 className="mb-6">Formulaire enfant {index + 1}</h2>
                 <>
                   <div className="grid md:grid-cols-2 md:gap-6 my-4 w-full">
                     <div className="relative z-0 w-full mb-6 group">
@@ -611,6 +611,7 @@ export function DependentsForm() {
                 </>
               </div>
             ))}
+          <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
           <div className="w-full flex justify-between mt-4">
             <input
               type="submit"

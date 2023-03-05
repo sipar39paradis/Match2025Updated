@@ -51,11 +51,6 @@ export function CivilStatusChangeForm() {
           vivre en union de fait, vous êtes-vous divorcé ou séparé de votre
           époux ou conjoint de fait, ou êtes-vous devenu(e) veuf(ve)?
         </p>
-        <p className="my-4 font-semibold">
-          Un changement d&apos;état civil peut avoir un impact significatif sur
-          votre situation fiscale; il est donc très important de répondre
-          correctement à ces questions.
-        </p>
         <form
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start mt-4 w-full"
