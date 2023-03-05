@@ -69,6 +69,7 @@ const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const storage = getStorage(app);
 const auth: Auth = getAuth();
+auth.languageCode= 'fr'
 
 export interface AppContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -112,6 +113,8 @@ export interface AppContextType {
   sendEmail:() => Promise<void>;
   createUserParams: signUpWithEmailData;
   setCreateUserParams: any;
+  isInSensitive: boolean
+  setIsInSensitive: any
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -127,6 +130,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const [openModel, setOpenModel] = useState(false);
   const openRef = useRef(openModel);
   const [createUserParams, setCreateUserParams] = useState<signUpWithEmailData>(null)
+  const [isInSensitive, setIsInSensitive] = useState(false);
   const [continueSess, setContinueSess] = useState(false);
   const continueSessRef = useRef(continueSess);
   continueSessRef.current = continueSess;
@@ -134,7 +138,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
   useEffect(() => {
     return () => {
-      if (window.performance.navigation.type !== 1) {
+       if (window.performance.navigation.type !== 1 || isInSensitive) {
+         console.log('should sign out')
         signOut();
       }
     };
@@ -375,8 +380,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   }
 
   function signOut() {
-    setUserInfo(null);
     auth.signOut();
+    setUserInfo(null);
     navigate('/');
   }
 
@@ -448,7 +453,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         addQuestionnaire,
         sendEmail,
         createUserParams,
-        setCreateUserParams
+        setCreateUserParams,
+        isInSensitive,
+        setIsInSensitive,
       }}
     >
       <Modal show={openModel}>

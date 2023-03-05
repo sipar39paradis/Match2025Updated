@@ -26,7 +26,7 @@ const fillWithX = (phone: string) => {
 
 export function TwoFactorModal(props: TwoFactorModalProps) {
   const { user, sendEmail } = useContext(AppContext) as AppContextType;
-  const { enrollTwoFactor, verifyEnrollingTwoFactor } = useContext(
+  const { enrollTwoFactor, verifyEnrollingTwoFactor, setIsInSensitive } = useContext(
     AppContext
   ) as AppContextType;
   const { closeModal, switchModal } = props;
@@ -52,6 +52,11 @@ export function TwoFactorModal(props: TwoFactorModalProps) {
 
     }, 10000)
   }
+
+  useEffect(() => {
+    setIsInSensitive(true)
+    // return (() => setIsInSensitive(false))
+  },[])
   
 
   return (
@@ -139,6 +144,7 @@ export function TwoFactorModal(props: TwoFactorModalProps) {
               setPromiseFromText(enrollTwoFactor(phoneNumber));
             } else {
               await verifyEnrollingTwoFactor(promiseFromText, verificationCode);
+              setIsInSensitive(false)
               closeModal(false);
             }
           }}
