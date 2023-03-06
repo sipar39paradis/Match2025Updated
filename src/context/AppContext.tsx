@@ -48,6 +48,7 @@ import {
 } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 import { TaxDeclarationStep } from '../views/loggedin/TaxDeclaration/types/TaxReport/TaxDeclarationStep';
 import { signUpWithEmailData } from '../components/auth/SignUpWithEmailModal';
+import { AuthModalEnum } from '../components/auth/AuthModal';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -115,6 +116,10 @@ export interface AppContextType {
   setCreateUserParams: any;
   isInSensitive: boolean
   setIsInSensitive: any
+  modalToDisplay: AuthModalEnum | null
+  setModalToDisplay:any
+  showModal:boolean
+  setShowModal: any
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -132,16 +137,20 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const [createUserParams, setCreateUserParams] = useState<signUpWithEmailData>(null)
   const [isInSensitive, setIsInSensitive] = useState(false);
   const [continueSess, setContinueSess] = useState(false);
+  const [modalToDisplay, setModalToDisplay] =
+    React.useState<AuthModalEnum | null>(null);
+  const [showModal, setShowModal] = React.useState(false);
   const continueSessRef = useRef(continueSess);
   continueSessRef.current = continueSess;
   const navigate = useNavigate();
 
   useEffect(() => {
-    return () => {
-       if (window.performance.navigation.type !== 1 || isInSensitive) {
+    return  () => {
+      //  if (window.performance.navigation.type !== 1 || isInSensitive) {
          console.log('should sign out')
-        signOut();
-      }
+      const h  = async () => {await signOut();}
+      h()
+      // }
     };
   }, []);
 
@@ -214,13 +223,13 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     setTimeout(() => {
       console.log(userInfo, 'userInfo');
       setOpenModel(true);
-      setTimeout(() => {
+      setTimeout(async () => {
         if (continueSessRef.current) {
           setContinueSess(false);
           timedSignOut();
         } else {
           setOpenModel(false);
-          signOut();
+          await signOut();
         }
         // }
       }, THIRTY_SECONDS_AFTER_MODAL);
@@ -361,6 +370,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
           });
           await sendEmailVerification(userCredential.user);
           succsessfulSignIn(userCredential);
+          errorMessage = 'No Two Factor';
         }
       })
       .catch((error) => {
@@ -379,8 +389,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     return signUpWithGoogle();
   }
 
-  function signOut() {
-    auth.signOut();
+  async function signOut() {
+    await auth.signOut();
     setUserInfo(null);
     navigate('/');
   }
@@ -456,6 +466,10 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         setCreateUserParams,
         isInSensitive,
         setIsInSensitive,
+        modalToDisplay, 
+        setModalToDisplay,
+        showModal, 
+        setShowModal
       }}
     >
       <Modal show={openModel}>

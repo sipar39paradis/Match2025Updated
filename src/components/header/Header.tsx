@@ -29,11 +29,10 @@ function HeaderItem(props: HeaderItemProps) {
 export function Header() {
   const navigate = useNavigate();
   // const  = redirect();
-  const { user } = useContext(AppContext) as AppContextType;
+  const { user, modalToDisplay, setModalToDisplay, showModal, setShowModal } = useContext(AppContext) as AppContextType;
 
-  const [showModal, setShowModal] = React.useState(false);
-  const [modalToDisplay, setModalToDisplay] =
-    React.useState<AuthModalEnum | null>(null);
+  // const [modalToDisplay, setModalToDisplay] =
+  //   React.useState<AuthModalEnum | null>(null);
 
   useEffect(() => {
     window.addEventListener('scroll', stickNavBar);

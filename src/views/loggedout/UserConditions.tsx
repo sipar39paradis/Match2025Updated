@@ -78,7 +78,7 @@ export function UserConditions() {
       {query.get('signup') ? (
         <div className="flex flex-col justify-center items-center pt-4 p-4 bg-gray-200 rounded-md">
           <p>
-            {'Accepter la Conditions D\'utilisation pour créer votre compte'}
+            {'J’ai lu les conditions d’utilisations d’Impôts Match et je les accepte'}
           </p>
           <Button
             className="bg-orange-500 p-4 mt-4"
