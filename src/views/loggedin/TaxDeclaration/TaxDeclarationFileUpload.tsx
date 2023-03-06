@@ -30,6 +30,7 @@ import {
 import mapFiles, { getPDFTaxReport } from '../../../utils/FileMapper';
 import { EmptyQuestionnaire } from './emptyQuestionnaire';
 import { Dependent } from './types/Questionnaire/Dependent';
+import { PersonalInformations } from './types/Questionnaire/PersonnalInformations';
 
 const STORAGE_BASE_FOLDER = 'customerdata/';
 
@@ -49,8 +50,8 @@ interface FileUploadProps {
   storage: FirebaseStorage;
   userId: string;
   requiredFiles: Array<string>;
-  userEmail: string;
   setReqFiles: (reqFiles: Array<string>) => void;
+  personalInformation: PersonalInformations
 }
 
 interface FileNameComponentProps {
@@ -59,8 +60,8 @@ interface FileNameComponentProps {
   requiredFiles: Array<string>;
   setReqFiles: (reqFiles: Array<string>) => void;
   userId: string;
-  userEmail: string;
   setHidden: (hidden: boolean) => void;
+  personalInformation: PersonalInformations
 }
 
 interface ExistingFileNameComponentProps {
@@ -68,16 +69,16 @@ interface ExistingFileNameComponentProps {
   requiredFiles: Array<string>;
   setReqFiles: (reqFiles: Array<string>) => void;
   userId: string;
-  userEmail: string;
+  personalInformation: PersonalInformations
 }
 
 function ExistingFileNameComponent(props: ExistingFileNameComponentProps) {
-  const { fileName, requiredFiles, setReqFiles, userId, userEmail } = props;
+  const { fileName, requiredFiles, setReqFiles, userId, personalInformation } = props;
 
   const onClickHandle = () => {
     if (confirm('Are you sure you wish to delete this file?')) {
       requiredFiles.push(fileName);
-      removeExistingfile(fileName, userId, userEmail);
+      removeExistingfile(fileName, userId, personalInformation);
       setReqFiles(requiredFiles);
     } else {
     }
@@ -109,13 +110,13 @@ function FileNameComponent(props: FileNameComponentProps) {
     setReqFiles,
     userId,
     setHidden,
-    userEmail,
-  } = props;
+    personalInformation
+    } = props;
 
   const onClickHandle = () => {
     if (confirm('Are you sure you wish to delete this file?')) {
       requiredFiles.push(fileName);
-      removeExistingfile(fileName, userId, userEmail);
+      removeExistingfile(fileName, userId, personalInformation);
       setReqFiles(requiredFiles);
       setHidden(false);
     } else {
@@ -143,7 +144,7 @@ function FileNameComponent(props: FileNameComponentProps) {
 }
 
 function IndividualFileUpload(props: FileUploadProps) {
-  const { storage, userId, fileName, setReqFiles, requiredFiles, userEmail } =
+  const { storage, userId, fileName, setReqFiles, requiredFiles } =
     props;
   const { formData } = useContext(
     QuestionnaireContext
@@ -153,7 +154,7 @@ function IndividualFileUpload(props: FileUploadProps) {
   const handleFileUpload = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
     uploadFileToStorage(
-      file?.name,
+      fileName + '_' + file?.name,
       acceptedFiles[0],
       formData?.personalInformations
     ).then((res) => {
@@ -172,8 +173,8 @@ function IndividualFileUpload(props: FileUploadProps) {
         requiredFiles={requiredFiles}
         userId={userId}
         setHidden={setHidden}
-        userEmail={userEmail}
-      />
+        personalInformation={formData?.personalInformations}
+        />
       {!hidden ? (
         <div className="flex items-center justify-center w-full">
           <Dropzone onDrop={handleFileUpload}>
@@ -361,11 +362,11 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
         <IndividualFileUpload
           requiredFiles={reqFiles}
           userId={id}
-          userEmail={user?.email}
           fileName={item}
           firestore={firestore}
           storage={storage}
           key={item}
+          personalInformation={questionnaires?.get(id)?.personalInformations}
           setReqFiles={setReqFiles}
         />
       ))}
@@ -376,7 +377,7 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
           requiredFiles={reqFiles}
           setReqFiles={setReqFiles}
           userId={id}
-          userEmail={user?.email}
+          personalInformation={questionnaires?.get(id)?.personalInformations}
         />
       ))}
       <div className="w-full flex justify-between mt-4">
