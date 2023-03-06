@@ -154,7 +154,7 @@ function IndividualFileUpload(props: FileUploadProps) {
   const handleFileUpload = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
     uploadFileToStorage(
-      file?.name,
+      fileName + '_' + file?.name,
       acceptedFiles[0],
       formData?.personalInformations
     ).then((res) => {

@@ -224,10 +224,10 @@ export const removeFileFromStorage = async (
 }
 
 export const fetchFilesPerUserFromGivenEmail = async (
-  personalInformations: PersonalInformations
+  userEmail: string
 ): Promise<Map<string, Array<string>>> => {
   const map = new Map<string, Array<string>>();
-  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + personalInformations?.email)
+  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + userEmail)
   const prefixes = (await listAll(filesListRef))?.prefixes
   const listAllpromises = prefixes?.map((item) => listAll(item));
   const results = await Promise.all(listAllpromises);
@@ -236,11 +236,6 @@ export const fetchFilesPerUserFromGivenEmail = async (
     const item = prefixes[index];
     map?.set(item?.name, res?.items?.map((val) => val?.fullPath))
   } )
-
-  console.log(map)
-  map?.forEach((val, key) => {
-    console.log(key, val)
-  })
 
   return map;
 }
