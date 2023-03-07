@@ -6,7 +6,7 @@ import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
 import { Button, Navbar } from 'flowbite-react';
 import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
-import { useNavigate, redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 // import { redirect } from "react-router-dom";
 

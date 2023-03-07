@@ -72,6 +72,14 @@ export function SelfEmploymentRentalOtherIncomeForm() {
               <p>Autre</p>
             </div>
           </div>
+          {(formData?.taxReport?.selfEmploymentIncomes?.liberalProfession ||
+            formData?.taxReport?.selfEmploymentIncomes?.commission ||
+            formData?.taxReport?.selfEmploymentIncomes?.other) && (
+            <p className="font-semibold pb-2">
+              Votre préparateur entrera en contact avec vous pour obtenir plus
+              de renseignements.
+            </p>
+          )}
         </div>
       )}
 
@@ -355,6 +363,14 @@ export function SelfEmploymentRentalOtherIncomeForm() {
                 enfants
               </p>
             </div>
+            {formData?.taxReport?.otherIncomes
+              ?.spousalOrChildSupportPayments && (
+              <p className="font-semibold pb-2">
+                Votre préparateur entrera en contact avec vous pour obtenir plus
+                de renseignements.
+              </p>
+            )}
+
             <div className="flex items-center gap-2 py-2">
               <Checkbox
                 {...register(
