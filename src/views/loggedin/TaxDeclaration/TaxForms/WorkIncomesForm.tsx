@@ -46,7 +46,7 @@ export function WorkIncomesForm() {
         )}
       />
 
-      {formData?.taxReport?.workIncomes?.workedLastYear === true ? (
+      {formData?.taxReport?.workIncomes?.workedLastYear === true && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p className=" font-semibold">
             Veuillez indiquer quel genre de travail vous faisiez (cochez toutes
@@ -328,7 +328,8 @@ export function WorkIncomesForm() {
             </p>
           </div>
         </div>
-      ) : (
+      )}
+      {formData?.taxReport?.workIncomes?.workedLastYear === false && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p className=" font-semibold">
             Il semble que vous n&apos;avez pas travaillé en 2022. Est-ce que
