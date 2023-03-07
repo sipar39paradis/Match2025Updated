@@ -4,7 +4,7 @@ import { ReactComponent as UserCircle } from '../../icons/UserCircle.svg';
 import { ReactComponent as ClipboardDocument } from '../../icons/ClipboardDocument.svg';
 import { ReactComponent as DollarSign } from '../../icons/DollarSign.svg';
 import { ReactComponent as DocumentArrowDown } from '../../icons/DocumentArrowDown.svg';
-import { ReactComponent as HandRaised } from '../../icons/HandRaised.svg';
+import { ReactComponent as Hourglass } from '../../icons/Hourglass.svg';
 import { ReactComponent as Calculator } from '../../icons/Calculator.svg';
 import { ReactComponent as Arrow } from '../../icons/Arrow.svg';
 
@@ -96,8 +96,8 @@ export function Features() {
             <Arrow className="h-16 lg:w-1/5 transform !rotate-90 my-6 md:!rotate-180"></Arrow>
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto  max-w-[380px] text-center md:">
-                <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
-                  <HandRaised className="h-16"></HandRaised>
+                <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 fill-orange-500 group-hover:bg-opacity-100 group-hover:text-white group-hover:fill-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
+                  <Hourglass className="h-16"></Hourglass>
                 </div>
                 <div>
                   <h3 className="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5">

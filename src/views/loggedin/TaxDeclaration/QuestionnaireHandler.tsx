@@ -30,6 +30,7 @@ export function QuestionnaireHandler() {
     resetForm,
     loadingQuestionnaires,
     personalInformationsForm,
+    saveFormAnswers,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
   const { id } = useParams();
   const [clientTabs, setClientTabs] = useState([]);
@@ -49,6 +50,7 @@ export function QuestionnaireHandler() {
     if (user && id && questionnaires.size) {
       console.log('switched to:', questionnaires.get(id));
       const currentQuestionnaire = questionnaires.get(id);
+      saveFormAnswers();
       resetForm(currentQuestionnaire);
       personalInformationsForm.setValue(
         'firstName',

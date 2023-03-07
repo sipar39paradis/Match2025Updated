@@ -130,7 +130,7 @@ export function DependentsForm() {
                             onChange(false);
                             for (
                               let i = 0;
-                              i < formData.dependents.length;
+                              i <= formData.dependents.length;
                               i++
                             ) {
                               remove(i);
@@ -185,7 +185,7 @@ export function DependentsForm() {
                     type="radio"
                     onChange={() => {
                       onChange(false);
-                      for (let i = 0; i < formData.dependents.length; i++) {
+                      for (let i = 0; i <= formData.dependents.length; i++) {
                         remove(i);
                       }
                     }}
