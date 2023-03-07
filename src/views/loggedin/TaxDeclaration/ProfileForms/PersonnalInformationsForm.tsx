@@ -69,9 +69,9 @@ export function PersonnalInformationsForm() {
     <Fade>
       <section className="flex flex-col align-baseline items-start w-full">
         {formData.clientType === ClientTypeEnum.PARTNER ? (
-          <h1>Renseignements personnels</h1>
-        ) : (
           <h1>Renseignements personnels du conjoint</h1>
+        ) : (
+          <h1>Renseignements personnels</h1>
         )}
         <form
           onSubmit={personalInformationsForm.handleSubmit(onSubmitButton)}
