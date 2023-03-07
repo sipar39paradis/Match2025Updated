@@ -24,6 +24,7 @@ function generatePDFContent(
       currentIndex += 10;
       addToDoc(doc, innerArray[0], fromVal(innerArray[1]), currentIndex);
     });
+    doc.addPage();
   }
 }
 
@@ -314,12 +315,15 @@ function addToDoc(doc: jsPDF, text: string, value: any, yAxis: number) {
   doc.setFont('helvetica', 'normal');
 }
 
-function fromVal(givenVal: any) {
-  if (givenVal != undefined || givenVal == true) {
-    return 'Non';
-  }
+function fromVal(givenVal: any){
+    if(givenVal === 'Oui' || givenVal === 'Non'){
+        return givenVal;
+    }
+    if ( givenVal == undefined || !givenVal){
+        return 'Non'
+    }
 
-  return 'Oui';
+    return 'Oui'
 }
 
 function getWorkIncomesText(taxReport: TaxReport): Array<TextData> {

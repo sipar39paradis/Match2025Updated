@@ -16,7 +16,7 @@ export function ViewQuestionnaire() {
 
   useEffect(() => {
     ('BR5shBSMwPSxBTd91Ly5zjjhfiH2');
-    getAllQuestionnaires('BR5shBSMwPSxBTd91Ly5zjjhfiH2').then((res) => {
+    getAllQuestionnaires(user.uid).then((res) => {
       console.log(res, 'res');
       if (res.length !== 0) {
         setNoQuestionaire(false);
