@@ -4,7 +4,6 @@ import { PersonalInformations } from '../views/loggedin/TaxDeclaration/types/Que
 
 type TextData = [string, string];
 
-const MANDATORY_FILES = ['Avis de Cotisation - QC', 'Avis de cotisation - Fed'];
 
 function generatePDFContent(
   taxReport: any,
@@ -26,6 +25,123 @@ function generatePDFContent(
     });
     doc.addPage();
   }
+}
+
+const MANDATORY_FILES = ['Avis de Cotisation - QC', 'Avis de cotisation - Fed'];
+const DEPENSES_EMPLOIS = 'Dépenses liées à votre emploi';
+const REMBOURSEMENTS_TPS_TVH = 'Remboursement de la TPS/TVH'
+const FRAIS_REPAS_LOGEMENTS = 'Frais de repas et de logement'
+const REVENU_EN_INTERETS_NON_DECLARE = 'revenu en intérêts'
+const REVENU_EN_DIVIDENDES_NON_DECLARE = 'revenu en dividendes'
+const REVENU_DE_SOCIETE_NON_DECLARE = 'revenu de societe'
+const REER_DE_CONJOINT = 'REER de conjoint'
+const FERR_DE_CONJOINT = 'FERR DE CONJOINT'
+const RRSP_OR_RRIP_DEDUCTIONS = 'Formulaire T746'
+const OTHER_TUITION_FEETS = 'Autres frais de scolarité'
+const COTISATIONS_REER = 'Cotisations au REER'
+const CHARITABLE_DONATIONS = 'Dons de bienfaisance'
+const POLTIICAL_DONATIONS = 'Contributions Politiques'
+const MEDICAL_FEES = 'Frais médicaux'
+const COTISATIONS_SYNDICALES = 'Cotisations Syndicales'
+const PENSION_ALIMENTAIRE = 'Pension Alimentaire'
+const IMPOT_PAYS_ETRANGER = 'Impot à un pays étranger'
+const REGION_ELOIGNEE = 'Région éloignée'
+const FOREIGN_INCOME = 'Revenu de sources étrangères'
+
+export function mapAllowedMultipleFiles(taxReport: TaxReport): Array<string> {
+  const filesArr = []
+
+  const studentExpenses = taxReport?.studentExpenses;
+  const investmentIncomes = taxReport?.investmentIncomes;
+
+
+  if (taxReport?.medicalExpenses) {
+    filesArr.push(MEDICAL_FEES)
+  }
+
+  if (taxReport?.otherDeductions?.paidUnionOrProfessionalDues) {
+    filesArr.push(COTISATIONS_SYNDICALES)
+  }
+
+  if (taxReport?.otherDeductions?.paidSpousalOrChildSupport) {
+    filesArr.push(PENSION_ALIMENTAIRE)
+  }
+
+  if (taxReport?.otherDeductions?.paidForeignTaxes) {
+    filesArr.push(IMPOT_PAYS_ETRANGER)
+  }
+
+  if (taxReport?.otherDeductions?.northernResidentsDeduction) {
+    filesArr.push(REGION_ELOIGNEE)
+  }
+
+  if (investmentIncomes?.foreignIncomes) {
+    filesArr.push(FOREIGN_INCOME);
+  }
+
+  if (studentExpenses?.otherTuitionsFees) {
+    filesArr.push(OTHER_TUITION_FEETS)
+  }
+
+  if (taxReport?.workIncomes?.jobRelatedExpenses) {
+    filesArr.push(DEPENSES_EMPLOIS)
+  }
+
+  if (taxReport?.workIncomes?.taxRefund) {
+    filesArr.push(REMBOURSEMENTS_TPS_TVH)
+  }
+
+  if (taxReport?.workIncomes?.mealsAndAccomodation) {
+    filesArr.push(FRAIS_REPAS_LOGEMENTS)
+  }
+
+  if (taxReport?.workIncomes?.unionsOrProfessionalDues) {
+    filesArr.push(COTISATIONS_SYNDICALES)
+  }
+
+  if (taxReport?.investmentIncomes?.nonDeclaredInterestDividendPartnershipIncome) {
+    if (taxReport?.investmentIncomes?.interestSlip) {
+      filesArr.push(REVENU_EN_INTERETS_NON_DECLARE)
+    }
+
+    if (taxReport?.investmentIncomes?.dividendSlip) {
+      filesArr.push(REVENU_EN_DIVIDENDES_NON_DECLARE)
+    }
+
+    if (taxReport?.investmentIncomes?.partnershipIncomes) {
+      filesArr.push(REVENU_DE_SOCIETE_NON_DECLARE)
+    }
+  }
+
+  if (taxReport?.otherIncomes?.RRSPorRRIFincome) {
+    if (taxReport?.otherIncomes?.spousalRRSP) {
+      filesArr.push(REER_DE_CONJOINT);
+    }
+
+    if (taxReport?.otherIncomes?.spousalRRIF) {
+      filesArr.push(FERR_DE_CONJOINT);
+    }
+
+    if (taxReport?.otherIncomes?.RRSPorRRIFdeductions) {
+      filesArr.push(RRSP_OR_RRIP_DEDUCTIONS);
+    }
+  }
+
+  if (taxReport?.taxDeductions?.pensionPLan) {
+    if (taxReport?.taxDeductions?.RRSPcontributions) {
+      filesArr.push(COTISATIONS_REER)
+    }
+  }
+
+  if (taxReport?.donations?.charitableDonations) {
+    filesArr.push(CHARITABLE_DONATIONS)
+  }
+
+  if (taxReport?.donations?.politicalContributions) {
+    filesArr.push(POLTIICAL_DONATIONS)
+  }
+
+  return filesArr;
 }
 
 export default function mapFiles(taxReport: TaxReport): Array<string> {
@@ -71,10 +187,6 @@ export default function mapFiles(taxReport: TaxReport): Array<string> {
 
     if (investmentIncomes?.desjardins) {
       filesArr.push('Relevé 26');
-    }
-
-    if (investmentIncomes?.foreignIncomes) {
-      filesArr.push('Foreign Income');
     }
   }
   // Student expenses
@@ -315,15 +427,15 @@ function addToDoc(doc: jsPDF, text: string, value: any, yAxis: number) {
   doc.setFont('helvetica', 'normal');
 }
 
-function fromVal(givenVal: any){
-    if(givenVal === 'Oui' || givenVal === 'Non'){
-        return givenVal;
-    }
-    if ( givenVal == undefined || !givenVal){
-        return 'Non'
-    }
+function fromVal(givenVal: any) {
+  if (givenVal === 'Oui' || givenVal === 'Non') {
+    return givenVal;
+  }
+  if (givenVal == undefined || !givenVal) {
+    return 'Non'
+  }
 
-    return 'Oui'
+  return 'Oui'
 }
 
 function getWorkIncomesText(taxReport: TaxReport): Array<TextData> {

@@ -53,7 +53,7 @@ function FileComponent(props: FileComponentProps) {
 
   return (
     <div className='mb-5'>
-<p className="text-lg font-bold">Fichiers A : <span className="text-xl font-semibold">{userName?.replace('_', ' ')}</span></p>
+    <p className="text-lg font-bold">Fichiers A : <span className="text-xl font-semibold">{userName?.replace('_', ' ')}</span></p>
       <ul role='list' className='list-inside'>
         {files
           ?.filter((item) => !item.includes('taxReport.pdf'))
