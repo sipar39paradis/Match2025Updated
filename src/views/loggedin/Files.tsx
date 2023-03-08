@@ -53,7 +53,7 @@ function FileComponent(props: FileComponentProps) {
 
   return (
     <div className='mb-5'>
-<p className="text-lg font-bold">Fichiers A : <span className="text-xl font-semibold">{userName?.replace('_', ' ')}</span></p>
+    <p className="text-lg font-bold">Fichiers A : <span className="text-xl font-semibold">{userName?.replace('_', ' ')}</span></p>
       <ul role='list' className='list-inside'>
         {files
           ?.filter((item) => !item.includes('taxReport.pdf'))
@@ -107,21 +107,25 @@ export function Files() {
   }, [user]);
 
   const filesPresent = (): boolean => {
-    if(questionnaires.length == 0){
+    if (questionnaires.length === 0) {
       return false;
     }
-
-    questionnaires?.forEach((item) => {
-      if(item['val'].length > 0 ){
-        if(item['val'].length == 1 && !item['val'][0].includes('taxReport.pdf')){
-          return true;
-        }
-        return true;
+  
+    let found = false; 
+  
+    questionnaires.forEach((item) => {
+      if (item['val'].length > 0) {
+        item['val'].forEach((inner) => {
+          console.log(inner);
+          if (inner.includes('taxReport.pdf')) {
+            found = true;
+          }
+        });
       }
-    })
-
-    return false;
-  }
+    });
+  
+    return found;
+  };
 
   return (
     <main>

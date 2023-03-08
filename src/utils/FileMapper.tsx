@@ -4,7 +4,6 @@ import { PersonalInformations } from '../views/loggedin/TaxDeclaration/types/Que
 
 type TextData = [string, string];
 
-const MANDATORY_FILES = ['Avis de Cotisation - QC', 'Avis de cotisation - Fed'];
 
 function generatePDFContent(
   taxReport: any,
@@ -27,6 +26,8 @@ function generatePDFContent(
     doc.addPage();
   }
 }
+
+const MANDATORY_FILES = ['Avis de Cotisation - QC', 'Avis de cotisation - Fed'];
 
 export default function mapFiles(taxReport: TaxReport): Array<string> {
   const filesArr = [];
@@ -71,10 +72,6 @@ export default function mapFiles(taxReport: TaxReport): Array<string> {
 
     if (investmentIncomes?.desjardins) {
       filesArr.push('Relevé 26');
-    }
-
-    if (investmentIncomes?.foreignIncomes) {
-      filesArr.push('Foreign Income');
     }
   }
   // Student expenses
@@ -315,15 +312,15 @@ function addToDoc(doc: jsPDF, text: string, value: any, yAxis: number) {
   doc.setFont('helvetica', 'normal');
 }
 
-function fromVal(givenVal: any){
-    if(givenVal === 'Oui' || givenVal === 'Non'){
-        return givenVal;
-    }
-    if ( givenVal == undefined || !givenVal){
-        return 'Non'
-    }
+function fromVal(givenVal: any) {
+  if (givenVal === 'Oui' || givenVal === 'Non') {
+    return givenVal;
+  }
+  if (givenVal == undefined || !givenVal) {
+    return 'Non'
+  }
 
-    return 'Oui'
+  return 'Oui'
 }
 
 function getWorkIncomesText(taxReport: TaxReport): Array<TextData> {
