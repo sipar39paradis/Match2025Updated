@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ReactComponent as CheckMark } from '../../icons/CheckMark.svg';
+import { Toast } from 'flowbite-react';
+import { HiX } from 'react-icons/hi';
 
 const formSchema = Yup.object().shape({
   firstName: Yup.string().required('Le prénom est requis'),
@@ -49,9 +51,17 @@ export type signUpWithEmailData = {
 export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
   const navigate = useNavigate();
   const { closeModal, switchModal } = props;
-  const { signUpWithEmailAndPassword, setCreateUserParams } = useContext(
-    AppContext
-  ) as AppContextType;
+  const {
+    signUpWithEmailAndPassword,
+    setCreateUserParams,
+    err,
+    createUserParams,        
+    donePolicy,
+    doneConditions,
+    setErr,
+    setModalToDisplay,
+    setShowModal
+  } = useContext(AppContext) as AppContextType;
 
   const [authError, setAuthError] = useState('');
   const [showPassWordPolicy, setShowPasswordPolicy] = useState(false);
@@ -76,12 +86,42 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
     //   closeModal(false);
     //   navigate('/profile');
     // }
-    closeModal(false);
-    setCreateUserParams(data);
-    navigate({
-      pathname: '/userConditions',
-      search: '?signup=true&type=email',
+    if (donePolicy && doneConditions) {
+      
+      const newError = await signUpWithEmailAndPassword(
+        data.email,
+        data.password,
+        data.firstName,
+        data.lastName,
+        data.referralCode
+      );
+      console.log('testingerr', newError)
+      if (newError) {
+        if(newError === 'No Two Factor'){
+          setErr(null)
+          setModalToDisplay(AuthModalEnum.TwoFactor)
+          setShowModal(true)
+          navigate('/profile');
+        }else{
+          setErr(newError)
+        }
+
+      } else {
+        setErr(null)
+        navigate('/profile');
+      }
+
+
+    }else{
+      closeModal(false);
+      setCreateUserParams(data);
+      navigate({
+        pathname: '/userConditions',
+        search: '?signup=true&type=email',
     });
+  }
+  
+
   };
 
   useEffect(() => {
@@ -100,6 +140,7 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
           ×
         </button>
       </div>
+
       {/*body*/}
       <div className="flex flex-col space-y-3.5 bg-white rounded p-8 mb-2">
         <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded">
@@ -114,6 +155,7 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
                   type="text"
                   placeholder="Prénom"
                   {...register('firstName')}
+                  defaultValue={err ? createUserParams.firstName : null}
                 />
                 {errors.firstName && (
                   <span className="text-red-500 ml-1">
@@ -131,6 +173,7 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
                   type="text"
                   placeholder=" Nom de famille"
                   {...register('lastName')}
+                  defaultValue={err ? createUserParams.lastName : null}
                 />
                 {errors?.lastName && (
                   <span className="text-red-500 ml-1">
@@ -147,9 +190,13 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               type="text"
               placeholder="Courriel"
               {...register('email')}
+              defaultValue={err ? createUserParams.email : null}
             />
             {errors?.email && (
               <span className="text-red-500 ml-1">{errors.email?.message}</span>
+            )}
+            {err === 'Firebase: Error (auth/email-already-in-use).' && (
+              <span className="text-red-500 ml-1">cet email est déjà utilisé</span>
             )}
             {authError && (
               <span className="text-red-500 ml-1">
@@ -280,6 +327,7 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               type="text"
               placeholder="ABCD1234"
               {...register('referralCode', { required: false })}
+              defaultValue={err ? createUserParams.referralCode : null}
             />
           </div>
           <input

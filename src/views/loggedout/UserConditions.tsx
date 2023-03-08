@@ -13,9 +13,8 @@ function useQuery() {
 export function UserConditions() {
   const navigate = useNavigate();
   const query = useQuery();
-  const { signUpWithEmailAndPassword, createUserParams } = useContext(
-    AppContext
-  ) as AppContextType;
+  const { signUpWithEmailAndPassword, createUserParams, setDoneConditions } =
+    useContext(AppContext) as AppContextType;
 
   console.log('query', query.get('signup'));
   return (
@@ -78,13 +77,21 @@ export function UserConditions() {
       {query.get('signup') ? (
         <div className="flex flex-col justify-center items-center pt-4 p-4 bg-gray-200 rounded-md">
           <p>
-            {'J’ai lu les conditions d’utilisations d’Impôts Match et je les accepte'}
+            {
+              'J’ai lu les conditions d’utilisations d’Impôts Match et je les accepte'
+            }
           </p>
           <Button
             className="bg-orange-500 p-4 mt-4"
-            onClick={() =>
-              navigate({pathname:'/privacyPolicy', search:`?signup=${query.get('signup')}&type=${query.get('type')}`})
-            }
+            onClick={() => {
+              setDoneConditions(true);
+              navigate({
+                pathname: '/privacyPolicy',
+                search: `?signup=${query.get('signup')}&type=${query.get(
+                  'type'
+                )}`,
+              });
+            }}
           >
             Accepter
           </Button>

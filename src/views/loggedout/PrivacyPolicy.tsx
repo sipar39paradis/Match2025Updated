@@ -13,7 +13,7 @@ function useQuery() {
 export function PrivacyPolicy() {
   const query = useQuery();
   const navigate = useNavigate();
-  const { signUpWithEmailAndPassword, createUserParams, signInWithGoogle, setModalToDisplay, setShowModal } = useContext(
+  const { signUpWithEmailAndPassword, createUserParams, signInWithGoogle, setModalToDisplay, setShowModal, setErr, setDonePolicy } = useContext(
     AppContext
   ) as AppContextType;
 
@@ -234,6 +234,7 @@ export function PrivacyPolicy() {
           <Button
             className="bg-orange-500 p-4 mt-4"
             onClick={async () => {
+              setDonePolicy(true)
               if(query.get('type') && query.get('type') === 'email'){
                 const err = await signUpWithEmailAndPassword(
                   createUserParams.email,
@@ -249,7 +250,9 @@ export function PrivacyPolicy() {
                     setShowModal(true)
                     navigate('/profile');
                   }
-                  // setAuthError(res);
+                  setErr(err)
+                  setModalToDisplay(AuthModalEnum.SignUpWithEmail)
+                  setShowModal(true)
                 } else {
                   navigate('/profile');
                 }
@@ -257,14 +260,17 @@ export function PrivacyPolicy() {
                 const [promise, resolver, err] = await signInWithGoogle();
                 if (err) {    
                   if(err === 'No Two Factor'){
+                    setErr(null)
                     setModalToDisplay(AuthModalEnum.TwoFactor)
                     setShowModal(true)
                     navigate('/profile');
                   }else{
-                    //setAuthError(await promise);
+                    setErr(err)
+                    setModalToDisplay(AuthModalEnum.SignUp)
                   }
                 }
                 else {
+                  setErr(null)
                   navigate('/profile');
                 }
               }
