@@ -31,6 +31,7 @@ import mapFiles, { getPDFTaxReport } from '../../../utils/FileMapper';
 import { EmptyQuestionnaire } from './emptyQuestionnaire';
 import { Dependent } from './types/Questionnaire/Dependent';
 import { PersonalInformations } from './types/Questionnaire/PersonnalInformations';
+import TaxDeclarationAllowedMultipleFileUpload from './TaxDeclarationMultipleFileUpload';
 
 const STORAGE_BASE_FOLDER = 'customerdata/';
 
@@ -380,6 +381,7 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
           personalInformation={questionnaires?.get(id)?.personalInformations}
         />
       ))}
+      <TaxDeclarationAllowedMultipleFileUpload questionnaire={questionnaires?.get(id)}/>
       <div className="w-full flex justify-between mt-4">
         <input
           type="submit"
