@@ -32,6 +32,7 @@ import { EmptyQuestionnaire } from './emptyQuestionnaire';
 import { Dependent } from './types/Questionnaire/Dependent';
 import { PersonalInformations } from './types/Questionnaire/PersonnalInformations';
 import TaxDeclarationAllowedMultipleFileUpload from './TaxDeclarationMultipleFileUpload';
+import { partnerQuestionnaireExists } from './utils/partnerQuestionnaireExists';
 
 const STORAGE_BASE_FOLDER = 'customerdata/';
 
@@ -52,7 +53,7 @@ interface FileUploadProps {
   userId: string;
   requiredFiles: Array<string>;
   setReqFiles: (reqFiles: Array<string>) => void;
-  personalInformation: PersonalInformations
+  personalInformation: PersonalInformations;
 }
 
 interface FileNameComponentProps {
@@ -62,7 +63,7 @@ interface FileNameComponentProps {
   setReqFiles: (reqFiles: Array<string>) => void;
   userId: string;
   setHidden: (hidden: boolean) => void;
-  personalInformation: PersonalInformations
+  personalInformation: PersonalInformations;
 }
 
 interface ExistingFileNameComponentProps {
@@ -70,11 +71,12 @@ interface ExistingFileNameComponentProps {
   requiredFiles: Array<string>;
   setReqFiles: (reqFiles: Array<string>) => void;
   userId: string;
-  personalInformation: PersonalInformations
+  personalInformation: PersonalInformations;
 }
 
 function ExistingFileNameComponent(props: ExistingFileNameComponentProps) {
-  const { fileName, requiredFiles, setReqFiles, userId, personalInformation } = props;
+  const { fileName, requiredFiles, setReqFiles, userId, personalInformation } =
+    props;
 
   const onClickHandle = () => {
     if (confirm('Are you sure you wish to delete this file?')) {
@@ -111,8 +113,8 @@ function FileNameComponent(props: FileNameComponentProps) {
     setReqFiles,
     userId,
     setHidden,
-    personalInformation
-    } = props;
+    personalInformation,
+  } = props;
 
   const onClickHandle = () => {
     if (confirm('Are you sure you wish to delete this file?')) {
@@ -145,8 +147,7 @@ function FileNameComponent(props: FileNameComponentProps) {
 }
 
 function IndividualFileUpload(props: FileUploadProps) {
-  const { storage, userId, fileName, setReqFiles, requiredFiles } =
-    props;
+  const { storage, userId, fileName, setReqFiles, requiredFiles } = props;
   const { formData } = useContext(
     QuestionnaireContext
   ) as QuestionnaireContextType;
@@ -175,7 +176,7 @@ function IndividualFileUpload(props: FileUploadProps) {
         userId={userId}
         setHidden={setHidden}
         personalInformation={formData?.personalInformations}
-        />
+      />
       {!hidden ? (
         <div className="flex items-center justify-center w-full">
           <Dropzone onDrop={handleFileUpload}>
@@ -308,7 +309,7 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
       questionnaire.dependents.forEach((dependent) => {
         if (
           dependent.hasTaxReport &&
-          !dependentQuestionnaireAlreadyExist(
+          !dependentQuestionnaireExists(
             dependent.firstName,
             dependent.lastName,
             dependent.birthDay.toString()
@@ -321,7 +322,7 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
     return foundDependent;
   }
 
-  function dependentQuestionnaireAlreadyExist(
+  function dependentQuestionnaireExists(
     firstName: string,
     lastName: string,
     birthDay: string
@@ -343,18 +344,8 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
     return (
       formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
       formData?.civilStatus?.together &&
-      !partnerQuestionnaireAlreadyExists()
+      !partnerQuestionnaireExists(questionnaires)
     );
-  }
-
-  function partnerQuestionnaireAlreadyExists() {
-    let exist = false;
-    questionnaires.forEach((questionnaire) => {
-      if (questionnaire.clientType === ClientTypeEnum.PARTNER) {
-        exist = true;
-      }
-    });
-    return exist;
   }
 
   return (
@@ -381,7 +372,9 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
           personalInformation={questionnaires?.get(id)?.personalInformations}
         />
       ))}
-      <TaxDeclarationAllowedMultipleFileUpload questionnaire={questionnaires?.get(id)}/>
+      <TaxDeclarationAllowedMultipleFileUpload
+        questionnaire={questionnaires?.get(id)}
+      />
       <div className="w-full flex justify-between mt-4">
         <input
           type="submit"
