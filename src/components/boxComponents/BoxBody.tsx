@@ -97,18 +97,18 @@ export function BoxBody({
           }}
         />
 
-        {secondaryClients.map((respondent) => (
+        {secondaryClients.map((respondent, i) => (
           <BoxRow
             respondent={respondent}
             key={respondent.firstName}
             noQuestionaire={noQuestionaire}
-            last={dependants.length === 0}
+            last={!noQuestionaire ? secondaryClients.length - 1 === i : dependants.length === 0}
             onClick={() =>
               navigate(`/questionnaire/${respondent.questionnaire.id}`)
             }
           />
         ))}
-        {dependants.map((respondent, i) => (
+        {noQuestionaire ?  dependants.map((respondent, i) => (
           <BoxRow
             respondent={respondent}
             key={respondent.firstName}
@@ -118,7 +118,7 @@ export function BoxBody({
             noQuestionaire={noQuestionaire}
             last={dependants.length - 1 === i}
           />
-        ))}
+        )): null}
       </>
     </div>
   );
