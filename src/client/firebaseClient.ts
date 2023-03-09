@@ -85,7 +85,7 @@ export const writeRequiredFiles = async (
 ): Promise<void> => {
   const existingFiles = (await getExistingFiles(userId))?.files
 
-  const nonDuplicateArr = requiredFiles.filter((item, index) => {
+  const nonDuplicateArr = requiredFiles?.filter((item, index) => {
     return requiredFiles.indexOf(item) === index && !existingFiles?.includes(item);
   })
 
