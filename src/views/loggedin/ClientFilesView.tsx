@@ -51,7 +51,7 @@ function FileUpload(props: FileUploadProps){
     const fileRef = ref(storage, STORAGE_BASE_FOLDER + userId + '/' + fileToUpload + '__'+ e.target[0]?.files[0].name)
     uploadBytes(fileRef, file).then((snapshot) => {
       existingFiles.push(fileToUpload)
-      writeRequiredFiles(requiredFiles.filter(fl => fl != fileToUpload), userId);
+      writeRequiredFiles(requiredFiles?.filter(fl => fl != fileToUpload), userId);
       writeExistingFiles(existingFiles, userId);
 
       const uploadedFileInfo = {

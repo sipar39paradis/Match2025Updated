@@ -27,7 +27,7 @@ import {
   QuestionnaireContext,
   QuestionnaireContextType,
 } from './context/QuestionnaireContext';
-import mapFiles, { getPDFTaxReport } from '../../../utils/FileMapper';
+import mapFiles, { getPDFTaxReport, mapTitle } from '../../../utils/FileMapper';
 import { EmptyQuestionnaire } from './emptyQuestionnaire';
 import { Dependent } from './types/Questionnaire/Dependent';
 import { PersonalInformations } from './types/Questionnaire/PersonnalInformations';
@@ -126,7 +126,7 @@ function FileNameComponent(props: FileNameComponentProps) {
 
   return (
     <h2 className="mt-2 mb-0">
-      {fileName}
+      {mapTitle(fileName)}
       {hidden ? (
         <>
           <button
@@ -250,7 +250,7 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
       });
 
       setReqFiles(
-        reqFiles.filter((item, index) => {
+        reqFiles?.filter((item, index) => {
           return existingFiles?.indexOf(item) === index;
         })
       );

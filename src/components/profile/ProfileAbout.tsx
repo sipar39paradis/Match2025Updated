@@ -88,7 +88,7 @@ export const ProfileAbout = ({
                             <option
                               selected={lang === ''}
                               onClick={() => {
-                                alreadySetDropDown = alreadySetDropDown.filter(
+                                alreadySetDropDown = alreadySetDropDown?.filter(
                                   (el) => el != lang
                                 );
                                 const clone = structuredClone(profile);
@@ -107,7 +107,7 @@ export const ProfileAbout = ({
                                 currentSupportedLang
                               )}
                               onClick={() => {
-                                alreadySetDropDown = alreadySetDropDown.filter(
+                                alreadySetDropDown = alreadySetDropDown?.filter(
                                   (el) => el != lang
                                 );
                                 const clone = structuredClone(profile);
