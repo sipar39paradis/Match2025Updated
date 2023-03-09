@@ -89,18 +89,18 @@ export const writeRequiredFiles = async (
     return requiredFiles.indexOf(item) === index && !existingFiles?.includes(item);
   })
 
-  
+
   await setDoc(doc(db, 'UserRequiredFiles', userId), {
     files: nonDuplicateArr,
     userId: userId,
-  }, {merge: true});
+  }, { merge: true });
 };
 
 export const writeExistingFiles = async (
   existingFiles: Array<string>,
   userId: string
 ): Promise<void> => {
-  if(existingFiles){
+  if (existingFiles) {
     await setDoc(doc(db, 'UserExistingFiles', userId), {
       files: existingFiles,
       userId: userId,
@@ -113,7 +113,7 @@ export const appendRequiredFiles = async (
   userId: string
 ): Promise<void> => {
   getRequiredFiles(userId).then((res) => {
-    if (res?.files == undefined) { 
+    if (res?.files == undefined) {
       writeRequiredFiles([fileName], userId);
     } else {
       res?.files?.push(fileName);
@@ -140,13 +140,13 @@ export const removeExistingfile = async (
   fileName: string,
   userId: string,
   personalInformations: PersonalInformations
-  ): Promise<void> => {
+): Promise<void> => {
   getExistingFiles(userId).then((res) => {
-    if(res != undefined){
+    if (res != undefined) {
       writeExistingFiles(res?.files?.filter(file => file != fileName), userId)
       appendRequiredFiles(fileName, userId)
       removeFileFromStorage(fileName, personalInformations)
-    } 
+    }
   })
 }
 
@@ -191,7 +191,7 @@ export const getAllUserProfiles = async (): Promise<Array<UserProfile>> => {
 
 export const uploadTaxReportPdfToStorage = async (
   bytes: ArrayBuffer,
-  personalInformations: PersonalInformations  
+  personalInformations: PersonalInformations
 ): Promise<void> => {
   return uploadFileToStorage('taxReport.pdf', bytes, personalInformations);
 }
@@ -201,20 +201,40 @@ export const uploadFileToStorage = async (
   bytes: ArrayBuffer,
   personalInformations: PersonalInformations
 ): Promise<void> => {
-  const fileNameAndPath = STORAGE_BASE_FOLDER + personalInformations?.email + '/' + personalInformations?.firstName + '_' + personalInformations?.lastName + '/' + fileName;
-  const fileRef = ref(storage, fileNameAndPath)
-  uploadBytes(fileRef, bytes).catch((err) => 'Something went wrong')
-}
+  const fileNameAndPath =
+    STORAGE_BASE_FOLDER +
+    personalInformations?.email +
+    '/' +
+    personalInformations?.firstName +
+    '_' +
+    personalInformations?.lastName +
+    '/' +
+    fileName;
+  const fileRef = ref(storage, fileNameAndPath);
+  uploadBytes(fileRef, bytes)
+    .then((snapsot) => {
+      console.log('Successfully generated taxReport.');
+    })
+    .catch((err) => 'Something went wrong');
+};
 
 export const removeFileFromStorage = async (
   fileName: string,
   personalInformations: PersonalInformations
 ): Promise<void> => {
-  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + personalInformations?.email + '/' + personalInformations?.firstName + '_' + personalInformations?.lastName)
+  const filesListRef = ref(
+    storage,
+    STORAGE_BASE_FOLDER +
+    personalInformations?.email +
+    '/' +
+    personalInformations?.firstName +
+    '_' +
+    personalInformations?.lastName
+  );
   listAll(filesListRef).then((res) => {
     const fileRefToRemove = res?.items?.filter((itemRef) =>
-        itemRef.name.includes(fileName)
-      )[0];
+      itemRef.name.includes(fileName)
+    )[0];
     deleteObject(fileRefToRemove).catch((err) => {
       console.log('There was an issue deleting the file ' + fileName);
     });
@@ -233,7 +253,7 @@ export const fetchFilesPerUserFromGivenEmail = async (
   results?.forEach((res, index) => {
     const item = prefixes[index];
     map?.set(item?.name, res?.items?.map((val) => val?.fullPath))
-  } )
+  })
 
   return map;
 }

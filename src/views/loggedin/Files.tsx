@@ -9,6 +9,9 @@ import { ReactComponent as BlankFile } from '../../icons/BlankFile.svg'
 import { deleteObject, getBlob, getStorage, ref } from 'firebase/storage'
 import { PassThrough } from 'stream'
 import { uuidv4 } from '@firebase/util'
+import MyDropbox from '../../components/MyDropbox'
+import { Questionnaire } from './TaxDeclaration/types/Questionnaire/Questionnaire'
+import { QuestionnaireContext, QuestionnaireContextType } from './TaxDeclaration/context/QuestionnaireContext'
 
 
 const storage = getStorage();
@@ -18,11 +21,11 @@ interface FileComponentProps {
   files: any;
   onSelect: (item: string) => void;
   selected: string | null;
+  questionnaire: Questionnaire;
 }
 
 function FileComponent(props: FileComponentProps) {
   const { userName, files, onSelect, selected } = props;
-  console.log(files)
 
   const handleClick = (item: string) => {
     if (selected === item) {
@@ -87,33 +90,35 @@ function FileComponent(props: FileComponentProps) {
             </li>
           ))}
       </ul>
+      <MyDropbox handleFileUpload={() => {console.log()}} />
     </div>
   );
 }
 
 export function Files() {
   const { user } = useContext(AppContext) as AppContextType;
-  const [questionnaires, setQuestionnaires] = useState([]);
+  const { formData } = useContext(QuestionnaireContext) as QuestionnaireContextType;
+  const [questionnaireArr, setquestionnaireArr] = useState([]);
   const [selectedItem, setSelectedItem] = useState<string | null>(null); // added selected state
 
   useEffect(() => {
     fetchFilesPerUserFromGivenEmail(user?.email).then((res) => {
-      const tempQuestionnaires = [];
+      const tempquestionnaireArr = [];
       res?.forEach((v, k) => {
-        tempQuestionnaires.push({ key: k, val: v });
+        tempquestionnaireArr.push({ key: k, val: v });
       });
-      setQuestionnaires(tempQuestionnaires);
+      setquestionnaireArr(tempquestionnaireArr);
     });
   }, [user]);
 
   const filesPresent = (): boolean => {
-    if (questionnaires.length === 0) {
+    if (questionnaireArr?.length === 0) {
       return false;
     }
   
     let found = false; 
   
-    questionnaires.forEach((item) => {
+    questionnaireArr.forEach((item) => {
       if (item['val'].length > 0) {
         item['val'].forEach((inner) => {
           console.log(inner);
@@ -135,11 +140,12 @@ export function Files() {
           breadcrumbName={['Mon Compte', 'Mes Documents']}
         >
           <div>
-            {(!filesPresent() ) ? <><h1>{'Vous n\'avez pas de fichiers de presents.'}</h1></> : questionnaires?.map((v) => (
+            {(!filesPresent() ) ? <><h1>{'Vous n\'avez pas de fichiers de presents.'}</h1></> : questionnaireArr?.map((v) => (
               <FileComponent
                 key={v + uuidv4()}
                 userName={v['key']}
                 files={v['val']}
+                questionnaire={formData}
                 onSelect={setSelectedItem}
                 selected={selectedItem}
               />
