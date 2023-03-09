@@ -236,7 +236,6 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
   const { id } = useParams();
 
   useEffect(() => {
-    console.log();
     if (user && id && questionnaires?.size) {
       getRequiredFiles(id)
         .then((res) => {
@@ -261,7 +260,6 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
   function onSubmitButton() {
     saveFormAnswers();
     const dependent = findDependentWhoNeedsQuestionnaire();
-
     if (partnerNeedsQuestionnaire()) {
       addQuestionnaire(
         ClientTypeEnum.PARTNER,
@@ -296,7 +294,6 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
           getPDFTaxReport(formData?.taxReport, value?.personalInformations),
           value?.personalInformations
         );
-        writeRequiredFiles(mapFiles(value?.taxReport), id);
       });
       setSearchParams({ step: TaxDeclarationStep.REVIEW });
     }

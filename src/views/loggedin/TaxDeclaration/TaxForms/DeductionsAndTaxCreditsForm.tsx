@@ -13,6 +13,9 @@ import {
   QuestionnaireContext,
   QuestionnaireContextType,
 } from '../context/QuestionnaireContext';
+import { writeRequiredFiles } from '../../../../client/firebaseClient';
+import mapFiles from '../../../../utils/FileMapper';
+import { useParams } from 'react-router-dom';
 
 export function DeductionsAndTaxCreditsForm() {
   const {
@@ -23,10 +26,12 @@ export function DeductionsAndTaxCreditsForm() {
     setSearchParams,
     register,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
+  const { id } = useParams();
 
   function onSubmitButton() {
     saveFormAnswers();
     setSearchParams({ step: TaxDeclarationStep.UPLOAD_FILES });
+    writeRequiredFiles(mapFiles(formData?.taxReport), id)
   }
 
   return (

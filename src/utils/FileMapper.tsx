@@ -26,7 +26,6 @@ function generatePDFContent(
     doc.addPage();
   }
 }
-
 const MANDATORY_FILES = ['Avis de Cotisation - QC', 'Avis de cotisation - Fed'];
 
 export default function mapFiles(taxReport: TaxReport): Array<string> {
@@ -201,7 +200,6 @@ export function getPDFTaxReport(
   taxReport: TaxReport,
   personalInformation: PersonalInformations
 ) {
-  console.log(personalInformation?.email);
   const doc = new jsPDF();
   doc.setFontSize(25);
   doc.text(
