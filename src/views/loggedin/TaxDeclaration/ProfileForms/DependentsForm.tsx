@@ -93,7 +93,7 @@ export function DependentsForm() {
   return (
     <Fade>
       <section className="flex flex-col align-baseline items-start w-full">
-        <h1>Enfants</h1>
+        <h1>Avez-vous des enfants à votre charge?</h1>
         <form
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start w-full"
@@ -177,7 +177,8 @@ export function DependentsForm() {
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
-                    Oui, j’ai des enfants nés avant le 31 décembre 2022
+                    Oui, j’ai des enfants à ma charge nés avant le 31 décembre
+                    2022
                   </p>
                 </div>
                 <div className="flex items-center m-4">

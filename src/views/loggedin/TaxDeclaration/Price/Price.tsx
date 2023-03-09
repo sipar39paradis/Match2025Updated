@@ -118,8 +118,11 @@ export function Price() {
   }
   return (
     <section className="flex flex-col align-baseline items-start w-full h-fit">
-      <h1>Prix </h1>
-      <p>{calculateTotalPrice()}</p>
+      <h1>Merci d’avoir rempli notre questionnaire. </h1>
+      <p>
+        Voici votre prix 100% adapté à votre situation : {calculateTotalPrice()}
+        $
+      </p>
       <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
       <div className="w-full flex justify-between mt-4">
         <input

@@ -13,7 +13,7 @@ export function Advantages() {
       className="pt-14 sm:pt-20 lg:pt-[130px] animate__animated animate__bounceInLeft"
     >
       <div className="xl:container m-auto">
-        <div className="relative overflow-hidden w-full pt-[56.25%]">
+        <div className="relative overflow-hidden w-full pt-[56.25%] rounded-md">
           <iframe
             className="absolute top-o left-0 bottom-0 right-0 w-full h-full"
             src="https://www.youtube.com/embed/ZYNy9C85Db4"

@@ -60,7 +60,7 @@ export function Preparator() {
         </Fade>
         <Fade right>
           <img
-            className="h-[450px] object-cover w-[450px] ml-16 hidden lg:block"
+            className="h-[450px] object-cover w-[450px] ml-16 hidden lg:block rounded-md"
             src={require('../../images/prepator/preparator-2.jpg')}
             alt="hero-image"
           />

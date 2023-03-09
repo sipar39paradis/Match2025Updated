@@ -8,15 +8,17 @@ export function TaxDeclarationReview() {
     <div>
       <h1>Questionnaire.s complété.s</h1>
       <p className="font-semibold mb-2 text-justify">
-        Votre dossier est envoyé à notre équipe administrative et vous recevrez
-        un courriel d&apos;invitation à joindre notre portail.
+        Votre questionnaire et vos pièces justificatives ont été envoyés à notre
+        équipe administrative et vous recevrez par la suite un courriel
+        d&apos;invitation à joindre notre portail.
       </p>
       <p className="font-semibold mb-2 text-justify">
-        Ce portail nous permettra de vous envoyer les documents de procuration a
-        signer afin que nous puissions faire votre dossier
+        Ce portail nous permettra de vous envoyer les documents de procuration
+        qui seront à signer de façon électronique et qui nous permettrons de
+        traiter votre dossier.
       </p>
       <p className="font-semibold mb-2 text-justify">
-        Merci de faire confiance à Impôts Match
+        Merci de faire confiance à Impôts Match!
       </p>
       <input
         type="submit"

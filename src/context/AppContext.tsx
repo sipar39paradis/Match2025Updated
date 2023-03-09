@@ -122,10 +122,10 @@ export interface AppContextType {
   showModal: boolean;
   setShowModal: any;
   err: string;
-  setErr:any;
-  donePolicy: boolean; 
+  setErr: any;
+  donePolicy: boolean;
   setDonePolicy: any;
-  doneConditions: boolean; 
+  doneConditions: boolean;
   setDoneConditions: any;
 }
 
@@ -403,9 +403,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   }
 
   async function signOut() {
-    await auth.signOut();
-    setUserInfo(null);
-    navigate('/');
+    if (user) {
+      await auth.signOut();
+      setUserInfo(null);
+      navigate('/');
+    }
   }
 
   async function resetPassword(email: string) {
@@ -534,7 +536,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
       <Toast.Toggle />
     </Toast>
       ):null} */}
-
 
       {children}
     </AppContext.Provider>

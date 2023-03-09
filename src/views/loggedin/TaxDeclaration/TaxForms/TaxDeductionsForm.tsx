@@ -14,10 +14,9 @@ export function TaxDeductionsForm() {
   return (
     <>
       <p className="font-semibold">
-        Avez-vous des renseignements au sujet d&apos;un REER, d&apos;un RPAC,
-        d&apos;un autre régime de pension, du régime d&apos;accession à la
-        propriété (RAP), du régime d&apos;encouragement à l&apos;éducation
-        permanente ou du SCRT à entrer ?
+        Avez-vous cotisé des montants au niveau d&apos;un REER, d&apos;un RPAC,
+        d&apos;un autre régime de pension ou avez-vous profité du régime
+        d&apos;accession à la propriété (RAP)?
       </p>
       <Controller
         control={control}

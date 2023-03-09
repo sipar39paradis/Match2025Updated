@@ -64,16 +64,16 @@ export function Home() {
                     <img
                       src={require('../../images/hero/image-2.jpg')}
                       alt="hero-image"
-                      className="h-[520px] w-[560] object-cover"
+                      className="h-[520px] w-[560] object-cover rounded-md"
                     />
                   </div>
                   <div className="absolute left-[-120px] bottom-[-144px] z-10 lg:block hidden">
                     <img
                       src={require('../../images/hero/image-1.jpg')}
                       alt="hero-image"
-                      className="h-[420px] w-[440px] object-cover"
+                      className="h-[420px] w-[440px] object-cover rounded-md"
                     />
-                    <div className="absolute -top-6 -right-6 -z-10 h-full w-full border border-orange-500 border-opacity-10 bg-orange-500 bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"></div>
+                    <div className="absolute -top-6 -right-6 -z-10 h-full w-full border border-orange-500 border-opacity-10 bg-orange-500 bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10 rounded-md"></div>
                   </div>
                 </div>
               </Fade>
