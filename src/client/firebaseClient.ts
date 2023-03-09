@@ -203,9 +203,7 @@ export const uploadFileToStorage = async (
 ): Promise<void> => {
   const fileNameAndPath = STORAGE_BASE_FOLDER + personalInformations?.email + '/' + personalInformations?.firstName + '_' + personalInformations?.lastName + '/' + fileName;
   const fileRef = ref(storage, fileNameAndPath)
-  uploadBytes(fileRef, bytes).then((snapsot) => {
-    console.log('Successfully generated taxReport.')
-  }).catch((err) => 'Something went wrong')
+  uploadBytes(fileRef, bytes).catch((err) => 'Something went wrong')
 }
 
 export const removeFileFromStorage = async (
