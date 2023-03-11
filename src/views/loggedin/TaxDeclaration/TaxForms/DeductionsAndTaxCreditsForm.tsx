@@ -25,6 +25,7 @@ import {
   QuestionnaireStateEnum,
 } from '../types/Questionnaire/Questionnaire';
 import { partnerQuestionnaireExists } from '../utils/partnerQuestionnaireExists';
+import { useParams } from 'react-router-dom';
 
 export function DeductionsAndTaxCreditsForm() {
   const {
@@ -37,6 +38,8 @@ export function DeductionsAndTaxCreditsForm() {
     addQuestionnaire,
     questionnaires,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
+
+  const { id } = useParams(); 
 
   function onSubmitButton() {
     saveFormAnswers({ ...formData, state: QuestionnaireStateEnum.COMPLETED });
