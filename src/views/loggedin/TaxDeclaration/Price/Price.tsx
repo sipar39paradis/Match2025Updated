@@ -10,6 +10,8 @@ import {
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import { TaxReport } from '../types/TaxReport/TaxReport';
 import CountUp from 'react-countup';
+import { writeRequiredFiles } from '../../../../client/firebaseClient';
+import mapFiles from '../../../../utils/FileMapper';
 
 export function Price() {
   const { questionnaires, setSearchParams } = useContext(
@@ -154,6 +156,9 @@ export function Price() {
           type="submit"
           value="Accepter et déposer les fichiers"
           onClick={() => {
+            questionnaires?.forEach((value, key) => {
+              writeRequiredFiles(mapFiles(value?.taxReport), key)
+            })
             setSearchParams({
               step: TaxDeclarationStep.UPLOAD_FILES,
             });

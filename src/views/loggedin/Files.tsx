@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BreadcrumbWrapper } from '../../components/profile/BreadcrumbWrapper'
 import { useParams } from 'react-router-dom'
@@ -22,11 +22,14 @@ interface FileComponentProps {
   files: any;
   onSelect: (item: string) => void;
   selected: string | null;
+  userEmail: string;
+  handleDelete: (filePath: string, userName: string, files: Array<any>) => void
 }
 
 function FileComponent(props: FileComponentProps) {
-  const { userName, files, onSelect, selected } = props;
+  const { userName, files, onSelect, selected, handleDelete } = props;
   const [showDropbox, setShowDropbox] = useState(false);
+  const { user } = useContext(AppContext) as AppContextType;
 
   const handleClick = (item: string) => {
     if (selected === item) {
@@ -48,23 +51,19 @@ function FileComponent(props: FileComponentProps) {
     link.remove();
   };
 
-  const handleDelete = async (filePath: string) => {
-    const fileRef = ref(storage, filePath);
-    deleteObject(fileRef)
-      .catch(() => alert('Couldn\'t delete file.'));
-  };
-  
+
   const handleFileUpload = useCallback((acceptedFiles) => {
-    // const file = acceptedFiles[0];
-    // uploadFileToStorage(
-    //   fileName + '_' + file?.name,
-    //   acceptedFiles[0],
-    //   formData?.personalInformations
-    // ).then((res) => {
-    //   removeRequiredfile(fileName, userId);
-    //   appendExistingFiles(fileName, userId);
-    //   setHidden(!hidden);
-    // });
+    acceptedFiles?.forEach((file) =>{
+      uploadFileToStorage(
+        'Autre_fichier_' + file?.name,
+        acceptedFiles[0],
+        {
+          firstName: userName?.split('_')[0],
+          lastName: userName?.split('_')[1],
+          email: user?.email
+      } as PersonalInformations
+        )
+    })
   }, []);
 
   const handleToggleDropbox = () => {
@@ -73,7 +72,7 @@ function FileComponent(props: FileComponentProps) {
 
   return (
     <div className='mb-5'>
-      <p className="text-lg font-bold">Fichiers A : <span className="text-xl font-semibold">{userName?.replace('_', ' ')}</span></p>
+      <p className="text-lg font-bold">Fichiers de : <span className="text-xl font-semibold">{userName?.replace('_', ' ')}</span></p>
       <ul role='list' className='list-inside'>
         {files
           ?.filter((item) => !item.includes('taxReport.pdf'))
@@ -98,7 +97,7 @@ function FileComponent(props: FileComponentProps) {
                     Télécharger
                   </button>
                   <button 
-                  onClick={() => handleDelete(item)}
+                  onClick={() => handleDelete(item, userName, files)}
                   className='bg-red-400 hover:bg-red-500 text-white px-2 py-1 rounded-md transform hover:scale-105'>
                     Supprimer
                   </button>
@@ -107,16 +106,51 @@ function FileComponent(props: FileComponentProps) {
             </li>
           ))}
       </ul>
-      <button onClick={handleToggleDropbox}>{showDropbox ? 'Hide' : 'Show'} Dropbox</button>
-      {showDropbox && <MyDropbox handleFileUpload={handleFileUpload} />}
+      <div className="border-2 border-gray-500 bg-gray-200 p-4 rounded">
+        <button className="bg-gray-500 text-white py-2 px-4 rounded" onClick={handleToggleDropbox}>
+          {showDropbox ? 'Fini de deposer les fichiers' : 'Deposer plus de fichiers'} 
+        </button>
+        {showDropbox && (
+          <div className="mt-4">
+            <MyDropbox handleFileUpload={handleFileUpload} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 export function Files() {
   const { user } = useContext(AppContext) as AppContextType;
-  const [questionnaireArr, setquestionnaireArr] = useState([]);
+  const [questionnaireArr, setQuestionnaireArr] = useState([]);
   const [selectedItem, setSelectedItem] = useState<string | null>(null); // added selected state
+
+  const indexOfFileInQuestionnaire = (arr: Array<any>, userName: string): number => {
+    for(let i = 0; i < arr.length; i++){
+      if(arr[i]['key'] == userName){
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  const handleDelete = (filePath: string, userName: string, files: Array<any>) => {
+    const fileRef = ref(storage, filePath); 
+    deleteObject(fileRef)
+      .then((res) => {
+            const index = files?.indexOf(filePath);
+            if(index > -1){
+              files?.splice(index, 1);
+            }
+            
+            const questionnaireIndex = indexOfFileInQuestionnaire(questionnaireArr, userName);
+            questionnaireArr[questionnaireIndex] = {key: userName, val:files }
+            setQuestionnaireArr(questionnaireArr)
+            setSelectedItem(null)
+      })
+      .catch(() => alert('Couldn\'t delete file.'));
+  };
 
   useEffect(() => {
     fetchFilesPerUserFromGivenEmail(user?.email).then((res) => {
@@ -124,9 +158,9 @@ export function Files() {
       res?.forEach((v, k) => {
         tempquestionnaireArr.push({ key: k, val: v });
       });
-      setquestionnaireArr(tempquestionnaireArr);
+      setQuestionnaireArr(tempquestionnaireArr);
     });
-  }, [user]);
+  }, []);
 
   const filesPresent = (): boolean => {
     if (questionnaireArr?.length === 0) {
@@ -138,7 +172,6 @@ export function Files() {
     questionnaireArr.forEach((item) => {
       if (item['val'].length > 0) {
         item['val'].forEach((inner) => {
-          console.log(inner);
           if (inner.includes('taxReport.pdf')) {
             found = true;
           }
@@ -157,13 +190,16 @@ export function Files() {
           breadcrumbName={['Mon Compte', 'Mes Documents']}
         >
           <div>
-            {(!filesPresent() ) ? <><h1>{'Vous n\'avez pas de fichiers de presents.'}</h1></> : questionnaireArr?.map((v) => (
+            {(!filesPresent() ) ? <><h1>{'Vous n\'avez pas de fichiers de presents.'}</h1></> : 
+            questionnaireArr?.map((v) => (
               <FileComponent
                 key={v + uuidv4()}
                 userName={v['key']}
                 files={v['val']}
+                userEmail={user?.email}
                 onSelect={setSelectedItem}
                 selected={selectedItem}
+                handleDelete={handleDelete}
               />
             ))}
           </div>

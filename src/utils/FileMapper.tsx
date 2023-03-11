@@ -223,49 +223,49 @@ export function mapTitle(title: string): string {
     // Work incomes
     if (workIncomes?.employed && workIncomes?.workedLastYear) {
       if (workIncomes?.employmentIncome) {
-        filesArr.push(T4_Releve_1);
+        filesArr.push(T4_Releve_1[0]);
       }
       if (retirementIncomes?.pensionRetirementAnnuityIncome) {
-        filesArr.push(T4A_Releve_2_Releve_1);
+        filesArr.push(T4A_Releve_2_Releve_1[0]);
       }
       if (retirementIncomes?.statementOfDistribution) {
-        filesArr.push(T4A_RCA);
+        filesArr.push(T4A_RCA[0]);
       }
       if (workIncomes?.employmentProfitSharingPlan) {
-        filesArr.push(T4PS_Releve_25);
+        filesArr.push(T4PS_Releve_25[0]);
       }
       if (workIncomes?.pensionAdjustmentReversal) {
-        filesArr.push(T10);
+        filesArr.push(T10[0]);
       }
       if (workIncomes?.foreignIncomes) {
-        filesArr.push(Foreign_income);
+        filesArr.push(Foreign_income[0]);
       }
       if (workIncomes?.outsideCanadaIncome) {
-        filesArr.push(Releve_17);
+        filesArr.push(Releve_17[0]);
       }
       if (workIncomes?.multiEmployerInsurancePlanIncome) {
-        filesArr.push(Releve_22);
+        filesArr.push(Releve_22[0]);
       }
       if (workIncomes?.employmentInsuranceOrParentalBenefits) {
         if (workIncomes?.insuranceBenefits) {
-          filesArr.push(T4E_Releve_6);
+          filesArr.push(T4E_Releve_6[0]);
         }
         if (retirementIncomes?.pensionRetirementAnnuityIncome) {
-          filesArr.push(T4A_Releve_2_Releve_1);
+          filesArr.push(T4A_Releve_2_Releve_1[0]);
         }
       }
     } else if (workIncomes?.employed && !workIncomes?.workedLastYear) {
       if (workIncomes?.workerCompensationOrSocialAssistance) {
         if (retirementIncomes?.welfareSeniorSupplement) {
-          filesArr.push(T5007_Releve_5);
+          filesArr.push(T5007_Releve_5[0]);
         }
       }
       if (workIncomes?.employmentInsuranceOrParentalBenefits) {
         if (workIncomes?.employmentInsuranceBenefits) {
-          filesArr.push(T4E_Releve_6);
+          filesArr.push(T4E_Releve_6[0]);
         }
         if (retirementIncomes?.pensionRetirementAnnuityIncome) {
-          filesArr.push(T4A_Releve_2_Releve_1);
+          filesArr.push(T4A_Releve_2_Releve_1[0]);
         }
       }
     }

@@ -14,6 +14,7 @@ import {
   QuestionnaireContextType,
 } from '../context/QuestionnaireContext';
 import {
+  uploadFileToStorage,
   uploadTaxReportPdfToStorage,
   writeRequiredFiles,
 } from '../../../../client/firebaseClient';
@@ -26,6 +27,7 @@ import {
 } from '../types/Questionnaire/Questionnaire';
 import { partnerQuestionnaireExists } from '../utils/partnerQuestionnaireExists';
 import { useParams } from 'react-router-dom';
+import { personalInformationAsExcel } from '../../../../components/ExcelExport';
 
 export function DeductionsAndTaxCreditsForm() {
   const {
@@ -39,7 +41,12 @@ export function DeductionsAndTaxCreditsForm() {
     questionnaires,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
-  const { id } = useParams(); 
+  const { id } = useParams() 
+
+  const handleExportToExcel = async() => {
+    const excelData = await personalInformationAsExcel(formData);
+    await uploadFileToStorage('TaxReportCsv.xlsx', excelData, formData?.personalInformations)
+  }
 
   function onSubmitButton() {
     saveFormAnswers({ ...formData, state: QuestionnaireStateEnum.COMPLETED });
@@ -76,10 +83,10 @@ export function DeductionsAndTaxCreditsForm() {
     } else {
       questionnaires?.forEach((value, id) => {
         uploadTaxReportPdfToStorage(
-          getPDFTaxReport(formData?.taxReport, value?.personalInformations),
+          getPDFTaxReport(value?.taxReport, value?.personalInformations),
           value?.personalInformations
         );
-        writeRequiredFiles(mapFiles(value?.taxReport), id);
+        handleExportToExcel()
       });
       setSearchParams({ step: TaxDeclarationStep.PRICE });
     }
@@ -128,7 +135,6 @@ export function DeductionsAndTaxCreditsForm() {
       formData?.civilStatus?.together &&
       !partnerQuestionnaireExists(questionnaires)
     );
-    writeRequiredFiles(mapFiles(formData?.taxReport), id)
   }
 
   return (

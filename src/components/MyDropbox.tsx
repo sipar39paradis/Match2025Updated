@@ -2,7 +2,7 @@ import React from 'react'
 import Dropzone from 'react-dropzone'
 
 interface MyDropboxInterface {
-    handleFileUpload: any
+    handleFileUpload: (acceptedFiles: any) => void
 }
 
 export default function MyDropbox(props: MyDropboxInterface){
@@ -11,7 +11,7 @@ export default function MyDropbox(props: MyDropboxInterface){
     return (
         <>
         <div className="flex items-center justify-center w-full">
-          <Dropzone onDrop={handleFileUpload}>
+          <Dropzone onDrop={() => {console.log('hi')}}>
             {({ getRootProps, getInputProps }) => (
               <section className="w-full">
                 <div {...getRootProps()}>

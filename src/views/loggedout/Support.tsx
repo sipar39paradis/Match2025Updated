@@ -16,7 +16,7 @@ export function Support() {
         'umJYlsZZcSc4v8_4L'
       )
       .then(() => {
-        alert('Email sent.');
+        alert('Courriel envoyé.');
       })
       .catch((err) => {
         alert('There was an issue.');

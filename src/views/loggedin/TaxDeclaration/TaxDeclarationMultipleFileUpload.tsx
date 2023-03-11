@@ -136,6 +136,7 @@ function MultipleFileDropBox(multipleFileDropBoxProps: MultipleFileDropBoxProps)
 
     const handleFileUpload = useCallback((acceptedFiles) => {
         const file = acceptedFiles[0];
+        console.log(file)
         console.log(acceptedFiles)
         uploadFileToStorage(
           fileNames + '_' + file?.name,
@@ -180,7 +181,7 @@ export default function TaxDeclarationAllowedMultipleFileUpload(props: Questionn
           className="flex justify-between items-center mb-4 cursor-pointer"
           onClick={toggleMinimized}
         >
-          <h1 className="text-lg font-medium">Autres Fichiers</h1>
+          <h1 className="text-lg font-medium">Crédits d’impôts et déductions</h1>
           <button className="focus:outline-none">
             {isMinimized ? (
               <svg

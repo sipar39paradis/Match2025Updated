@@ -9,7 +9,6 @@ import {
   removeRequiredfile,
   uploadFileToStorage,
   uploadTaxReportPdfToStorage,
-  writeRequiredFiles,
 } from '../../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import Dropzone from 'react-dropzone';
@@ -90,7 +89,7 @@ function ExistingFileNameComponent(props: ExistingFileNameComponentProps) {
 
   return (
     <h2>
-      {fileName}
+      {mapTitle(fileName)}
       {
         <>
           <button
@@ -256,12 +255,6 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
         TaxDeclarationStep.INCOMES
       );
     } else {
-      questionnaires?.forEach((value, id) => {
-        uploadTaxReportPdfToStorage(
-          getPDFTaxReport(formData?.taxReport, value?.personalInformations),
-          value?.personalInformations
-        );
-      });
       setSearchParams({ step: TaxDeclarationStep.REVIEW });
     }
   }
