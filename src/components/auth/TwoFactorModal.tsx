@@ -161,12 +161,13 @@ export function TwoFactorModal(props: TwoFactorModalProps) {
           </h3>
           <p>
             
-              Regardez dans votre e-mail pour un lien de vérification, 
                <span
               className=' text-orange-500 font-semibold cursor-pointer'
               onClick={()=> sendEmail()}
-              > cliquez ici</span> pour renvoyer
-            
+              > Cliquez ici </span> 
+              pour faire la validation de votre courriel.
+              Attention, ce courriel peut se retrouver dans vos indésirables.
+
           </p>
         </div>
 

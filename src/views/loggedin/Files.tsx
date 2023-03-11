@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BreadcrumbWrapper } from '../../components/profile/BreadcrumbWrapper'
 import { useParams } from 'react-router-dom'
 import { useContext } from 'react'
 import { AppContext, AppContextType } from '../../context/AppContext'
-import { fetchFilesPerUserFromGivenEmail, getAllQuestionnaires } from '../../client/firebaseClient'
+import { appendExistingFiles, fetchFilesPerUserFromGivenEmail, getAllQuestionnaires, removeRequiredfile, uploadFileToStorage } from '../../client/firebaseClient'
 import { ReactComponent as BlankFile } from '../../icons/BlankFile.svg'
 import { deleteObject, getBlob, getStorage, ref } from 'firebase/storage'
 import { PassThrough } from 'stream'
 import { uuidv4 } from '@firebase/util'
+import MyDropbox from '../../components/MyDropbox'
+import { Questionnaire } from './TaxDeclaration/types/Questionnaire/Questionnaire'
+import { QuestionnaireContext, QuestionnaireContextType } from './TaxDeclaration/context/QuestionnaireContext'
+import { PersonalInformations } from './TaxDeclaration/types/Questionnaire/PersonnalInformations'
 
 
 const storage = getStorage();
@@ -22,7 +26,7 @@ interface FileComponentProps {
 
 function FileComponent(props: FileComponentProps) {
   const { userName, files, onSelect, selected } = props;
-  console.log(files)
+  const [showDropbox, setShowDropbox] = useState(false);
 
   const handleClick = (item: string) => {
     if (selected === item) {
@@ -50,10 +54,26 @@ function FileComponent(props: FileComponentProps) {
       .catch(() => alert('Couldn\'t delete file.'));
   };
   
+  const handleFileUpload = useCallback((acceptedFiles) => {
+    // const file = acceptedFiles[0];
+    // uploadFileToStorage(
+    //   fileName + '_' + file?.name,
+    //   acceptedFiles[0],
+    //   formData?.personalInformations
+    // ).then((res) => {
+    //   removeRequiredfile(fileName, userId);
+    //   appendExistingFiles(fileName, userId);
+    //   setHidden(!hidden);
+    // });
+  }, []);
+
+  const handleToggleDropbox = () => {
+    setShowDropbox(!showDropbox);
+  }
 
   return (
     <div className='mb-5'>
-    <p className="text-lg font-bold">Fichiers A : <span className="text-xl font-semibold">{userName?.replace('_', ' ')}</span></p>
+      <p className="text-lg font-bold">Fichiers A : <span className="text-xl font-semibold">{userName?.replace('_', ' ')}</span></p>
       <ul role='list' className='list-inside'>
         {files
           ?.filter((item) => !item.includes('taxReport.pdf'))
@@ -87,33 +107,35 @@ function FileComponent(props: FileComponentProps) {
             </li>
           ))}
       </ul>
+      <button onClick={handleToggleDropbox}>{showDropbox ? 'Hide' : 'Show'} Dropbox</button>
+      {showDropbox && <MyDropbox handleFileUpload={handleFileUpload} />}
     </div>
   );
 }
 
 export function Files() {
   const { user } = useContext(AppContext) as AppContextType;
-  const [questionnaires, setQuestionnaires] = useState([]);
+  const [questionnaireArr, setquestionnaireArr] = useState([]);
   const [selectedItem, setSelectedItem] = useState<string | null>(null); // added selected state
 
   useEffect(() => {
     fetchFilesPerUserFromGivenEmail(user?.email).then((res) => {
-      const tempQuestionnaires = [];
+      const tempquestionnaireArr = [];
       res?.forEach((v, k) => {
-        tempQuestionnaires.push({ key: k, val: v });
+        tempquestionnaireArr.push({ key: k, val: v });
       });
-      setQuestionnaires(tempQuestionnaires);
+      setquestionnaireArr(tempquestionnaireArr);
     });
   }, [user]);
 
   const filesPresent = (): boolean => {
-    if (questionnaires.length === 0) {
+    if (questionnaireArr?.length === 0) {
       return false;
     }
   
     let found = false; 
   
-    questionnaires.forEach((item) => {
+    questionnaireArr.forEach((item) => {
       if (item['val'].length > 0) {
         item['val'].forEach((inner) => {
           console.log(inner);
@@ -135,7 +157,7 @@ export function Files() {
           breadcrumbName={['Mon Compte', 'Mes Documents']}
         >
           <div>
-            {(!filesPresent() ) ? <><h1>{'Vous n\'avez pas de fichiers de presents.'}</h1></> : questionnaires?.map((v) => (
+            {(!filesPresent() ) ? <><h1>{'Vous n\'avez pas de fichiers de presents.'}</h1></> : questionnaireArr?.map((v) => (
               <FileComponent
                 key={v + uuidv4()}
                 userName={v['key']}

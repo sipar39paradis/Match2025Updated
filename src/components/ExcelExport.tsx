@@ -8,14 +8,13 @@ import { ProvinceEnum } from '../views/loggedin/TaxDeclaration/types/Questionnai
 // where the given object is an array of objects
 const exportToExcel = async (excelData: any[], fileName: string) =>{
     const fileType = 'application/vnd.openxmlformats-officialdocument.spreadsheetml.sheet;charset=UTF-8'
-    const fileExtension = '.xlsx';
 
     const ws = XLSX.utils.json_to_sheet(excelData);
     const wb = {Sheets: {'data': ws}, SheetNames: ['data']};
     const excelBuffer = XLSX.write(wb, {bookType:'xlsx', type:'array'});
     const data = new Blob([excelBuffer], {type: fileType});
   
-    FileSaver.saveAs(data, fileName + fileExtension);
+    return data.arrayBuffer;
 }
 
 
@@ -36,5 +35,5 @@ export const personalInformationAsExcel = async(questionnaire: Questionnaire) =>
         'DataOfBirth': questionnaire?.personalInformations?.birthDay
     }
 
-    exportToExcel([asJson], questionnaire?.personalInformations?.firstName + '_' + questionnaire?.personalInformations?.lastName)
+    return exportToExcel([asJson], questionnaire?.personalInformations?.firstName + '_' + questionnaire?.personalInformations?.lastName)
 }
