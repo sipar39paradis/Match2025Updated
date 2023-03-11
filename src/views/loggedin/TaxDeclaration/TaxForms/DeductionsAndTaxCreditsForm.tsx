@@ -20,7 +20,10 @@ import {
 import mapFiles, { getPDFTaxReport } from '../../../../utils/FileMapper';
 import { EmptyQuestionnaire } from '../emptyQuestionnaire';
 import { Dependent } from '../types/Questionnaire/Dependent';
-import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
+import {
+  ClientTypeEnum,
+  QuestionnaireStateEnum,
+} from '../types/Questionnaire/Questionnaire';
 import { partnerQuestionnaireExists } from '../utils/partnerQuestionnaireExists';
 
 export function DeductionsAndTaxCreditsForm() {
@@ -36,7 +39,7 @@ export function DeductionsAndTaxCreditsForm() {
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
   function onSubmitButton() {
-    saveFormAnswers();
+    saveFormAnswers({ ...formData, state: QuestionnaireStateEnum.COMPLETED });
     const dependent = findDependentWhoNeedsQuestionnaire();
 
     if (partnerNeedsQuestionnaire()) {
