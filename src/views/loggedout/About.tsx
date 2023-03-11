@@ -76,15 +76,15 @@ export function About() {
               <div className="tabPanel">
                 <div className="-mx-4 flex flex-wrap items-center pt-[70px]">
                   <div className="w-full px-4 lg:w-1/2">
-                    <div className="relative z-30 mb-14 h-[490px] max-w-[600px] lg:mb-0">
-                      <div className="absolute left-0 top-0">
+                    <div className="relative z-30 mb-14 md:h-[490px] max-w-[600px] lg:mb-0">
+                      <div className="absolute left-0 top-0 md:h-[484px] md:w-[344px] object-cover">
                         <img
                           src={require('../../images/about/image-1.jpg')}
                           alt="about-image"
                           className="rounded-md"
                         />
                       </div>
-                      <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2">
+                      <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2 hidden">
                         <img
                           src={require('../../images/about/image-2.jpg')}
                           alt="about-image"

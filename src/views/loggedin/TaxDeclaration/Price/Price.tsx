@@ -9,7 +9,7 @@ import {
 } from '../types/Questionnaire/Questionnaire';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import { TaxReport } from '../types/TaxReport/TaxReport';
-import CountUp, { useCountUp } from 'react-countup';
+import CountUp from 'react-countup';
 
 export function Price() {
   const { questionnaires, setSearchParams } = useContext(
@@ -87,6 +87,15 @@ export function Price() {
     }
     if (taxReport?.selfEmploymentIncomes?.selfEmployedIncomes) {
       totalPrice += 75;
+    }
+    if (taxReport?.rentalPropertyIncomes?.rentalPropertyIncomes) {
+      for (
+        let i = 0;
+        i <= taxReport?.rentalPropertyIncomes?.numberOfRentalPropertyIncomes;
+        i++
+      ) {
+        totalPrice += 25;
+      }
     }
     if (taxReport?.otherIncomes?.otherIncomes) {
       totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 20 : 15;

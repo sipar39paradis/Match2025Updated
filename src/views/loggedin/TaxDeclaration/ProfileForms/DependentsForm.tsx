@@ -364,7 +364,7 @@ export function DependentsForm() {
                       </p>
                     </div>
                   )}
-                  {formData?.dependents?.[index]?.hasTaxReport === false &&
+                  {formData?.dependents?.[index]?.hasTaxReport &&
                     formData?.dependents?.[index]?.livedWithTaxPayer && (
                       <>
                         <p>

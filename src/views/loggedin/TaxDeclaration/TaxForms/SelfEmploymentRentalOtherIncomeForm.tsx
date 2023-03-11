@@ -114,7 +114,7 @@ export function SelfEmploymentRentalOtherIncomeForm() {
           </fieldset>
         )}
       />
-      {formData?.taxReport?.rentalPropertyIncomes.rentalPropertyIncomes && (
+      {formData?.taxReport?.rentalPropertyIncomes?.rentalPropertyIncomes && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p className="mb-4">
             Veuillez entrer le nombre d&apos;immeuble locatif.
