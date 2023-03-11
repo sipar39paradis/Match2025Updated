@@ -37,7 +37,6 @@ export function DeductionsAndTaxCreditsForm() {
     addQuestionnaire,
     questionnaires,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
-  const { id } = useParams();
 
   function onSubmitButton() {
     saveFormAnswers({ ...formData, state: QuestionnaireStateEnum.COMPLETED });
