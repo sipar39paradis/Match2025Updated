@@ -15,7 +15,6 @@ export function Foyer() {
     useState<SnapshotQuestionnaire[]>(null);
 
   useEffect(() => {
-    ('BR5shBSMwPSxBTd91Ly5zjjhfiH2');
     getAllQuestionnaires(user.uid).then((res) => {
       console.log(res, 'res');
       if (res.length !== 0) {
