@@ -72,13 +72,21 @@ export function SelfEmploymentRentalOtherIncomeForm() {
               <p>Autre</p>
             </div>
           </div>
+          {(formData?.taxReport?.selfEmploymentIncomes?.liberalProfession ||
+            formData?.taxReport?.selfEmploymentIncomes?.commission ||
+            formData?.taxReport?.selfEmploymentIncomes?.other) && (
+            <p className="font-semibold pb-2">
+              Votre préparateur entrera en contact avec vous pour obtenir plus
+              de renseignements.
+            </p>
+          )}
         </div>
       )}
 
       <p className="font-semibold">Avez-vous un revenu de location?</p>
       <Controller
         control={control}
-        name="taxReport.rentalPropertyIncomes"
+        name="taxReport.rentalPropertyIncomes.rentalPropertyIncomes"
         render={({ field: { onChange, value } }) => (
           <fieldset className="flex flex-row m-4">
             <div className="flex items-center">
@@ -106,12 +114,31 @@ export function SelfEmploymentRentalOtherIncomeForm() {
           </fieldset>
         )}
       />
-      {formData?.taxReport?.rentalPropertyIncomes && (
-        <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-          <p className="font-semibold pb-2">
+      {formData?.taxReport?.rentalPropertyIncomes.rentalPropertyIncomes && (
+        <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
+          <p className="mb-4">
+            Veuillez entrer le nombre d&apos;immeuble locatif.
+          </p>
+          <div className="relative z-0 w-full mb-6 group">
+            <input
+              {...register(
+                'taxReport.rentalPropertyIncomes.numberOfRentalPropertyIncomes',
+                {
+                  required: true,
+                }
+              )}
+              type="number"
+              className="block py-2.5 px-0 w-fit text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+              placeholder=" "
+            />
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+              Nombre d’immeuble locatif
+            </label>
+          </div>
+          {/* <p className="font-semibold pb-2">
             Votre préparateur entrera en contact avec vous pour obtenir plus de
             renseignements.
-          </p>
+          </p> */}
         </div>
       )}
 
@@ -355,6 +382,14 @@ export function SelfEmploymentRentalOtherIncomeForm() {
                 enfants
               </p>
             </div>
+            {formData?.taxReport?.otherIncomes
+              ?.spousalOrChildSupportPayments && (
+              <p className="font-semibold pb-2">
+                Votre préparateur entrera en contact avec vous pour obtenir plus
+                de renseignements.
+              </p>
+            )}
+
             <div className="flex items-center gap-2 py-2">
               <Checkbox
                 {...register(

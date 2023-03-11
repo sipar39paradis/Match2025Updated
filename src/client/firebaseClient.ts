@@ -78,22 +78,26 @@ export const getAllQuestionnaires = async (
   });
 };
 
-
 export const writeRequiredFiles = async (
   requiredFiles: Array<string>,
   userId: string
 ): Promise<void> => {
-  const existingFiles = (await getExistingFiles(userId))?.files
+  const existingFiles = (await getExistingFiles(userId))?.files;
 
-  const nonDuplicateArr = requiredFiles?.filter((item, index) => {
-    return requiredFiles.indexOf(item) === index && !existingFiles?.includes(item);
-  })
+  const nonDuplicateArr = requiredFiles.filter((item, index) => {
+    return (
+      requiredFiles.indexOf(item) === index && !existingFiles?.includes(item)
+    );
+  });
 
-
-  await setDoc(doc(db, 'UserRequiredFiles', userId), {
-    files: nonDuplicateArr,
-    userId: userId,
-  }, { merge: true });
+  await setDoc(
+    doc(db, 'UserRequiredFiles', userId),
+    {
+      files: nonDuplicateArr,
+      userId: userId,
+    },
+    { merge: true }
+  );
 };
 
 export const writeExistingFiles = async (
@@ -143,12 +147,15 @@ export const removeExistingfile = async (
 ): Promise<void> => {
   getExistingFiles(userId).then((res) => {
     if (res != undefined) {
-      writeExistingFiles(res?.files?.filter(file => file != fileName), userId)
-      appendRequiredFiles(fileName, userId)
-      removeFileFromStorage(fileName, personalInformations)
+      writeExistingFiles(
+        res?.files?.filter((file) => file != fileName),
+        userId
+      );
+      appendRequiredFiles(fileName, userId);
+      removeFileFromStorage(fileName, personalInformations);
     }
-  })
-}
+  });
+};
 
 export const removeRequiredfile = async (
   fileName: string,
@@ -159,7 +166,6 @@ export const removeRequiredfile = async (
     writeRequiredFiles(newReqFiles, userId);
   });
 };
-
 
 export const getExistingFiles = async (userId: string): Promise<FilesDoc> => {
   return <FilesDoc>(await getDoc(doc(db, 'UserExistingFiles', userId))).data();
@@ -194,7 +200,7 @@ export const uploadTaxReportPdfToStorage = async (
   personalInformations: PersonalInformations
 ): Promise<void> => {
   return uploadFileToStorage('taxReport.pdf', bytes, personalInformations);
-}
+};
 
 export const uploadFileToStorage = async (
   fileName: string,
@@ -225,11 +231,11 @@ export const removeFileFromStorage = async (
   const filesListRef = ref(
     storage,
     STORAGE_BASE_FOLDER +
-    personalInformations?.email +
-    '/' +
-    personalInformations?.firstName +
-    '_' +
-    personalInformations?.lastName
+      personalInformations?.email +
+      '/' +
+      personalInformations?.firstName +
+      '_' +
+      personalInformations?.lastName
   );
   listAll(filesListRef).then((res) => {
     const fileRefToRemove = res?.items?.filter((itemRef) =>
@@ -239,24 +245,27 @@ export const removeFileFromStorage = async (
       console.log('There was an issue deleting the file ' + fileName);
     });
   });
-}
+};
 
 export const fetchFilesPerUserFromGivenEmail = async (
   userEmail: string
 ): Promise<Map<string, Array<string>>> => {
   const map = new Map<string, Array<string>>();
-  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + userEmail)
-  const prefixes = (await listAll(filesListRef))?.prefixes
+  const filesListRef = ref(storage, STORAGE_BASE_FOLDER + userEmail);
+  const prefixes = (await listAll(filesListRef))?.prefixes;
   const listAllpromises = prefixes?.map((item) => listAll(item));
   const results = await Promise.all(listAllpromises);
 
   results?.forEach((res, index) => {
     const item = prefixes[index];
-    map?.set(item?.name, res?.items?.map((val) => val?.fullPath))
-  })
+    map?.set(
+      item?.name,
+      res?.items?.map((val) => val?.fullPath)
+    );
+  });
 
   return map;
-}
+};
 
 export const upsertUserProfile = async (
   userId: string,

@@ -43,7 +43,7 @@ export function ProfileDropdown({ user, displayModal }: ProfileDropdownProps) {
                 )}
                 onClick={() => navigate('/profile')}
               >
-                Profile
+                Mon Compte
               </span>
             )}
           </Menu.Item>

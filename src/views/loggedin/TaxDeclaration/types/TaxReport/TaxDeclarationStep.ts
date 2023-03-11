@@ -7,5 +7,6 @@ export enum TaxDeclarationStep {
   INCOMES = 'incomes',
   DEDUCTIONS_AND_TAX_CREDIT = 'deductionsAndTaxCredits',
   REVIEW = 'review',
-  UPLOAD_FILES = 'uploadFiles'
+  UPLOAD_FILES = 'uploadFiles',
+  PRICE = 'price'
 }

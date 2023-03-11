@@ -26,6 +26,7 @@
     "jspdf": "^2.5.1",
     "react": "^18.2.0",
     "react-animation-on-scroll": "^5.1.0",
+    "react-countup": "^6.4.1",
     "react-date-range": "^1.4.0",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",

@@ -81,16 +81,18 @@ export function About() {
                         <img
                           src={require('../../images/about/image-1.jpg')}
                           alt="about-image"
+                          className="rounded-md"
                         />
                       </div>
                       <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2">
                         <img
                           src={require('../../images/about/image-2.jpg')}
                           alt="about-image"
+                          className="rounded-md"
                         />
-                        <div className="absolute -left-5 -top-5 -z-10 h-full w-full border border-orange-500 border-opacity-10 bg-orange-500 bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"></div>
+                        <div className="absolute -left-5 rounded-md -top-5 -z-10 h-full w-full border border-orange-500 border-opacity-10 bg-orange-500 bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"></div>
                       </div>
-                      <div className="absolute right-0 top-24 z-40">
+                      <div className="absolute right-0 top-24 z-40 ">
                         <svg
                           width="72"
                           height="38"

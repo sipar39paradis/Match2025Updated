@@ -6,7 +6,7 @@ import '../../style/sticky.css';
 import { ProfileDropdown } from './ProfileDropdown';
 import { Button, Navbar } from 'flowbite-react';
 import { ReactComponent as Logo } from '../../images/logo/impots-match-logo.svg';
-import { useNavigate, redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 // import { redirect } from "react-router-dom";
 
@@ -29,11 +29,10 @@ function HeaderItem(props: HeaderItemProps) {
 export function Header() {
   const navigate = useNavigate();
   // const  = redirect();
-  const { user } = useContext(AppContext) as AppContextType;
+  const { user, modalToDisplay, setModalToDisplay, showModal, setShowModal } = useContext(AppContext) as AppContextType;
 
-  const [showModal, setShowModal] = React.useState(false);
-  const [modalToDisplay, setModalToDisplay] =
-    React.useState<AuthModalEnum | null>(null);
+  // const [modalToDisplay, setModalToDisplay] =
+  //   React.useState<AuthModalEnum | null>(null);
 
   useEffect(() => {
     window.addEventListener('scroll', stickNavBar);
@@ -71,7 +70,7 @@ export function Header() {
         className="header top-0 left-0 w-full relative lg:px-32"
       >
         <Navbar.Brand href="/">
-          <Logo className="w-16 h-16" />
+          <Logo className="w-12 h-12 mr-2" />
           <p className="text-2xl hidden 2xl:inline font-bold text-gray-900">
             Impôts Match
           </p>

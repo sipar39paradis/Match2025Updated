@@ -25,9 +25,9 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
   const navigate = useNavigate();
   const { verifyTwoFactor } = useContext(AppContext) as AppContextType;
 
-  const [verificationId, setVerificationId] = useState<string>(null)
-  const [resolver, setResolver] = useState<MultiFactorResolver>(null)
-  const [verificationCode, setVerificationCode] = useState<string>('')
+  const [verificationId, setVerificationId] = useState<string>(null);
+  const [resolver, setResolver] = useState<MultiFactorResolver>(null);
+  const [verificationCode, setVerificationCode] = useState<string>('');
 
   // const {
   //   register,
@@ -39,23 +39,24 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
     formState: { errors },
   } = useForm<signInData>();
   const onSubmit = async (data: signInData) => {
-    console.log('submited')
+    console.log('submited');
   };
 
   return (
     <Modal closeModalCallBack={() => closeModal(false)}>
       <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-white">
-
-
-        {!verificationId?
+        {!verificationId ? (
           <SignInModalBody
             closeModal={closeModal}
             switchModal={switchModal}
             setVerificationId={setVerificationId}
             setResolver={setResolver}
-          />:
+          />
+        ) : (
           <div className="flex items-center justify-center p-5 rounded-t">
-            <h3 className="text-xl font-semibold">Le code de vérification</h3>
+            <h3 className="text-xl font-semibold">
+              Entrez le code de vérification envoyé sur votre téléphone
+            </h3>
             <button
               className="flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2"
               onClick={() => closeModal(false)}
@@ -64,48 +65,38 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
             </button>
 
             <form className="flex flex-col gap-4">
-        <div>
-            <>
-              <div className="mb-2 block">
-                <Label
-                  htmlFor="phone1"
-                  value="Le code de vérification"
+              <div>
+                <TextInput
+                  className="text-center select-none"
+                  id="verifivation"
+                  required={true}
+                  onChange={(e) => {
+                    setVerificationCode(e.target.value);
+                  }}
                 />
               </div>
-              <TextInput
-                className='text-center select-none'
-                id="verifivation"
-                required={true}
-                onChange={(e) => {
-                  setVerificationCode(e.target.value)
-                  
+              <div></div>
+              <Button
+                id="two-factor-button"
+                onClick={async () => {
+                  console.log(verificationId, 'promisefromtext');
+                  console.log(verificationCode, 'verification code');
+                  console.log(resolver, 'resolver');
+                  await verifyTwoFactor(
+                    verificationId,
+                    verificationCode,
+                    resolver
+                  );
+                  console.log('out of login');
+                  closeModal(false);
+                  navigate('/profile');
                 }}
-              />
-            </>
-          
-
-            </div>
-            <div>
-            </div>
-            <Button
-            id='two-factor-button'
-            onClick={async () => {
-              console.log(verificationId, 'promisefromtext')
-              console.log(verificationCode, 'verification code')
-              console.log(resolver, 'resolver')
-                await verifyTwoFactor(verificationId, verificationCode, resolver)
-                console.log('out of login')
-                closeModal(false)
-                navigate('/profile');
-              }
-            }>
-              Submit
-            </Button>
-      </form>
-          
-
-        </div>
-        }
+              >
+                Soumettre
+              </Button>
+            </form>
+          </div>
+        )}
       </div>
     </Modal>
   );

@@ -20,6 +20,7 @@ import {
   QuestionnaireContext,
   QuestionnaireContextType,
 } from './context/QuestionnaireContext';
+import { Price } from './Price/Price';
 
 export const TAX_DECLARATION_STEP = 'step';
 
@@ -30,6 +31,7 @@ export function QuestionnaireHandler() {
     resetForm,
     loadingQuestionnaires,
     personalInformationsForm,
+    saveFormAnswers,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
   const { id } = useParams();
   const [clientTabs, setClientTabs] = useState([]);
@@ -126,6 +128,8 @@ export function QuestionnaireHandler() {
         return <IncomesForm></IncomesForm>;
       case TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT:
         return <DeductionsAndTaxCreditsForm></DeductionsAndTaxCreditsForm>;
+      case TaxDeclarationStep.PRICE:
+        return <Price></Price>;
       case TaxDeclarationStep.UPLOAD_FILES:
         return <TaxDeclarationFileUpload />;
       case TaxDeclarationStep.REVIEW:
@@ -138,27 +142,28 @@ export function QuestionnaireHandler() {
   return (
     <div className="flex p-8 bg-orange-50 min-h-screen flex-col items-center">
       <div className="w-[800px] flex flex-row">
-        {clientTabs.map((tab) => (
-          <div
-            key={tab.key}
-            className={` rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200 ${
-              tab.active ? 'bg-gray-200 cursor-default' : 'bg-white'
-            } ${tab.disabled ? 'pointer-events-none' : ''}`}
-            onClick={() => {
-              if (!tab.disabled) {
-                navigate(
-                  `/questionnaire/${tab?.key}?step=${searchParams.get(
-                    TAX_DECLARATION_STEP
-                  )}`
-                );
-              }
-            }}
-          >
-            <p className="font-semibold">
-              {tab?.value?.personalInformations?.firstName || 'Client'}
-            </p>
-          </div>
-        ))}
+        {currentStep !== TaxDeclarationStep.PRICE &&
+          clientTabs.map((tab) => (
+            <div
+              key={tab.key}
+              className={` rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200 ${
+                tab.active ? 'bg-gray-200 cursor-default' : 'bg-white'
+              } ${tab.disabled ? 'pointer-events-none' : ''}`}
+              onClick={() => {
+                if (!tab.disabled) {
+                  navigate(
+                    `/questionnaire/${tab?.key}?step=${searchParams.get(
+                      TAX_DECLARATION_STEP
+                    )}`
+                  );
+                }
+              }}
+            >
+              <p className="font-semibold">
+                {tab?.value?.personalInformations?.firstName || 'Client'}
+              </p>
+            </div>
+          ))}
       </div>
       {loadingQuestionnaires ? (
         <Fade>

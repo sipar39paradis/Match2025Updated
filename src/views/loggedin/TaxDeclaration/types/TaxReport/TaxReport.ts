@@ -3,7 +3,7 @@ export interface TaxReport {
   retirementIncomes: RetirementIncomes
   investmentIncomes: InvestmentIncomes
   selfEmploymentIncomes: SelfEmployedIncomes
-  rentalPropertyIncomes: boolean
+  rentalPropertyIncomes: RentalPropertyIncomes
   otherIncomes: OtherIncomes
   foreignAssets: boolean
   studentExpenses: StudentExpenses
@@ -102,6 +102,11 @@ interface SelfEmployedIncomes {
   liberalProfession?: boolean
   commission?: boolean
   other?: boolean
+}
+
+interface RentalPropertyIncomes {
+  rentalPropertyIncomes: boolean
+  numberOfRentalPropertyIncomes: number
 }
 
 interface OtherIncomes {

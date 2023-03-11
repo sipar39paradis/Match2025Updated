@@ -39,7 +39,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../interfaces/User';
 import { upsertUserProfile } from '../client/firebaseClient';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
-import { Button, Modal } from 'flowbite-react';
+import { Button, Modal, Toast } from 'flowbite-react';
 import { EmptyQuestionnaire } from '../views/loggedin/TaxDeclaration/emptyQuestionnaire';
 import {
   ClientTypeEnum,
@@ -48,6 +48,8 @@ import {
 } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 import { TaxDeclarationStep } from '../views/loggedin/TaxDeclaration/types/TaxReport/TaxDeclarationStep';
 import { signUpWithEmailData } from '../components/auth/SignUpWithEmailModal';
+import { AuthModalEnum } from '../components/auth/AuthModal';
+import { HiX } from 'react-icons/hi';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -69,6 +71,7 @@ const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const storage = getStorage(app);
 const auth: Auth = getAuth();
+auth.languageCode = 'fr';
 
 export interface AppContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,9 +112,21 @@ export interface AppContextType {
     questionnaire?: Questionnaire,
     stepToRedirect?: TaxDeclarationStep
   ) => void;
-  sendEmail:() => Promise<void>;
+  sendEmail: () => Promise<void>;
   createUserParams: signUpWithEmailData;
   setCreateUserParams: any;
+  isInSensitive: boolean;
+  setIsInSensitive: any;
+  modalToDisplay: AuthModalEnum | null;
+  setModalToDisplay: any;
+  showModal: boolean;
+  setShowModal: any;
+  err: string;
+  setErr: any;
+  donePolicy: boolean;
+  setDonePolicy: any;
+  doneConditions: boolean;
+  setDoneConditions: any;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -126,16 +141,28 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const [user, loading, errors] = useAuthState(auth);
   const [openModel, setOpenModel] = useState(false);
   const openRef = useRef(openModel);
-  const [createUserParams, setCreateUserParams] = useState<signUpWithEmailData>(null)
+  const [createUserParams, setCreateUserParams] =
+    useState<signUpWithEmailData>(null);
+  const [isInSensitive, setIsInSensitive] = useState(false);
   const [continueSess, setContinueSess] = useState(false);
+  const [modalToDisplay, setModalToDisplay] =
+    React.useState<AuthModalEnum | null>(null);
+  const [showModal, setShowModal] = React.useState(false);
+  const [err, setErr] = useState<string>(null);
+  const [donePolicy, setDonePolicy] = useState(false);
+  const [doneConditions, setDoneConditions] = useState(false);
   const continueSessRef = useRef(continueSess);
   continueSessRef.current = continueSess;
   const navigate = useNavigate();
 
   useEffect(() => {
     return () => {
-      if (window.performance.navigation.type !== 1) {
-        signOut();
+      if (window.performance.navigation.type !== 1 || isInSensitive) {
+        console.log('should sign out');
+        const h = async () => {
+          await signOut();
+        };
+        h();
       }
     };
   }, []);
@@ -203,23 +230,23 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   };
 
   const timedSignOut = async () => {
-    const FIVE_MINUTES_BEFORE_MODAL = 300000;
+    const THIRTY_MINUTES_BEFORE_MODAL = 1_800_000;
     const THIRTY_SECONDS_AFTER_MODAL = 30000;
 
     setTimeout(() => {
       console.log(userInfo, 'userInfo');
       setOpenModel(true);
-      setTimeout(() => {
+      setTimeout(async () => {
         if (continueSessRef.current) {
           setContinueSess(false);
           timedSignOut();
         } else {
           setOpenModel(false);
-          signOut();
+          await signOut();
         }
         // }
       }, THIRTY_SECONDS_AFTER_MODAL);
-    }, FIVE_MINUTES_BEFORE_MODAL);
+    }, THIRTY_MINUTES_BEFORE_MODAL);
   };
 
   const verifyTwoFactor = async (
@@ -350,12 +377,13 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         if (userCredential?.user.email) {
           await createProfile(userCredential, firstName, lastName, referalCode);
           await updateProfile(userCredential.user, {
-            displayName: `${firstName} ${lastName}`
+            displayName: `${firstName} ${lastName}`,
           }).catch((error) => {
             errorMessage = error.message;
           });
           await sendEmailVerification(userCredential.user);
           succsessfulSignIn(userCredential);
+          errorMessage = 'No Two Factor';
         }
       })
       .catch((error) => {
@@ -374,10 +402,12 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     return signUpWithGoogle();
   }
 
-  function signOut() {
-    setUserInfo(null);
-    auth.signOut();
-    navigate('/');
+  async function signOut() {
+    if (user) {
+      await auth.signOut();
+      setUserInfo(null);
+      navigate('/');
+    }
   }
 
   async function resetPassword(email: string) {
@@ -448,7 +478,19 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         addQuestionnaire,
         sendEmail,
         createUserParams,
-        setCreateUserParams
+        setCreateUserParams,
+        isInSensitive,
+        setIsInSensitive,
+        modalToDisplay,
+        setModalToDisplay,
+        showModal,
+        setShowModal,
+        err,
+        setErr,
+        donePolicy,
+        setDonePolicy,
+        doneConditions,
+        setDoneConditions,
       }}
     >
       <Modal show={openModel}>
@@ -484,6 +526,16 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
           </div>
         </div>
       </Modal>
+
+      {/* {err ? (
+      <Toast className="absolute top-[15vh] left-[50vw] -translate-x-1/2 sticky">
+      <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+        <HiX className="h-5 w-5" />
+      </div>
+      <div className="ml-3 text-sm font-normal">{err}</div>
+      <Toast.Toggle />
+    </Toast>
+      ):null} */}
 
       {children}
     </AppContext.Provider>

@@ -20,6 +20,7 @@ export function InvestmentIncomeForm() {
         ou d&apos;options d&apos;achat d&apos;actions, les opérations en
         cryptomonnaie la vente de biens immobiliers et les frais de placement
         connexes?
+        <TooltipWithIcon text="Si vous avez des placements hors REER ou CELI, il est fort probable que vous ayez ce type de revenu. Vous pouvez communiquer avec votre conseiller en placements pour avoir votre trousse fiscale que vous pourrez nous transmette afin qu’on traite correctement ce type de revenu. "></TooltipWithIcon>
       </p>
       <Controller
         control={control}
@@ -57,7 +58,6 @@ export function InvestmentIncomeForm() {
           <p className="font-semibold">
             Avez-vous eu un revenu provenant de placements qui est déclaré sur
             un feuillet (par exemple, un T5, T3, T5008, T5013)?
-            <TooltipWithIcon text="Si vous avez des placements hors REER ou CELI, il est fort probable que vous ayez ce type de revenu. Vous pouvez communiquer avec votre conseiller en placements pour avoir votre trousse fiscale que vous pourrez nous transmette afin qu’on traite correctement ce type de revenu. "></TooltipWithIcon>
           </p>
           <Controller
             control={control}

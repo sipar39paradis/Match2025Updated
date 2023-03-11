@@ -2,6 +2,7 @@ import { Button } from 'flowbite-react';
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppContext, AppContextType } from '../../context/AppContext';
+import { AuthModalEnum } from '../../components/auth/AuthModal';
 
 function useQuery() {
   const { search } = useLocation();
@@ -12,7 +13,7 @@ function useQuery() {
 export function PrivacyPolicy() {
   const query = useQuery();
   const navigate = useNavigate();
-  const { signUpWithEmailAndPassword, createUserParams, signInWithGoogle } = useContext(
+  const { signUpWithEmailAndPassword, createUserParams, signInWithGoogle, setModalToDisplay, setShowModal, setErr, setDonePolicy } = useContext(
     AppContext
   ) as AppContextType;
 
@@ -228,11 +229,12 @@ export function PrivacyPolicy() {
       {query.get('signup') ? (
         <div className="flex flex-col justify-center items-center pt-4 p-4 bg-gray-200 rounded-md">
           <p>
-            Accepter la politique de confidentialité pour créer votre compte
+            J’ai lu la politique de confidentialité d’Impôts Match et je l’accepte
           </p>
           <Button
             className="bg-orange-500 p-4 mt-4"
             onClick={async () => {
+              setDonePolicy(true)
               if(query.get('type') && query.get('type') === 'email'){
                 const err = await signUpWithEmailAndPassword(
                   createUserParams.email,
@@ -241,8 +243,16 @@ export function PrivacyPolicy() {
                   createUserParams.lastName,
                   createUserParams.referralCode
                 );
+                console.log('testingerr', err)
                 if (err) {
-                  // setAuthError(res);
+                  if(err === 'No Two Factor'){
+                    setModalToDisplay(AuthModalEnum.TwoFactor)
+                    setShowModal(true)
+                    navigate('/profile');
+                  }
+                  setErr(err)
+                  setModalToDisplay(AuthModalEnum.SignUpWithEmail)
+                  setShowModal(true)
                 } else {
                   navigate('/profile');
                 }
@@ -250,13 +260,17 @@ export function PrivacyPolicy() {
                 const [promise, resolver, err] = await signInWithGoogle();
                 if (err) {    
                   if(err === 'No Two Factor'){
-                    //switchModal(AuthModalEnum.TwoFactor)
+                    setErr(null)
+                    setModalToDisplay(AuthModalEnum.TwoFactor)
+                    setShowModal(true)
                     navigate('/profile');
                   }else{
-                    //setAuthError(await promise);
+                    setErr(err)
+                    setModalToDisplay(AuthModalEnum.SignUp)
                   }
                 }
                 else {
+                  setErr(null)
                   navigate('/profile');
                 }
               }
