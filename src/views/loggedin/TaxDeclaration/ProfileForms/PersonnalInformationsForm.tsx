@@ -30,10 +30,6 @@ export function PersonnalInformationsForm() {
   });
 
   useEffect(() => {
-    console.log(
-      'personnal informations',
-      questionnaires.get(id)?.personalInformations
-    );
     personalInformationsForm.reset(
       questionnaires.get(id)?.personalInformations
     );

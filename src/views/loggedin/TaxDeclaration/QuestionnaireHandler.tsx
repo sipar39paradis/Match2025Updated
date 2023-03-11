@@ -141,7 +141,7 @@ export function QuestionnaireHandler() {
 
   return (
     <div className="flex p-8 bg-orange-50 min-h-screen flex-col items-center">
-      <div className="w-[800px] flex flex-row">
+      <div className="w-full lg:w-[800px] flex flex-row">
         {currentStep !== TaxDeclarationStep.PRICE &&
           currentStep !== TaxDeclarationStep.REVIEW &&
           clientTabs.map((tab) => (
@@ -174,7 +174,7 @@ export function QuestionnaireHandler() {
         </Fade>
       ) : (
         <Fade>
-          <div className="w-[800px] bg-white rounded-md p-8 h-fit">
+          <div className="lg:w-[800px] bg-white rounded-md p-8 h-fit w-full">
             {renderTaxReportStep(currentStep)}
           </div>
         </Fade>
