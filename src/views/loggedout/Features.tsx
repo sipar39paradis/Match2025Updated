@@ -5,7 +5,7 @@ import { ReactComponent as ClipboardDocument } from '../../icons/ClipboardDocume
 import { ReactComponent as DollarSign } from '../../icons/DollarSign.svg';
 import { ReactComponent as DocumentArrowDown } from '../../icons/DocumentArrowDown.svg';
 import { ReactComponent as Hourglass } from '../../icons/Hourglass.svg';
-import { ReactComponent as Calculator } from '../../icons/Calculator.svg';
+import { ReactComponent as Handshake } from '../../icons/Handshake.svg';
 import { ReactComponent as Arrow } from '../../icons/Arrow.svg';
 
 export function Features() {
@@ -79,8 +79,8 @@ export function Features() {
           <div className="-mx-4 flex flex-wrap md:flex-nowrap lg:flex-wrap justify-center items-center">
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto  max-w-[380px] text-center md:">
-                <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
-                  <Calculator className="h-16"></Calculator>
+                <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 fill-orange-500 group-hover:bg-opacity-100 group-hover:text-white group-hover:fill-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
+                  <Hourglass className="h-16"></Hourglass>
                 </div>
                 <div>
                   <h3 className="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5">
@@ -97,7 +97,7 @@ export function Features() {
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto  max-w-[380px] text-center md:">
                 <div className="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 fill-orange-500 group-hover:bg-opacity-100 group-hover:text-white group-hover:fill-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]">
-                  <Hourglass className="h-16"></Hourglass>
+                  <Handshake className="h-16"></Handshake>
                 </div>
                 <div>
                   <h3 className="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5">

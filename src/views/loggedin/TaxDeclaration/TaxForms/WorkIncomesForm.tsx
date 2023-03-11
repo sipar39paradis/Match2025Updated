@@ -71,7 +71,7 @@ export function WorkIncomesForm() {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'taxReport.retirementIncomes.pensionRetirementAnnuityIncome'
+                      'taxReport.workIncomes.pensionRetirementAnnuityIncome'
                     )}
                   />
                   <p>
@@ -82,7 +82,7 @@ export function WorkIncomesForm() {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'taxReport.retirementIncomes.statementOfDistribution'
+                      'taxReport.workIncomes.statementOfDistribution'
                     )}
                   />
                   <p>
@@ -278,7 +278,7 @@ export function WorkIncomesForm() {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'taxReport.retirementIncomes.pensionRetirementAnnuityIncome'
+                      'taxReport.workIncomes.pensionRetirementAnnuityIncome'
                     )}
                   />
                   <p>
@@ -309,7 +309,7 @@ export function WorkIncomesForm() {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'taxReport.retirementIncomes.welfareSeniorSupplement'
+                      'taxReport.workIncomes.welfareSeniorSupplement'
                     )}
                   />
                   <p>
@@ -354,7 +354,7 @@ export function WorkIncomesForm() {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'taxReport.retirementIncomes.welfareSeniorSupplement'
+                      'taxReport.workIncomes.welfareSeniorSupplement'
                     )}
                   />
                   <p>
@@ -393,7 +393,7 @@ export function WorkIncomesForm() {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'taxReport.retirementIncomes.pensionRetirementAnnuityIncome'
+                      'taxReport.workIncomes.pensionRetirementAnnuityIncome'
                     )}
                   />
                   <p>

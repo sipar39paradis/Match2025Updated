@@ -143,6 +143,7 @@ export function QuestionnaireHandler() {
     <div className="flex p-8 bg-orange-50 min-h-screen flex-col items-center">
       <div className="w-[800px] flex flex-row">
         {currentStep !== TaxDeclarationStep.PRICE &&
+          currentStep !== TaxDeclarationStep.REVIEW &&
           clientTabs.map((tab) => (
             <div
               key={tab.key}

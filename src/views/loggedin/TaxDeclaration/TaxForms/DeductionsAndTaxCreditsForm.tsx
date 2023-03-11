@@ -39,7 +39,7 @@ export function DeductionsAndTaxCreditsForm() {
     questionnaires,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
-  const { id } = useParams(); 
+  const { id } = useParams();
 
   function onSubmitButton() {
     saveFormAnswers({ ...formData, state: QuestionnaireStateEnum.COMPLETED });
@@ -128,7 +128,7 @@ export function DeductionsAndTaxCreditsForm() {
       formData?.civilStatus?.together &&
       !partnerQuestionnaireExists(questionnaires)
     );
-    writeRequiredFiles(mapFiles(formData?.taxReport), id)
+    writeRequiredFiles(mapFiles(formData?.taxReport), id);
   }
 
   return (

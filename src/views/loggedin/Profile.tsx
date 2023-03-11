@@ -8,7 +8,7 @@ import {
 } from '../../client/firebaseClient';
 import { CustomCard } from '../../components/common/CustomCard';
 import { UserProfile } from '../../interfaces/User';
-import { ReactComponent as UserCircle } from '../../icons/UserCircle.svg';
+import { ReactComponent as Family } from '../../icons/Family.svg';
 import { ReactComponent as ClipboardDocument } from '../../icons/ClipboardDocument.svg';
 import { ReactComponent as DocumentArrowDown } from '../../icons/DocumentArrowDown.svg';
 
@@ -27,8 +27,8 @@ export function Profile() {
   const { width } = useWindowDimensions();
   const navigate = useNavigate();
 
-  if(!user){
-    navigate('/')
+  if (!user) {
+    navigate('/');
   }
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export function Profile() {
   }
 
   const iconMap = {
-    foyer: <UserCircle className="h-24"></UserCircle>,
+    foyer: <Family className="h-24"></Family>,
     questionnaire: <ClipboardDocument className="h-24"></ClipboardDocument>,
     documents: <DocumentArrowDown className="h-24"></DocumentArrowDown>,
   };
@@ -107,8 +107,7 @@ export function Profile() {
         onClick={() => navigate(`/${endpoint}`)}
       >
         <div className="group mx-auto w-[380px] text-center px-12">
-          <div className="mx-auto mb-6 flex h-[150px] w-[150px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100]">
-            {/* <UserCircle className="h-16"></UserCircle> */}
+          <div className="mx-auto mb-6 flex h-[150px] w-[150px] items-center justify-center rounded-full bg-orange-500 bg-opacity-5 text-orange-500 transition group-hover:bg-orange-500 group-hover:bg-opacity-100 group-hover:text-white group-hover:fill-white fill-orange-500 dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100]">
             {iconMap[icon]}
           </div>
           <div>

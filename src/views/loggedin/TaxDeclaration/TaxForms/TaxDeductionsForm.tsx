@@ -343,43 +343,6 @@ export function TaxDeductionsForm() {
               <p>J&apos;ai reçu un T4RIF / Relevé 2</p>
             </div>
           </div> */}
-          <p className="font-semibold">
-            Avez-vous versé des cotisations à un régime de retraite des É.-U. ou
-            d&apos;un pays étranger offert par un employeur ou à un régime de
-            retraite des É.-U. par un frontalier du Canada?
-          </p>
-          <Controller
-            control={control}
-            name="taxReport.taxDeductions.foreignPensionPlan"
-            render={({ field: { onChange, value } }) => (
-              <fieldset className="flex flex-row mx-4">
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    value="no"
-                    onChange={() => onChange(true)}
-                    checked={value === true}
-                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
-                    Oui
-                  </p>
-                </div>
-                <div className="flex items-center m-4">
-                  <input
-                    type="radio"
-                    value="yes"
-                    onChange={() => onChange(false)}
-                    checked={value === false}
-                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
-                    Non
-                  </p>
-                </div>
-              </fieldset>
-            )}
-          />
         </div>
       )}
     </>
