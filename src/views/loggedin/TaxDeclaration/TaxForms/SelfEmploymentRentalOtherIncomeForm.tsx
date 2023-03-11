@@ -135,10 +135,10 @@ export function SelfEmploymentRentalOtherIncomeForm() {
               Nombre d’immeuble locatif
             </label>
           </div>
-          {/* <p className="font-semibold pb-2">
+          <p className="font-semibold pb-2">
             Votre préparateur entrera en contact avec vous pour obtenir plus de
             renseignements.
-          </p> */}
+          </p>
         </div>
       )}
 
