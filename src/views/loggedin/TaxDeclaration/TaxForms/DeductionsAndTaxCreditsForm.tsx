@@ -135,7 +135,6 @@ export function DeductionsAndTaxCreditsForm() {
       formData?.civilStatus?.together &&
       !partnerQuestionnaireExists(questionnaires)
     );
-    writeRequiredFiles(mapFiles(formData?.taxReport), id);
   }
 
   return (
