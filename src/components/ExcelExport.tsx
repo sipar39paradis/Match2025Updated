@@ -22,7 +22,6 @@ export const personalInformationAsExcel = (
   questionnaire: Questionnaire,
   totalPrice: number
 ) => {
-  console.log(questionnaire);
   const asJson = {
     FirstNames: questionnaire?.personalInformations?.firstName,
     LastNames: questionnaire?.personalInformations?.lastName,

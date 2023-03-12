@@ -76,7 +76,7 @@ function FileComponent(props: FileComponentProps) {
       <p className="text-lg font-bold">Fichiers de : <span className="text-xl font-semibold">{userName?.replace('_', ' ')}</span></p>
       <ul role='list' className='list-inside'>
         {files
-          ?.filter((item) => !item.includes('taxReport.pdf'))
+          ?.filter((item) => (!item.includes('taxReport.pdf') && !item.includes('TaxReportCsv.xlsx')))
           ?.map((item) => (
             <li
               key={item}
