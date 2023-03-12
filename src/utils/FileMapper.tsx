@@ -47,8 +47,8 @@ const Releve_10 = [
   "Crédit d'impôt relatif à un fonds de travailleurs",
 ];
 const Releve_26 = ['Relevé 26', 'Capital régional et coopératif Desjardins'];
-const T2022_Releve_8_TL11 = [
-  'T2022_Relevé_8_TL11',
+const T2202_Releve_8_TL11 = [
+  'T2202_Relevé_8_TL11',
   'Frais de scolarité figurant sur un feuillet T2202',
 ];
 const T4A_OAS = ['T4A(OAS)', 'Sécurité de la vieillesse'];
@@ -117,9 +117,9 @@ export function mapTitle(title: string): string {
       return `${Releve_10[0].replaceAll('_', ' ')}: ${Releve_10[1]}`;
     case Releve_26[0]:
       return `${Releve_26[0].replaceAll('_', ' ')}: ${Releve_26[1]}`;
-    case T2022_Releve_8_TL11[0]:
-      return `${T2022_Releve_8_TL11[0].replaceAll('_', ' ')}: ${
-        T2022_Releve_8_TL11[1]
+    case T2202_Releve_8_TL11[0]:
+      return `${T2202_Releve_8_TL11[0].replaceAll('_', ' ')}: ${
+        T2202_Releve_8_TL11[1]
       }`;
     case T4A_OAS[0]:
       return `${T4A_OAS[0].replaceAll('_', ' ')}: ${T4A_OAS[1]}`;
@@ -206,7 +206,7 @@ export default function mapFiles(taxReport: TaxReport): Array<string> {
     }
   }
   if (studentExpenses?.tuitionFees) {
-    filesArr.push(T2022_Releve_8_TL11[0]);
+    filesArr.push(T2202_Releve_8_TL11[0]);
   }
 
   // Retirement Incomes
