@@ -6,7 +6,7 @@ export function TaxDeclarationReview() {
   const navigate = useNavigate();
   return (
     <div className="relative">
-      <h1>Questionnaire.s complété.s</h1>
+      <h1>Questionnaire et dépôt des fichiers complétés</h1>
       <p className="font-semibold mb-2 text-justify">
         Votre questionnaire et vos pièces justificatives ont été envoyés à notre
         équipe administrative et vous recevrez par la suite un courriel
@@ -22,7 +22,7 @@ export function TaxDeclarationReview() {
       </p>
       <input
         type="submit"
-        value="Retour au profile"
+        value="Retour à mon compte"
         className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer mt-4 absolute bottom-0"
         onClick={() => {
           navigate('/profile');
