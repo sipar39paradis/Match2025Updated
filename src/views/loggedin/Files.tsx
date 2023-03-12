@@ -1,18 +1,12 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, {useCallback, useEffect, useState } from 'react'
 import { BreadcrumbWrapper } from '../../components/profile/BreadcrumbWrapper'
-import { useParams } from 'react-router-dom'
 import { useContext } from 'react'
 import { AppContext, AppContextType } from '../../context/AppContext'
-import { appendExistingFiles, fetchFilesPerUserFromGivenEmail, getAllQuestionnaires, removeRequiredfile, uploadFileToStorage } from '../../client/firebaseClient'
-import { ReactComponent as BlankFile } from '../../icons/BlankFile.svg'
 import { deleteObject, getBlob, getStorage, ref } from 'firebase/storage'
-import { PassThrough } from 'stream'
 import { uuidv4 } from '@firebase/util'
 import MyDropbox from '../../components/MyDropbox'
-import { Questionnaire } from './TaxDeclaration/types/Questionnaire/Questionnaire'
-import { QuestionnaireContext, QuestionnaireContextType } from './TaxDeclaration/context/QuestionnaireContext'
 import { PersonalInformations } from './TaxDeclaration/types/Questionnaire/PersonnalInformations'
+import { uploadFileToStorage, fetchFilesPerUserFromGivenEmail } from '../../client/firebaseClient'
 
 
 const storage = getStorage();
@@ -24,10 +18,12 @@ interface FileComponentProps {
   selected: string | null;
   userEmail: string;
   handleDelete: (filePath: string, userName: string, files: Array<any>) => void
+  appendQuestionnaire: (userName: string, files: Array<string>) => void
+  setUpdated: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 function FileComponent(props: FileComponentProps) {
-  const { userName, files, onSelect, selected, handleDelete } = props;
+  const { userName, files, onSelect, selected, handleDelete, appendQuestionnaire, setUpdated } = props;
   const [showDropbox, setShowDropbox] = useState(false);
   const { user } = useContext(AppContext) as AppContextType;
 
@@ -51,19 +47,24 @@ function FileComponent(props: FileComponentProps) {
     link.remove();
   };
 
-
   const handleFileUpload = useCallback((acceptedFiles) => {
-    acceptedFiles?.forEach((file) =>{
-      uploadFileToStorage(
-        'Autre_fichier_' + file?.name,
-        acceptedFiles[0],
-        {
+    setUpdated(false)
+    const info = {
           firstName: userName?.split('_')[0],
           lastName: userName?.split('_')[1],
           email: user?.email
-      } as PersonalInformations
-        )
+      } as PersonalInformations;
+    const newFiles = []
+    acceptedFiles?.forEach((file) =>{
+      const fileNameWithPrefix = 'Autre_fichier_' + file?.name;
+      uploadFileToStorage(
+        fileNameWithPrefix,
+        acceptedFiles[0],
+        info)
+        newFiles.push('customerData/' + user?.email + '/' + userName + '/' + fileNameWithPrefix)
     })
+    appendQuestionnaire(userName, newFiles)
+    setUpdated(true)
   }, []);
 
   const handleToggleDropbox = () => {
@@ -124,6 +125,7 @@ export function Files() {
   const { user } = useContext(AppContext) as AppContextType;
   const [questionnaireArr, setQuestionnaireArr] = useState([]);
   const [selectedItem, setSelectedItem] = useState<string | null>(null); // added selected state
+  const [updated, setUpdated] = useState(false);
 
   const indexOfFileInQuestionnaire = (arr: Array<any>, userName: string): number => {
     for(let i = 0; i < arr.length; i++){
@@ -135,19 +137,30 @@ export function Files() {
     return -1;
   }
 
+  const appendQuestionnaire = (userName:string, files: Array<string>) => {
+    const index = indexOfFileInQuestionnaire(questionnaireArr, userName);
+    const tempArr = questionnaireArr[index]['val'].concat(files);
+    questionnaireArr[index] = {key:userName, val:tempArr};
+    setQuestionnaireArr(questionnaireArr);
+    setSelectedItem(null)
+  }
+
   const handleDelete = (filePath: string, userName: string, files: Array<any>) => {
     const fileRef = ref(storage, filePath); 
+    setUpdated(false);
     deleteObject(fileRef)
       .then((res) => {
             const index = files?.indexOf(filePath);
             if(index > -1){
               files?.splice(index, 1);
             }
-            
+            console.log(files)
             const questionnaireIndex = indexOfFileInQuestionnaire(questionnaireArr, userName);
             questionnaireArr[questionnaireIndex] = {key: userName, val:files }
             setQuestionnaireArr(questionnaireArr)
+            console.log(questionnaireArr[questionnaireIndex])
             setSelectedItem(null)
+            setUpdated(true)
       })
       .catch(() => alert('Couldn\'t delete file.'));
   };
@@ -159,8 +172,9 @@ export function Files() {
         tempquestionnaireArr.push({ key: k, val: v });
       });
       setQuestionnaireArr(tempquestionnaireArr);
+      setUpdated(true);
     });
-  }, []);
+  }, [updated]);
 
   const filesPresent = (): boolean => {
     if (questionnaireArr?.length === 0) {
@@ -200,6 +214,8 @@ export function Files() {
                 onSelect={setSelectedItem}
                 selected={selectedItem}
                 handleDelete={handleDelete}
+                appendQuestionnaire={appendQuestionnaire}
+                setUpdated={setUpdated}
               />
             ))}
           </div>

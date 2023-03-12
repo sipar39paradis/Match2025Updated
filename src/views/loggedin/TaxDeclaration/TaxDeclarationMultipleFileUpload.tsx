@@ -136,8 +136,6 @@ function MultipleFileDropBox(multipleFileDropBoxProps: MultipleFileDropBoxProps)
 
     const handleFileUpload = useCallback((acceptedFiles) => {
         const file = acceptedFiles[0];
-        console.log(file)
-        console.log(acceptedFiles)
         uploadFileToStorage(
           fileNames + '_' + file?.name,
           acceptedFiles[0],

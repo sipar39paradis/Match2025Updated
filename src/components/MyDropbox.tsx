@@ -11,7 +11,7 @@ export default function MyDropbox(props: MyDropboxInterface){
     return (
         <>
         <div className="flex items-center justify-center w-full">
-          <Dropzone onDrop={() => {console.log('hi')}}>
+          <Dropzone onDrop={handleFileUpload}>
             {({ getRootProps, getInputProps }) => (
               <section className="w-full">
                 <div {...getRootProps()}>
