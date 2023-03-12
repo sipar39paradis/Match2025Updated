@@ -80,6 +80,9 @@ export interface WorkIncomes {
   remoteWorkExpenses?: boolean
   tipsOrCasualWork?: boolean
   insuranceBenefits?: boolean
+  pensionRetirementAnnuityIncome?: boolean
+  statementOfDistribution?: boolean
+  welfareSeniorSupplement?: boolean
 }
 interface RetirementIncomes {
   retirementIncomes?: boolean
@@ -172,6 +175,7 @@ interface InvestmentIncomes {
  interestExpenses?: boolean
  deductionClaim?: boolean
  cumulativeInvestmentLoss?: boolean
+ labourSponsoredFundTaxCredits?: boolean
 }
 
 export interface TaxDeductions {
@@ -190,6 +194,5 @@ export interface TaxDeductions {
   T4RSP?: boolean
   T4RIF?: boolean
   labourSponsoredFundTaxCredits?: boolean
-  foreignPensionPlan?: boolean
   RRSPorRRIFmoneyWithdrawn: boolean
 }

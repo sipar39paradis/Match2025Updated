@@ -154,7 +154,7 @@ export function InvestmentIncomeForm() {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox
                     {...register(
-                      'taxReport.taxDeductions.labourSponsoredFundTaxCredits'
+                      'taxReport.investmentIncomes.labourSponsoredFundTaxCredits'
                     )}
                   />
                   <p>

@@ -5,7 +5,7 @@ import { ReactComponent as Logo } from '../../../images/logo/impots-match-logo.s
 export function TaxDeclarationReview() {
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="relative">
       <h1>Questionnaire.s complété.s</h1>
       <p className="font-semibold mb-2 text-justify">
         Votre questionnaire et vos pièces justificatives ont été envoyés à notre
@@ -23,7 +23,7 @@ export function TaxDeclarationReview() {
       <input
         type="submit"
         value="Retour au profile"
-        className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer mt-4"
+        className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer mt-4 absolute bottom-0"
         onClick={() => {
           navigate('/profile');
         }}

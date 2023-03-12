@@ -72,8 +72,8 @@ export function Price() {
     }
     if (
       !taxReport?.workIncomes?.employed &&
-      (taxReport.workIncomes?.insuranceBenefits ||
-        taxReport.workIncomes?.workerCompensationOrSocialAssistance ||
+      (taxReport?.workIncomes?.insuranceBenefits ||
+        taxReport?.workIncomes?.workerCompensationOrSocialAssistance ||
         taxReport?.workIncomes?.employmentInsuranceOrParentalBenefits)
     ) {
       totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 20 : 15;
@@ -129,7 +129,7 @@ export function Price() {
     return price;
   }
   return (
-    <section className="flex flex-col align-baseline items-start w-full h-fit">
+    <section className="flex flex-col align-baseline items-start w-full">
       <h1>Merci d’avoir rempli notre questionnaire. </h1>
       <p className="a font-semibold">
         Voici votre prix 100% adapté à votre situation :

@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-const sinRegExp = /^^(\d{3}-\d{3}-\d{3})|(\d{9})$/
 const postalCodeRegex = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i
 
 export const personalInformationsSchema = Yup.object({
@@ -10,9 +9,7 @@ export const personalInformationsSchema = Yup.object({
   email: Yup.string()
     .email()
     .min(6, "L'adresse courriel doit être au moins 6 caractères"),
-  socialInsuranceNumber: Yup.string()
-    .required("Le numéro d'assurance social est requis")
-    .matches(sinRegExp, 'Le format doit être XXX-XXX-XXX'),
+  socialInsuranceNumber: Yup.string(),
   birthDay: Yup.string().required('La date de naissance est requise'),
 });
 

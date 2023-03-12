@@ -35,6 +35,7 @@ export function BoxBody({
       questionnaire,
     };
   });
+  
 
   const getDependants = (client: SnapshotQuestionnaire): Info[] => {
     return client?.questionnaire.dependents.map((dependant) => {
@@ -44,7 +45,7 @@ export function BoxBody({
           questionnaire.questionnaire.questionnaire.personalInformations
             .firstName === dependant.firstName &&
             questionnaire.questionnaire.questionnaire.personalInformations
-              .lastName === dependant.lastName;
+              .lastName === dependant.lastName
         })
       ) {
         return {
@@ -68,6 +69,17 @@ export function BoxBody({
   questionnaires.forEach((questionnaire) => {
     dependants = dependants.concat(getDependants(questionnaire));
   });
+
+  dependants = dependants.filter((val,i) => {
+
+    const current = dependants.findIndex((dep) => {
+
+      return val.firstName === dep.firstName &&
+      val.lastName === dep.lastName
+    }) 
+
+    return (current <0) || (current !== i && current >= 0) 
+  })
 
   const mainClientInfo: Info = {
     firstName: mainClient

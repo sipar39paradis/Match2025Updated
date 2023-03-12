@@ -31,7 +31,6 @@ export function QuestionnaireHandler() {
     resetForm,
     loadingQuestionnaires,
     personalInformationsForm,
-    saveFormAnswers,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
   const { id } = useParams();
   const [clientTabs, setClientTabs] = useState([]);
@@ -49,7 +48,6 @@ export function QuestionnaireHandler() {
 
   useEffect(() => {
     if (user && id && questionnaires.size) {
-      console.log('switched to:', questionnaires.get(id));
       const currentQuestionnaire = questionnaires.get(id);
       resetForm(currentQuestionnaire);
       personalInformationsForm.setValue(
@@ -62,7 +60,6 @@ export function QuestionnaireHandler() {
 
   useEffect(() => {
     if (questionnaires.size) {
-      console.log('generate tabs for:', questionnaires);
       const currentQuestionnaire = questionnaires.get(id);
       questionnaires.set(id, {
         ...currentQuestionnaire,
@@ -76,7 +73,6 @@ export function QuestionnaireHandler() {
   }, [personnalInformationsFormData?.firstName]);
 
   useEffect(() => {
-    console.log('changed tabs');
     generateTabs(questionnaires);
   }, [currentStep]);
 
@@ -90,7 +86,6 @@ export function QuestionnaireHandler() {
         disabled: disableTab(value.clientType),
       })
     );
-    console.log('tabs :', tabs);
     setClientTabs(tabs);
   }
 
@@ -141,8 +136,9 @@ export function QuestionnaireHandler() {
 
   return (
     <div className="flex p-8 bg-orange-50 min-h-screen flex-col items-center">
-      <div className="w-[800px] flex flex-row">
+      <div className="w-full lg:w-[800px] flex flex-row">
         {currentStep !== TaxDeclarationStep.PRICE &&
+          currentStep !== TaxDeclarationStep.REVIEW &&
           clientTabs.map((tab) => (
             <div
               key={tab.key}
@@ -173,7 +169,7 @@ export function QuestionnaireHandler() {
         </Fade>
       ) : (
         <Fade>
-          <div className="w-[800px] bg-white rounded-md p-8 h-fit">
+          <div className="lg:w-[800px] bg-white rounded-md p-8 h-fit w-full">
             {renderTaxReportStep(currentStep)}
           </div>
         </Fade>

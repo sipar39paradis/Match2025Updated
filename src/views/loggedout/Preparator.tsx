@@ -41,12 +41,6 @@ export function Preparator() {
             </li>
             <li className="py-2">
               <p className="font-semibold">
-                Taux horaire variable en fonction de la productivité et
-                efficacité mais peut varier entre 60$ et 80$ de l’heure
-              </p>
-            </li>
-            <li className="py-2">
-              <p className="font-semibold">
                 Cela vous intéresse? Entrez en contact avec{' '}
                 <a
                   className="hover:cursor-pointer text-orange-500"

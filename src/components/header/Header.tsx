@@ -29,7 +29,8 @@ function HeaderItem(props: HeaderItemProps) {
 export function Header() {
   const navigate = useNavigate();
   // const  = redirect();
-  const { user, modalToDisplay, setModalToDisplay, showModal, setShowModal } = useContext(AppContext) as AppContextType;
+  const { user, modalToDisplay, setModalToDisplay, showModal, setShowModal } =
+    useContext(AppContext) as AppContextType;
 
   // const [modalToDisplay, setModalToDisplay] =
   //   React.useState<AuthModalEnum | null>(null);
@@ -102,7 +103,6 @@ export function Header() {
             <HeaderItem text="Accueil" toLink="/#home" />
             <HeaderItem text="Avantages" toLink="/#advantages" />
             <HeaderItem text="Fonctionnement" toLink="/#features" />
-            <HeaderItem text="À propos" toLink="#about" />
             <HeaderItem text="Préparateur" toLink="/preparator" />
             <HeaderItem text={'Nous joindre'} toLink="/#support" />
             {user ? (

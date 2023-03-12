@@ -15,7 +15,9 @@ import Dropzone from 'react-dropzone';
 import {
   NavigateOptions,
   URLSearchParamsInit,
+  useNavigate,
   useParams,
+  useSearchParams,
 } from 'react-router-dom';
 import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import {
@@ -25,6 +27,7 @@ import {
 import {
   QuestionnaireContext,
   QuestionnaireContextType,
+  TAX_DECLARATION_STEP,
 } from './context/QuestionnaireContext';
 import mapFiles, { getPDFTaxReport, mapTitle } from '../../../utils/FileMapper';
 import { EmptyQuestionnaire } from './emptyQuestionnaire';
@@ -177,29 +180,24 @@ function IndividualFileUpload(props: FileUploadProps) {
         setHidden={setHidden}
         personalInformation={formData?.personalInformations}
       />
-      {!hidden ? (
-        <MyDropbox handleFileUpload={handleFileUpload} />
-      ) : (
-        <></>
-      )}
+      {!hidden ? <MyDropbox handleFileUpload={handleFileUpload} /> : <></>}
     </>
   );
 }
 
 export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
   const { firestore, storage, user } = useContext(AppContext) as AppContextType;
-  const {
-    setSearchParams,
-    questionnaires,
-    formData,
-    addQuestionnaire,
-    saveFormAnswers,
-  } = useContext(QuestionnaireContext) as QuestionnaireContextType;
+  const { setSearchParams, questionnaires, formData } = useContext(
+    QuestionnaireContext
+  ) as QuestionnaireContextType;
   const [reqFiles, setReqFiles] = useState([]);
   const [existingFiles, setExistingFiles] = useState([]);
   const [fetchedReqFiles, setFetchedReqFiles] = useState(false);
   const [fetchedExFiles, setFetchedExFiles] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const keys = Array.from(questionnaires.keys());
 
   useEffect(() => {
     if (user && id && questionnaires?.size) {
@@ -224,84 +222,39 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
   }, [id, questionnaires]);
 
   function onSubmitButton() {
-    saveFormAnswers();
-    const dependent = findDependentWhoNeedsQuestionnaire();
-    if (partnerNeedsQuestionnaire()) {
-      addQuestionnaire(
-        ClientTypeEnum.PARTNER,
-        {
-          ...EmptyQuestionnaire,
-          civilStatus: formData.civilStatus,
-          contactDetails: formData.contactDetails,
-        },
-        TaxDeclarationStep.PERSONAL_INFORMATIONS
-      );
-    } else if (dependent) {
-      addQuestionnaire(
-        ClientTypeEnum.DEPENDENT,
-        {
-          ...EmptyQuestionnaire,
-          contactDetails: formData.contactDetails,
-          personalInformations: {
-            firstName: dependent.firstName,
-            lastName: dependent.lastName,
-            birthDay: dependent.birthDay,
-            socialInsuranceNumber: dependent.socialInsuranceNumber,
-            email: null,
-            bankruptcy: null,
-            disabled: null,
-          },
-        },
-        TaxDeclarationStep.INCOMES
-      );
-    } else {
+    const questionnairePosition = keys.findIndex((key) => key === id);
+
+    console.log(keys);
+    console.log(id);
+    if (idIsLast()) {
+      questionnaires?.forEach((value, id) => {
+        uploadTaxReportPdfToStorage(
+          getPDFTaxReport(formData?.taxReport, value?.personalInformations),
+          value?.personalInformations
+        );
+      });
       setSearchParams({ step: TaxDeclarationStep.REVIEW });
+    } else {
+      navigate(
+        `/questionnaire/${
+          keys[questionnairePosition + 1]
+        }?step=${searchParams.get(TAX_DECLARATION_STEP)}`
+      );
     }
   }
 
-  function findDependentWhoNeedsQuestionnaire(): Dependent | null {
-    let foundDependent = null;
-    questionnaires.forEach((questionnaire) => {
-      questionnaire.dependents.forEach((dependent) => {
-        if (
-          dependent.hasTaxReport &&
-          !dependentQuestionnaireExists(
-            dependent.firstName,
-            dependent.lastName,
-            dependent.birthDay.toString()
-          )
-        ) {
-          foundDependent = dependent;
-        }
-      });
-    });
-    return foundDependent;
+  function idIsLast() {
+    const position = idPosition();
+    return position === keys.length - 1;
   }
 
-  function dependentQuestionnaireExists(
-    firstName: string,
-    lastName: string,
-    birthDay: string
-  ) {
-    let exist = false;
-    questionnaires.forEach((questionnaire) => {
-      if (
-        questionnaire.clientType === ClientTypeEnum.DEPENDENT &&
-        `${questionnaire.personalInformations.firstName}-${questionnaire.personalInformations.lastName}-${questionnaire.personalInformations.birthDay}` ===
-          `${firstName}-${lastName}-${birthDay}`
-      ) {
-        exist = true;
-      }
-    });
-    return exist;
+  function idIsFirst() {
+    const position = idPosition();
+    return position === 0;
   }
 
-  function partnerNeedsQuestionnaire() {
-    return (
-      formData?.clientType === ClientTypeEnum.MAIN_CLIENT &&
-      formData?.civilStatus?.together &&
-      !partnerQuestionnaireExists(questionnaires)
-    );
+  function idPosition() {
+    return keys.findIndex((key) => key === id);
   }
 
   return (
@@ -331,25 +284,10 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
       <TaxDeclarationAllowedMultipleFileUpload
         questionnaire={questionnaires?.get(id)}
       />
-      <div className="w-full flex justify-between mt-4">
+      <div className="w-full flex justify-between mt-4 flex-row-reverse">
         <input
           type="submit"
-          value="Précédant"
-          onClick={() => {
-            setSearchParams({
-              step: TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT,
-            });
-          }}
-          className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
-        />
-        <input
-          type="submit"
-          value={
-            partnerNeedsQuestionnaire() ||
-            !!findDependentWhoNeedsQuestionnaire()
-              ? 'Prochain questionnaire'
-              : 'Suivant'
-          }
+          value={idIsLast() ? 'Terminer' : 'Suivant'}
           className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
           onClick={() => {
             // if (reqFiles && reqFiles?.length == 0) {
@@ -359,6 +297,20 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
             // }
           }}
         />
+        {!idIsFirst() && (
+          <input
+            type="submit"
+            value="Précédant"
+            onClick={() => {
+              navigate(
+                `/questionnaire/${
+                  keys[idPosition() - 1]
+                }?step=${searchParams.get(TAX_DECLARATION_STEP)}`
+              );
+            }}
+            className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
+          />
+        )}
       </div>
     </>
   );
