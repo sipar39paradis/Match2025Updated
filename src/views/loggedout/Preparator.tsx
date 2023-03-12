@@ -1,5 +1,6 @@
 import Fade from 'react-reveal';
 import React from 'react';
+import { HashLink as Link } from 'react-router-hash-link';
 
 export function Preparator() {
   return (
@@ -42,12 +43,12 @@ export function Preparator() {
             <li className="py-2">
               <p className="font-semibold">
                 Cela vous intéresse? Entrez en contact avec{' '}
-                <a
+                <Link
                   className="hover:cursor-pointer text-orange-500"
-                  href="/#support"
+                  to="/#support"
                 >
                   nous
-                </a>
+                </Link>
               </p>
             </li>
           </ul>

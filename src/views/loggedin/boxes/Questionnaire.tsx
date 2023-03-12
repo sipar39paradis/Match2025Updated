@@ -29,10 +29,10 @@ export function ViewQuestionnaire() {
       <div className="flex justify-start flex-col w-[96vw] p-10 sm:px-30 lg:px-40">
         <BreadcrumbWrapper
           breadcrumbEndpoint={['profile', 'viewQuestionnaire']}
-          breadcrumbName={['Mon Compte', 'Mes Questionnaires']}
+          breadcrumbName={['Mon Compte', 'Questionnaire']}
         >
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Mes Questionnaires
+          Questionnaire
           </h1>
           {noQuestionaire ? (
             <a
