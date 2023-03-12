@@ -183,7 +183,7 @@ export function Files() {
       setQuestionnaireArr(tempquestionnaireArr);
       setUpdated(true);
     });
-  }, [updated, isMounted]);
+  }, [isMounted]);
 
   const filesPresent = (): boolean => {
     if (questionnaireArr?.length === 0) {
