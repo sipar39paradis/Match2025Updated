@@ -126,6 +126,7 @@ export function Files() {
   const [questionnaireArr, setQuestionnaireArr] = useState([]);
   const [selectedItem, setSelectedItem] = useState<string | null>(null); // added selected state
   const [updated, setUpdated] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const indexOfFileInQuestionnaire = (arr: Array<any>, userName: string): number => {
     for(let i = 0; i < arr.length; i++){
@@ -140,9 +141,12 @@ export function Files() {
   const appendQuestionnaire = (userName:string, files: Array<string>) => {
     const index = indexOfFileInQuestionnaire(questionnaireArr, userName);
     const tempArr = questionnaireArr[index]['val'].concat(files);
-    questionnaireArr[index] = {key:userName, val:tempArr};
-    setQuestionnaireArr(questionnaireArr);
-    setSelectedItem(null)
+    const tempQuestionnaireArr = [...questionnaireArr];
+    tempQuestionnaireArr[index] = {key: userName, val: tempArr};
+    setQuestionnaireArr(tempQuestionnaireArr);
+    setSelectedItem(null);
+    setUpdated(false);
+    setIsMounted(false)
   }
 
   const handleDelete = (filePath: string, userName: string, files: Array<any>) => {
@@ -162,10 +166,15 @@ export function Files() {
             setSelectedItem(null)
             setUpdated(true)
       })
-      .catch(() => alert('Couldn\'t delete file.'));
+      .catch(() => alert('Impossible de supprimer le fichier.'));
   };
 
   useEffect(() => {
+    if (!isMounted) {
+      setIsMounted(true);
+      return;
+    }
+
     fetchFilesPerUserFromGivenEmail(user?.email).then((res) => {
       const tempquestionnaireArr = [];
       res?.forEach((v, k) => {
@@ -174,7 +183,7 @@ export function Files() {
       setQuestionnaireArr(tempquestionnaireArr);
       setUpdated(true);
     });
-  }, [updated]);
+  }, [updated, isMounted]);
 
   const filesPresent = (): boolean => {
     if (questionnaireArr?.length === 0) {
@@ -183,7 +192,7 @@ export function Files() {
   
     let found = false; 
   
-    questionnaireArr.forEach((item) => {
+    questionnaireArr?.forEach((item) => {
       if (item['val'].length > 0) {
         item['val'].forEach((inner) => {
           if (inner.includes('taxReport.pdf')) {
