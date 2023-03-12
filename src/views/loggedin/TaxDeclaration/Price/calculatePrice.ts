@@ -2,7 +2,6 @@ import { ClientTypeEnum, Questionnaire } from '../types/Questionnaire/Questionna
 import { TaxReport } from '../types/TaxReport/TaxReport';
 
 export function calculatePrice(questionnaires: Map<string, Questionnaire>) {
-  console.log('questionnaires', questionnaires);
   let mainClientQuestionnaire = null;
   let partnerQuestionnaire = null;
 

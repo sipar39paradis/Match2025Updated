@@ -243,7 +243,6 @@ export function PrivacyPolicy() {
                   createUserParams.lastName,
                   createUserParams.referralCode
                 );
-                console.log('testingerr', err)
                 if (err) {
                   if(err === 'No Two Factor'){
                     setModalToDisplay(AuthModalEnum.TwoFactor)

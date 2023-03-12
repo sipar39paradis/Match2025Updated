@@ -164,7 +164,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   }, []);
 
   async function enrollTwoFactor(phoneNumber: string): Promise<string> {
-    console.log(phoneNumber);
     // const recaptchaVerifier = new RecaptchaVerifier('recaptcha-container-id', undefined, auth);
     const recaptchaVerifier = new RecaptchaVerifier(
       'two-factor-button',
@@ -250,7 +249,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     verificationCode: string,
     resolver: MultiFactorResolver
   ) => {
-    console.log('in first');
     // Ask user for the SMS verification code. Then:
     console.log(verificationCode);
     const cred = PhoneAuthProvider.credential(verificationId, verificationCode);
@@ -273,8 +271,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
     await userCredentialsPromise
       .then(async (userCredential) => {
-        console.log('timeout', 'in signin');
-        console.log(userCredential, 'user creds in signup');
         succsessfulSignIn(userCredential);
         errorMessage = 'No Two Factor';
       })
@@ -294,7 +290,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
           resolver = getMultiFactorResolver(auth, error);
           // Ask user which second factor to use.
-          console.log(resolver.hints);
           const selectedIndex = 0;
           if (
             resolver.hints[selectedIndex].factorId ===
@@ -317,7 +312,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
           console.log(error);
           errorMessage = error.message;
         }
-        console.log(error);
         errorMessage = error.message;
       });
     return [promise, resolver, errorMessage];
@@ -345,7 +339,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     const provider = new FacebookAuthProvider();
     await signInWithPopup(auth, provider)
       .then((userCredential) => {
-        console.log(userCredential);
         const userInfo = getDoc(
           doc(firestore, 'userInfo', userCredential.user.email)
         );

@@ -22,8 +22,6 @@ export function CustomCard({ user, profile }: CardProps) {
     Español: 'success',
   };
 
-  console.log(profile, 'prof');
-
   return (
     <Card className="text-center">
       <div className="flex flex-col items-center justify-evenly divide-y-2 divide-gray-200">
@@ -67,7 +65,7 @@ export function CustomCard({ user, profile }: CardProps) {
         {profile ? (
           <div className="flow-root pt-2">
             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-              {user.displayName}
+              {user?.displayName}
             </h5>
             <span className="text-sm text-gray-500 dark:text-gray-400">
             </span>

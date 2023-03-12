@@ -211,14 +211,12 @@ export function QuestionnaireContextProvider({
       defaultValues
     ).then((docRef) => {
       questionnaires.set(docRef.id, defaultValues);
-      console.log('added', defaultValues);
       setQuestionnaires(questionnaires);
       navigate(`/questionnaire/${docRef.id}?step=${stepToRedirect}`);
     });
   }
 
   async function saveFormAnswers(formAnswers = formData) {
-    console.log('save', formAnswers);
     questionnaires.set(id, formAnswers);
     await setDoc(
       doc(

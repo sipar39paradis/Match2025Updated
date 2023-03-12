@@ -224,8 +224,6 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
   function onSubmitButton() {
     const questionnairePosition = keys.findIndex((key) => key === id);
 
-    console.log(keys);
-    console.log(id);
     if (idIsLast()) {
       questionnaires?.forEach((value, id) => {
         uploadTaxReportPdfToStorage(
