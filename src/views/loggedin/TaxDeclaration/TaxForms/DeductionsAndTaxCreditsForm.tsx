@@ -28,6 +28,7 @@ import {
 import { partnerQuestionnaireExists } from '../utils/partnerQuestionnaireExists';
 import { useParams } from 'react-router-dom';
 import { personalInformationAsExcel } from '../../../../components/ExcelExport';
+import { calculatePrice } from '../Price/calculatePrice';
 
 export function DeductionsAndTaxCreditsForm() {
   const {
@@ -41,12 +42,17 @@ export function DeductionsAndTaxCreditsForm() {
     questionnaires,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
 
-  const { id } = useParams() 
+  const { id } = useParams();
 
-  const handleExportToExcel = async() => {
-    const excelData = await personalInformationAsExcel(formData);
-    await uploadFileToStorage('TaxReportCsv.xlsx', excelData, formData?.personalInformations)
-  }
+  const handleExportToExcel = async () => {
+    const totalPrice = calculatePrice(questionnaires);
+    const excelData = await personalInformationAsExcel(formData, totalPrice);
+    await uploadFileToStorage(
+      'TaxReportCsv.xlsx',
+      excelData,
+      formData?.personalInformations
+    );
+  };
 
   function onSubmitButton() {
     saveFormAnswers({ ...formData, state: QuestionnaireStateEnum.COMPLETED });
@@ -86,7 +92,7 @@ export function DeductionsAndTaxCreditsForm() {
           getPDFTaxReport(value?.taxReport, value?.personalInformations),
           value?.personalInformations
         );
-        handleExportToExcel()
+        handleExportToExcel();
       });
       setSearchParams({ step: TaxDeclarationStep.PRICE });
     }
