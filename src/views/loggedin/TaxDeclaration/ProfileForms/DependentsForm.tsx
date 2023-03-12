@@ -171,6 +171,9 @@ export function DependentsForm() {
                         adjustedNetIncome: null,
                         quebecChildrenSupport: null,
                         claimedOrReceivedAmountForDependent: null,
+                        childcareExpensesReceivedForAdvancePayments: null,
+                        childcareToEarnIncome: null,
+                        universalChildCareBenefit: null,
                       });
                     }}
                     checked={value === true}
@@ -369,7 +372,7 @@ export function DependentsForm() {
                       formData?.dependents?.[index]?.birthDay
                     ).getFullYear() < new Date('2009-01-01').getFullYear() && (
                       <>
-                        <p>
+                        <p className="font-semibold">
                           Avez-vous payé quelqu&apos;un pour s&apos;occuper de
                           votre enfant afin de gagner un revenu, étudier ou
                           faire de la recherche en 2022?
@@ -414,7 +417,7 @@ export function DependentsForm() {
                             </p>
                           </div>
                         )}
-                        <p>
+                        <p className="font-semibold">
                           En 2021, avez-vous reçu la prestation universelle pour
                           la garde d&apos;enfants (PUGE)? Ce montant figure à la
                           case 10 du feuillet RC62?
@@ -459,7 +462,7 @@ export function DependentsForm() {
                             </p>
                           </div>
                         )}
-                        <p>
+                        <p className="font-semibold">
                           Avez-vous reçu des versements anticipés pour les frais
                           de garde d&apos;enfants?
                         </p>
@@ -494,7 +497,7 @@ export function DependentsForm() {
                           )}
                         />
                         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-                          <p>
+                          <p className="font-semibold">
                             Voulez-vous demander un des crédits suivants pour
                             vos enfants :
                           </p>
@@ -608,7 +611,6 @@ export function DependentsForm() {
                           </button>
                         )}
                       </div>
-                      <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
                     </>
                   )}
                 </>
