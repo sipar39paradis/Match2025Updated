@@ -25,6 +25,7 @@ export function BoxBody({
   const { user } = useContext(AppContext) as AppContextType;
   let mainClient: SnapshotQuestionnaire;
 
+
   let secondaryClients: Info[] = questionnaires.map((questionnaire) => {
     if (questionnaire.questionnaire.clientType === ClientTypeEnum.MAIN_CLIENT) {
       mainClient = questionnaire;
@@ -35,6 +36,7 @@ export function BoxBody({
       questionnaire,
     };
   });
+
   
 
   const getDependants = (client: SnapshotQuestionnaire): Info[] => {
@@ -63,6 +65,7 @@ export function BoxBody({
       ClientTypeEnum.PARTNER
     );
   });
+
 
   let dependants: Info[] = [];
 

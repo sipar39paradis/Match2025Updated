@@ -60,7 +60,9 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
     doneConditions,
     setErr,
     setModalToDisplay,
-    setShowModal
+    setShowModal,
+    setDonePolicy,
+    setDoneConditions
   } = useContext(AppContext) as AppContextType;
 
   const [authError, setAuthError] = useState('');
@@ -102,6 +104,8 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
           setModalToDisplay(AuthModalEnum.TwoFactor)
           setShowModal(true)
           navigate('/profile');
+          setDonePolicy(false);
+          setDoneConditions(false)
         }else{
           setErr(newError)
         }

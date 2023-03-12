@@ -158,11 +158,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   useEffect(() => {
     return () => {
       if (window.performance.navigation.type !== 1 || isInSensitive) {
-        console.log('should sign out');
-        const h = async () => {
-          await signOut();
-        };
-        h();
+          signOut();
       }
     };
   }, []);
@@ -230,7 +226,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   };
 
   const timedSignOut = async () => {
-    const THIRTY_MINUTES_BEFORE_MODAL = 1_800_000;
+    const FIFTEEN_MINUTES_BEFORE_MODAL = 900_000;
     const THIRTY_SECONDS_AFTER_MODAL = 30000;
 
     setTimeout(() => {
@@ -246,7 +242,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         }
         // }
       }, THIRTY_SECONDS_AFTER_MODAL);
-    }, THIRTY_MINUTES_BEFORE_MODAL);
+    }, FIFTEEN_MINUTES_BEFORE_MODAL);
   };
 
   const verifyTwoFactor = async (
@@ -402,12 +398,12 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     return signUpWithGoogle();
   }
 
-  async function signOut() {
-    if (user) {
-      await auth.signOut();
+  function signOut() {
+    // if (user) {
+      auth.signOut();
       setUserInfo(null);
       navigate('/');
-    }
+    // }
   }
 
   async function resetPassword(email: string) {

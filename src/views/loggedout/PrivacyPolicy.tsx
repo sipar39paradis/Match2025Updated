@@ -249,10 +249,12 @@ export function PrivacyPolicy() {
                     setModalToDisplay(AuthModalEnum.TwoFactor)
                     setShowModal(true)
                     navigate('/profile');
+                  }else{
+                    setErr(err)
+                    setModalToDisplay(AuthModalEnum.SignUpWithEmail)
+                    setShowModal(true)
                   }
-                  setErr(err)
-                  setModalToDisplay(AuthModalEnum.SignUpWithEmail)
-                  setShowModal(true)
+
                 } else {
                   navigate('/profile');
                 }

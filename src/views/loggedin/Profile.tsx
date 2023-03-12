@@ -78,7 +78,7 @@ export function Profile() {
       icon: 'foyer',
     },
     questionnaire: {
-      header: 'Mes Questionnaires',
+      header: 'Questionnaire',
       text: 'Vous pouvez consulter ici vos questionnaires terminés ou en cours',
       endpoint: 'viewQuestionnaire',
       icon: 'questionnaire',
