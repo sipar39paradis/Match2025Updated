@@ -13,12 +13,12 @@ const exportToExcel = async (excelData: any[], fileName: string) =>{
     const wb = {Sheets: {'data': ws}, SheetNames: ['data']};
     const excelBuffer = XLSX.write(wb, {bookType:'xlsx', type:'array'});
     const data = new Blob([excelBuffer], {type: fileType});
-  
-    return data.arrayBuffer;
+    const arrBuf = await data.arrayBuffer();
+    return arrBuf;
 }
 
 
-export const personalInformationAsExcel = async(questionnaire: Questionnaire) => {
+export const personalInformationAsExcel = (questionnaire: Questionnaire) => {
     console.log(questionnaire)
     const asJson = {
         'FirstNames': questionnaire?.personalInformations?.firstName,

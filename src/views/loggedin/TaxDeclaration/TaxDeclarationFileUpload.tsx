@@ -9,7 +9,6 @@ import {
   removeRequiredfile,
   uploadFileToStorage,
   uploadTaxReportPdfToStorage,
-  writeRequiredFiles,
 } from '../../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../../context/AppContext';
 import Dropzone from 'react-dropzone';
@@ -93,7 +92,7 @@ function ExistingFileNameComponent(props: ExistingFileNameComponentProps) {
 
   return (
     <h2>
-      {fileName}
+      {mapTitle(fileName)}
       {
         <>
           <button

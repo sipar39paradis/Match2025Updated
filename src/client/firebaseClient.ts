@@ -218,9 +218,6 @@ export const uploadFileToStorage = async (
     fileName;
   const fileRef = ref(storage, fileNameAndPath);
   uploadBytes(fileRef, bytes)
-    .then((snapsot) => {
-      console.log('Successfully generated taxReport.');
-    })
     .catch((err) => 'Something went wrong');
 };
 

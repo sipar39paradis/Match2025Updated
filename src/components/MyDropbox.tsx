@@ -2,7 +2,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 
 interface MyDropboxInterface {
-  handleFileUpload: any;
+    handleFileUpload: (acceptedFiles: any) => void
 }
 
 export default function MyDropbox(props: MyDropboxInterface) {

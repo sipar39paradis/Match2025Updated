@@ -268,55 +268,55 @@ export default function mapFiles(taxReport: TaxReport): Array<string> {
     }
   }
 
-  // Work incomes
-  if (workIncomes?.employed && workIncomes?.workedLastYear) {
-    if (workIncomes?.employmentIncome) {
-      filesArr.push(T4_Releve_1);
-    }
-    if (retirementIncomes?.pensionRetirementAnnuityIncome) {
-      filesArr.push(T4A_Releve_2_Releve_1);
-    }
-    if (retirementIncomes?.statementOfDistribution) {
-      filesArr.push(T4A_RCA);
-    }
-    if (workIncomes?.employmentProfitSharingPlan) {
-      filesArr.push(T4PS_Releve_25);
-    }
-    if (workIncomes?.pensionAdjustmentReversal) {
-      filesArr.push(T10);
-    }
-    if (workIncomes?.foreignIncomes) {
-      filesArr.push(Foreign_income);
-    }
-    if (workIncomes?.outsideCanadaIncome) {
-      filesArr.push(Releve_17);
-    }
-    if (workIncomes?.multiEmployerInsurancePlanIncome) {
-      filesArr.push(Releve_22);
-    }
-    if (workIncomes?.employmentInsuranceOrParentalBenefits) {
-      if (workIncomes?.insuranceBenefits) {
-        filesArr.push(T4E_Releve_6);
+    // Work incomes
+    if (workIncomes?.employed && workIncomes?.workedLastYear) {
+      if (workIncomes?.employmentIncome) {
+        filesArr.push(T4_Releve_1[0]);
       }
       if (retirementIncomes?.pensionRetirementAnnuityIncome) {
-        filesArr.push(T4A_Releve_2_Releve_1);
+        filesArr.push(T4A_Releve_2_Releve_1[0]);
+      }
+      if (retirementIncomes?.statementOfDistribution) {
+        filesArr.push(T4A_RCA[0]);
+      }
+      if (workIncomes?.employmentProfitSharingPlan) {
+        filesArr.push(T4PS_Releve_25[0]);
+      }
+      if (workIncomes?.pensionAdjustmentReversal) {
+        filesArr.push(T10[0]);
+      }
+      if (workIncomes?.foreignIncomes) {
+        filesArr.push(Foreign_income[0]);
+      }
+      if (workIncomes?.outsideCanadaIncome) {
+        filesArr.push(Releve_17[0]);
+      }
+      if (workIncomes?.multiEmployerInsurancePlanIncome) {
+        filesArr.push(Releve_22[0]);
+      }
+      if (workIncomes?.employmentInsuranceOrParentalBenefits) {
+        if (workIncomes?.insuranceBenefits) {
+          filesArr.push(T4E_Releve_6[0]);
+        }
+        if (retirementIncomes?.pensionRetirementAnnuityIncome) {
+          filesArr.push(T4A_Releve_2_Releve_1[0]);
+        }
+      }
+    } else if (workIncomes?.employed && !workIncomes?.workedLastYear) {
+      if (workIncomes?.workerCompensationOrSocialAssistance) {
+        if (retirementIncomes?.welfareSeniorSupplement) {
+          filesArr.push(T5007_Releve_5[0]);
+        }
+      }
+      if (workIncomes?.employmentInsuranceOrParentalBenefits) {
+        if (workIncomes?.employmentInsuranceBenefits) {
+          filesArr.push(T4E_Releve_6[0]);
+        }
+        if (retirementIncomes?.pensionRetirementAnnuityIncome) {
+          filesArr.push(T4A_Releve_2_Releve_1[0]);
+        }
       }
     }
-  } else if (workIncomes?.employed && !workIncomes?.workedLastYear) {
-    if (workIncomes?.workerCompensationOrSocialAssistance) {
-      if (retirementIncomes?.welfareSeniorSupplement) {
-        filesArr.push(T5007_Releve_5);
-      }
-    }
-    if (workIncomes?.employmentInsuranceOrParentalBenefits) {
-      if (workIncomes?.employmentInsuranceBenefits) {
-        filesArr.push(T4E_Releve_6);
-      }
-      if (retirementIncomes?.pensionRetirementAnnuityIncome) {
-        filesArr.push(T4A_Releve_2_Releve_1);
-      }
-    }
-  }
 
   MANDATORY_FILES?.forEach((file) => {
     filesArr.push(file);

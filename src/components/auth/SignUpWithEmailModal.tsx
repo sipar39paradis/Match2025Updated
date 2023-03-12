@@ -196,7 +196,7 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               <span className="text-red-500 ml-1">{errors.email?.message}</span>
             )}
             {err === 'Firebase: Error (auth/email-already-in-use).' && (
-              <span className="text-red-500 ml-1">cet email est déjà utilisé</span>
+              <span className="text-red-500 ml-1">Cet email est déjà utilisé</span>
             )}
             {authError && (
               <span className="text-red-500 ml-1">
