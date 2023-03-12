@@ -31,7 +31,6 @@ export function QuestionnaireHandler() {
     resetForm,
     loadingQuestionnaires,
     personalInformationsForm,
-    saveFormAnswers,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
   const { id } = useParams();
   const [clientTabs, setClientTabs] = useState([]);
@@ -49,7 +48,6 @@ export function QuestionnaireHandler() {
 
   useEffect(() => {
     if (user && id && questionnaires.size) {
-      console.log('switched to:', questionnaires.get(id));
       const currentQuestionnaire = questionnaires.get(id);
       resetForm(currentQuestionnaire);
       personalInformationsForm.setValue(
@@ -62,7 +60,6 @@ export function QuestionnaireHandler() {
 
   useEffect(() => {
     if (questionnaires.size) {
-      console.log('generate tabs for:', questionnaires);
       const currentQuestionnaire = questionnaires.get(id);
       questionnaires.set(id, {
         ...currentQuestionnaire,
@@ -76,7 +73,6 @@ export function QuestionnaireHandler() {
   }, [personnalInformationsFormData?.firstName]);
 
   useEffect(() => {
-    console.log('changed tabs');
     generateTabs(questionnaires);
   }, [currentStep]);
 
@@ -90,7 +86,6 @@ export function QuestionnaireHandler() {
         disabled: disableTab(value.clientType),
       })
     );
-    console.log('tabs :', tabs);
     setClientTabs(tabs);
   }
 
