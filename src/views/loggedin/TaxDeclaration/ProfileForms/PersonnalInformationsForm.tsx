@@ -36,10 +36,11 @@ export function PersonnalInformationsForm() {
   }, [questionnaires, id]);
 
   useEffect(() => {
-    setBirthDayValue({
-      startDate: personnalInformationsFormData?.birthDay,
-      endDate: personnalInformationsFormData?.birthDay,
-    });
+    const dateRange: DateRangeType = {
+      startDate: personnalInformationsFormData?.birthDay || new Date(),
+      endDate: personnalInformationsFormData?.birthDay || new Date(),
+    };
+    setBirthDayValue(dateRange);
   }, [personnalInformationsFormData?.birthDay]);
 
   const handleBirthDayValueChange = (newValue: DateRangeType) => {
