@@ -29,11 +29,7 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
   const [resolver, setResolver] = useState<MultiFactorResolver>(null);
   const [verificationCode, setVerificationCode] = useState<string>('');
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm<signInData>();
+
   const {
     handleSubmit,
     formState: { errors },
@@ -79,15 +75,11 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
               <Button
                 id="two-factor-button"
                 onClick={async () => {
-                  console.log(verificationId, 'promisefromtext');
-                  console.log(verificationCode, 'verification code');
-                  console.log(resolver, 'resolver');
                   await verifyTwoFactor(
                     verificationId,
                     verificationCode,
                     resolver
                   );
-                  console.log('out of login');
                   closeModal(false);
                   navigate('/profile');
                 }}

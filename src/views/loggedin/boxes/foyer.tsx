@@ -17,7 +17,6 @@ export function Foyer() {
   useEffect(() => {
     'YABqeVWkbrSeJlYZQ3Q9Tfqpkc63'
     getAllQuestionnaires(user.uid).then((res) => {
-      console.log(res, 'res');
       if (res.length !== 0) {
         setNoQuestionaire(false);
         setQuestionnaires(res);

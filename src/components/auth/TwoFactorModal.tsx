@@ -98,7 +98,6 @@ export function TwoFactorModal(props: TwoFactorModalProps) {
                   required={true}
                   onChange={(e) => {
                     const value = e.target.value;
-                    console.log(value, 'value');
                     if (value.length < 12) {
                       // backspace
                       setPhoneNumber(
@@ -109,8 +108,6 @@ export function TwoFactorModal(props: TwoFactorModalProps) {
                     const filtered = value
                       .replaceAll('-', '')
                       .replaceAll('X', '');
-                    console.log(filtered, 'filtered');
-                    console.log(phoneNumber, 'phoneNumber');
 
                     if (!isNaN(+filtered) && phoneNumber.length !== 10) {
                       setPhoneNumber(filtered);

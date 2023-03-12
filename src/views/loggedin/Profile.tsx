@@ -32,18 +32,13 @@ export function Profile() {
   }
 
   useEffect(() => {
-    console.log(id, 'id');
-    console.log(user, 'user');
-    ('BR5shBSMwPSxBTd91Ly5zjjhfiH2');
     getAllQuestionnaires(user.uid).then((res) => {
-      console.log(res, 'res');
       if (res.length === 0) {
         setMadeQuestionaire(false);
       }
     });
 
     getUserProfile(id ? id : user.uid).then((res) => {
-      console.log(res, 'res');
       res.experiece.sort(
         (a, b) => (a.startDateObj.getTime() - b.startDateObj.getTime()) * -1
       );

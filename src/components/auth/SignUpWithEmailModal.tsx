@@ -75,19 +75,6 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
   } = useForm<signUpWithEmailData>({ resolver: yupResolver(formSchema) });
   const formData = watch();
   const onSubmit = async (data: signUpWithEmailData) => {
-    // const res = await signUpWithEmailAndPassword(
-    //   data.email,
-    //   data.password,
-    //   data.firstName,
-    //   data.lastName,
-    //   data.referralCode
-    // );
-    // if (res) {
-    //   setAuthError(res);
-    // } else {
-    //   closeModal(false);
-    //   navigate('/profile');
-    // }
     if (donePolicy && doneConditions) {
       
       const newError = await signUpWithEmailAndPassword(
@@ -97,7 +84,6 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
         data.lastName,
         data.referralCode
       );
-      console.log('testingerr', newError)
       if (newError) {
         if(newError === 'No Two Factor'){
           setErr(null)

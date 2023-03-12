@@ -72,7 +72,7 @@ function FileComponent(props: FileComponentProps) {
   }
 
   return (
-    <div className='mb-5'>
+    <div className='mb-5 w-1/2'>
       <p className="text-lg font-bold">Fichiers de : <span className="text-xl font-semibold">{userName?.replace('_', ' ')}</span></p>
       <ul role='list' className='list-inside'>
         {files
@@ -158,11 +158,9 @@ export function Files() {
             if(index > -1){
               files?.splice(index, 1);
             }
-            console.log(files)
             const questionnaireIndex = indexOfFileInQuestionnaire(questionnaireArr, userName);
             questionnaireArr[questionnaireIndex] = {key: userName, val:files }
             setQuestionnaireArr(questionnaireArr)
-            console.log(questionnaireArr[questionnaireIndex])
             setSelectedItem(null)
             setUpdated(true)
       })

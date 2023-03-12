@@ -16,7 +16,6 @@ export function UserConditions() {
   const { signUpWithEmailAndPassword, createUserParams, setDoneConditions } =
     useContext(AppContext) as AppContextType;
 
-  console.log('query', query.get('signup'));
   return (
     <div className=" p-16 px-56">
       <h2>Introduction</h2>
