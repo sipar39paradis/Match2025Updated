@@ -25,21 +25,17 @@ export function BoxBody({
   const { user } = useContext(AppContext) as AppContextType;
   let mainClient: SnapshotQuestionnaire;
 
-  console.log('questionaires', questionnaires);
-
   let secondaryClients: Info[] = questionnaires.map((questionnaire) => {
-    if (questionnaire.questionnaire.clientType === ClientTypeEnum.MAIN_CLIENT) {
+    if (questionnaire?.questionnaire?.clientType === ClientTypeEnum.MAIN_CLIENT) {
       mainClient = questionnaire;
     }
     return {
-      firstName: questionnaire.questionnaire.personalInformations.firstName,
-      lastName: questionnaire.questionnaire.personalInformations.lastName,
+      firstName: questionnaire?.questionnaire?.personalInformations?.firstName,
+      lastName: questionnaire?.questionnaire?.personalInformations?.lastName,
       questionnaire,
     };
   });
-
-  console.log('seconday', secondaryClients);
-
+  
   const getDependants = (client: SnapshotQuestionnaire): Info[] => {
     return client?.questionnaire.dependents.map((dependant) => {
       //If rows does not contain this dependant
@@ -48,7 +44,7 @@ export function BoxBody({
           questionnaire.questionnaire.questionnaire.personalInformations
             .firstName === dependant.firstName &&
             questionnaire.questionnaire.questionnaire.personalInformations
-              .lastName === dependant.lastName;
+              .lastName === dependant.lastName
         })
       ) {
         return {
@@ -60,39 +56,29 @@ export function BoxBody({
     });
   };
 
-  // secondaryClients = secondaryClients.filter((questionnaire) => {
-  //   return (
-  //     questionnaire.questionnaire.questionnaire.clientType ===
-  //     ClientTypeEnum.PARTNER
-  //   );
-  // });
-
-  console.log('secondary after filter', secondaryClients);
+  secondaryClients = secondaryClients.filter((questionnaire) => {
+    return (
+      questionnaire.questionnaire.questionnaire.clientType ===
+      ClientTypeEnum.PARTNER
+    );
+  });
 
   let dependants: Info[] = [];
 
-  if (noQuestionaire) {
-    questionnaires.forEach((questionnaire) => {
-      dependants = dependants.concat(getDependants(questionnaire));
-    });
+  questionnaires?.forEach((questionnaire) => {
+    dependants = dependants?.concat(getDependants(questionnaire));
+  });
 
-    console.log('dependants', dependants);
+  dependants = dependants?.filter((val,i) => {
 
-    dependants = dependants.filter((val, i) => {
-      const current = dependants.findIndex((dep) => {
-        return val.firstName === dep.firstName && val.lastName === dep.lastName;
-      });
+    const current = dependants.findIndex((dep) => {
 
-      return current < 0 || (current === i && current >= 0);
-    });
+      return val.firstName === dep.firstName &&
+      val.lastName === dep.lastName
+    }) 
 
-    dependants = dependants.filter((dep) => {
-      dep.questionnaire;
-    });
-  }
-
-
-  console.log('dependantsafterfileer', dependants);
+    return (current <0) || (current !== i && current >= 0) 
+  })
 
   const mainClientInfo: Info = {
     firstName: mainClient
@@ -109,10 +95,6 @@ export function BoxBody({
     mainClientInfo.lastName = user?.displayName?.split(' ')[1];
   }
 
-  secondaryClients = secondaryClients.filter(secondary => {
-    return secondary.firstName !== mainClientInfo.firstName || secondary.lastName !== mainClientInfo.lastName
-  })
-
   return (
     <div className="flex flex-col justify-center items-cente border-orange-400 rounded-lg shadow-xl">
       <>
@@ -120,7 +102,7 @@ export function BoxBody({
           respondent={mainClientInfo}
           key={mainClientInfo.firstName}
           noQuestionaire={noQuestionaire}
-          last={secondaryClients.length === 0}
+          last={dependants.length === 0}
           onClick={() => {
             navigate(`/questionnaire/${mainClientInfo.questionnaire.id}`);
           }}
@@ -131,17 +113,13 @@ export function BoxBody({
             respondent={respondent}
             key={respondent.firstName}
             noQuestionaire={noQuestionaire}
-            last={
-
-                secondaryClients.length - 1 === i
-
-            }
+            last={!noQuestionaire ? secondaryClients.length - 1 === i : dependants.length === 0}
             onClick={() =>
               navigate(`/questionnaire/${respondent.questionnaire.id}`)
             }
           />
         ))}
-        {dependants.map((respondent, i) => (
+        {noQuestionaire ?  dependants.map((respondent, i) => (
           <BoxRow
             respondent={respondent}
             key={respondent.firstName}
@@ -151,7 +129,7 @@ export function BoxBody({
             noQuestionaire={noQuestionaire}
             last={dependants.length - 1 === i}
           />
-        ))}
+        )): null}
       </>
     </div>
   );
