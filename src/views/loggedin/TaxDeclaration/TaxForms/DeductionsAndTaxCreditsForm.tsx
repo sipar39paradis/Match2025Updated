@@ -44,16 +44,6 @@ export function DeductionsAndTaxCreditsForm() {
 
   const { id } = useParams();
 
-  const handleExportToExcel = async () => {
-    const totalPrice = calculatePrice(questionnaires);
-    const excelData = await personalInformationAsExcel(formData, totalPrice);
-    await uploadFileToStorage(
-      'TaxReportCsv.xlsx',
-      excelData,
-      formData?.personalInformations
-    );
-  };
-
   function onSubmitButton() {
     saveFormAnswers({ ...formData, state: QuestionnaireStateEnum.COMPLETED });
     const dependent = findDependentWhoNeedsQuestionnaire();
@@ -87,12 +77,8 @@ export function DeductionsAndTaxCreditsForm() {
         TaxDeclarationStep.INCOMES
       );
     } else {
-      questionnaires?.forEach((value, id) => {
-        uploadTaxReportPdfToStorage(
-          getPDFTaxReport(value?.taxReport, value?.personalInformations),
-          value?.personalInformations
-        );
-        handleExportToExcel();
+      questionnaires?.forEach(async (value, key) => {
+        await writeRequiredFiles(mapFiles(value?.taxReport), key);
       });
       setSearchParams({ step: TaxDeclarationStep.PRICE });
     }
