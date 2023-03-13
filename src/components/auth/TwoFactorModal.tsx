@@ -153,17 +153,17 @@ export function TwoFactorModal(props: TwoFactorModalProps) {
       ): (
         <div className="flex items-center justify-center p-5 mb-5">
         <div className="flex flex-col">
-          <h3 className="text-xl font-semibold">
+          <h3 className="text-xl font-semibold pb-4">
             Vérifiez votre e-mail
           </h3>
           <p>
             
+            Un courriel vous a été envoyé, veuillez vérifier votre boite. Attention, ce courriel peut se retrouver dans vos indésirables.
                <span
               className=' text-orange-500 font-semibold cursor-pointer'
               onClick={()=> sendEmail()}
               > Cliquez ici </span> 
-              pour faire la validation de votre courriel.
-              Attention, ce courriel peut se retrouver dans vos indésirables.
+              pour renvoyer le courriel de vérification.
 
           </p>
         </div>
