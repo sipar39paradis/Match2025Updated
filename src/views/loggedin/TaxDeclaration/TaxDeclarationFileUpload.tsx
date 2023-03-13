@@ -19,9 +19,7 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
-import {
-  Questionnaire,
-} from './types/Questionnaire/Questionnaire';
+import { Questionnaire } from './types/Questionnaire/Questionnaire';
 import {
   QuestionnaireContext,
   QuestionnaireContextType,
@@ -31,7 +29,6 @@ import { getPDFTaxReport, mapTitle } from '../../../utils/FileMapper';
 import { PersonalInformations } from './types/Questionnaire/PersonnalInformations';
 import TaxDeclarationAllowedMultipleFileUpload from './TaxDeclarationMultipleFileUpload';
 import MyDropbox from '../../../components/MyDropbox';
-
 
 interface TaxDeclarationFileUploadProps {
   setSearchParams?: (
@@ -69,17 +66,30 @@ interface ExistingFileNameComponentProps {
   setReqFiles: (reqFiles: Array<string>) => void;
   userId: string;
   personalInformation: PersonalInformations;
+  setExistingFiles: React.Dispatch<React.SetStateAction<any[]>>;
+  existingFiles: any[];
 }
 
 function ExistingFileNameComponent(props: ExistingFileNameComponentProps) {
-  const { fileName, requiredFiles, setReqFiles, userId, personalInformation } =
-    props;
+  const {
+    fileName,
+    requiredFiles,
+    setReqFiles,
+    userId,
+    personalInformation,
+    setExistingFiles,
+    existingFiles,
+  } = props;
 
-  const onClickHandle = () => {
+  const handleDelete = () => {
     if (confirm('Êtes-vous sûr(e) de vouloir supprimer ce fichier ?')) {
-      requiredFiles.push(fileName);
+      const newRequiredFiles = [...requiredFiles, fileName];
       removeExistingfile(fileName, userId, personalInformation);
-      setReqFiles(requiredFiles);
+      const updatedExistingFiles = existingFiles.filter(
+        (file) => file.name !== fileName
+      );
+      setExistingFiles(updatedExistingFiles);
+      setReqFiles(newRequiredFiles);
     } else {
     }
   };
@@ -90,7 +100,7 @@ function ExistingFileNameComponent(props: ExistingFileNameComponentProps) {
       {
         <>
           <button
-            onClick={onClickHandle}
+            onClick={handleDelete}
             type="button"
             className="m-1 px-3 py-2 text-xs font-medium text-center focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
           >
@@ -192,10 +202,10 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const keys = Array.from(questionnaires.keys());
-  
+
   useEffect(() => {
-    if(id){
-       getRequiredFiles(id)
+    if (id) {
+      getRequiredFiles(id)
         .then((res) => {
           setReqFiles(res?.files);
           setFetchedReqFiles(true);
@@ -271,6 +281,8 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
           setReqFiles={setReqFiles}
           userId={id}
           personalInformation={questionnaires?.get(id)?.personalInformations}
+          setExistingFiles={setExistingFiles}
+          existingFiles={existingFiles}
         />
       ))}
       <TaxDeclarationAllowedMultipleFileUpload
