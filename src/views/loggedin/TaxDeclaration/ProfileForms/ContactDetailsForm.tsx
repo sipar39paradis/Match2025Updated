@@ -262,9 +262,11 @@ export function ContactDetailsForm() {
             Est-ce que votre statut de résident canadien a changé en{' '}
             {new Date().getFullYear() - 1}?
             <TooltipWithIcon
-              text=" Si vous n’êtes pas certain de votre statut de résident canadien au
-              31 décembre {new Date().getFullYear() - 1}, veuillez cocher «oui» à cette question et votre
-              préparateur entrera en contact avec vous."
+              text={` Si vous n’êtes pas certain de votre statut de résident canadien au
+              31 décembre ${
+                new Date().getFullYear() - 1
+              }, veuillez cocher «oui» à cette question et votre
+              préparateur entrera en contact avec vous.`}
             ></TooltipWithIcon>
           </p>
           <Controller
