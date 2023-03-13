@@ -181,7 +181,7 @@ export function DependentsForm() {
                   />
                   <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
                     Oui, j’ai des enfants à ma charge nés avant le 31 décembre
-                    2022
+                    {new Date().getFullYear() - 1}
                   </p>
                 </div>
                 <div className="flex items-center m-4">
@@ -286,7 +286,8 @@ export function DependentsForm() {
                     </Select>
                   </div>
                   <p className="font-semibold">
-                    Est-ce que l&apos;enfant vivait avec vous en 2022 ?
+                    Est-ce que l&apos;enfant vivait avec vous en{' '}
+                    {new Date().getFullYear() - 1} ?
                   </p>
                   <Controller
                     control={control}
@@ -375,7 +376,8 @@ export function DependentsForm() {
                         <p className="font-semibold">
                           Avez-vous payé quelqu&apos;un pour s&apos;occuper de
                           votre enfant afin de gagner un revenu, étudier ou
-                          faire de la recherche en 2022?
+                          faire de la recherche en{' '}
+                          {new Date().getFullYear() - 1}?
                         </p>
                         <Controller
                           control={control}
@@ -418,9 +420,10 @@ export function DependentsForm() {
                           </div>
                         )}
                         <p className="font-semibold">
-                          En 2021, avez-vous reçu la prestation universelle pour
-                          la garde d&apos;enfants (PUGE)? Ce montant figure à la
-                          case 10 du feuillet RC62?
+                          En {new Date().getFullYear() - 1}, avez-vous reçu la
+                          prestation universelle pour la garde d&apos;enfants
+                          (PUGE)? Ce montant figure à la case 10 du feuillet
+                          RC62?
                         </p>
                         <Controller
                           control={control}

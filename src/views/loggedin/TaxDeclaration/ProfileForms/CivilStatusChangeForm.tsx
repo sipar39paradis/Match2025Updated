@@ -45,11 +45,15 @@ export function CivilStatusChangeForm() {
   return (
     <Fade>
       <section className="flex flex-col align-baseline items-start w-full">
-        <h1>Changements d&apos;état civil depuis le 31 décembre 2022</h1>
+        <h1>
+          Changements d&apos;état civil depuis le 31 décembre{' '}
+          {new Date().getFullYear() - 1}
+        </h1>
         <p className="my-4">
-          Depuis le 31 décembre 2022, vous êtes-vous marié, avez-vous commencé à
-          vivre en union de fait, vous êtes-vous divorcé ou séparé de votre
-          époux ou conjoint de fait, ou êtes-vous devenu(e) veuf(ve)?
+          Depuis le 31 décembre {new Date().getFullYear() - 1}, vous êtes-vous
+          marié, avez-vous commencé à vivre en union de fait, vous êtes-vous
+          divorcé ou séparé de votre époux ou conjoint de fait, ou êtes-vous
+          devenu(e) veuf(ve)?
         </p>
         <form
           onSubmit={handleSubmit(onSubmitButton)}
@@ -88,7 +92,10 @@ export function CivilStatusChangeForm() {
           {formData?.civilStatusChange?.civiStatusChange === true && (
             <>
               <h1>Changements d&apos;état civil </h1>
-              <p>Quel était votre état civil au 31 décembre 2022?</p>
+              <p>
+                Quel était votre état civil au 31 décembre{' '}
+                {new Date().getFullYear() - 1}?
+              </p>
               <div id="select" className="my-4 w-96">
                 <Select
                   {...register('civilStatusChange.lastYearCivilStatus')}
@@ -105,7 +112,10 @@ export function CivilStatusChangeForm() {
                   <option>Célibataire</option>
                 </Select>
               </div>
-              <p>Date de changement de votre état civil en 2022</p>
+              <p>
+                Date de changement de votre état civil en{' '}
+                {new Date().getFullYear() - 1}
+              </p>
               <Datepicker
                 i18n={'fr'}
                 primaryColor={'orange'}
@@ -117,7 +127,8 @@ export function CivilStatusChangeForm() {
                 placeholder={'JJ/MM/AAAA'}
               />
               <h2 className="mb-0">
-                Renseignement sur le changement de votre état civil en 2022{' '}
+                Renseignement sur le changement de votre état civil en{' '}
+                {new Date().getFullYear() - 1}{' '}
               </h2>
               <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
               <p>Date de changement de votre état civil à célibataire </p>
@@ -133,8 +144,9 @@ export function CivilStatusChangeForm() {
               />
               <p>
                 Entrez le montant des prestations d&apos;assistance sociale que
-                vous avez reçues du 1er janvier 2022 jusqu&apos;à la date de
-                changement de votre état civil sans inclure cette date
+                vous avez reçues du 1er janvier {new Date().getFullYear() - 1}{' '}
+                jusqu&apos;à la date de changement de votre état civil sans
+                inclure cette date
               </p>
               <div className="relative z-0 w-96 my-6 group">
                 <input
@@ -147,7 +159,8 @@ export function CivilStatusChangeForm() {
                 </label>
               </div>
               <h2 className="mb-0 mt-6">
-                Renseignement sur le changement de votre état civil en 2022
+                Renseignement sur le changement de votre état civil en{' '}
+                {new Date().getFullYear() - 1}
                 (s&apos;il y a lieu)
               </h2>
               <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />

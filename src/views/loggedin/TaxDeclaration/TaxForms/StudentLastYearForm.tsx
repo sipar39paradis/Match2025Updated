@@ -15,8 +15,8 @@ export function StudentLastYearForm() {
   return (
     <>
       <p className="font-semibold">
-        Étiez-vous aux études en 2022 ou avez-vous reporté des dépenses liées à
-        vos études des années antérieures?
+        Étiez-vous aux études en {new Date().getFullYear() - 1} ou avez-vous
+        reporté des dépenses liées à vos études des années antérieures?
       </p>
       <Controller
         control={control}
@@ -96,7 +96,13 @@ export function StudentLastYearForm() {
             <Checkbox {...register('taxReport.studentExpenses.RESPincomes')} />
             <p>
               J&apos;ai retiré de l&apos;argent d&apos;un REER
-              <TooltipWithIcon text="Sachez que pour l’année 2022 aucun prêt étudiant n’a eu d’intérêt payable, alors, cochez oui uniquement si vous voulez déduire des intérêts reportables de 2021 ou avant"></TooltipWithIcon>
+              <TooltipWithIcon
+                text={`Sachez que pour l’année ${
+                  new Date().getFullYear() - 1
+                } aucun prêt étudiant n’a eu d’intérêt payable, alors, cochez oui uniquement si vous voulez déduire des intérêts reportables de ${
+                  new Date().getFullYear() - 2
+                } ou avant`}
+              ></TooltipWithIcon>
             </p>
           </div>
 

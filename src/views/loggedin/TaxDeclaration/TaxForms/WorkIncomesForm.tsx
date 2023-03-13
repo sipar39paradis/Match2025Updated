@@ -14,7 +14,9 @@ export function WorkIncomesForm() {
 
   return (
     <>
-      <p className=" font-semibold">Avez-vous travaillé en 2022?</p>
+      <p className=" font-semibold">
+        Avez-vous travaillé en {new Date().getFullYear() - 1}?
+      </p>
       <Controller
         control={control}
         name="taxReport.workIncomes.workedLastYear"
@@ -332,8 +334,9 @@ export function WorkIncomesForm() {
       {formData?.taxReport?.workIncomes?.workedLastYear === false && (
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p className=" font-semibold">
-            Il semble que vous n&apos;avez pas travaillé en 2022. Est-ce que
-            l&apos;une des situations suivantes vous concerne?
+            Il semble que vous n&apos;avez pas travaillé en{' '}
+            {new Date().getFullYear() - 1}. Est-ce que l&apos;une des situations
+            suivantes vous concerne?
           </p>
           <div className="flex items-center gap-2 py-2">
             <Checkbox

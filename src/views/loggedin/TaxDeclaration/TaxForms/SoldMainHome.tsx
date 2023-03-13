@@ -13,8 +13,9 @@ export function SoldMainHomeForm() {
   return (
     <>
       <p className="font-semibold">
-        Avez-vous disposé d&apos;une propriété en 2022 qui était votre résidence
-        principale pendant la période où vous en étiez propriétaire?
+        Avez-vous disposé d&apos;une propriété en {new Date().getFullYear() - 1}{' '}
+        qui était votre résidence principale pendant la période où vous en étiez
+        propriétaire?
       </p>
       <Controller
         control={control}

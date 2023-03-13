@@ -189,7 +189,8 @@ export function DeductionsAndTaxCreditsForm() {
             )}
           />
           <p className="font-semibold">
-            Aviez-vous une assurance maladie et médicaments en 2022?
+            Aviez-vous une assurance maladie et médicaments en{' '}
+            {new Date().getFullYear() - 1}?
             <TooltipWithIcon text="Si vous avez eu des frais médicaux non remboursés par une assurance, vous êtes possiblement éligible pour avoir un crédit d’impôts pour les frais médicaux. Veuillez déposer dans la boite de dépôt tous les reçus pour frais médicaux que vous avez payés ainsi que le rapport de votre assureur (le cas échéant) afin que nous déterminions les dépenses qui peuvent vous permettre d’avoir une économie d’impôts. "></TooltipWithIcon>
           </p>
           <Controller

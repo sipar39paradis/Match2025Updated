@@ -168,8 +168,9 @@ export function PersonnalInformationsForm() {
           <h2 className="mb-0">Autres renseignements personnels </h2>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
           <p className="font-semibold">
-            Avez-vous fait faillite en 2021 ou 2022, ou êtes-vous en faillite
-            selon les dossiers de l&apos;Agence du revenu du Canada (ARC)?
+            Avez-vous fait faillite en {new Date().getFullYear() - 2} ou{' '}
+            {new Date().getFullYear() - 1}, ou êtes-vous en faillite selon les
+            dossiers de l&apos;Agence du revenu du Canada (ARC)?
           </p>
           <Controller
             control={personalInformationsForm.control}

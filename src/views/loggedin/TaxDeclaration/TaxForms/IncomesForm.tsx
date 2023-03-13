@@ -25,7 +25,7 @@ export function IncomesForm() {
 
   return (
     <section className="flex flex-col align-baseline items-start w-full">
-      <h1>Revenus 2022 </h1>
+      <h1>Revenus {new Date().getFullYear() - 1} </h1>
       <Fade>
         <form
           onSubmit={handleSubmit(onSubmitButton)}

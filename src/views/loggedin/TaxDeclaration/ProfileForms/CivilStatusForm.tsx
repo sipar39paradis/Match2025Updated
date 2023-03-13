@@ -27,7 +27,7 @@ export function CivilStatusForm() {
     <Fade>
       <section className="flex flex-col items-start w-full">
         <h1>Quel est votre état civil</h1>
-        <h2>Le 31 décembre 2022 vous étiez : </h2>
+        <h2>Le 31 décembre {new Date().getFullYear() - 1} vous étiez : </h2>
         <form
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start w-full"

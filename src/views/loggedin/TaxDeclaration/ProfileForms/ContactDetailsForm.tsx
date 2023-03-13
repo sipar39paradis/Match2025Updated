@@ -153,7 +153,7 @@ export function ContactDetailsForm() {
 
           <p className="font-semibold">
             Avez-vous déménagé d&apos;une autre province ou d&apos;un autre
-            territoire en 2022?
+            territoire en {new Date().getFullYear() - 1}?
           </p>
           <Controller
             control={contactDetailsForm.control}
@@ -259,10 +259,11 @@ export function ContactDetailsForm() {
           <h2 className="mb-0">Résidences </h2>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
           <p className="font-semibold">
-            Est-ce que votre statut de résident canadien a changé en 2022?
+            Est-ce que votre statut de résident canadien a changé en{' '}
+            {new Date().getFullYear() - 1}?
             <TooltipWithIcon
               text=" Si vous n’êtes pas certain de votre statut de résident canadien au
-              31 décembre 2022, veuillez cocher «oui» à cette question et votre
+              31 décembre {new Date().getFullYear() - 1}, veuillez cocher «oui» à cette question et votre
               préparateur entrera en contact avec vous."
             ></TooltipWithIcon>
           </p>

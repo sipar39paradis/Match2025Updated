@@ -14,8 +14,8 @@ export function ForeignAssetsForm() {
     <>
       <p className="font-semibold">
         Possédiez-vous ou déteniez-vous des biens étrangers déterminés, dont le
-        coût total, à un moment donné durant l&apos;année 2022, s&apos;est élevé
-        à plus de 100 000 $ CA?
+        coût total, à un moment donné durant l&apos;année{' '}
+        {new Date().getFullYear() - 1}, s&apos;est élevé à plus de 100 000 $ CA?
       </p>
       <Controller
         control={control}

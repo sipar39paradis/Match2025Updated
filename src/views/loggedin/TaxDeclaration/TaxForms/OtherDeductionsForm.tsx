@@ -97,7 +97,8 @@ export function OtherDeductionsForm() {
         </div>
       )}
       <p className="font-semibold">
-        Avez-vous versé des acomptes provisionnels en 2022?
+        Avez-vous versé des acomptes provisionnels en{' '}
+        {new Date().getFullYear() - 1}?
       </p>
       <Controller
         control={control}
@@ -134,8 +135,8 @@ export function OtherDeductionsForm() {
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
           <p>
             Entrez les acomptes provisionnels trimestriels que vous avez versés
-            à l&apos;ARC en 2022. N&apos;incluez pas les paiements de votre
-            impôt de 2021.
+            à l&apos;ARC en {new Date().getFullYear() - 1}. N&apos;incluez pas
+            les paiements de votre impôt de {new Date().getFullYear() - 2}.
           </p>
           <div className="relative z-0 mt-4 mb-6 group w-full">
             <input

@@ -97,8 +97,8 @@ export function TaxDeductionsForm() {
                     {...register('taxReport.taxDeductions.RRSPcontributions')}
                   />
                   <p>
-                    J&apos;ai versé des cotisations au REER entre mars 2022 et
-                    février 2023
+                    J&apos;ai versé des cotisations au REER entre mars{' '}
+                    {new Date().getFullYear() - 1} et février 2023
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
@@ -118,8 +118,9 @@ export function TaxDeductionsForm() {
                     {...register('taxReport.taxDeductions.unreportedRRSP')}
                   />
                   <p>
-                    J&apos;ai versé des cotisations au REER avant mars 2022 et
-                    je ne les ai pas indiquées dans une déclaration de revenus
+                    J&apos;ai versé des cotisations au REER avant mars{' '}
+                    {new Date().getFullYear() - 1} et je ne les ai pas indiquées
+                    dans une déclaration de revenus
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
@@ -134,7 +135,8 @@ export function TaxDeductionsForm() {
                   />
                   <p>
                     J&apos;ai versé ou mon employeur a versé des cotisations au
-                    RPAC en mon nom, entre janvier 2022 et mars 2023
+                    RPAC en mon nom, entre janvier{' '}
+                    {new Date().getFullYear() - 1} et mars 2023
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
