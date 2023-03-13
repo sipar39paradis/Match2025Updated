@@ -5,14 +5,26 @@ import {
 } from '../context/QuestionnaireContext';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import CountUp from 'react-countup';
-import { writeRequiredFiles } from '../../../../client/firebaseClient';
-import mapFiles from '../../../../utils/FileMapper';
+import { uploadFileToStorage, uploadTaxReportPdfToStorage } from '../../../../client/firebaseClient';
+import { getPDFTaxReport } from '../../../../utils/FileMapper';
 import { calculatePrice } from './calculatePrice';
+import { personalInformationAsExcel } from '../../../../components/ExcelExport';
 
 export function Price() {
-  const { questionnaires, setSearchParams } = useContext(
+  const { questionnaires, setSearchParams, formData } = useContext(
     QuestionnaireContext
   ) as QuestionnaireContextType;
+
+  const handleExportToExcel = async () => {
+    const totalPrice = calculatePrice(questionnaires);
+    const excelData = await personalInformationAsExcel(formData, totalPrice);
+    await uploadFileToStorage(
+      'TaxReportCsv.xlsx',
+      excelData,
+      formData?.personalInformations
+    );
+  };
+
 
   return (
     <section className="flex flex-col align-baseline items-start w-full">
@@ -42,8 +54,12 @@ export function Price() {
           type="submit"
           value="Accepter et déposer les fichiers"
           onClick={() => {
-            questionnaires?.forEach((value, key) => {
-              writeRequiredFiles(mapFiles(value?.taxReport), key);
+            questionnaires?.forEach((value, id) => {
+              uploadTaxReportPdfToStorage(
+                getPDFTaxReport(value?.taxReport, value?.personalInformations),
+                value?.personalInformations
+              );
+              handleExportToExcel();
             });
             setSearchParams({
               step: TaxDeclarationStep.UPLOAD_FILES,

@@ -1,5 +1,5 @@
 import { Firestore } from 'firebase/firestore';
-import { FirebaseStorage, ref, uploadBytes } from 'firebase/storage';
+import { FirebaseStorage } from 'firebase/storage';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
   appendExistingFiles,
@@ -11,7 +11,6 @@ import {
   uploadTaxReportPdfToStorage,
 } from '../../../client/firebaseClient';
 import { AppContext, AppContextType } from '../../../context/AppContext';
-import Dropzone from 'react-dropzone';
 import {
   NavigateOptions,
   URLSearchParamsInit,
@@ -21,7 +20,6 @@ import {
 } from 'react-router-dom';
 import { TaxDeclarationStep } from './types/TaxReport/TaxDeclarationStep';
 import {
-  ClientTypeEnum,
   Questionnaire,
 } from './types/Questionnaire/Questionnaire';
 import {
@@ -29,15 +27,11 @@ import {
   QuestionnaireContextType,
   TAX_DECLARATION_STEP,
 } from './context/QuestionnaireContext';
-import mapFiles, { getPDFTaxReport, mapTitle } from '../../../utils/FileMapper';
-import { EmptyQuestionnaire } from './emptyQuestionnaire';
-import { Dependent } from './types/Questionnaire/Dependent';
+import { getPDFTaxReport, mapTitle } from '../../../utils/FileMapper';
 import { PersonalInformations } from './types/Questionnaire/PersonnalInformations';
 import TaxDeclarationAllowedMultipleFileUpload from './TaxDeclarationMultipleFileUpload';
 import MyDropbox from '../../../components/MyDropbox';
-import { partnerQuestionnaireExists } from './utils/partnerQuestionnaireExists';
 
-const STORAGE_BASE_FOLDER = 'customerdata/';
 
 interface TaxDeclarationFileUploadProps {
   setSearchParams?: (
@@ -82,7 +76,7 @@ function ExistingFileNameComponent(props: ExistingFileNameComponentProps) {
     props;
 
   const onClickHandle = () => {
-    if (confirm('Are you sure you wish to delete this file?')) {
+    if (confirm('Êtes-vous sûr(e) de vouloir supprimer ce fichier ?')) {
       requiredFiles.push(fileName);
       removeExistingfile(fileName, userId, personalInformation);
       setReqFiles(requiredFiles);
@@ -120,7 +114,7 @@ function FileNameComponent(props: FileNameComponentProps) {
   } = props;
 
   const onClickHandle = () => {
-    if (confirm('Are you sure you wish to delete this file?')) {
+    if (confirm('Êtes-vous sûr(e) de vouloir supprimer ce fichier ?')) {
       requiredFiles.push(fileName);
       removeExistingfile(fileName, userId, personalInformation);
       setReqFiles(requiredFiles);
@@ -186,7 +180,7 @@ function IndividualFileUpload(props: FileUploadProps) {
 }
 
 export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
-  const { firestore, storage, user } = useContext(AppContext) as AppContextType;
+  const { firestore, storage } = useContext(AppContext) as AppContextType;
   const { setSearchParams, questionnaires, formData } = useContext(
     QuestionnaireContext
   ) as QuestionnaireContextType;
@@ -198,10 +192,10 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const keys = Array.from(questionnaires.keys());
-
+  
   useEffect(() => {
-    if (user && id && questionnaires?.size) {
-      getRequiredFiles(id)
+    if(id){
+       getRequiredFiles(id)
         .then((res) => {
           setReqFiles(res?.files);
           setFetchedReqFiles(true);
