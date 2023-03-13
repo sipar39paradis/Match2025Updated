@@ -84,12 +84,14 @@ function ExistingFileNameComponent(props: ExistingFileNameComponentProps) {
   const handleDelete = () => {
     if (confirm('Êtes-vous sûr(e) de vouloir supprimer ce fichier ?')) {
       const newRequiredFiles = [...requiredFiles, fileName];
-      removeExistingfile(fileName, userId, personalInformation);
       const updatedExistingFiles = existingFiles.filter(
-        (file) => file.name !== fileName
+        (file) => {
+          return file !== fileName;
+        }
       );
       setExistingFiles(updatedExistingFiles);
       setReqFiles(newRequiredFiles);
+      removeExistingfile(fileName, userId, personalInformation);
     } else {
     }
   };
@@ -285,7 +287,7 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
           existingFiles={existingFiles}
         />
       ))}
-      <TaxDeclarationAllowedMultipleFileUpload
+      <TaxDeclarationAllowedMultipleFileUpload 
         questionnaire={questionnaires?.get(id)}
       />
       <div className="w-full flex justify-between mt-4 flex-row-reverse">
