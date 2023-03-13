@@ -499,83 +499,89 @@ export function DependentsForm() {
                             </fieldset>
                           )}
                         />
-                        <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
-                          <p className="font-semibold">
-                            Voulez-vous demander un des crédits suivants pour
-                            vos enfants :
-                          </p>
-                          <div className="flex items-center gap-2 py-2">
-                            <Checkbox
-                              {...register(
-                                `dependents.${index}.eligibleDependentAmount`
-                              )}
-                            />
-                            <p>
-                              Montant pour une personne à charge admissible{' '}
+                        {formData?.dependents?.[index]
+                          ?.childcareExpensesReceivedForAdvancePayments && (
+                          <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg">
+                            <p className="font-semibold">
+                              Voulez-vous demander un des crédits suivants pour
+                              vos enfants :
                             </p>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.eligibleDependentAmount`
+                                )}
+                              />
+                              <p>
+                                Montant pour une personne à charge admissible{' '}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.tuitonsAndEducationAmountsTransferred`
+                                )}
+                              />
+                              <p>
+                                Montants pour frais de scolarité et études
+                                transférés{' '}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.childrenActivitiesTaxCredit`
+                                )}
+                              />
+                              <p>
+                                Crédit d&apos;impôt pour les activités des
+                                enfants (résidents du Québec seulement){' '}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.disabilityAmountTransferredFromDependant`
+                                )}
+                              />
+                              <p>
+                                Montant pour personnes handicapées transféré
+                                d&apos;une personne à charge{' '}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.canadianCaregiverAmount`
+                                )}
+                              />
+                              <p>
+                                Montant canadien pour aidant naturel (incluant
+                                les montants pour aidants naturels et pour une
+                                personne à charge ayant une déficience){' '}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.adoptionFees`
+                                )}
+                              />
+                              <p>Frais d&apos;adoption </p>
+                            </div>
+                            <div className="flex items-center gap-2 py-2">
+                              <Checkbox
+                                {...register(
+                                  `dependents.${index}.dependentChildAmount`
+                                )}
+                              />
+                              <p>
+                                Montant pour enfants à charge (résident du
+                                Québec)
+                              </p>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2 py-2">
-                            <Checkbox
-                              {...register(
-                                `dependents.${index}.tuitonsAndEducationAmountsTransferred`
-                              )}
-                            />
-                            <p>
-                              Montants pour frais de scolarité et études
-                              transférés{' '}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 py-2">
-                            <Checkbox
-                              {...register(
-                                `dependents.${index}.childrenActivitiesTaxCredit`
-                              )}
-                            />
-                            <p>
-                              Crédit d&apos;impôt pour les activités des enfants
-                              (résidents du Québec seulement){' '}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 py-2">
-                            <Checkbox
-                              {...register(
-                                `dependents.${index}.disabilityAmountTransferredFromDependant`
-                              )}
-                            />
-                            <p>
-                              Montant pour personnes handicapées transféré
-                              d&apos;une personne à charge{' '}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 py-2">
-                            <Checkbox
-                              {...register(
-                                `dependents.${index}.canadianCaregiverAmount`
-                              )}
-                            />
-                            <p>
-                              Montant canadien pour aidant naturel (incluant les
-                              montants pour aidants naturels et pour une
-                              personne à charge ayant une déficience){' '}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 py-2">
-                            <Checkbox
-                              {...register(`dependents.${index}.adoptionFees`)}
-                            />
-                            <p>Frais d&apos;adoption </p>
-                          </div>
-                          <div className="flex items-center gap-2 py-2">
-                            <Checkbox
-                              {...register(
-                                `dependents.${index}.dependentChildAmount`
-                              )}
-                            />
-                            <p>
-                              Montant pour enfants à charge (résident du Québec)
-                            </p>
-                          </div>
-                        </div>
+                        )}
                       </>
                     )}
                   {index === formData.dependents.length - 1 && (
@@ -598,6 +604,9 @@ export function DependentsForm() {
                               adjustedNetIncome: null,
                               quebecChildrenSupport: null,
                               claimedOrReceivedAmountForDependent: null,
+                              childcareExpensesReceivedForAdvancePayments: null,
+                              childcareToEarnIncome: null,
+                              universalChildCareBenefit: null,
                             })
                           }
                         />
