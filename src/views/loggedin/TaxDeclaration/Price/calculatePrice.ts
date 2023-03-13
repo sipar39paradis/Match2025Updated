@@ -31,9 +31,9 @@ export function calculatePrice(questionnaires: Map<string, Questionnaire>) {
 }
 
 function calculateClientPrice(taxReport: TaxReport, clientType: ClientTypeEnum) {
-  let totalPrice = clientType === ClientTypeEnum.MAIN_CLIENT ? 30 : 55;
+  let totalPrice = clientType === ClientTypeEnum.MAIN_CLIENT ? 45 : 30;
   if (taxReport?.workIncomes?.employed) {
-    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 20 : 15;
+    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 15 : 10;
   }
   if (
     !taxReport?.workIncomes?.employed &&
@@ -44,13 +44,13 @@ function calculateClientPrice(taxReport: TaxReport, clientType: ClientTypeEnum) 
     totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 20 : 15;
   }
   if (taxReport?.workIncomes?.jobRelatedExpenses) {
-    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 30 : 20;
+    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 20 : 20;
   }
   if (taxReport?.retirementIncomes?.pensionRetirementAnnuityIncome) {
-    totalPrice += 30;
+    totalPrice += 20;
   }
   if (taxReport?.investmentIncomes?.investmentIncomes) {
-    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 15 : 10;
+    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 10 : 10;
   }
   if (taxReport?.selfEmploymentIncomes?.selfEmployedIncomes) {
     totalPrice += 75;
@@ -65,13 +65,13 @@ function calculateClientPrice(taxReport: TaxReport, clientType: ClientTypeEnum) 
     }
   }
   if (taxReport?.otherIncomes?.otherIncomes) {
-    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 20 : 15;
+    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 15 : 15;
   }
   if (taxReport?.studentExpenses?.studentExpenses) {
     totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 10 : 5;
   }
   if (taxReport?.movingExpenses) {
-    totalPrice += 30;
+    totalPrice += 20;
   }
   if (taxReport?.medicalExpenses) {
     totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 15 : 10;
