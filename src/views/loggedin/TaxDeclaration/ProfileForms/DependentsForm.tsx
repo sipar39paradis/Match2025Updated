@@ -321,7 +321,7 @@ export function DependentsForm() {
                   {formData?.dependents?.[index]?.birthDay &&
                     new Date(
                       formData?.dependents?.[index]?.birthDay
-                    ).getFullYear() < new Date('2009-01-01').getFullYear() && (
+                    ).getFullYear() <= new Date('2009-01-01').getFullYear() && (
                       <>
                         <p className="font-semibold">
                           Est-ce que vous voulez faire une déclaration de
@@ -370,7 +370,7 @@ export function DependentsForm() {
                   {formData?.dependents?.[index]?.livedWithTaxPayer &&
                     new Date(
                       formData?.dependents?.[index]?.birthDay
-                    ).getFullYear() > new Date('2009-01-01').getFullYear() && (
+                    ).getFullYear() >= new Date('2009-01-01').getFullYear() && (
                       <>
                         <p className="font-semibold">
                           Avez-vous payé quelqu&apos;un pour s&apos;occuper de
