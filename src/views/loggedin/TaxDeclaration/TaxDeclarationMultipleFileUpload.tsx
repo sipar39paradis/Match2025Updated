@@ -174,7 +174,7 @@ export default function TaxDeclarationAllowedMultipleFileUpload(props: Questionn
     };
   
     return (
-      <div className="bg-gray-200 p-4 rounded-lg">
+      <div className="bg-gray-200 p-4 rounded-lg mt-4">
         <div
           className="flex justify-between items-center mb-4 cursor-pointer"
           onClick={toggleMinimized}
