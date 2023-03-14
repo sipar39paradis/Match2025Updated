@@ -159,8 +159,8 @@ function MultipleFileDropBox(
       <MyDropbox handleFileUpload={handleFileUpload} />
       {showToast && (
         <div className="fixed bottom-10 right-10 bg-green-500 text-white px-4 py-2 rounded-md">
-          File uploaded successfully!
-        </div>
+        Fichier téléchargé avec succès !
+    </div>
       )}
     </>
   );
