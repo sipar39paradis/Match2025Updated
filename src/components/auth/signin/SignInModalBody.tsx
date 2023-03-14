@@ -39,7 +39,7 @@ export function SignInModalBody({
     const [resolvedId, resolver, err] = await signIn(data.email, data.password);
 
     if (resolver) {
-      setVerificationId(resolvedId)
+      setVerificationId(resolvedId);
       setResolver(resolver);
     } else if (err) {
       if (err === 'No Two Factor') {
@@ -110,7 +110,7 @@ export function SignInModalBody({
         </div>
         <div className="flex items-center justify-between">
           <input
-            id='connect-button'
+            id="connect-button"
             type="submit"
             value="Se connecter"
             className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
@@ -136,8 +136,6 @@ export function SignInModalBody({
           onClick={async () => {
             const [resolvedId, resolver, err] = await signInWithGoogle();
 
-
-
             if (resolver) {
               setVerificationId(resolvedId);
               setResolver(resolver);
@@ -155,15 +153,6 @@ export function SignInModalBody({
           text="Continuez avec Google"
           id="google-login"
         ></AuthButton>
-        {/* <AuthButton
-          Icon={FacebookIcon}
-          onClick={async () => {
-            const res = await signInWithFacebook();
-            res ? setAuthError(res) : closeModal(false);
-          }}
-          text="Continue with Facebook"
-          id="facebook-login"
-        ></AuthButton> */}
       </div>
 
       <div className="flex flex-row items-center justify-center mb-8">

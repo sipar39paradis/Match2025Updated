@@ -1,6 +1,5 @@
 import { Breadcrumb } from 'flowbite-react';
 import React from 'react';
-import { HiHome } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 
 interface BreadcrumbWrapperProps {

@@ -1,6 +1,5 @@
 import { Button } from 'flowbite-react';
 import React, { useContext } from 'react';
-import Fade from 'react-reveal';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppContext, AppContextType } from '../../context/AppContext';
 
@@ -13,8 +12,7 @@ function useQuery() {
 export function UserConditions() {
   const navigate = useNavigate();
   const query = useQuery();
-  const { signUpWithEmailAndPassword, createUserParams, setDoneConditions } =
-    useContext(AppContext) as AppContextType;
+  const { setDoneConditions } = useContext(AppContext) as AppContextType;
 
   return (
     <div className=" p-16 px-56">

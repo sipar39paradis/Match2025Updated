@@ -39,7 +39,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../interfaces/User';
 import { upsertUserProfile } from '../client/firebaseClient';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
-import { Button, Modal, Toast } from 'flowbite-react';
+import { Button, Modal } from 'flowbite-react';
 import { EmptyQuestionnaire } from '../views/loggedin/TaxDeclaration/emptyQuestionnaire';
 import {
   ClientTypeEnum,
@@ -49,7 +49,6 @@ import {
 import { TaxDeclarationStep } from '../views/loggedin/TaxDeclaration/types/TaxReport/TaxDeclarationStep';
 import { signUpWithEmailData } from '../components/auth/SignUpWithEmailModal';
 import { AuthModalEnum } from '../components/auth/AuthModal';
-import { HiX } from 'react-icons/hi';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlDTJ__d4BGvkE1aNX5l9UWMbh6Cloz-E',
@@ -158,7 +157,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   useEffect(() => {
     return () => {
       if (window.performance.navigation.type !== 1 || isInSensitive) {
-          signOut();
+        signOut();
       }
     };
   }, []);
@@ -229,7 +228,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     const THIRTY_SECONDS_AFTER_MODAL = 30000;
 
     setTimeout(() => {
-      console.log(userInfo, 'userInfo');
       setOpenModel(true);
       setTimeout(async () => {
         if (continueSessRef.current) {
@@ -250,7 +248,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     resolver: MultiFactorResolver
   ) => {
     // Ask user for the SMS verification code. Then:
-    console.log(verificationCode);
     const cred = PhoneAuthProvider.credential(verificationId, verificationCode);
     const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
     // Complete sign-in.
@@ -275,15 +272,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         errorMessage = 'No Two Factor';
       })
       .catch(async (error) => {
-        console.log(error);
         if (error.code == 'auth/multi-factor-auth-required') {
           const recaptchaVerifier = new RecaptchaVerifier(
             buttonId,
             {
               size: 'invisible',
-              callback: function (response) {
-                console.log('catchadone');
-              },
             },
             auth
           );
@@ -309,7 +302,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
             // Unsupported second factor.
           }
         } else if (error.code == 'auth/wrong-password') {
-          console.log(error);
           errorMessage = error.message;
         }
         errorMessage = error.message;
@@ -327,9 +319,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     );
   }
 
-  async function signInWithGoogle(
-    signup = false
-  ): Promise<[Promise<string>, MultiFactorResolver, string]> {
+  async function signInWithGoogle(): Promise<
+    [Promise<string>, MultiFactorResolver, string]
+  > {
     const provider = new GoogleAuthProvider();
     return handleLogin(signInWithPopup(auth, provider), 'google-login');
   }
@@ -345,7 +337,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         setUserInfo(userInfo);
       })
       .catch((error) => {
-        console.log(error);
         errorMessage = error.message;
       });
 
@@ -385,17 +376,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     await sendEmailVerification(user);
   }
 
-  async function signUpWithGoogle(): Promise<
-    [Promise<string>, MultiFactorResolver, string]
-  > {
-    return signUpWithGoogle();
-  }
-
   function signOut() {
     // if (user) {
-      auth.signOut();
-      setUserInfo(null);
-      navigate('/');
+    auth.signOut();
+    setUserInfo(null);
+    navigate('/');
     // }
   }
 
@@ -515,17 +500,6 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
           </div>
         </div>
       </Modal>
-
-      {/* {err ? (
-      <Toast className="absolute top-[15vh] left-[50vw] -translate-x-1/2 sticky">
-      <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-        <HiX className="h-5 w-5" />
-      </div>
-      <div className="ml-3 text-sm font-normal">{err}</div>
-      <Toast.Toggle />
-    </Toast>
-      ):null} */}
-
       {children}
     </AppContext.Provider>
   );

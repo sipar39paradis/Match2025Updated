@@ -1,14 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../../context/AppContext';
-import { ReactComponent as GoogleIcon } from '../../../icons/GoogleIcon.svg';
-import { ReactComponent as FacebookIcon } from '../../../icons/FacebookIcon.svg';
-import { AuthButton } from '../AuthButton';
 import { useForm } from 'react-hook-form';
 import { Modal } from '../../common/Modal';
 import { AuthModalEnum } from '../AuthModal';
 import { SignInModalBody } from './SignInModalBody';
-import { MultiFactorResolver, UserCredential } from 'firebase/auth';
-import { Button, Label, TextInput } from 'flowbite-react';
+import { MultiFactorResolver } from 'firebase/auth';
+import { Button, TextInput } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 
 interface SignInModalProps {
@@ -28,7 +25,6 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
   const [verificationId, setVerificationId] = useState<string>(null);
   const [resolver, setResolver] = useState<MultiFactorResolver>(null);
   const [verificationCode, setVerificationCode] = useState<string>('');
-
 
   const {
     handleSubmit,

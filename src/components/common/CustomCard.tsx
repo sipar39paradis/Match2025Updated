@@ -1,12 +1,10 @@
-import { Badge, Card, Rating } from 'flowbite-react';
+import { Badge, Card } from 'flowbite-react';
 import React from 'react';
 import { UserProfile } from '../../interfaces/User';
 import '../../i18n/config';
-import { useTranslation } from 'react-i18next';
 import { Skeleton } from './Skeleton';
 import { User } from '@firebase/auth';
 import man from '../../images/depositphotos_356807506-stock-illustration-anonymous-female-face-avatar-incognito.png';
-
 
 interface CardProps {
   user: User;
@@ -14,8 +12,6 @@ interface CardProps {
 }
 
 export function CustomCard({ user, profile }: CardProps) {
-  const { t } = useTranslation();
-
   const langToColor = {
     English: 'info',
     Français: 'failure',
@@ -67,8 +63,7 @@ export function CustomCard({ user, profile }: CardProps) {
             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
               {user?.displayName}
             </h5>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-            </span>
+            <span className="text-sm text-gray-500 dark:text-gray-400"></span>
             <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
               {profile ? profile.location : null}
             </p>

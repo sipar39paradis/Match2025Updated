@@ -13,9 +13,15 @@ function useQuery() {
 export function PrivacyPolicy() {
   const query = useQuery();
   const navigate = useNavigate();
-  const { signUpWithEmailAndPassword, createUserParams, signInWithGoogle, setModalToDisplay, setShowModal, setErr, setDonePolicy } = useContext(
-    AppContext
-  ) as AppContextType;
+  const {
+    signUpWithEmailAndPassword,
+    createUserParams,
+    signInWithGoogle,
+    setModalToDisplay,
+    setShowModal,
+    setErr,
+    setDonePolicy,
+  } = useContext(AppContext) as AppContextType;
 
   return (
     <div className=" p-16 px-56">
@@ -229,13 +235,14 @@ export function PrivacyPolicy() {
       {query.get('signup') ? (
         <div className="flex flex-col justify-center items-center pt-4 p-4 bg-gray-200 rounded-md">
           <p>
-            J’ai lu la politique de confidentialité d’Impôts Match et je l’accepte
+            J’ai lu la politique de confidentialité d’Impôts Match et je
+            l’accepte
           </p>
           <Button
             className="bg-orange-500 p-4 mt-4"
             onClick={async () => {
-              setDonePolicy(true)
-              if(query.get('type') && query.get('type') === 'email'){
+              setDonePolicy(true);
+              if (query.get('type') && query.get('type') === 'email') {
                 const err = await signUpWithEmailAndPassword(
                   createUserParams.email,
                   createUserParams.password,
@@ -244,38 +251,35 @@ export function PrivacyPolicy() {
                   createUserParams.referralCode
                 );
                 if (err) {
-                  if(err === 'No Two Factor'){
-                    setModalToDisplay(AuthModalEnum.TwoFactor)
-                    setShowModal(true)
+                  if (err === 'No Two Factor') {
+                    setModalToDisplay(AuthModalEnum.TwoFactor);
+                    setShowModal(true);
                     navigate('/profile');
-                  }else{
-                    setErr(err)
-                    setModalToDisplay(AuthModalEnum.SignUpWithEmail)
-                    setShowModal(true)
+                  } else {
+                    setErr(err);
+                    setModalToDisplay(AuthModalEnum.SignUpWithEmail);
+                    setShowModal(true);
                   }
-
                 } else {
                   navigate('/profile');
                 }
-              }else if (query.get('type') && query.get('type') === 'google'){
+              } else if (query.get('type') && query.get('type') === 'google') {
                 const [promise, resolver, err] = await signInWithGoogle();
-                if (err) {    
-                  if(err === 'No Two Factor'){
-                    setErr(null)
-                    setModalToDisplay(AuthModalEnum.TwoFactor)
-                    setShowModal(true)
+                if (err) {
+                  if (err === 'No Two Factor') {
+                    setErr(null);
+                    setModalToDisplay(AuthModalEnum.TwoFactor);
+                    setShowModal(true);
                     navigate('/profile');
-                  }else{
-                    setErr(err)
-                    setModalToDisplay(AuthModalEnum.SignUp)
+                  } else {
+                    setErr(err);
+                    setModalToDisplay(AuthModalEnum.SignUp);
                   }
-                }
-                else {
-                  setErr(null)
+                } else {
+                  setErr(null);
                   navigate('/profile');
                 }
               }
-
             }}
           >
             Accepter

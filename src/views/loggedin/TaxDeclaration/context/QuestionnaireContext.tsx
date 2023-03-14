@@ -217,7 +217,6 @@ export function QuestionnaireContextProvider({
   }
 
   async function saveFormAnswers(formAnswers = formData) {
-    console.log(formAnswers);
     questionnaires.set(id, formAnswers);
     await setDoc(
       doc(

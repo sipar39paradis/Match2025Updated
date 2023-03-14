@@ -5,7 +5,10 @@ import {
 } from '../context/QuestionnaireContext';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import CountUp from 'react-countup';
-import { uploadFileToStorage, uploadTaxReportPdfToStorage } from '../../../../client/firebaseClient';
+import {
+  uploadFileToStorage,
+  uploadTaxReportPdfToStorage,
+} from '../../../../client/firebaseClient';
 import { getPDFTaxReport } from '../../../../utils/FileMapper';
 import { calculatePrice } from './calculatePrice';
 import { personalInformationAsExcel } from '../../../../components/ExcelExport';
@@ -24,7 +27,6 @@ export function Price() {
       formData?.personalInformations
     );
   };
-
 
   return (
     <section className="flex flex-col align-baseline items-start w-full">
@@ -54,7 +56,7 @@ export function Price() {
           type="submit"
           value="Accepter et déposer les fichiers"
           onClick={() => {
-            questionnaires?.forEach((value, id) => {
+            questionnaires?.forEach((value) => {
               uploadTaxReportPdfToStorage(
                 getPDFTaxReport(value?.taxReport, value?.personalInformations),
                 value?.personalInformations

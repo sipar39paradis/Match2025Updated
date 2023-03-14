@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
 import { AuthModalEnum } from './AuthModal';
 import { useForm } from 'react-hook-form';
@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ReactComponent as CheckMark } from '../../icons/CheckMark.svg';
-import { Toast } from 'flowbite-react';
-import { HiX } from 'react-icons/hi';
 
 const formSchema = Yup.object().shape({
   firstName: Yup.string().required('Le prénom est requis'),
@@ -55,14 +53,14 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
     signUpWithEmailAndPassword,
     setCreateUserParams,
     err,
-    createUserParams,        
+    createUserParams,
     donePolicy,
     doneConditions,
     setErr,
     setModalToDisplay,
     setShowModal,
     setDonePolicy,
-    setDoneConditions
+    setDoneConditions,
   } = useContext(AppContext) as AppContextType;
 
   const [authError, setAuthError] = useState('');
@@ -76,7 +74,6 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
   const formData = watch();
   const onSubmit = async (data: signUpWithEmailData) => {
     if (donePolicy && doneConditions) {
-      
       const newError = await signUpWithEmailAndPassword(
         data.email,
         data.password,
@@ -85,38 +82,29 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
         data.referralCode
       );
       if (newError) {
-        if(newError === 'No Two Factor'){
-          setErr(null)
-          setModalToDisplay(AuthModalEnum.TwoFactor)
-          setShowModal(true)
+        if (newError === 'No Two Factor') {
+          setErr(null);
+          setModalToDisplay(AuthModalEnum.TwoFactor);
+          setShowModal(true);
           navigate('/profile');
           setDonePolicy(false);
-          setDoneConditions(false)
-        }else{
-          setErr(newError)
+          setDoneConditions(false);
+        } else {
+          setErr(newError);
         }
-
       } else {
-        setErr(null)
+        setErr(null);
         navigate('/profile');
       }
-
-
-    }else{
+    } else {
       closeModal(false);
       setCreateUserParams(data);
       navigate({
         pathname: '/userConditions',
         search: '?signup=true&type=email',
-    });
-  }
-  
-
+      });
+    }
   };
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   return (
     <div className="border-0 rounded-lg shadow-lg relative flex flex-col bg-white">
@@ -186,7 +174,9 @@ export function SignUpWithEmailModal(props: SignUpWithEmailModalProps) {
               <span className="text-red-500 ml-1">{errors.email?.message}</span>
             )}
             {err === 'Firebase: Error (auth/email-already-in-use).' && (
-              <span className="text-red-500 ml-1">Cet email est déjà utilisé</span>
+              <span className="text-red-500 ml-1">
+                Cet email est déjà utilisé
+              </span>
             )}
             {authError && (
               <span className="text-red-500 ml-1">

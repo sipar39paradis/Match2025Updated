@@ -13,12 +13,8 @@ import {
   QuestionnaireContext,
   QuestionnaireContextType,
 } from '../context/QuestionnaireContext';
-import {
-  uploadFileToStorage,
-  uploadTaxReportPdfToStorage,
-  writeRequiredFiles,
-} from '../../../../client/firebaseClient';
-import mapFiles, { getPDFTaxReport } from '../../../../utils/FileMapper';
+import { writeRequiredFiles } from '../../../../client/firebaseClient';
+import mapFiles from '../../../../utils/FileMapper';
 import { EmptyQuestionnaire } from '../emptyQuestionnaire';
 import { Dependent } from '../types/Questionnaire/Dependent';
 import {
@@ -26,9 +22,6 @@ import {
   QuestionnaireStateEnum,
 } from '../types/Questionnaire/Questionnaire';
 import { partnerQuestionnaireExists } from '../utils/partnerQuestionnaireExists';
-import { useParams } from 'react-router-dom';
-import { personalInformationAsExcel } from '../../../../components/ExcelExport';
-import { calculatePrice } from '../Price/calculatePrice';
 
 export function DeductionsAndTaxCreditsForm() {
   const {
@@ -41,8 +34,6 @@ export function DeductionsAndTaxCreditsForm() {
     addQuestionnaire,
     questionnaires,
   } = useContext(QuestionnaireContext) as QuestionnaireContextType;
-
-  const { id } = useParams();
 
   function onSubmitButton() {
     saveFormAnswers({ ...formData, state: QuestionnaireStateEnum.COMPLETED });

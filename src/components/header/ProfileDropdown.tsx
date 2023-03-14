@@ -3,7 +3,6 @@ import React, { Fragment, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext, AppContextType } from '../../context/AppContext';
 import { classNames } from '../../utils/utils';
-import { AuthModalEnum } from '../auth/AuthModal';
 
 interface ProfileDropdownProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,7 +10,7 @@ interface ProfileDropdownProps {
   displayModal: any;
 }
 
-export function ProfileDropdown({ user, displayModal }: ProfileDropdownProps) {
+export function ProfileDropdown({ user }: ProfileDropdownProps) {
   const { signOut } = useContext(AppContext) as AppContextType;
   // const { user } = props
   const navigate = useNavigate();

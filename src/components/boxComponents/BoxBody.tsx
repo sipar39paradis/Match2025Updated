@@ -25,8 +25,6 @@ export function BoxBody({
   const { user } = useContext(AppContext) as AppContextType;
   let mainClient: SnapshotQuestionnaire;
 
-  console.log('questionaires', questionnaires);
-
   let secondaryClients: Info[] = questionnaires.map((questionnaire) => {
     if (questionnaire.questionnaire.clientType === ClientTypeEnum.MAIN_CLIENT) {
       mainClient = questionnaire;
@@ -37,8 +35,6 @@ export function BoxBody({
       questionnaire,
     };
   });
-
-  console.log('seconday', secondaryClients);
 
   const getDependants = (client: SnapshotQuestionnaire): Info[] => {
     return client?.questionnaire.dependents.map((dependant) => {
@@ -60,23 +56,12 @@ export function BoxBody({
     });
   };
 
-  // secondaryClients = secondaryClients.filter((questionnaire) => {
-  //   return (
-  //     questionnaire.questionnaire.questionnaire.clientType ===
-  //     ClientTypeEnum.PARTNER
-  //   );
-  // });
-
-  console.log('secondary after filter', secondaryClients);
-
   let dependants: Info[] = [];
 
   if (noQuestionaire) {
     questionnaires.forEach((questionnaire) => {
       dependants = dependants.concat(getDependants(questionnaire));
     });
-
-    console.log('dependants', dependants);
 
     dependants = dependants.filter((val, i) => {
       const current = dependants.findIndex((dep) => {
@@ -90,9 +75,6 @@ export function BoxBody({
       dep.questionnaire;
     });
   }
-
-
-  console.log('dependantsafterfileer', dependants);
 
   const mainClientInfo: Info = {
     firstName: mainClient
@@ -109,9 +91,12 @@ export function BoxBody({
     mainClientInfo.lastName = user?.displayName?.split(' ')[1];
   }
 
-  secondaryClients = secondaryClients.filter(secondary => {
-    return secondary.firstName !== mainClientInfo.firstName || secondary.lastName !== mainClientInfo.lastName
-  })
+  secondaryClients = secondaryClients.filter((secondary) => {
+    return (
+      secondary.firstName !== mainClientInfo.firstName ||
+      secondary.lastName !== mainClientInfo.lastName
+    );
+  });
 
   return (
     <div className="flex flex-col justify-center items-cente border-orange-400 rounded-lg shadow-xl">
@@ -131,11 +116,7 @@ export function BoxBody({
             respondent={respondent}
             key={respondent.firstName}
             noQuestionaire={noQuestionaire}
-            last={
-
-                secondaryClients.length - 1 === i
-
-            }
+            last={secondaryClients.length - 1 === i}
             onClick={() =>
               navigate(`/questionnaire/${respondent.questionnaire.id}`)
             }
