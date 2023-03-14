@@ -137,7 +137,7 @@ function MultipleFileDropBox(
   multipleFileDropBoxProps: MultipleFileDropBoxProps
 ) {
   const { fileNames, formData } = multipleFileDropBoxProps;
-  const [showToast, setShowToast] = useState(false);
+  const [toasts, setToasts] = useState([]);
 
   const handleFileUpload = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -146,9 +146,13 @@ function MultipleFileDropBox(
       acceptedFiles[0],
       formData?.personalInformations
     ).then(() => {
-      setShowToast(true);
+      const newToast = {
+        id: Math.random(),
+        message: 'Fichier téléchargé avec succès !'
+      };
+      setToasts([...toasts, newToast]);
       setTimeout(() => {
-        setShowToast(false);
+        setToasts((prevToasts) => prevToasts.filter((t) => t.id !== newToast.id));
       }, 3000);
     });
   }, []);
@@ -157,11 +161,14 @@ function MultipleFileDropBox(
     <>
       <h2>{fileNames}</h2>
       <MyDropbox handleFileUpload={handleFileUpload} />
-      {showToast && (
-        <div className="fixed bottom-10 right-10 bg-green-500 text-white px-4 py-2 rounded-md">
-        Fichier téléchargé avec succès !
-    </div>
-      )}
+      {toasts.map((toast, index) => (
+          <div
+            key={toast.id}
+            className={`fixed bottom-${index * 50 + 10} right-10 bg-green-500 text-white px-4 py-2 rounded-md`}
+          >
+            {toast.message}
+          </div>
+        ))}
     </>
   );
 }
