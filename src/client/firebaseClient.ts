@@ -17,6 +17,7 @@ import {
 import { personalInformationAsExcel } from '../components/ExcelExport';
 import { FilesDoc } from '../interfaces/Files';
 import { UserProfile, UserProfileDoc } from '../interfaces/User';
+import { PersonnalInformationsForm } from '../views/loggedin/TaxDeclaration/ProfileForms/PersonnalInformationsForm';
 import { PersonalInformations } from '../views/loggedin/TaxDeclaration/types/Questionnaire/PersonnalInformations';
 import { Questionnaire } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 
@@ -143,7 +144,7 @@ export const appendExistingFiles = async (
 export const removeExistingfile = async (
   fileName: string,
   userId: string,
-  personalInformations: PersonalInformations
+  personalInformations?: PersonalInformations
 ): Promise<void> => {
   getExistingFiles(userId).then((res) => {
     if (res != undefined) {
@@ -152,7 +153,9 @@ export const removeExistingfile = async (
         userId
       );
       appendRequiredFiles(fileName, userId);
-      removeFileFromStorage(fileName, personalInformations);
+      if(personalInformations){
+        removeFileFromStorage(fileName, personalInformations);
+      }
     }
   });
 };
@@ -205,19 +208,26 @@ export const uploadTaxReportPdfToStorage = async (
 export const uploadFileToStorage = async (
   fileName: string,
   bytes: ArrayBuffer,
-  personalInformations: PersonalInformations
+  personalInformations: PersonalInformations,
+  fileType?: string,
+  userId?: string,
 ): Promise<void> => {
+  const fullName = personalInformations?.firstName + '_' + personalInformations?.lastName
   const fileNameAndPath =
     STORAGE_BASE_FOLDER +
     personalInformations?.email +
     '/' +
-    personalInformations?.firstName +
-    '_' +
-    personalInformations?.lastName +
+    fullName +
     '/' +
     fileName;
   const fileRef = ref(storage, fileNameAndPath);
-  uploadBytes(fileRef, bytes)
+  const metadata = {
+    customMetadata: {
+      'fileType': fileType,
+      'userId': userId
+    }
+  }
+  uploadBytes(fileRef, bytes, metadata)
     .catch((err) => 'Something went wrong');
 };
 
@@ -225,14 +235,13 @@ export const removeFileFromStorage = async (
   fileName: string,
   personalInformations: PersonalInformations
 ): Promise<void> => {
+  const fullName = personalInformations?.firstName + '_' + personalInformations?.lastName
   const filesListRef = ref(
     storage,
     STORAGE_BASE_FOLDER +
       personalInformations?.email +
       '/' +
-      personalInformations?.firstName +
-      '_' +
-      personalInformations?.lastName
+      fullName
   );
   listAll(filesListRef).then((res) => {
     const fileRefToRemove = res?.items?.filter((itemRef) =>
@@ -254,6 +263,7 @@ export const fetchFilesPerUserFromGivenEmail = async (
   const results = await Promise.all(listAllpromises);
 
   results?.forEach((res, index) => {
+    console.log(res)
     const item = prefixes[index];
     map?.set(
       item?.name,

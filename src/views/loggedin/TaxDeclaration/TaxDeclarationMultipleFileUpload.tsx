@@ -13,6 +13,8 @@ interface MultipleFileDropBoxProps {
   fileNames: string;
   formData: Questionnaire;
 }
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DEPENSES_EMPLOIS = 'Dépenses liées à votre emploi';
 const REMBOURSEMENTS_TPS_TVH = 'Remboursement de la TPS/TVH';
@@ -135,6 +137,7 @@ function MultipleFileDropBox(
   multipleFileDropBoxProps: MultipleFileDropBoxProps
 ) {
   const { fileNames, formData } = multipleFileDropBoxProps;
+  const [toasts, setToasts] = useState([]);
 
   const handleFileUpload = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -142,13 +145,30 @@ function MultipleFileDropBox(
       fileNames + '_' + file?.name,
       acceptedFiles[0],
       formData?.personalInformations
-    );
+    ).then(() => {
+      const newToast = {
+        id: Math.random(),
+        message: 'Fichier téléchargé avec succès !'
+      };
+      setToasts([...toasts, newToast]);
+      setTimeout(() => {
+        setToasts((prevToasts) => prevToasts.filter((t) => t.id !== newToast.id));
+      }, 3000);
+    });
   }, []);
 
   return (
     <>
       <h2>{fileNames}</h2>
       <MyDropbox handleFileUpload={handleFileUpload} />
+      {toasts.map((toast, index) => (
+          <div
+            key={toast.id}
+            className={`fixed bottom-${index * 50 + 10} right-10 bg-green-500 text-white px-4 py-2 rounded-md`}
+          >
+            {toast.message}
+          </div>
+        ))}
     </>
   );
 }

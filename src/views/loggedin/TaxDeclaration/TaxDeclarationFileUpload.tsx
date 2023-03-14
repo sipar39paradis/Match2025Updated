@@ -167,7 +167,9 @@ function IndividualFileUpload(props: FileUploadProps) {
     uploadFileToStorage(
       fileName + '_' + file?.name,
       acceptedFiles[0],
-      formData?.personalInformations
+      formData?.personalInformations,
+      fileName,
+      userId
     ).then((res) => {
       removeRequiredfile(fileName, userId);
       appendExistingFiles(fileName, userId);
@@ -287,9 +289,7 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
           existingFiles={existingFiles}
         />
       ))}
-      <TaxDeclarationAllowedMultipleFileUpload 
-        questionnaire={questionnaires?.get(id)}
-      />
+      <TaxDeclarationAllowedMultipleFileUpload />
       <div className="w-full flex justify-between mt-4 flex-row-reverse">
         <input
           type="submit"
