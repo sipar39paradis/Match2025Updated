@@ -8,7 +8,6 @@ import {
   QuestionnaireContextType,
 } from './context/QuestionnaireContext';
 import MyDropbox from '../../../components/MyDropbox';
-
 interface MultipleFileDropBoxProps {
   fileNames: string;
   formData: Questionnaire;
