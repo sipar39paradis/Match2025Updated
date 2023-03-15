@@ -15,6 +15,7 @@ export function ViewQuestionnaire() {
     useState<SnapshotQuestionnaire[]>(null);
 
   useEffect(() => {
+    'EmMrP7oX3ISPyyKbZk2kuvuSIVq2'
     getAllQuestionnaires(user.uid).then((res) => {
       if (res.length !== 0) {
         setNoQuestionaire(false);

@@ -37,23 +37,27 @@ export function BoxBody({
   });
 
   const getDependants = (client: SnapshotQuestionnaire): Info[] => {
-    return client?.questionnaire.dependents.map((dependant) => {
+    const deps: Info[] = []
+    client?.questionnaire.dependents.forEach((dependant) => {
       //If rows does not contain this dependant
+      console.log('dep', dependant)
       if (
         !secondaryClients.some((questionnaire) => {
-          questionnaire.questionnaire.questionnaire.personalInformations
+          return questionnaire.questionnaire.questionnaire.personalInformations
             .firstName === dependant.firstName &&
             questionnaire.questionnaire.questionnaire.personalInformations
               .lastName === dependant.lastName;
         })
       ) {
-        return {
+        deps.push( {
           firstName: dependant.firstName,
           lastName: dependant.lastName,
           questionnaire: null,
-        };
+        })
       }
+      
     });
+    return deps
   };
 
   let dependants: Info[] = [];
@@ -62,6 +66,8 @@ export function BoxBody({
     questionnaires.forEach((questionnaire) => {
       dependants = dependants.concat(getDependants(questionnaire));
     });
+    console.log('secondary', secondaryClients)
+    console.log('deps', dependants)
 
     dependants = dependants.filter((val, i) => {
       const current = dependants.findIndex((dep) => {
@@ -71,9 +77,9 @@ export function BoxBody({
       return current < 0 || (current === i && current >= 0);
     });
 
-    dependants = dependants.filter((dep) => {
-      dep.questionnaire;
-    });
+    // dependants = dependants.filter((dep) => {
+    //   dep.questionnaire;
+    // });
   }
 
   const mainClientInfo: Info = {
@@ -116,7 +122,7 @@ export function BoxBody({
             respondent={respondent}
             key={respondent.firstName}
             noQuestionaire={noQuestionaire}
-            last={secondaryClients.length - 1 === i}
+            last={secondaryClients.length-1 === i && dependants.length === 0 }
             onClick={() =>
               navigate(`/questionnaire/${respondent.questionnaire.id}`)
             }
