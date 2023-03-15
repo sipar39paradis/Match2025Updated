@@ -15,7 +15,7 @@ export function UserConditions() {
   const { setDoneConditions } = useContext(AppContext) as AppContextType;
 
   return (
-    <div className=" p-16 px-56">
+    <div className=" p-16 md:px-56">
       <h2>Introduction</h2>
       <p className=" pb-5">
         {
