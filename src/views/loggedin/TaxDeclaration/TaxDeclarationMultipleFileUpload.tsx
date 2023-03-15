@@ -8,7 +8,7 @@ import {
   QuestionnaireContextType,
 } from './context/QuestionnaireContext';
 import MyDropbox from '../../../components/MyDropbox';
-
+import {TooltipWithIcon} from '../../../components/common/TooltipWithIcon'
 interface MultipleFileDropBoxProps {
   fileNames: string;
   formData: Questionnaire;
@@ -159,7 +159,7 @@ function MultipleFileDropBox(
 
   return (
     <>
-      <h2>{fileNames}</h2>
+      <h2>{fileNames} <TooltipWithIcon text={'test'}></TooltipWithIcon> </h2>
       <MyDropbox handleFileUpload={handleFileUpload} />
       {toasts.map((toast, index) => (
           <div

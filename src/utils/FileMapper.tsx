@@ -305,19 +305,17 @@ export default function mapFiles(taxReport: TaxReport): Array<string> {
         filesArr.push(T4A_Releve_2_Releve_1[0]);
       }
     }
-  } else if (workIncomes?.employed && !workIncomes?.workedLastYear) {
-    if (workIncomes?.workerCompensationOrSocialAssistance) {
-      if (retirementIncomes?.welfareSeniorSupplement) {
-        filesArr.push(T5007_Releve_5[0]);
-      }
+  }
+
+  if (!workIncomes?.workedLastYear) {
+    if (workIncomes?.welfareSeniorSupplement && workIncomes?.workerCompensationOrSocialAssistance) {
+      filesArr.push(T5007_Releve_5[0]);
     }
-    if (workIncomes?.employmentInsuranceOrParentalBenefits) {
-      if (workIncomes?.employmentInsuranceBenefits) {
-        filesArr.push(T4E_Releve_6[0]);
-      }
-      if (retirementIncomes?.pensionRetirementAnnuityIncome) {
-        filesArr.push(T4A_Releve_2_Releve_1[0]);
-      }
+    if (workIncomes?.employmentInsuranceOrParentalBenefits && workIncomes?.employmentInsuranceBenefits) {
+      filesArr.push(T4E_Releve_6[0]);
+    }
+    if (workIncomes?.employmentInsuranceOrParentalBenefits && workIncomes?.pensionRetirementAnnuityIncome) {
+      filesArr.push(T4A_Releve_2_Releve_1[0]);
     }
   }
 
