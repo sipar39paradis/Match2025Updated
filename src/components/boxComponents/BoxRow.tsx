@@ -6,6 +6,7 @@ import { ReactComponent as ClipboardDocument } from '../../icons/ClipboardDocume
 import { BoxElement } from './BoxElement';
 import { Info } from './BoxBody';
 import man from '../../images/depositphotos_356807506-stock-illustration-anonymous-female-face-avatar-incognito.png';
+import { QuestionnaireStateEnum } from '../../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 
 interface BoxRowProps {
   respondent: Info;
@@ -39,7 +40,8 @@ export function BoxRow({
           } ${respondent.lastName}`}
         />
         {!noQuestionaire ? (
-          respondent.questionnaire ? (
+          respondent.questionnaire.questionnaire.state ===
+          QuestionnaireStateEnum.COMPLETED ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

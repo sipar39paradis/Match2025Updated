@@ -187,6 +187,7 @@ export default function TaxDeclarationAllowedMultipleFileUpload() {
 
   useEffect(() => {
     setFilesArr(mapAllowedMultipleFiles(questionnaires?.get(id)?.taxReport));
+    console.log(filesArr);
   }, [id, questionnaires]);
 
   const toggleMinimized = () => {
@@ -194,69 +195,76 @@ export default function TaxDeclarationAllowedMultipleFileUpload() {
   };
 
   return (
-    <div className="bg-gray-200 p-4 rounded-lg mt-4">
-      <div
-        className="flex justify-between items-center mb-4 cursor-pointer"
-        onClick={toggleMinimized}
-      >
-        <div className="flex flex-col">
-          <h1 className="text-lg font-medium mb-4">
-            Crédits d’impôts et déductions
-          </h1>
-          <div>
-            <span className="font-small mr-2">
-              Les boites de dépôts de la section « Crédit d&apos;impôts et
-              déduction » sont configurées pour recevoir plusieurs fichiers (si
-              nécéssaire) vous aurez un message sur la droite de la page vous
-              confirmant le succès du dépôt de votre fichier.
-            </span>
+    <>
+      {filesArr?.length > 0 && (
+        <div className="bg-gray-200 p-4 rounded-lg mt-4">
+          <div
+            className="flex justify-between items-center mb-4 cursor-pointer"
+            onClick={toggleMinimized}
+          >
+            <div className="flex flex-col">
+              <div className="flex flex-row h-fit justify-between">
+                <h1 className="text-lg font-medium mb-4">
+                  Crédits d’impôts et déductions
+                </h1>
+                <button className="focus:outline-none h-fit">
+                  {isMinimized ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 8h16M4 16h16"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
+
+              <div>
+                <span className="font-small mr-2">
+                  Les boites de dépôts de la section « Crédit d&apos;impôts et
+                  déduction » sont configurées pour recevoir plusieurs fichiers
+                  (si nécéssaire) vous aurez un message sur la droite de la page
+                  vous confirmant le succès du dépôt de votre fichier.
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-        <button className="focus:outline-none">
-          {isMinimized ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 8h16M4 16h16"
-              />
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+          {!isMinimized && (
+            <div>
+              {filesArr?.map((file) => (
+                <MultipleFileDropBox
+                  fileNames={file}
+                  key={file}
+                  formData={questionnaires?.get(id)}
+                />
+              ))}
+            </div>
           )}
-        </button>
-      </div>
-      {!isMinimized && (
-        <div>
-          {filesArr?.map((file) => (
-            <MultipleFileDropBox
-              fileNames={file}
-              key={file}
-              formData={questionnaires?.get(id)}
-            />
-          ))}
         </div>
       )}
-    </div>
+    </>
   );
 }

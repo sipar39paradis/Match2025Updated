@@ -143,7 +143,7 @@ export function QuestionnaireHandler() {
             <div
               key={tab.key}
               className={` rounded-t-lg p-2 w-fit cursor-pointer hover:bg-gray-200 ${
-                tab.active ? 'bg-gray-200 cursor-default' : 'bg-white'
+                tab.active ? 'bg-white cursor-default' : 'bg-gray-200'
               } ${tab.disabled ? 'pointer-events-none' : ''}`}
               onClick={() => {
                 if (!tab.disabled) {
