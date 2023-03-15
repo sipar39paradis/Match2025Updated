@@ -147,11 +147,13 @@ function MultipleFileDropBox(
     ).then(() => {
       const newToast = {
         id: Math.random(),
-        message: 'Fichier téléchargé avec succès !'
+        message: 'Fichier téléchargé avec succès !',
       };
       setToasts([...toasts, newToast]);
       setTimeout(() => {
-        setToasts((prevToasts) => prevToasts.filter((t) => t.id !== newToast.id));
+        setToasts((prevToasts) =>
+          prevToasts.filter((t) => t.id !== newToast.id)
+        );
       }, 3000);
     });
   }, []);
@@ -161,13 +163,15 @@ function MultipleFileDropBox(
       <h2>{fileNames}</h2>
       <MyDropbox handleFileUpload={handleFileUpload} />
       {toasts.map((toast, index) => (
-          <div
-            key={toast.id}
-            className={`fixed bottom-${index * 50 + 10} right-10 bg-green-500 text-white px-4 py-2 rounded-md`}
-          >
-            {toast.message}
-          </div>
-        ))}
+        <div
+          key={toast.id}
+          className={`fixed bottom-${
+            index * 50 + 10
+          } right-10 bg-green-500 text-white px-4 py-2 rounded-md`}
+        >
+          {toast.message}
+        </div>
+      ))}
     </>
   );
 }
@@ -195,7 +199,19 @@ export default function TaxDeclarationAllowedMultipleFileUpload() {
         className="flex justify-between items-center mb-4 cursor-pointer"
         onClick={toggleMinimized}
       >
-        <h1 className="text-lg font-medium">Crédits d’impôts et déductions</h1>
+        <div className="flex flex-col">
+          <h1 className="text-lg font-medium mb-4">
+            Crédits d’impôts et déductions
+          </h1>
+          <div>
+            <span className="font-small mr-2">
+              Les boites de dépôts de la section « Crédit d&apos;impôts et
+              déduction » sont configurées pour recevoir plusieurs fichiers (si
+              nécéssaire) vous aurez un message sur la droite de la page vous
+              confirmant le succès du dépôt de votre fichier.
+            </span>
+          </div>
+        </div>
         <button className="focus:outline-none">
           {isMinimized ? (
             <svg
@@ -209,7 +225,7 @@ export default function TaxDeclarationAllowedMultipleFileUpload() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
+                d="M4 8h16M4 16h16"
               />
             </svg>
           ) : (
@@ -224,7 +240,7 @@ export default function TaxDeclarationAllowedMultipleFileUpload() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M4 8h16M4 16h16"
+                d="M6 18L18 6M6 6l12 12"
               />
             </svg>
           )}
