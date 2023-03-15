@@ -98,7 +98,7 @@ export function Profile() {
   ) => {
     return (
       <div
-        className="w-[380px] px-12 cursor-pointer"
+        className="lg:w-[380px] px-12 cursor-pointer"
         onClick={() => navigate(`/${endpoint}`)}
       >
         <div className="group mx-auto w-[380px] text-center px-12">
