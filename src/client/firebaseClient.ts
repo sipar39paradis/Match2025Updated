@@ -228,6 +228,7 @@ export const uploadFileToStorage = async (
     }
   }
   uploadBytes(fileRef, bytes, metadata)
+    .then((res) => console.log(res))
     .catch((err) => 'Something went wrong');
 };
 
@@ -263,7 +264,6 @@ export const fetchFilesPerUserFromGivenEmail = async (
   const results = await Promise.all(listAllpromises);
 
   results?.forEach((res, index) => {
-    console.log(res)
     const item = prefixes[index];
     map?.set(
       item?.name,
