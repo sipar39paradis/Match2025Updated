@@ -228,7 +228,6 @@ export const uploadFileToStorage = async (
     }
   }
   uploadBytes(fileRef, bytes, metadata)
-    .then((res) => console.log(res))
     .catch((err) => 'Something went wrong');
 };
 
