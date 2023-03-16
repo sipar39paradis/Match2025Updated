@@ -12,19 +12,20 @@ import {
 import { getPDFTaxReport } from '../../../../utils/FileMapper';
 import { calculatePrice } from './calculatePrice';
 import { personalInformationAsExcel } from '../../../../components/ExcelExport';
+import { Questionnaire } from '../types/Questionnaire/Questionnaire';
 
 export function Price() {
   const { questionnaires, setSearchParams, formData } = useContext(
     QuestionnaireContext
   ) as QuestionnaireContextType;
 
-  const handleExportToExcel = async () => {
+  const handleExportToExcel = async (individualFormData: Questionnaire) => {
     const totalPrice = calculatePrice(questionnaires);
-    const excelData = await personalInformationAsExcel(formData, totalPrice);
+    const excelData = await personalInformationAsExcel(individualFormData, totalPrice);
     await uploadFileToStorage(
       'TaxReportCsv.xlsx',
       excelData,
-      formData?.personalInformations
+      individualFormData?.personalInformations
     );
   };
 
@@ -61,7 +62,7 @@ export function Price() {
                 getPDFTaxReport(value?.taxReport, value?.personalInformations),
                 value?.personalInformations
               );
-              handleExportToExcel();
+              handleExportToExcel(value);
             });
             setSearchParams({
               step: TaxDeclarationStep.UPLOAD_FILES,
