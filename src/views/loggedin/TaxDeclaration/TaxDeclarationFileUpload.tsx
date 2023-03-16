@@ -171,9 +171,12 @@ function IndividualFileUpload(props: FileUploadProps) {
       fileName,
       userId
     ).then((res) => {
+      console.log(res)
       removeRequiredfile(fileName, userId);
       appendExistingFiles(fileName, userId);
       setHidden(!hidden);
+    }).catch((err) =>{
+      console.log(err)
     });
   }, []);
 
