@@ -20,17 +20,17 @@ export function TaxDeclarationReview() {
       <p className="font-semibold mb-2 text-justify">
         Merci de faire confiance à Impôts Match!
       </p>
+      <div className="flex justify-end">
+        <Logo className="h-32 self-end" />
+      </div>
       <input
         type="submit"
         value="Retour à mon compte"
-        className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer mt-4 absolute bottom-0"
+        className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer mt-4"
         onClick={() => {
           navigate('/profile');
         }}
       />
-      <div className="flex justify-end">
-        <Logo className="h-32 self-end" />
-      </div>
     </div>
   );
 }
