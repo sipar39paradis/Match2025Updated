@@ -54,7 +54,8 @@ export const EmptyQuestionnaire: Questionnaire ={
     isDifferentProvince: null,
     differentProvince: null,
     phoneNumber: '',
-    canadianRedisentStatusChange: null
+    canadianRedisentStatusChange: null,
+    tenant: null
   },
   civilStatusChange: {
     civiStatusChange: null,

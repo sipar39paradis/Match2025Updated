@@ -11,6 +11,7 @@ export interface ContactDetails {
   isDifferentProvince: boolean
   differentProvince?: ProvinceEnum
   phoneNumber: string
+  tenant: boolean
 }
 
 export enum ProvinceEnum {

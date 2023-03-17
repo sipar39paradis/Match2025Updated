@@ -76,7 +76,7 @@ function calculateClientPrice(taxReport: TaxReport, clientType: ClientTypeEnum) 
   if (taxReport?.medicalExpenses) {
     totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 15 : 10;
   }
-  if (taxReport?.otherDeductions) {
+  if (taxReport?.otherDeductions?.otherDeductions) {
     totalPrice += 5;
   }
   return totalPrice;

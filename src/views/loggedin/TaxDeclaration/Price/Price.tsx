@@ -15,13 +15,16 @@ import { personalInformationAsExcel } from '../../../../components/ExcelExport';
 import { Questionnaire } from '../types/Questionnaire/Questionnaire';
 
 export function Price() {
-  const { questionnaires, setSearchParams, formData } = useContext(
+  const { questionnaires, setSearchParams } = useContext(
     QuestionnaireContext
   ) as QuestionnaireContextType;
 
   const handleExportToExcel = async (individualFormData: Questionnaire) => {
     const totalPrice = calculatePrice(questionnaires);
-    const excelData = await personalInformationAsExcel(individualFormData, totalPrice);
+    const excelData = await personalInformationAsExcel(
+      individualFormData,
+      totalPrice
+    );
     await uploadFileToStorage(
       'TaxReportCsv.xlsx',
       excelData,
@@ -42,7 +45,7 @@ export function Price() {
       </div>
 
       <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
-      <div className="w-full flex justify-between mt-4">
+      <div className="w-full flex justify-between mt-4 flex-wrap gap-2">
         <input
           type="submit"
           value="Retour aux questionnaires"
@@ -51,7 +54,7 @@ export function Price() {
               step: TaxDeclarationStep.DEDUCTIONS_AND_TAX_CREDIT,
             });
           }}
-          className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer"
+          className="bg-[#222C40] hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded cursor-pointer w-full text-sm md:w-fit md:text-base"
         />
         <input
           type="submit"
@@ -68,7 +71,7 @@ export function Price() {
               step: TaxDeclarationStep.UPLOAD_FILES,
             });
           }}
-          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer w-full text-sm md:w-fit md:text-base"
         />
       </div>
     </section>

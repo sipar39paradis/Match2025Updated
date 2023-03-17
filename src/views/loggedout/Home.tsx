@@ -37,22 +37,6 @@ export function Home() {
                       <span>Fonctionnement</span>
                       <HiOutlineArrowRight className="ml-2 h-5 w-5" />
                     </Button>
-                    <a
-                      href="#about"
-                      className="inline-flex items-center rounded py-[14px] px-8 font-heading text-base text-dark hover:text-orange-500 dark:text-white dark:hover:text-orange-500"
-                    >
-                      <span className="pr-3">
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          className="fill-current"
-                        >
-                          <path d="M19.376 12.416L8.777 19.482C8.70171 19.5321 8.61423 19.5608 8.52389 19.5652C8.43355 19.5695 8.34373 19.5492 8.264 19.5065C8.18427 19.4639 8.1176 19.4003 8.07111 19.3228C8.02462 19.2452 8.00005 19.1564 8 19.066V4.934C8.00005 4.84356 8.02462 4.75482 8.07111 4.67724C8.1176 4.59966 8.18427 4.53615 8.264 4.49346C8.34373 4.45077 8.43355 4.43051 8.52389 4.43483C8.61423 4.43915 8.70171 4.46789 8.777 4.518L19.376 11.584C19.4445 11.6297 19.5006 11.6915 19.5395 11.7641C19.5783 11.8367 19.5986 11.9177 19.5986 12C19.5986 12.0823 19.5783 12.1633 19.5395 12.2359C19.5006 12.3085 19.4445 12.3703 19.376 12.416Z" />
-                        </svg>
-                      </span>
-                      En savoir plus
-                    </a>
                   </div>
                 </div>
               </Fade>

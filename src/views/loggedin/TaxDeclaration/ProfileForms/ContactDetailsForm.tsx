@@ -150,6 +150,44 @@ export function ContactDetailsForm() {
               )}
             </div>
           </div>
+          <p className="font-semibold">Êtes-vous locataire ?</p>
+          <Controller
+            control={contactDetailsForm.control}
+            name="tenant"
+            render={({ field: { onChange, value } }) => (
+              <fieldset className="flex flex-row m-4">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(true)}
+                    checked={value === true}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
+                    Oui
+                  </p>
+                </div>
+                <div className="flex items-center m-4">
+                  <input
+                    type="radio"
+                    onChange={() => onChange(false)}
+                    checked={value === false}
+                    className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <p className="block ml-2  font-medium text-gray-900 dark:text-gray-300">
+                    Non
+                  </p>
+                </div>
+              </fieldset>
+            )}
+          />
+          {contactDetailsFormData?.tenant && (
+            <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
+              <p className="font-semibold">
+                Vous pourrez déposer votre Relevé 31 dans une boite de dépôt
+              </p>
+            </div>
+          )}
 
           <p className="font-semibold">
             Avez-vous déménagé d&apos;une autre province ou d&apos;un autre
@@ -300,10 +338,12 @@ export function ContactDetailsForm() {
             )}
           />
           {contactDetailsFormData?.canadianRedisentStatusChange === true && (
-            <p>
-              Votre préparateur entrera en contact avec vous pour obtenir plus
-              de renseignements.{' '}
-            </p>
+            <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
+              <p className="font-semibold">
+                Votre préparateur entrera en contact avec vous pour obtenir plus
+                de renseignements.
+              </p>
+            </div>
           )}
 
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
