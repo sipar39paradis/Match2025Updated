@@ -40,7 +40,6 @@ export function BoxBody({
     const deps: Info[] = []
     client?.questionnaire.dependents.forEach((dependant) => {
       //If rows does not contain this dependant
-      console.log('dep', dependant)
       if (
         !secondaryClients.some((questionnaire) => {
           return questionnaire.questionnaire.questionnaire.personalInformations
@@ -66,9 +65,6 @@ export function BoxBody({
     questionnaires.forEach((questionnaire) => {
       dependants = dependants.concat(getDependants(questionnaire));
     });
-    console.log('secondary', secondaryClients)
-    console.log('deps', dependants)
-
     dependants = dependants.filter((val, i) => {
       const current = dependants.findIndex((dep) => {
         return val.firstName === dep.firstName && val.lastName === dep.lastName;
