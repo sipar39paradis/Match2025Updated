@@ -1,6 +1,7 @@
 import { TaxReport } from '../views/loggedin/TaxDeclaration/types/TaxReport/TaxReport';
 import { jsPDF } from 'jspdf';
 import { PersonalInformations } from '../views/loggedin/TaxDeclaration/types/Questionnaire/PersonnalInformations';
+import { Questionnaire } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 
 type TextData = [string, string];
 
@@ -94,6 +95,7 @@ const T4A_RCA = [
   'T4A-RCA',
   "Montant reçu pour des régimes d'accumulation de capital (RAC)",
 ];
+const RELEVE_31 = ['Relevé 31', 'Renseignement sur l’occupation d’un logement']
 
 export function mapTitle(title: string): string {
   switch (title) {
@@ -155,14 +157,16 @@ export function mapTitle(title: string): string {
       return `${T4E_Releve_6[0].replaceAll('_', ' ')}: ${T4E_Releve_6[1]}`;
     case T4A_RCA[0]:
       return `${T4A_RCA[0].replaceAll('_', ' ')}: ${T4A_RCA[1]}`;
+    case RELEVE_31[0]:
+      return `${RELEVE_31[0].replaceAll('_', ' ')}: ${RELEVE_31[1]}`;
     default:
       return title.replaceAll('_', ' ');
   }
 }
 
-export default function mapFiles(taxReport: TaxReport): Array<string> {
+export default function mapFiles(questionnaire: Questionnaire): Array<string> {
   const filesArr = [];
-
+  const taxReport = questionnaire?.taxReport;
   const investmentIncomes = taxReport?.investmentIncomes;
   const studentExpenses = taxReport?.studentExpenses;
   const retirementIncomes = taxReport?.retirementIncomes;
@@ -170,6 +174,10 @@ export default function mapFiles(taxReport: TaxReport): Array<string> {
   const workIncomes = taxReport?.workIncomes;
 
   const taxDeductions = taxReport?.taxDeductions;
+
+  if(questionnaire?.contactDetails?.tenant){
+    filesArr.push(RELEVE_31[0]);
+  }
 
   // investment income
   if (investmentIncomes?.reportedInvestmentIncome) {

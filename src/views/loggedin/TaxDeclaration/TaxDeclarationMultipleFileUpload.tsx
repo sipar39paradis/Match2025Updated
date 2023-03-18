@@ -187,7 +187,6 @@ export default function TaxDeclarationAllowedMultipleFileUpload() {
 
   useEffect(() => {
     setFilesArr(mapAllowedMultipleFiles(questionnaires?.get(id)?.taxReport));
-    console.log(filesArr);
   }, [id, questionnaires]);
 
   const toggleMinimized = () => {
