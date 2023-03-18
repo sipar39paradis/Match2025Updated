@@ -69,7 +69,7 @@ export function DeductionsAndTaxCreditsForm() {
       );
     } else {
       questionnaires?.forEach(async (value, key) => {
-        await writeRequiredFiles(mapFiles(value?.taxReport), key);
+        await writeRequiredFiles(mapFiles(value), key);
       });
       setSearchParams({ step: TaxDeclarationStep.PRICE });
     }
