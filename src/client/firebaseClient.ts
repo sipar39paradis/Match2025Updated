@@ -2,10 +2,14 @@ import { initializeApp } from 'firebase/app';
 import {
   collection,
   doc,
+  DocumentData,
   getDoc,
   getDocs,
   getFirestore,
+  query,
+  QuerySnapshot,
   setDoc,
+  where,
 } from 'firebase/firestore';
 import {
   deleteObject,
@@ -198,6 +202,16 @@ export const getAllUserProfiles = async (): Promise<Array<UserProfile>> => {
   });
 };
 
+export const getUserInfo = async (firstName: string, lastName: string, userId: string): Promise<QuerySnapshot<DocumentData>> => {
+  const querySnapshot = await getDocs(
+    query(
+      collection(db, 'taxReport', userId, 'questionnaires'),
+      where('personalInformations.firstName', '==', firstName),
+      where('personalInformations.lastName', '==', lastName)
+    )
+  );
+  return querySnapshot;
+}
 export const uploadTaxReportPdfToStorage = async (
   bytes: ArrayBuffer,
   personalInformations: PersonalInformations

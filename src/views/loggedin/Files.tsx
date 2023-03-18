@@ -2,7 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { BreadcrumbWrapper } from '../../components/profile/BreadcrumbWrapper';
 import { useContext } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
-import { deleteObject, getBlob, getMetadata, getStorage, ref } from 'firebase/storage';
+import {
+  deleteObject,
+  getBlob,
+  getMetadata,
+  getStorage,
+  ref,
+} from 'firebase/storage';
 import { uuidv4 } from '@firebase/util';
 import MyDropbox from '../../components/MyDropbox';
 import { PersonalInformations } from './TaxDeclaration/types/Questionnaire/PersonnalInformations';
@@ -10,7 +16,11 @@ import {
   uploadFileToStorage,
   fetchFilesPerUserFromGivenEmail,
   removeExistingfile,
+  getUserInfo,
 } from '../../client/firebaseClient';
+import { useNavigate } from 'react-router-dom';
+import { Firestore, getFirestore } from 'firebase/firestore';
+import { TaxDeclarationStep } from './TaxDeclaration/types/TaxReport/TaxDeclarationStep';
 
 const storage = getStorage();
 
@@ -37,7 +47,7 @@ function FileComponent(props: FileComponentProps) {
   } = props;
   const [showDropbox, setShowDropbox] = useState(false);
   const { user } = useContext(AppContext) as AppContextType;
-
+  const navigate = useNavigate();
   const handleClick = (item: string) => {
     if (selected === item) {
       onSelect(null);
@@ -86,14 +96,39 @@ function FileComponent(props: FileComponentProps) {
     setShowDropbox(!showDropbox);
   };
 
+  const handleNavigate = () => {
+    const splitUserName = userName.split('_');
+    const firstName = splitUserName[0];
+    const lastName = splitUserName[1];
+    getUserInfo(firstName, lastName, user?.uid)
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs.map((doc) => doc.id);
+        navigate(
+          `/questionnaire/${data}?step=${TaxDeclarationStep.UPLOAD_FILES}`
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
-    <div className="mb-5 w-1/2">
-      <p className="text-lg font-bold">
-        Fichiers de :{' '}
-        <span className="text-xl font-semibold">
-          {userName?.replace('_', ' ')}
-        </span>
-      </p>
+    <div className="mb-5 w-1/2 ">
+      <div className="flex items-center group">
+        <p className="text-lg font-bold mr-2">
+          Fichiers de :{' '}
+          <span className="text-xl font-semibold">
+            {userName?.replace('_', ' ')}
+          </span>
+        </p>
+        <button className="bg-orange-500 text-white px-2 py-1 rounded-md" onClick={handleNavigate}>
+          <span className="hidden md:inline">...</span>
+          <span className="group-hover:inline hidden">
+            Cliquez ici pour atteindre vos boites de dépôts
+          </span>
+        </button>
+      </div>
+
       <ul role="list" className="list-inside">
         {files
           ?.filter(
@@ -189,12 +224,14 @@ export function Files() {
     files: Array<any>
   ) => {
     const fileRef = ref(storage, filePath);
-    getMetadata(fileRef)
-    .then((metadata) => {
-      if(metadata?.customMetadata){
-        removeExistingfile(metadata?.customMetadata?.fileType, metadata?.customMetadata?.userId);
+    getMetadata(fileRef).then((metadata) => {
+      if (metadata?.customMetadata) {
+        removeExistingfile(
+          metadata?.customMetadata?.fileType,
+          metadata?.customMetadata?.userId
+        );
       }
-    })
+    });
     setUpdated(false);
     deleteObject(fileRef)
       .then((res) => {
