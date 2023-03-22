@@ -49,7 +49,7 @@ export function Features() {
                     Remplissez notre questionnaire
                   </h3>
                   <p className="text-base text-dark-text">
-                    Une fois sur votre profile remplissez notre questionnaire
+                    Une fois sur votre profil remplissez notre questionnaire
                     simple et interactif
                   </p>
                 </div>

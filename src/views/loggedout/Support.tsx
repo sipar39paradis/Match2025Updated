@@ -41,7 +41,7 @@ export function Support() {
                       Besoin d&apos;aide? Envoyez nous un message!
                     </h2>
                     <p className="text-base text-dark-text">
-                      Notre équipe de professionnelles ce fera un plaisir de
+                      Notre équipe de professionnels ce fera un plaisir de
                       répondre à vos questions
                     </p>
                   </div>
@@ -76,7 +76,7 @@ export function Support() {
                       htmlFor="email"
                       className="mb-3 block font-heading text-base text-dark dark:text-white"
                     >
-                      Addresse Courriel
+                      Adresse Courriel
                     </label>
                     <input
                       type="email"
