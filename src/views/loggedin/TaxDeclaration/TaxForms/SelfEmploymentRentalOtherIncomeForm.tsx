@@ -118,6 +118,7 @@ export function SelfEmploymentRentalOtherIncomeForm() {
         <div className="px-8 py-4 mb-4 bg-gray-100 rounded-lg w-full">
           <p className="mb-4">
             Veuillez entrer le nombre d&apos;immeuble locatif.
+            <TooltipWithIcon text="Si vous êtes propriétaire d'un immeuble locatif avec votre conjoint, veuillez inscrire cet immeuble dans un des deux questionnaires uniquement"></TooltipWithIcon>
           </p>
           <div className="relative z-0 w-full mb-6 group">
             <input
