@@ -47,10 +47,10 @@ export function Price() {
   }, []);
 
   const handleExportToExcel = async (individualFormData: Questionnaire) => {
-    const totalPrice = calculatePrice(questionnaires);
     const excelData = await personalInformationAsExcel(
       individualFormData,
-      totalPrice
+      price,
+      discountedPrice
     );
     await uploadFileToStorage(
       'TaxReportCsv.xlsx',
@@ -63,7 +63,6 @@ export function Price() {
     if (promoCode.active) {
       if (promoCode.type === 'percentage') {
         const percentageDiscount = 1 - promoCode.discount / 100;
-        console.log(price * percentageDiscount);
         SetDiscountedPrice(price * percentageDiscount);
       } else {
         SetDiscountedPrice(price - promoCode.discount);
@@ -78,7 +77,6 @@ export function Price() {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log('Document data:', docSnap.data());
       calculateDiscount(docSnap.data() as PromoCode);
     } else {
       setError('promoCode', { message: 'Code de promotion invalide' });

@@ -31,7 +31,7 @@ export function calculatePrice(questionnaires: Map<string, Questionnaire>) {
 }
 
 function calculateClientPrice(taxReport: TaxReport, clientType: ClientTypeEnum) {
-  let totalPrice = clientType === ClientTypeEnum.MAIN_CLIENT ? 45 : 30;
+  let totalPrice = clientType === ClientTypeEnum.MAIN_CLIENT ? 45 : 25;
   if (taxReport?.workIncomes?.employed) {
     totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 15 : 10;
   }
@@ -41,19 +41,26 @@ function calculateClientPrice(taxReport: TaxReport, clientType: ClientTypeEnum) 
       taxReport?.workIncomes?.workerCompensationOrSocialAssistance ||
       taxReport?.workIncomes?.employmentInsuranceOrParentalBenefits)
   ) {
-    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 20 : 15;
+    totalPrice += 15;
   }
   if (taxReport?.workIncomes?.jobRelatedExpenses) {
-    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 20 : 20;
+    totalPrice += 20;
   }
   if (taxReport?.retirementIncomes?.pensionRetirementAnnuityIncome) {
     totalPrice += 20;
   }
-  if (taxReport?.investmentIncomes?.investmentIncomes) {
-    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 10 : 10;
+  if (taxReport?.investmentIncomes?.investmentIncomes && (taxReport.investmentIncomes?.trustIncome ||
+    taxReport.investmentIncomes?.securityTransactions ||
+    taxReport.investmentIncomes?.partnershipIncomes ||
+    taxReport.investmentIncomes?.explorationAndShareExpenses ||
+    taxReport.investmentIncomes?.investmentPlanIncome ||
+    taxReport.investmentIncomes?.labourSponsoredFundTaxCredits ||
+    taxReport.investmentIncomes?.desjardins ||
+    taxReport.investmentIncomes?.foreignIncomes)) {
+    totalPrice += 10;
   }
   if (taxReport?.selfEmploymentIncomes?.selfEmployedIncomes) {
-    totalPrice += 75;
+    totalPrice += 65;
   }
   if (taxReport?.rentalPropertyIncomes?.rentalPropertyIncomes) {
     for (
@@ -61,11 +68,11 @@ function calculateClientPrice(taxReport: TaxReport, clientType: ClientTypeEnum) 
       i <= taxReport?.rentalPropertyIncomes?.numberOfRentalPropertyIncomes;
       i++
     ) {
-      totalPrice += 25;
+      totalPrice += 35;
     }
   }
   if (taxReport?.otherIncomes?.otherIncomes) {
-    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 15 : 15;
+    totalPrice += 15;
   }
   if (taxReport?.studentExpenses?.studentExpenses) {
     totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 10 : 5;
@@ -74,7 +81,7 @@ function calculateClientPrice(taxReport: TaxReport, clientType: ClientTypeEnum) 
     totalPrice += 20;
   }
   if (taxReport?.medicalExpenses) {
-    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 15 : 10;
+    totalPrice += clientType === ClientTypeEnum.MAIN_CLIENT ? 10 : 0;
   }
   if (taxReport?.otherDeductions?.otherDeductions) {
     totalPrice += 5;

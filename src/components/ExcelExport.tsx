@@ -20,7 +20,8 @@ const exportToExcel = async (excelData: any[], fileName: string) => {
 
 export const personalInformationAsExcel = (
   questionnaire: Questionnaire,
-  totalPrice: number
+  price: number,
+  discountedPrice?: number
 ) => {
   const asJson = {
     FirstNames: questionnaire?.personalInformations?.firstName,
@@ -37,7 +38,8 @@ export const personalInformationAsExcel = (
     EmailAddress: questionnaire?.personalInformations?.email,
     SIN: questionnaire?.personalInformations?.socialInsuranceNumber,
     DataOfBirth: questionnaire?.personalInformations?.birthDay,
-    totalPrice: totalPrice,
+    price,
+    discountedPrice: discountedPrice || '',
   };
 
   return exportToExcel(
