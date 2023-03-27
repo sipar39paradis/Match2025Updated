@@ -105,13 +105,13 @@ export function Price() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-2 block">
           <Label
-            value="Vous avez un code de promotion ?"
+            value="Vous avez un code promotionnel ?"
             className="font-semibold"
           />
         </div>
         <div className="flex flex-row gap-4 mb-4">
           <TextInput
-            placeholder="Code de Promotion"
+            placeholder="Code promotionnel"
             {...register('promoCode')}
           />
           <input
