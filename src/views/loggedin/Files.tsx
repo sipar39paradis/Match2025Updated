@@ -212,7 +212,8 @@ function FileComponent(props: FileComponentProps) {
         >
          Cliquez ici pour indiquer la fin de votre déclaration
         </button>
-        <input type='hidden' name='name' value={userName}></input>
+        <input type='hidden' name='name' value={userName?.replace('_', ' ')}></input>
+        <input type='hidden' name='email' value={user?.email}></input>
         </form>
       </div>
     </div>
