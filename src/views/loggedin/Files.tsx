@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { BreadcrumbWrapper } from '../../components/profile/BreadcrumbWrapper';
 import { useContext } from 'react';
 import { AppContext, AppContextType } from '../../context/AppContext';
@@ -19,8 +19,8 @@ import {
   getUserInfo,
 } from '../../client/firebaseClient';
 import { useNavigate } from 'react-router-dom';
-import { Firestore, getFirestore } from 'firebase/firestore';
 import { TaxDeclarationStep } from './TaxDeclaration/types/TaxReport/TaxDeclarationStep';
+import emailjs from '@emailjs/browser';
 
 const storage = getStorage();
 
@@ -46,6 +46,7 @@ function FileComponent(props: FileComponentProps) {
     setUpdated,
   } = props;
   const [showDropbox, setShowDropbox] = useState(false);
+  const form  = useRef();
   const { user } = useContext(AppContext) as AppContextType;
   const navigate = useNavigate();
   const handleClick = (item: string) => {
@@ -55,6 +56,26 @@ function FileComponent(props: FileComponentProps) {
       onSelect(item);
     }
   };
+
+
+  const sendFinishedEmail = (clientName: string, e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    
+    emailjs
+      .sendForm(
+        'service_6bjauir',
+        'template_snejz4r',
+        form.current,
+        'umJYlsZZcSc4v8_4L'
+      )
+      .then(() => {
+        alert('Courriel envoyé.');
+      })
+      .catch((err) => {
+        alert('There was an issue.');
+        console.log(err);
+      });
+  }
 
   const handleDownload = async (filePath: string, fileName: string) => {
     const fileRef = ref(storage, filePath);
@@ -182,6 +203,17 @@ function FileComponent(props: FileComponentProps) {
             <MyDropbox handleFileUpload={handleFileUpload} />
           </div>
         )}
+      </div>
+      <div className="p-2 rounded">
+        <form ref={form}>
+        <button
+          className="bg-orange-500 text-white py-2 px-4 rounded"
+          onClick={(e) => sendFinishedEmail(userName, e)}
+        >
+         Cliquez ici pour indiquer la fin de votre déclaration
+        </button>
+        <input type='hidden' name='name' value={userName}></input>
+        </form>
       </div>
     </div>
   );
