@@ -95,7 +95,7 @@ const T4A_RCA = [
   'T4A-RCA',
   "Montant reçu pour des régimes d'accumulation de capital (RAC)",
 ];
-const RELEVE_31 = ['Relevé 31', 'Renseignement sur l’occupation d’un logement']
+const RELEVE_31 = ['Relevé 31', 'Renseignement sur l’occupation d’un logement'];
 
 export function mapTitle(title: string): string {
   switch (title) {
@@ -175,7 +175,7 @@ export default function mapFiles(questionnaire: Questionnaire): Array<string> {
 
   const taxDeductions = taxReport?.taxDeductions;
 
-  if(questionnaire?.contactDetails?.tenant){
+  if (questionnaire?.contactDetails?.tenant) {
     filesArr.push(RELEVE_31[0]);
   }
 
@@ -316,13 +316,22 @@ export default function mapFiles(questionnaire: Questionnaire): Array<string> {
   }
 
   if (!workIncomes?.workedLastYear) {
-    if (workIncomes?.welfareSeniorSupplement && workIncomes?.workerCompensationOrSocialAssistance) {
+    if (
+      workIncomes?.welfareSeniorSupplement &&
+      workIncomes?.workerCompensationOrSocialAssistance
+    ) {
       filesArr.push(T5007_Releve_5[0]);
     }
-    if (workIncomes?.employmentInsuranceOrParentalBenefits && workIncomes?.employmentInsuranceBenefits) {
+    if (
+      workIncomes?.employmentInsuranceOrParentalBenefits &&
+      workIncomes?.employmentInsuranceBenefits
+    ) {
       filesArr.push(T4E_Releve_6[0]);
     }
-    if (workIncomes?.employmentInsuranceOrParentalBenefits && workIncomes?.pensionRetirementAnnuityIncome) {
+    if (
+      workIncomes?.employmentInsuranceOrParentalBenefits &&
+      workIncomes?.pensionRetirementAnnuityIncome
+    ) {
       filesArr.push(T4A_Releve_2_Releve_1[0]);
     }
   }
@@ -648,7 +657,12 @@ function getSelfEmploymentIncomesText(taxReport: TaxReport): Array<TextData> {
 
 function getRentalPropertyIncomesText(taxReport: TaxReport): Array<TextData> {
   const rentalPropertyIncomes = taxReport?.rentalPropertyIncomes;
-  return [['Revenus de location de biens', fromVal(rentalPropertyIncomes)]];
+  return [
+    [
+      'Revenus de location de biens',
+      fromVal(rentalPropertyIncomes?.rentalPropertyIncomes),
+    ],
+  ];
 }
 
 function getOtherIncomesText(taxReport: TaxReport): Array<TextData> {
