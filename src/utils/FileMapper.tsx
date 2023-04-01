@@ -662,6 +662,10 @@ function getRentalPropertyIncomesText(taxReport: TaxReport): Array<TextData> {
       'Revenus de location de biens',
       fromVal(rentalPropertyIncomes?.rentalPropertyIncomes),
     ],
+    [
+      'Nombre de biens locatifs',
+      fromVal(rentalPropertyIncomes?.numberOfRentalPropertyIncomes),
+    ],
   ];
 }
 
