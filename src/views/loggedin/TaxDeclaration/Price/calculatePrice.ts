@@ -68,7 +68,7 @@ function calculateClientPrice(taxReport: TaxReport, clientType: ClientTypeEnum) 
       i <= taxReport?.rentalPropertyIncomes?.numberOfRentalPropertyIncomes;
       i++
     ) {
-      totalPrice += 35;
+      totalPrice += 45;
     }
   }
   if (taxReport?.otherIncomes?.otherIncomes) {
