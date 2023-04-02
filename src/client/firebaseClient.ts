@@ -267,6 +267,31 @@ export const removeFileFromStorage = async (
   });
 };
 
+export const writeCompletedCurrentYear = async(
+    userName: string,
+    userId: string
+): Promise<void> => {
+  const objToSet = {}
+  objToSet['userName'] = userName;
+  objToSet[new Date().getFullYear() - 1] = true;
+  
+  await setDoc(doc(db, 'FinishedDeclaration', userId + '-' + userName), 
+   objToSet,
+   {merge: true} )
+}
+
+export const getCompletedCurrentYear = async(
+  userName: string,
+  userId: string
+): Promise<boolean> => {
+  const returnedDoc = await getDoc(doc(db, 'FinishedDeclaration', userId + '-' + userName));
+  if (returnedDoc?.data()) {
+    return returnedDoc?.data()[new Date().getFullYear () -1];
+  }
+  
+  return false;
+}
+
 export const fetchFilesPerUserFromGivenEmail = async (
   userEmail: string
 ): Promise<Map<string, Array<string>>> => {

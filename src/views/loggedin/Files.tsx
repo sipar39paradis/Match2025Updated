@@ -17,8 +17,10 @@ import {
   fetchFilesPerUserFromGivenEmail,
   removeExistingfile,
   getUserInfo,
+  writeCompletedCurrentYear,
+  getCompletedCurrentYear,
 } from '../../client/firebaseClient';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useRevalidator } from 'react-router-dom';
 import { TaxDeclarationStep } from './TaxDeclaration/types/TaxReport/TaxDeclarationStep';
 import emailjs from '@emailjs/browser';
 
@@ -56,25 +58,34 @@ function FileComponent(props: FileComponentProps) {
       onSelect(item);
     }
   };
+  const [finishedDeclaration, setFinishedDeclaration] = useState(false);
 
+  useEffect(() => {
+    getCompletedCurrentYear(userName, user?.uid).then((res) => {
+      setFinishedDeclaration(res)
+    })
+  }, [form])
 
   const sendFinishedEmail = (clientName: string, e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
-    emailjs
+
+    writeCompletedCurrentYear(userName, user?.uid).then(() => {
+      emailjs
       .sendForm(
         'service_6bjauir',
         'template_snejz4r',
         form.current,
         'umJYlsZZcSc4v8_4L'
-      )
+      ) 
       .then(() => {
+        setFinishedDeclaration(true);
         alert('Courriel envoyé.');
       })
       .catch((err) => {
         alert('There was an issue.');
         console.log(err);
       });
+    });
   }
 
   const handleDownload = async (filePath: string, fileName: string) => {
@@ -206,12 +217,20 @@ function FileComponent(props: FileComponentProps) {
       </div>
       <div className="p-2 rounded">
         <form ref={form}>
+        {!finishedDeclaration ? 
         <button
           className="bg-orange-500 text-white py-2 px-4 rounded"
           onClick={(e) => sendFinishedEmail(userName, e)}
         >
-         Cliquez ici pour indiquer la fin de votre déclaration
-        </button>
+         Cliquez ici pour soumettre vos documents à notre équipe
+        </button> : 
+          <button
+            disabled
+            className="bg-green-500 text-white py-2 px-4 rounded"
+          >
+            Vos documents ont été soumis
+          </button>
+        }
         <input type='hidden' name='name' value={userName?.replace('_', ' ')}></input>
         <input type='hidden' name='email' value={user?.email}></input>
         </form>
