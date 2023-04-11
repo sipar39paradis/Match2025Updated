@@ -84,11 +84,9 @@ function ExistingFileNameComponent(props: ExistingFileNameComponentProps) {
   const handleDelete = () => {
     if (confirm('Êtes-vous sûr(e) de vouloir supprimer ce fichier ?')) {
       const newRequiredFiles = [...requiredFiles, fileName];
-      const updatedExistingFiles = existingFiles.filter(
-        (file) => {
-          return file !== fileName;
-        }
-      );
+      const updatedExistingFiles = existingFiles.filter((file) => {
+        return file !== fileName;
+      });
       setExistingFiles(updatedExistingFiles);
       setReqFiles(newRequiredFiles);
       removeExistingfile(fileName, userId, personalInformation);
@@ -170,13 +168,15 @@ function IndividualFileUpload(props: FileUploadProps) {
       formData?.personalInformations,
       fileName,
       userId
-    ).then((res) => {
-      removeRequiredfile(fileName, userId);
-      appendExistingFiles(fileName, userId);
-      setHidden(!hidden);
-    }).catch((err) =>{
-      console.log('Error uploading file.')
-    });
+    )
+      .then((res) => {
+        removeRequiredfile(fileName, userId);
+        appendExistingFiles(fileName, userId);
+        setHidden(!hidden);
+      })
+      .catch((err) => {
+        console.log('Error uploading file.');
+      });
   }, []);
 
   return (
@@ -304,7 +304,7 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
         {!idIsFirst() && (
           <input
             type="submit"
-            value="Précédant"
+            value="Précédent"
             onClick={() => {
               navigate(
                 `/questionnaire/${

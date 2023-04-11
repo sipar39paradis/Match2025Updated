@@ -196,7 +196,7 @@ export function CivilStatusChangeForm() {
           <div className="w-full flex justify-between mt-4">
             <input
               type="submit"
-              value="Précédant"
+              value="Précédent"
               onClick={() => {
                 saveFormAnswers;
                 if (formData.clientType === ClientTypeEnum.MAIN_CLIENT) {

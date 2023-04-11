@@ -172,7 +172,7 @@ export function CivilStatusForm() {
             />
             <input
               type="submit"
-              value="Précédant"
+              value="Précédent"
               onClick={() => {
                 saveFormAnswers();
                 setSearchParams({

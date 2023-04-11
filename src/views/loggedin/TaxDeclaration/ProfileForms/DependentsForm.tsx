@@ -632,7 +632,7 @@ export function DependentsForm() {
           <div className="w-full flex justify-between mt-4">
             <input
               type="submit"
-              value="Précédant"
+              value="Précédent"
               onClick={() =>
                 setSearchParams({
                   step: TaxDeclarationStep.CONTACT_DETAILS,

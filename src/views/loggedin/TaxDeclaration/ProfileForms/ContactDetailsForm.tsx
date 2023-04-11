@@ -350,7 +350,7 @@ export function ContactDetailsForm() {
           <div className="w-full flex justify-between mt-4">
             <input
               type="submit"
-              value="Précédant"
+              value="Précédent"
               onClick={() => {
                 saveContactDetails();
                 setSearchParams({
