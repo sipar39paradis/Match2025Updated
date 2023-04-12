@@ -237,7 +237,7 @@ export function TaxDeclarationFileUpload(props: TaxDeclarationFileUploadProps) {
     if (idIsLast()) {
       questionnaires?.forEach((value, id) => {
         uploadTaxReportPdfToStorage(
-          getPDFTaxReport(formData?.taxReport, value?.personalInformations),
+          getPDFTaxReport(formData, formData?.taxReport),
           value?.personalInformations
         );
       });

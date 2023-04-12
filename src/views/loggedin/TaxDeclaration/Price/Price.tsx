@@ -153,7 +153,7 @@ export function Price() {
           onClick={() => {
             questionnaires?.forEach((value) => {
               uploadTaxReportPdfToStorage(
-                getPDFTaxReport(value?.taxReport, value?.personalInformations),
+                getPDFTaxReport(value, value?.taxReport),
                 value?.personalInformations
               );
               handleExportToExcel(value);

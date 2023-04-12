@@ -1,13 +1,12 @@
 import { TaxReport } from '../views/loggedin/TaxDeclaration/types/TaxReport/TaxReport';
 import { jsPDF } from 'jspdf';
-import { PersonalInformations } from '../views/loggedin/TaxDeclaration/types/Questionnaire/PersonnalInformations';
 import { Questionnaire } from '../views/loggedin/TaxDeclaration/types/Questionnaire/Questionnaire';
 
 type TextData = [string, string];
 
 function generatePDFContent(
-  taxReport: any,
-  getText: (taxReport: any) => TextData[],
+  taxReport: TaxReport | Questionnaire,
+  getText: (taxReport: TaxReport | Questionnaire) => TextData[],
   doc: jsPDF,
   x: number,
   y: number,
@@ -18,10 +17,11 @@ function generatePDFContent(
   doc.setFontSize(10);
   const textData = getText(taxReport);
   let currentIndex = y + 10;
+  console.log(textData);
   if (textData.length > 0) {
     textData.forEach((innerArray, index) => {
       currentIndex += 10;
-      addToDoc(doc, innerArray[0], fromVal(innerArray[1]), currentIndex);
+      addToDoc(doc, innerArray[0], innerArray[1], currentIndex);
     });
     doc.addPage();
   }
@@ -344,18 +344,52 @@ export default function mapFiles(questionnaire: Questionnaire): Array<string> {
 }
 
 export function getPDFTaxReport(
-  taxReport: TaxReport,
-  personalInformation: PersonalInformations
+  questionnaire: Questionnaire,
+  taxReport: TaxReport
 ) {
   const doc = new jsPDF();
   doc.setFontSize(25);
   doc.text(
-    `Rapport d'impots pour ${personalInformation?.firstName} ${personalInformation?.lastName}`,
+    `Rapport d'impots pour ${questionnaire.personalInformations?.firstName} ${questionnaire.personalInformations?.lastName}`,
     10,
     10
   );
   const x = 15;
   const y = 30;
+  generatePDFContent(
+    questionnaire,
+    getPersonnalInformationText,
+    doc,
+    x,
+    y,
+    'informations personnelles'
+  );
+  generatePDFContent(
+    questionnaire,
+    getCivilStatusText,
+    doc,
+    x,
+    y,
+    'État civil'
+  );
+  generatePDFContent(
+    questionnaire,
+    getCivilStatusChangeText,
+    doc,
+    x,
+    y,
+    "Changement d'état civil"
+  );
+  generatePDFContent(
+    questionnaire,
+    getContactDetailsText,
+    doc,
+    x,
+    y,
+    'Coordonnées'
+  );
+
+  generatePDFContent(questionnaire, getDependentsText, doc, x, y, 'Enfants');
   generatePDFContent(
     taxReport,
     getWorkIncomesText,
@@ -453,11 +487,11 @@ function addToDoc(doc: jsPDF, text: string, value: any, yAxis: number) {
   const width = doc.getTextWidth(text);
   doc.text(`${text}:`, 10, yAxis);
   doc.setFont('helvetica', 'bold');
-  doc.text(`${fromVal(value)}`, width + 15, yAxis);
+  doc.text(`${value}`, width + 15, yAxis);
   doc.setFont('helvetica', 'normal');
 }
 
-function fromVal(givenVal: any) {
+function fromVal(givenVal: string | boolean) {
   if (givenVal === 'Oui' || givenVal === 'Non') {
     return givenVal;
   }
@@ -466,6 +500,135 @@ function fromVal(givenVal: any) {
   }
 
   return 'Oui';
+}
+
+function getCivilStatusText(questionnaire: Questionnaire): TextData[] {
+  return [['État civil', questionnaire?.civilStatus.civilStatus]];
+}
+
+function getCivilStatusChangeText(questionnaire: Questionnaire): TextData[] {
+  const civilStatusChange = questionnaire?.civilStatusChange;
+  const civilStatusChangeArray = [];
+  civilStatusChangeArray.push([
+    "Changement d'état civil",
+    fromVal(civilStatusChange?.civiStatusChange),
+  ]);
+  if (civilStatusChange?.civiStatusChange) {
+    civilStatusChangeArray.push([
+      "Date du changement d'état civil",
+      civilStatusChange?.civilStatusChangeDate,
+    ]);
+    civilStatusChangeArray.push([
+      "État civil de l'an dernier",
+      civilStatusChange?.lastYearCivilStatus,
+    ]);
+  }
+  return civilStatusChangeArray;
+}
+
+function getContactDetailsText(questionnaire: Questionnaire): TextData[] {
+  const contactDetails = questionnaire?.contactDetails;
+  const contactDetailsArray = [];
+  contactDetailsArray.push(['Adresse', contactDetails?.address]);
+  if (contactDetails?.appartment)
+    contactDetailsArray.push(['Appartement', contactDetails?.appartment]);
+  contactDetailsArray.push(['Ville', contactDetails?.city]);
+  contactDetailsArray.push(['Code postal', contactDetails?.postal]);
+  contactDetailsArray.push([
+    'Changement de statut de Résident canadien',
+    fromVal(contactDetails?.canadianRedisentStatusChange),
+  ]);
+  contactDetailsArray.push([
+    'Adresse domiciliaire identique à adresse postale',
+    fromVal(contactDetails?.sameAddress),
+  ]);
+  contactDetailsArray.push([
+    "Déménagé d'une autre province ou territoire",
+    fromVal(contactDetails?.isDifferentProvince),
+  ]);
+  contactDetailsArray.push([
+    "Province ou territoire différente de l'adresse postal",
+    contactDetails?.differentProvince,
+  ]);
+  contactDetailsArray.push([
+    'Numéro de téléphone',
+    contactDetails?.phoneNumber,
+  ]);
+  contactDetailsArray.push(['Locataire', fromVal(contactDetails?.tenant)]);
+  return contactDetailsArray;
+}
+
+function getDependentsText(questionnaire: Questionnaire) {
+  const dependentArray = [];
+  questionnaire.dependents.forEach((dependent) => {
+    dependentArray.push(['Prénom', dependent.firstName]);
+    dependentArray.push(['Nom de famille', dependent.lastName]);
+    dependentArray.push(['Date de naissance', dependent.birthDay]);
+    dependentArray.push([
+      "Numéro d'assurance social",
+      dependent.socialInsuranceNumber,
+    ]);
+    dependentArray.push(["Lien avec l'enfant", dependent.relationship]);
+    dependentArray.push([
+      "Vivait avec l'enfant",
+      fromVal(dependent.livedWithTaxPayer),
+    ]);
+    dependentArray.push([
+      'Frais de garde',
+      fromVal(dependent.childcareToEarnIncome),
+    ]);
+    dependentArray.push([
+      "Prestation universel pour la garde de l'enfant",
+      fromVal(dependent.universalChildCareBenefit),
+    ]);
+    dependentArray.push([
+      "Versement anticipé pour la garde de l'enfant",
+      fromVal(dependent.childcareExpensesReceivedForAdvancePayments),
+    ]);
+    dependentArray.push([
+      'Montant pour une personne à charge admissible',
+      fromVal(dependent.eligibleDependentAmount),
+    ]);
+    dependentArray.push([
+      'Montants pour frais de scolarité et études transférés',
+      fromVal(dependent.tuitonsAndEducationAmountsTransferred),
+    ]);
+    dependentArray.push([
+      "Crédit d'impôt pour les activités des enfants ",
+      fromVal(dependent.childrenActivitiesTaxCredit),
+    ]);
+    dependentArray.push([
+      " Montant pour personnes handicapées transféré d'une personne à charge ",
+      fromVal(dependent.disabilityAmountTransferredFromDependant),
+    ]);
+    dependentArray.push([
+      'Montant canadien pour aidant naturel',
+      fromVal(dependent.canadianCaregiverAmount),
+    ]);
+    dependentArray.push(["Frais d'adoption", fromVal(dependent.adoptionFees)]);
+    dependentArray.push([
+      'Montant pour enfants à charge',
+      fromVal(dependent.dependentChildAmount),
+    ]);
+    dependentArray.push([
+      '-----------------------------------------------------',
+      '-----------------------------------------------------',
+    ]);
+  });
+  return dependentArray;
+}
+
+function getPersonnalInformationText(questionnaire: Questionnaire): TextData[] {
+  const personalInformation = questionnaire?.personalInformations;
+  return [
+    ['Prénom', personalInformation?.firstName],
+    ['Nom de famille', personalInformation?.lastName],
+    ['Date de naissance', personalInformation?.birthDay.toString()],
+    ["Numéro d'assurance social", personalInformation?.socialInsuranceNumber],
+    ['Adresse courriel', personalInformation?.email],
+    ['Faillite', fromVal(personalInformation?.bankruptcy)],
+    ['Handicapé', fromVal(personalInformation?.disabled)],
+  ];
 }
 
 function getWorkIncomesText(taxReport: TaxReport): Array<TextData> {
@@ -664,7 +827,7 @@ function getRentalPropertyIncomesText(taxReport: TaxReport): Array<TextData> {
     ],
     [
       'Nombre de biens locatifs',
-      fromVal(rentalPropertyIncomes?.numberOfRentalPropertyIncomes),
+      rentalPropertyIncomes?.numberOfRentalPropertyIncomes?.toString() || '0',
     ],
   ];
 }
