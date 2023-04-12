@@ -561,54 +561,54 @@ function getContactDetailsText(questionnaire: Questionnaire): TextData[] {
 function getDependentsText(questionnaire: Questionnaire) {
   const dependentArray = [];
   questionnaire.dependents.forEach((dependent) => {
-    dependentArray.push(['Prénom', dependent.firstName]);
-    dependentArray.push(['Nom de famille', dependent.lastName]);
-    dependentArray.push(['Date de naissance', dependent.birthDay]);
+    dependentArray.push(['Prénom', dependent?.firstName]);
+    dependentArray.push(['Nom de famille', dependent?.lastName]);
+    dependentArray.push(['Date de naissance', dependent?.birthDay]);
     dependentArray.push([
       "Numéro d'assurance social",
-      dependent.socialInsuranceNumber,
+      dependent?.socialInsuranceNumber,
     ]);
-    dependentArray.push(["Lien avec l'enfant", dependent.relationship]);
+    dependentArray.push(["Lien avec l'enfant", dependent?.relationship]);
     dependentArray.push([
       "Vivait avec l'enfant",
-      fromVal(dependent.livedWithTaxPayer),
+      fromVal(dependent?.livedWithTaxPayer),
     ]);
     dependentArray.push([
       'Frais de garde',
-      fromVal(dependent.childcareToEarnIncome),
+      fromVal(dependent?.childcareToEarnIncome),
     ]);
     dependentArray.push([
       "Prestation universel pour la garde de l'enfant",
-      fromVal(dependent.universalChildCareBenefit),
+      fromVal(dependent?.universalChildCareBenefit),
     ]);
     dependentArray.push([
       "Versement anticipé pour la garde de l'enfant",
-      fromVal(dependent.childcareExpensesReceivedForAdvancePayments),
+      fromVal(dependent?.childcareExpensesReceivedForAdvancePayments),
     ]);
     dependentArray.push([
       'Montant pour une personne à charge admissible',
-      fromVal(dependent.eligibleDependentAmount),
+      fromVal(dependent?.eligibleDependentAmount),
     ]);
     dependentArray.push([
       'Montants pour frais de scolarité et études transférés',
-      fromVal(dependent.tuitonsAndEducationAmountsTransferred),
+      fromVal(dependent?.tuitonsAndEducationAmountsTransferred),
     ]);
     dependentArray.push([
       "Crédit d'impôt pour les activités des enfants ",
-      fromVal(dependent.childrenActivitiesTaxCredit),
+      fromVal(dependent?.childrenActivitiesTaxCredit),
     ]);
     dependentArray.push([
       " Montant pour personnes handicapées transféré d'une personne à charge ",
-      fromVal(dependent.disabilityAmountTransferredFromDependant),
+      fromVal(dependent?.disabilityAmountTransferredFromDependant),
     ]);
     dependentArray.push([
       'Montant canadien pour aidant naturel',
-      fromVal(dependent.canadianCaregiverAmount),
+      fromVal(dependent?.canadianCaregiverAmount),
     ]);
-    dependentArray.push(["Frais d'adoption", fromVal(dependent.adoptionFees)]);
+    dependentArray.push(["Frais d'adoption", fromVal(dependent?.adoptionFees)]);
     dependentArray.push([
       'Montant pour enfants à charge',
-      fromVal(dependent.dependentChildAmount),
+      fromVal(dependent?.dependentChildAmount),
     ]);
     dependentArray.push([
       '-----------------------------------------------------',
