@@ -110,7 +110,7 @@ function FileComponent(props: FileComponentProps) {
     const newFiles = [];
     acceptedFiles?.forEach((file) => {
       const fileNameWithPrefix = 'Autre_fichier_' + file?.name;
-      uploadFileToStorage(fileNameWithPrefix, acceptedFiles[0], info);
+      uploadFileToStorage(fileNameWithPrefix, file, info);
       newFiles.push(
         'customerData/' +
           user?.email +
