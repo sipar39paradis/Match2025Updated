@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { AppContext, AppContextType } from '../../../context/AppContext';
-import { ReactComponent as GoogleIcon } from '../../../icons/GoogleIcon.svg';
-import { AuthButton } from '../AuthButton';
 import { useForm } from 'react-hook-form';
 import { AuthModalEnum } from '../AuthModal';
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +22,7 @@ export function SignInModalBody({
   setVerificationId,
   setResolver,
 }: SignInModalBodyProps) {
-  const { signInWithGoogle, signIn } = useContext(AppContext) as AppContextType;
+  const { signIn } = useContext(AppContext) as AppContextType;
   const navigate = useNavigate();
 
   const {
@@ -33,9 +31,6 @@ export function SignInModalBody({
     formState: { errors },
   } = useForm<signInData>();
   const onSubmit = async (data: signInData) => {
-    // const res = await signIn(data.email, data.password);
-    // res ? setAuthError(res) : closeModal(false);
-
     const [resolvedId, resolver, err] = await signIn(data.email, data.password);
 
     if (resolver) {
@@ -124,36 +119,6 @@ export function SignInModalBody({
           </a>
         </div>
       </form>
-      <div className="relative flex py-5 px-2 items-center">
-        <div className="flex-grow border-t border-gray-400"></div>
-        <span className="flex-shrink mx-4 text-gray-400">ou</span>
-        <div className="flex-grow border-t border-gray-400"></div>
-      </div>
-
-      <div className="px-8 mb-3">
-        <AuthButton
-          Icon={GoogleIcon}
-          onClick={async () => {
-            const [resolvedId, resolver, err] = await signInWithGoogle();
-
-            if (resolver) {
-              setVerificationId(resolvedId);
-              setResolver(resolver);
-            } else if (err) {
-              if (err === 'No Two Factor') {
-                switchModal(AuthModalEnum.TwoFactor);
-                navigate('/profile');
-              }
-              setAuthError(err);
-            } else {
-              closeModal(false);
-              navigate('/profile');
-            }
-          }}
-          text="Continuez avec Google"
-          id="google-login"
-        ></AuthButton>
-      </div>
 
       <div className="flex flex-row items-center justify-center mb-8">
         <div className="mr-2">Vous n&apos;avez pas de compte?</div>

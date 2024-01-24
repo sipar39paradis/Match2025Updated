@@ -98,7 +98,8 @@ export function TaxDeductionsForm() {
                   />
                   <p>
                     J&apos;ai versé des cotisations au REER entre mars{' '}
-                    {new Date().getFullYear() - 1} et février 2023
+                    {new Date().getFullYear() - 1} et février{' '}
+                    {new Date().getFullYear()}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">
@@ -136,7 +137,8 @@ export function TaxDeductionsForm() {
                   <p>
                     J&apos;ai versé ou mon employeur a versé des cotisations au
                     RPAC en mon nom, entre janvier{' '}
-                    {new Date().getFullYear() - 1} et mars 2023
+                    {new Date().getFullYear() - 1} et mars{' '}
+                    {new Date().getFullYear()}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 py-2">

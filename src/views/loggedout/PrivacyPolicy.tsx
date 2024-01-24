@@ -257,7 +257,7 @@ export function PrivacyPolicy() {
                     navigate('/profile');
                   } else {
                     setErr(err);
-                    setModalToDisplay(AuthModalEnum.SignUpWithEmail);
+                    setModalToDisplay(AuthModalEnum.SignUp);
                     setShowModal(true);
                   }
                 } else {

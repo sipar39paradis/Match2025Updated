@@ -49,12 +49,6 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
             <h3 className="text-xl font-semibold pb-10 w-5/6">
               Entrez le code de vérification envoyé sur votre téléphone
             </h3>
-            {/* <button
-              className="flex items-center justify-center h-8 w-8 text-black float-right text-2xl absolute top-2 right-2"
-              onClick={() => closeModal(false)}
-            >
-              ×
-            </button> */}
 
             <form className="flex flex-col gap-4">
               <div>
