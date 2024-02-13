@@ -10,7 +10,7 @@ export function Support() {
 
     emailjs
       .sendForm(
-        'service_6bjauir',
+        'service_6rfchdo',
         'template_q6vh61j',
         form.current,
         'umJYlsZZcSc4v8_4L'
