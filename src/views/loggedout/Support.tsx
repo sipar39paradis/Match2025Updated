@@ -44,6 +44,9 @@ export function Support() {
                       Notre équipe de professionnels ce fera un plaisir de
                       répondre à vos questions
                     </p>
+                    <p className="text-base text-dark-text mt-5">
+                      Ou appelez-nous au 418-575-4300.
+                    </p>
                   </div>
                 </div>
               </div>
