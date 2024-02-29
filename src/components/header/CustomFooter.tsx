@@ -8,7 +8,7 @@ import logoCpa from '../../images/logo/logo-cpa.png';
 export function CustomFooter() {
   const navigate = useNavigate();
   return (
-    <Footer container={true}>
+    <Footer container={true} className="sticky bottom-0">
       <Footer.Copyright by="Impôts Match" year={new Date().getFullYear()} />
       <Footer.LinkGroup>
         <a
