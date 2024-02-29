@@ -149,8 +149,9 @@ export function Price() {
         />
         <input
           type="submit"
-          value="Accepter et déposer les fichiers"
+          value="Accepter ce prix et continuer"
           onClick={() => {
+            // We removed the file drop section for now
             questionnaires?.forEach((value) => {
               uploadTaxReportPdfToStorage(
                 getPDFTaxReport(value, value?.taxReport),
@@ -159,7 +160,7 @@ export function Price() {
               handleExportToExcel(value);
             });
             setSearchParams({
-              step: TaxDeclarationStep.UPLOAD_FILES,
+              step: TaxDeclarationStep.CONTACT_US,
             });
           }}
           className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-pointer w-full text-sm md:w-fit md:text-base"

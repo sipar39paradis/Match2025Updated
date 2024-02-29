@@ -21,6 +21,7 @@ import {
   QuestionnaireContextType,
 } from './context/QuestionnaireContext';
 import { Price } from './Price/Price';
+import { ContactUs } from './ContactUs/ContactUs';
 
 export const TAX_DECLARATION_STEP = 'step';
 
@@ -125,6 +126,8 @@ export function QuestionnaireHandler() {
         return <DeductionsAndTaxCreditsForm></DeductionsAndTaxCreditsForm>;
       case TaxDeclarationStep.PRICE:
         return <Price></Price>;
+      case TaxDeclarationStep.CONTACT_US:
+        return <ContactUs></ContactUs>;
       case TaxDeclarationStep.UPLOAD_FILES:
         return <TaxDeclarationFileUpload />;
       case TaxDeclarationStep.REVIEW:
@@ -138,6 +141,7 @@ export function QuestionnaireHandler() {
     <div className="flex p-8 bg-orange-50 min-h-screen flex-col items-center">
       <div className="w-full lg:w-[800px] flex flex-row">
         {currentStep !== TaxDeclarationStep.PRICE &&
+          currentStep !== TaxDeclarationStep.CONTACT_US &&
           currentStep !== TaxDeclarationStep.REVIEW &&
           clientTabs.map((tab) => (
             <div
