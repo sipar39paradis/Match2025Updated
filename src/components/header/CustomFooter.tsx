@@ -3,6 +3,7 @@ import React from 'react';
 
 import { Footer } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
+import logoCpa from '../../images/logo/logo-cpa.png';
 
 export function CustomFooter() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ export function CustomFooter() {
           {'Politique de Confidentialité'}
         </a>
       </Footer.LinkGroup>
+      <Footer.Brand href="https://flowbite.com" src={logoCpa} />
     </Footer>
   );
 }
