@@ -13,6 +13,7 @@ import { Preparator } from './views/loggedout/Preparator';
 import { PrivacyPolicy } from './views/loggedout/PrivacyPolicy';
 import { UserConditions } from './views/loggedout/UserConditions';
 import { NotFound } from './views/NotFound';
+import { LandingPageSim } from './views/loggedout/LandingPageSim';
 
 export function AppRoutes() {
   const { user } = useContext(AppContext) as AppContextType;
@@ -37,6 +38,7 @@ export function AppRoutes() {
       <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/404" element={<NotFound />} />
+      <Route path="/landing" element={<LandingPageSim />} />
     </Routes>
   );
 }
