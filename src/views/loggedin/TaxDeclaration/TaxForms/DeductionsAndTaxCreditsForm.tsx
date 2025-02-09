@@ -7,7 +7,6 @@ import { DonationsForm } from './DonationsForm';
 import { MovingExpensesForm } from './MovingExpensesForm';
 import { OtherDeductionsForm } from './OtherDeductionsForm';
 import { SoldMainHomeForm } from './SoldMainHome';
-import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 import {
   QuestionnaireContext,
@@ -123,7 +122,7 @@ export function DeductionsAndTaxCreditsForm() {
   return (
     <section className="flex flex-col align-baseline items-start w-full">
       <h1>Déductions et Crédits d’impôts </h1>
-      <Fade>
+      <div>
         <form
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start mt-4 w-full"
@@ -277,7 +276,7 @@ export function DeductionsAndTaxCreditsForm() {
             />
           </div>
         </form>
-      </Fade>
+      </div>
     </section>
   );
 }

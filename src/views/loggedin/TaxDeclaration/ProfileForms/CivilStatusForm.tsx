@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
 import { CivilStatusEnum } from '../types/Questionnaire/CivilStatusEnum';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
-import Fade from 'react-reveal';
 import {
   QuestionnaireContext,
   QuestionnaireContextType,
@@ -24,7 +23,7 @@ export function CivilStatusForm() {
   }
 
   return (
-    <Fade>
+    <div>
       <section className="flex flex-col items-start w-full">
         <h1>Quel est votre état civil</h1>
         <h2>Le 31 décembre {new Date().getFullYear() - 1} vous étiez : </h2>
@@ -184,6 +183,6 @@ export function CivilStatusForm() {
           </div>
         </form>
       </section>
-    </Fade>
+    </div>
   );
 }

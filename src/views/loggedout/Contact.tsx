@@ -1,5 +1,4 @@
 import React from 'react';
-import Fade from 'react-reveal';
 import { useNavigate } from 'react-router-dom';
 
 export function Contact() {
@@ -7,7 +6,7 @@ export function Contact() {
 
   return (
     <section id="cta" className="pt-14 sm:pt-20 lg:pt-[130px]">
-      <Fade top cascade>
+      <div>
         <div className="px-4 xl:container m-auto">
           <div
             className="wow fadeInUp relative overflow-hidden bg-cover bg-center py-[60px] px-10 drop-shadow-light dark:drop-shadow-none sm:px-[70px]"
@@ -97,7 +96,7 @@ export function Contact() {
             </div>
           </div>
         </div>
-      </Fade>
+      </div>
     </section>
   );
 }

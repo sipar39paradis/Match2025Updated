@@ -1,7 +1,6 @@
 import { Button } from 'flowbite-react';
 import React from 'react';
 import { HiOutlineArrowRight } from 'react-icons/hi';
-import Fade from 'react-reveal';
 
 export function Home() {
   return (
@@ -13,7 +12,7 @@ export function Home() {
         <div className="px-4 xl:container m-auto">
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-3 lg:w-1/2">
-              <Fade bottom cascade>
+              <div>
                 <div className="mx-auto mb-12 max-w-[530px] text-center lg:ml-0 lg:mb-0 lg:text-left">
                   <span className="mb-8 hidden lg:inline-block rounded-full bg-orange-500 bg-opacity-5 py-[10px] px-5 font-heading text-base text-orange-500 dark:bg-white dark:bg-opacity-10 dark:text-white">
                     <span className="mr-2 inline-block h-2 w-2 rounded-full bg-orange-500"></span>
@@ -39,10 +38,10 @@ export function Home() {
                     </Button>
                   </div>
                 </div>
-              </Fade>
+              </div>
             </div>
             <div className="w-full px-4 lg:w-1/2">
-              <Fade right>
+              <div>
                 <div className="relative z-30 mx-auto h-[360px] md:h-[560px] w-full max-w-[700px] lg:ml-0">
                   <div className="absolute top-0 right-0 lg:w-11/12">
                     <img
@@ -60,7 +59,7 @@ export function Home() {
                     <div className="absolute -top-6 -right-6 -z-10 h-full w-full border border-orange-500 border-opacity-10 bg-orange-500 bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10 rounded-md"></div>
                   </div>
                 </div>
-              </Fade>
+              </div>
             </div>
           </div>
         </div>

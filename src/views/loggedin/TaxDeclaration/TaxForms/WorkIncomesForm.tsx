@@ -1,4 +1,4 @@
-import { Checkbox } from 'flowbite-react/lib/esm/components/FormControls';
+import { Checkbox } from 'flowbite-react';
 import React, { useContext } from 'react';
 import { Controller } from 'react-hook-form';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';

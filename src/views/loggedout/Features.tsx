@@ -1,5 +1,4 @@
 import React from 'react';
-import Fade from 'react-reveal';
 import { ReactComponent as UserCircle } from '../../icons/UserCircle.svg';
 import { ReactComponent as ClipboardDocument } from '../../icons/ClipboardDocument.svg';
 import { ReactComponent as DollarSign } from '../../icons/DollarSign.svg';
@@ -13,14 +12,14 @@ export function Features() {
     <section id="features" className={'pt-14 sm:pt-20 lg:pt-[130px]'}>
       <div className="px-4 xl:container m-auto">
         {/* <!-- Section Title --> */}
-        <Fade top>
+        <div>
           <div className="relative flex flex-col gap-2 w-full mb-12 pt-6 text-center md:mb-20 lg:pt-16 items-center">
             <h2 className="mb-5 font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px] w-full">
               Découvrez comment utiliser notre service
             </h2>
           </div>
-        </Fade>
-        <Fade bottom cascade>
+        </div>
+        <div>
           <div className="-mx-4 flex flex-wrap md:flex-nowrap lg:flex-wrap justify-center items-center">
             <div className="w-full px-4 md:w-1/2 lg:w-1/5">
               <div className="group mx-auto max-w-[380px] text-center md:">
@@ -129,7 +128,7 @@ export function Features() {
               </div>
             </div>
           </div>
-        </Fade>
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
-import Fade from 'react-reveal';
 import { WorkIncomesForm } from './WorkIncomesForm';
 import { RetirementIncomesForm } from './RetirementIncomeForm';
 import { InvestmentIncomeForm as InvestmentIncomeForm } from './InvestmentIncomeForm';
@@ -26,7 +25,7 @@ export function IncomesForm() {
   return (
     <section className="flex flex-col align-baseline items-start w-full">
       <h1>Revenus {new Date().getFullYear() - 1} </h1>
-      <Fade>
+      <div>
         <form
           onSubmit={handleSubmit(onSubmitButton)}
           className="flex flex-col items-start mt-4 w-full"
@@ -57,7 +56,7 @@ export function IncomesForm() {
             />
           </div>
         </form>
-      </Fade>
+      </div>
     </section>
   );
 }

@@ -1,10 +1,9 @@
-import { Select } from 'flowbite-react/lib/esm/components/FormControls';
+import { Select } from 'flowbite-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
-import Fade from 'react-reveal';
 import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
 import {
   QuestionnaireContext,
@@ -43,7 +42,7 @@ export function CivilStatusChangeForm() {
   };
 
   return (
-    <Fade>
+    <div>
       <section className="flex flex-col align-baseline items-start w-full">
         <h1>
           Changements d&apos;état civil depuis le 31 décembre{' '}
@@ -217,6 +216,6 @@ export function CivilStatusChangeForm() {
           </div>
         </form>
       </section>
-    </Fade>
+    </div>
   );
 }

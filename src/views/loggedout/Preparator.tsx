@@ -1,17 +1,17 @@
-import Fade from 'react-reveal';
+
 import React from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 
 export function Preparator() {
   return (
     <section className="relative z-40 overflow-hidden pb-24 sm:pt-36 lg:pt-[170px] lg:pb-[240px] lg:px-48  px-5">
-      <Fade top>
+      <div>
         <h1 className="text-3xl">
           Être un préparateur partenaire Impôts Match c’est...
         </h1>
-      </Fade>
+      </div>
       <div className="grid lg:grid-cols-2 grid-cols-1 gap-8">
-        <Fade left cascade>
+        <div>
           <ul className="space-y-1 list-disc dark:text-gray-400 mt-12">
             <li className="py-2">
               <p className="font-semibold">Faire votre propre horaire</p>
@@ -52,14 +52,14 @@ export function Preparator() {
               </p>
             </li>
           </ul>
-        </Fade>
-        <Fade right>
+        </div>
+        <div>
           <img
             className="h-[450px] object-cover w-[450px] ml-16 hidden lg:block rounded-md"
             src={require('../../images/prepator/preparator-2.jpg')}
             alt="hero-image"
           />
-        </Fade>
+        </div>
       </div>
     </section>
   );

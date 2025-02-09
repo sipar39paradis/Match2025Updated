@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
 import Datepicker from 'react-tailwindcss-datepicker';
-import Fade from 'react-reveal';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { Controller } from 'react-hook-form';
 import { ClientTypeEnum } from '../types/Questionnaire/Questionnaire';
@@ -63,7 +62,7 @@ export function PersonnalInformationsForm() {
   }
 
   return (
-    <Fade>
+    <div>
       <section className="flex flex-col align-baseline items-start w-full">
         {formData.clientType === ClientTypeEnum.PARTNER ? (
           <h1>Renseignements personnels du conjoint</h1>
@@ -246,6 +245,6 @@ export function PersonnalInformationsForm() {
           </div>
         </form>
       </section>
-    </Fade>
+    </div>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import Fade from 'react-reveal';
 import emailjs from '@emailjs/browser';
 
 export function Support() {
@@ -26,7 +25,7 @@ export function Support() {
 
   return (
     <section id="support" className="pt-14 sm:pt-20 lg:pt-[130px]">
-      <Fade top cascade>
+      <div>
         <div className="px-4 xl:container m-auto">
           <div className="-mx-4 flex flex-wrap justify-center">
             <div className="w-full px-4 xl:w-10/12">
@@ -153,7 +152,7 @@ export function Support() {
             </form>
           </div>
         </div>
-      </Fade>
+      </div>
     </section>
   );
 }

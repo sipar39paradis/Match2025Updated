@@ -7,7 +7,6 @@ import {
   DependentRelatationShipEnum,
 } from '../types/Questionnaire/Dependent';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
-import Fade from 'react-reveal';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import {
   ClientTypeEnum,
@@ -91,7 +90,7 @@ export function DependentsForm() {
   }
 
   return (
-    <Fade>
+    <div>
       <section className="flex flex-col align-baseline items-start w-full">
         <h1>Avez-vous des enfants à votre charge?</h1>
         <form
@@ -648,6 +647,6 @@ export function DependentsForm() {
           </div>
         </form>
       </section>
-    </Fade>
+    </div>
   );
 }

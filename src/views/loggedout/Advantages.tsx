@@ -1,5 +1,4 @@
 import React from 'react';
-import Fade from 'react-reveal';
 import { ReactComponent as ArrowCircle } from '../../icons/ArrowCircle.svg';
 import { ReactComponent as ChatBubble } from '../../icons/ChatBubble.svg';
 import { ReactComponent as CheckMark } from '../../icons/CheckMark.svg';
@@ -20,7 +19,7 @@ export function Advantages() {
           ></iframe>
         </div>
       </div>
-      <Fade left big cascade>
+      <div>
         <div className="px-4 xl:container m-auto">
           <div className="relative mx-auto mb-12 pt-6 text-center lg:mb-20 lg:pt-16">
             <h2 className="mx-auto mb-5 font-heading text-3xl font-semibold sm:text-4xl md:text-[50px] md:leading-[60px]">
@@ -74,7 +73,7 @@ export function Advantages() {
             </div> */}
           </div>
         </div>
-      </Fade>
+      </div>
     </section>
   );
 }

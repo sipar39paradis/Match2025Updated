@@ -15,7 +15,6 @@ import {
 } from './types/Questionnaire/Questionnaire';
 import { DeductionsAndTaxCreditsForm } from './TaxForms/DeductionsAndTaxCreditsForm';
 import { OctopusLoader } from '../../../components/common/OctopusLoader';
-import Fade from 'react-reveal';
 import {
   QuestionnaireContext,
   QuestionnaireContextType,
@@ -166,17 +165,17 @@ export function QuestionnaireHandler() {
           ))}
       </div>
       {loadingQuestionnaires ? (
-        <Fade>
+        <div>
           <div className="h-full pt-16">
             <OctopusLoader />
           </div>
-        </Fade>
+        </div>
       ) : (
-        <Fade>
+        <div>
           <div className="lg:w-[800px] bg-white rounded-md p-8 h-fit w-full">
             {renderTaxReportStep(currentStep)}
           </div>
-        </Fade>
+        </div>
       )}
     </div>
   );

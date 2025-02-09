@@ -1,10 +1,9 @@
-import { Select } from 'flowbite-react/lib/esm/components/FormControls';
+import { Select } from 'flowbite-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DateRangeType } from 'react-tailwindcss-datepicker/dist/types';
 import { TaxDeclarationStep } from '../types/TaxReport/TaxDeclarationStep';
-import Fade from 'react-reveal';
 import { TooltipWithIcon } from '../../../../components/common/TooltipWithIcon';
 import {
   QuestionnaireContext,
@@ -59,7 +58,7 @@ export function ContactDetailsForm() {
   };
 
   return (
-    <Fade>
+    <div>
       <section className="flex flex-col align-baseline items-start w-full">
         <h1>Vos coordonnées</h1>
 
@@ -367,6 +366,6 @@ export function ContactDetailsForm() {
           </div>
         </form>
       </section>
-    </Fade>
+    </div>
   );
 }
