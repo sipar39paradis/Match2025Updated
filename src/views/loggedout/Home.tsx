@@ -36,6 +36,11 @@ export function Home() {
                       <span>Fonctionnement</span>
                       <HiOutlineArrowRight className="ml-2 h-5 w-5" />
                     </Button>
+                    
+                    {/*  ajout bouton inscription */}
+                    <Button href="#support" color={'dark'} className="ml-4">
+                      <span>S&apos;inscrire</span>
+                    </Button>
                   </div>
                 </div>
               </div>

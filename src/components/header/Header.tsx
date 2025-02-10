@@ -80,30 +80,38 @@ export function Header() {
           {user && <ProfileDropdown user={user} displayModal={displayModal} />}
           {!user && (
             <>
+              {/* Hiding - Se connecter CTA
               <Button
                 onClick={() => displayModal(AuthModalEnum.SignIn)}
                 className="mr-2"
               >
                 <span className="text-xs 2xl:text-base">Se connecter</span>
               </Button>
-
+               
               <Button
                 color={'dark'}
                 onClick={() => displayModal(AuthModalEnum.SignUp)}
-                className="mr-2"
+                className="mr-2" 
               >
                 <span className="text-xs 2xl:text-base">S&apos;inscrire</span>
               </Button>
+              */}
+              <Button href="#support" color={'dark'} className="mr-2">
+                <span>S&apos;inscrire</span>
+              </Button>
+
             </>
           )}
+          {/*
           <Navbar.Toggle />
+           */}
         </div>
         <Navbar.Collapse>
           <>
-            <HeaderItem text="Accueil" toLink="/#home" />
+            {/* Hiding Home <HeaderItem text="Accueil" toLink="/#home" /> */}
             <HeaderItem text="Avantages" toLink="/#advantages" />
             <HeaderItem text="Fonctionnement" toLink="/#features" />
-            <HeaderItem text="Préparateur" toLink="/preparator" />
+            {/* Hiding Preparateur <HeaderItem text="Préparateur" toLink="/preparator" /> */}
             <HeaderItem text={'Nous joindre'} toLink="/#support" />
             {user ? (
               <a

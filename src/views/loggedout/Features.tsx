@@ -6,6 +6,7 @@ import { ReactComponent as DocumentArrowDown } from '../../icons/DocumentArrowDo
 import { ReactComponent as Hourglass } from '../../icons/Hourglass.svg';
 import { ReactComponent as Handshake } from '../../icons/Handshake.svg';
 import { ReactComponent as Arrow } from '../../icons/Arrow.svg';
+import { Button} from 'flowbite-react';
 
 export function Features() {
   return (
@@ -72,6 +73,13 @@ export function Features() {
               </div>
             </div>
           </div>
+          <div className="flex justify-center">
+          <Button href="#support" color={'dark'} className="mt-10 w-2/5 max-w-[1200px]">
+                      <span>S&apos;inscrire</span>
+          </Button>
+          </div>
+          
+          {/* Retrait 3 étapes
           <div className="flex items-center justify-center md:items-end md:justify-end lg:my-8">
             <Arrow className="h-16 md:h-[48px] transform !rotate-90 my-6 lg:w-1/5 md:mr-[84px] lg:mr-0 lg:h-16"></Arrow>
           </div>
@@ -128,6 +136,7 @@ export function Features() {
               </div>
             </div>
           </div>
+           */}
         </div>
       </div>
     </section>

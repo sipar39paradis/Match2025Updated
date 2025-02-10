@@ -11,6 +11,7 @@ export function Advantages() {
       id="advantages"
       className="pt-14 sm:pt-20 lg:pt-[130px] animate__animated animate__bounceInLeft"
     >
+      {/* Hiding - Video
       <div className="xl:container m-auto">
         <div className="relative overflow-hidden w-full pt-[56.25%] rounded-md">
           <iframe
@@ -19,6 +20,7 @@ export function Advantages() {
           ></iframe>
         </div>
       </div>
+      */}
       <div>
         <div className="px-4 xl:container m-auto">
           <div className="relative mx-auto mb-12 pt-6 text-center lg:mb-20 lg:pt-16">

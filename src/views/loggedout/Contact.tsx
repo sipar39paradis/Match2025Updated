@@ -67,6 +67,7 @@ export function Contact() {
               </svg>
             </div>
 
+            
             <div className="-mx-4 flex flex-wrap items-center">
               <div className="w-full px-4 lg:w-2/3">
                 <div className="mx-auto mb-10 max-w-[550px] text-center lg:ml-0 lg:mb-0 lg:text-left">
