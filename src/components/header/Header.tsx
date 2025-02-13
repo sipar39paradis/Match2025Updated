@@ -96,8 +96,8 @@ export function Header() {
                 <span className="text-xs 2xl:text-base">S&apos;inscrire</span>
               </Button>
               */}
-              <Button href="#support" color={'dark'} className="mr-2">
-                <span>S&apos;inscrire</span>
+              <Button onClick={() => displayModal(AuthModalEnum.SignUp)} color={'dark'} className="mr-2">
+                <span>Confiez-nous vos impôts</span>
               </Button>
 
             </>

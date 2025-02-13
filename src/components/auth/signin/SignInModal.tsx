@@ -31,7 +31,20 @@ export function SignInModal({ closeModal, switchModal }: SignInModalProps) {
     formState: { errors },
   } = useForm<signInData>();
   const onSubmit = async (data: signInData) => {
-    console.log('submited');
+    console.log('Submitted');
+  
+    // Send email via Formspree
+    fetch('https://formspree.io/f/xgvolpvn', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        message: `A new user just signed in: ${data.email}`,
+      }),
+    })
+      .then((response) => response.json())
+      .then((result) => console.log('Email sent:', result))
+      .catch((error) => console.error('Error sending email:', error));
   };
 
   return (

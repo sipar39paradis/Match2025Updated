@@ -1,8 +1,19 @@
+import React, { useContext } from 'react';
 import { Button } from 'flowbite-react';
-import React from 'react';
 import { HiOutlineArrowRight } from 'react-icons/hi';
+import { AppContext, AppContextType } from '../../context/AppContext';
+import { AuthModalEnum } from '../../components/auth/AuthModal'; 
 
 export function Home() {
+  // Retrieve modal functions from AppContext
+  const { setModalToDisplay, setShowModal } = useContext(AppContext) as AppContextType;
+
+  // Function to open the modal
+  function displayModal(modal: AuthModalEnum) {
+    setModalToDisplay(modal);
+    setShowModal(true);
+  }
+
   return (
     <>
       <section
@@ -16,20 +27,13 @@ export function Home() {
                 <div className="mx-auto mb-12 max-w-[530px] text-center lg:ml-0 lg:mb-0 lg:text-left">
                   <span className="mb-8 hidden lg:inline-block rounded-full bg-orange-500 bg-opacity-5 py-[10px] px-5 font-heading text-base text-orange-500 dark:bg-white dark:bg-opacity-10 dark:text-white">
                     <span className="mr-2 inline-block h-2 w-2 rounded-full bg-orange-500"></span>
-                    La solution comptable en ligne
+                    Vos impôts méritent un vrai pro
                   </span>
                   <h1 className="mb-5 font-heading text-2xl font-semibold dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]">
                     Impôts Match
-                    <span
-                      className="txt-type underline"
-                      data-wait="3000"
-                      data-words='["Startup", "SaaS", "Business", "Agency"]'
-                    ></span>
                   </h1>
-                  <p className="mb-12 text-base text-dark-text text-left px-8 md:px-0">
-                    Impôts Match vous permet de trouver un préparateur d’impôts
-                    et de lui donner la préparation de vos déclarations de
-                    revenus. Le tout dans le confort de votre domicile.
+                  <p className="mb-12 text-base text-dark-text text-left px-8 md:px-0 max-w-[400px]">
+                    Vos impôts, entre les mains d&apos;un comptable CPA qui sait comment maximiser votre retour. Parce que votre argent et votre temps comptent.
                   </p>
                   <div className="flex items-center justify-center lg:justify-start">
                     <Button href="#features" className="!bg-orange-500">
@@ -37,14 +41,16 @@ export function Home() {
                       <HiOutlineArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                     
-                    {/*  ajout bouton inscription */}
-                    <Button href="#support" color={'dark'} className="ml-4">
-                      <span>S&apos;inscrire</span>
+                    {/* Sign-up button triggers modal */}
+                    <Button color={'dark'} className="ml-4" onClick={() => displayModal(AuthModalEnum.SignUp)}>
+                      <span>Maximisez votre retour</span>
                     </Button>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* IMAGE SECTION */}
             <div className="w-full px-4 lg:w-1/2">
               <div>
                 <div className="relative z-30 mx-auto h-[360px] md:h-[560px] w-full max-w-[700px] lg:ml-0">
@@ -55,6 +61,14 @@ export function Home() {
                       className="h-[520px] w-[560] object-cover rounded-md"
                     />
                   </div>
+
+                  {/* OVERLAY BOX */}
+                  <div className="absolute bottom-[100px] left-10 z-50 rounded-lg bg-orange-500 bg-opacity-90 px-12 py-8 text-white shadow-lg w-[350px]">
+                    <span className="text-4xl font-bold leading-tight">À partir de</span>
+                    <span className="block text-9xl font-extrabold leading-none">99$</span>
+                  </div>
+
+                  {/* Second Image */}
                   <div className="absolute left-[-120px] bottom-[-144px] z-10 lg:block hidden">
                     <img
                       src={require('../../images/hero/image-1.jpg')}
@@ -68,6 +82,8 @@ export function Home() {
             </div>
           </div>
         </div>
+
+        {/* BACKGROUND EFFECTS */}
         <div className="absolute bottom-0 left-0 -z-10 h-full w-full bg-cover bg-center opacity-10 dark:opacity-40 bg-noise-pattern"></div>
         <div className="absolute top-0 right-0 -z-10">
           <svg
@@ -110,58 +126,6 @@ export function Home() {
                   result="effect1_foregroundBlur_201_2181"
                 />
               </filter>
-            </defs>
-          </svg>
-        </div>
-        <div className="absolute bottom-0 left-0 -z-10">
-          <svg
-            width="1469"
-            height="498"
-            viewBox="0 0 1469 498"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g opacity="0.3" filter="url(#filter0_f_201_2182)">
-              <rect
-                y="450"
-                width="1019"
-                height="261"
-                fill="url(#paint0_linear_201_2182)"
-              />
-            </g>
-            <defs>
-              <filter
-                id="filter0_f_201_2182"
-                x="-450"
-                y="0"
-                width="1919"
-                height="1161"
-                filterUnits="userSpaceOnUse"
-                colorInterpolationFilters="sRGB"
-              >
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="BackgroundImageFix"
-                  result="shape"
-                />
-                <feGaussianBlur
-                  stdDeviation="225"
-                  result="effect1_foregroundBlur_201_2182"
-                />
-              </filter>
-              <linearGradient
-                id="paint0_linear_201_2182"
-                x1="-94.7239"
-                y1="501.47"
-                x2="-65.8058"
-                y2="802.2"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#FF9D7A" />
-                <stop offset="0.859375" stopColor="#FF5A1F" />
-              </linearGradient>
             </defs>
           </svg>
         </div>

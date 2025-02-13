@@ -1,8 +1,16 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { AppContext, AppContextType } from '../../context/AppContext';
+import { AuthModalEnum } from '../../components/auth/AuthModal'; // Ensure correct path
 
 export function Contact() {
-  const navigate = useNavigate();
+  // Retrieve modal functions from AppContext
+  const { setModalToDisplay, setShowModal } = useContext(AppContext) as AppContextType;
+
+  // Function to open the modal
+  function displayModal(modal: AuthModalEnum) {
+    setModalToDisplay(modal);
+    setShowModal(true);
+  }
 
   return (
     <section id="cta" className="pt-14 sm:pt-20 lg:pt-[130px]">
@@ -67,7 +75,32 @@ export function Contact() {
               </svg>
             </div>
 
-            
+            {/* New content */}
+            <div className="-mx-4 flex flex-wrap items-center">
+              <div className="w-full px-4 lg:w-2/3">
+                <div className="mx-auto mb-10 max-w-[550px] text-center lg:ml-0 lg:mb-0 lg:text-left">
+                  <h2 className="mb-4 font-heading text-xl font-semibold leading-tight text-dark dark:text-white sm:text-[38px]">
+                    Service pour particuliers et entreprises
+                  </h2>
+                  <p className="text-base text-dark-text">
+                    Particuliers ou entreprises, un comptable CPA prend en charge votre déclaration et maximise votre retour.
+                  </p>
+                </div>
+              </div>
+              <div className="w-full px-4 lg:w-1/3">
+                <div className="text-center lg:text-right">
+                  <button
+                    onClick={() => displayModal(AuthModalEnum.SignUp)}
+                    className="inline-flex items-center rounded bg-orange-500 py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"
+                  >
+                    Débutez maintenant
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Old version in comment */}
+            {/*
             <div className="-mx-4 flex flex-wrap items-center">
               <div className="w-full px-4 lg:w-2/3">
                 <div className="mx-auto mb-10 max-w-[550px] text-center lg:ml-0 lg:mb-0 lg:text-left">
@@ -95,6 +128,7 @@ export function Contact() {
                 </div>
               </div>
             </div>
+            */}
           </div>
         </div>
       </div>
