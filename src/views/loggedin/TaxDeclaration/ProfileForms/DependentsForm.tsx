@@ -179,7 +179,7 @@ export function DependentsForm() {
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring:blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <p className="block ml-2 font-medium text-gray-900 dark:text-gray-300">
-                    Oui, j’ai des enfants à ma charge nés avant le 31 décembre
+                    Oui, j’ai des enfants à ma charge nés avant le 31 décembre&nbsp;
                     {new Date().getFullYear() - 1}
                   </p>
                 </div>

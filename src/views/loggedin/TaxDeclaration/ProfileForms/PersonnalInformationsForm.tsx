@@ -147,7 +147,10 @@ export function PersonnalInformationsForm() {
                 </span>
               )}
             </div>
-            <div>
+            <div className="relative z-0 w-full mb-6 group">
+              <label className="block text-gray-700 text-sm mb-2 ml-1">
+                Date de naissance
+              </label>
               <Datepicker
                 i18n={'fr'}
                 primaryColor={'orange'}

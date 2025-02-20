@@ -247,7 +247,7 @@ export function DeductionsAndTaxCreditsForm() {
           <OtherDeductionsForm />
           <p className="font-semibold mb-2">
             Autre chose que vous aimeriez mentionner qui n&apos;a pas été
-            demandé dans le questionnaire ?
+            demandé dans le questionnaire?
           </p>
           <textarea
             className="w-full"

@@ -149,7 +149,7 @@ export function ContactDetailsForm() {
               )}
             </div>
           </div>
-          <p className="font-semibold">Êtes-vous locataire ?</p>
+          <p className="font-semibold">Êtes-vous locataire?</p>
           <Controller
             control={contactDetailsForm.control}
             name="tenant"
@@ -237,7 +237,7 @@ export function ContactDetailsForm() {
               />
               <p>
                 Votre adresse domiciliaire est-elle identique à votre adresse
-                postale ?
+                postale?
               </p>
               <Controller
                 control={contactDetailsForm.control}
@@ -296,7 +296,7 @@ export function ContactDetailsForm() {
           <h2 className="mb-0">Résidences </h2>
           <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 w-full" />
           <p className="font-semibold">
-            Est-ce que votre statut de résident canadien a changé en
+            Est-ce que votre statut de résident canadien a changé en 
             {new Date().getFullYear() - 1}?
             <TooltipWithIcon
               text={`Si vous n’êtes pas certain de votre statut de résident canadien au

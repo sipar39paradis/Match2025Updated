@@ -15,7 +15,7 @@ export function DonationsForm() {
     <>
       <p className="font-semibold">
         Avez-vous fait des dons à un organisme de bienfaisance ou à un parti
-        politique ?
+        politique?
       </p>
       <Controller
         control={control}
